@@ -31,6 +31,7 @@ SCHEMA_RULES: list[tuple[str, str]] = [
     ("rolling_stock/*/vehicles/*.json", "vehicle"),
     ("rolling_stock/*/consist.json", "consist"),
     ("rolling_stock/*/cab.json", "cab"),
+    ("rolling_stock/*/liveries.json", "liveries"),
     ("scenarios/*.json", "scenario"),
 ]
 
@@ -89,6 +90,9 @@ def cross_check(index: dict, rep: Report) -> None:
         for v in c.get("vehicles", []):
             if v not in vehicle_ids:
                 rep.error(shown, f"unknown vehicle '{v}'")
+        livery_ids = {d.get("id") for _, _, d in index.get("liveries", [])}
+        if "liveries" in c and c["liveries"] not in livery_ids:
+            rep.error(shown, f"unknown liveries '{c['liveries']}'")
         if "cab" in c and c["cab"] not in cab_ids:
             rep.error(shown, f"unknown cab '{c['cab']}'")
         valve_ids = [p["id"] for p in c.get("brake_valve", {}).get("positions", [])]

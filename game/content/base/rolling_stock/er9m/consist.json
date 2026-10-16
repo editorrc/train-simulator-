@@ -137,5 +137,7 @@
     "aux_start_s": 6,
     "catenary_kv": 25,
     "battery_v": 50
-  }
+  },
+  "liveries": "er9m_liveries",
+  "number": "ЕР9М-501"
 }

@@ -111,3 +111,9 @@ func curve_radius_at(pos: TrackPosition) -> float:
 func speed_limit_at(pos: TrackPosition) -> float:
 	var seg: TrackSegment = get_segment(pos.segment_id)
 	return seg.speed_limit_at(pos.offset_m) if seg != null else INF
+
+
+## Railway chainage of a position, m (NAN where segments carry no km_at_a).
+func chainage_at(pos: TrackPosition) -> float:
+	var seg: TrackSegment = get_segment(pos.segment_id)
+	return seg.chainage_at_a_m + pos.offset_m if seg != null else NAN

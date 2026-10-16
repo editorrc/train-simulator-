@@ -352,6 +352,13 @@
           "description": "V"
         }
       }
+    },
+    "liveries": {
+      "$ref": "#/$defs/id"
+    },
+    "number": {
+      "type": "string",
+      "description": "fleet number painted on the cab"
     }
   },
   "$defs": {

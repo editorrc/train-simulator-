@@ -30,6 +30,8 @@ func load_mod(root: String) -> bool:
 		var consist: Dictionary = _read_json(series_dir.path_join("consist.json"))
 		if not consist.is_empty():
 			_register(&"consist", consist, mod_id)
+		_register(&"cab", _read_json(series_dir.path_join("cab.json")), mod_id)
+		_register(&"liveries", _read_json(series_dir.path_join("liveries.json")), mod_id)
 	for route: String in _subdirs(root.path_join("routes")):
 		var route_dir: String = root.path_join("routes").path_join(route)
 		var index: Dictionary = _read_json(route_dir.path_join("route.json"))

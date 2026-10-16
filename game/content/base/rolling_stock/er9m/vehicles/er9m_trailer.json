@@ -30,10 +30,6 @@
   },
   "has_pantograph": false,
   "visual": {
-    "body": "#2f6b45",
-    "stripe": "#e0c65a",
-    "roof": "#8b9190",
-    "front": "#2f6b45",
     "doors_per_side": 2,
     "windows_per_side": 10,
     "height_m": 4.25,

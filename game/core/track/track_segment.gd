@@ -11,6 +11,8 @@ var length_m: float
 var node_a: StringName
 var node_b: StringName
 var electrification: Electrification = Electrification.NONE
+## Railway chainage (кілометраж) at end A, m; grows towards end B. NAN if not given.
+var chainage_at_a_m: float = NAN
 ## Piecewise-constant grade: sorted by at_m, each entry {at_m: float, ratio: float}.
 ## Grade ratio is signed in the A→B direction (positive = uphill going A→B).
 var grade_points: Array[Dictionary] = []
@@ -65,6 +67,8 @@ static func from_dict(d: Dictionary) -> TrackSegment:
 	s.node_a = StringName(str(d["node_a"]))
 	s.node_b = StringName(str(d["node_b"]))
 	s.electrification = electrification_from_string(str(d.get("electrification", "none")))
+	if d.has("km_at_a"):
+		s.chainage_at_a_m = Units.km_to_m(float(d["km_at_a"]))
 	for p: Variant in d.get("grades", []):
 		var pd: Dictionary = p
 		s.grade_points.append(

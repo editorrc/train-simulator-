@@ -1,0 +1,47 @@
+{
+  "series": "ЕР9М",
+  "id": "er9m_liveries",
+  "meta": {
+    "verified": false,
+    "sources": [],
+    "note": "Окраси — художні, натхненні класичним радянським і сучасними міськими; не копія фірмового стилю"
+  },
+  "liveries": [
+    {
+      "id": "classic_green",
+      "name_uk": "Класичний зелений",
+      "body": "#2f6b45",
+      "stripe": "#e3c75b",
+      "skirt": "#24342c",
+      "roof": "#8d9391",
+      "front": "#c8452c",
+      "front_stripe": "#e3c75b",
+      "window_frame": "#1c2622",
+      "number": "#f1ead2"
+    },
+    {
+      "id": "city_blue",
+      "name_uk": "Міський синьо-жовтий",
+      "body": "#1d5ea8",
+      "stripe": "#f2c230",
+      "skirt": "#173a63",
+      "roof": "#a7b0b6",
+      "front": "#f2c230",
+      "front_stripe": "#1d5ea8",
+      "window_frame": "#13253b",
+      "number": "#ffffff"
+    },
+    {
+      "id": "heritage_red",
+      "name_uk": "Ретро вишневий",
+      "body": "#7c2230",
+      "stripe": "#e9dcc0",
+      "skirt": "#3c1418",
+      "roof": "#8f8a86",
+      "front": "#e9dcc0",
+      "front_stripe": "#7c2230",
+      "window_frame": "#2a1216",
+      "number": "#e9dcc0"
+    }
+  ]
+}

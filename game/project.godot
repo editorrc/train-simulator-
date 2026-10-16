@@ -7,7 +7,7 @@ config_version=5
 
 config/name="Ukraine Visual Train Sim"
 config/description="Realistic Ukrainian railway simulator"
-run/main_scene="res://scenes/demo_2d.tscn"
+run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7")
 
 [autoload]
@@ -18,6 +18,7 @@ ContentDB="*res://autoload/content_db.gd"
 ModLoader="*res://autoload/mod_loader.gd"
 Settings="*res://autoload/settings.gd"
 Locale="*res://autoload/locale.gd"
+Session="*res://autoload/session.gd"
 
 [debug]
 
