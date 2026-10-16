@@ -3,7 +3,7 @@
 GODOT ?= godot
 
 
-.PHONY: check test import lint format validate web web-check reference demo
+.PHONY: check test import lint format validate web web-check reference demo web-export serve
 
 check: validate lint test web-check
 
@@ -40,3 +40,12 @@ reference: import
 # Run the 2D demo.
 demo:
 	$(GODOT) --path game
+
+# Export the game for the browser (needs Godot export templates 4.7.2 installed).
+web-export: import
+	mkdir -p build/web
+	$(GODOT) --headless --path game --export-release "Web" ../build/web/index.html
+
+# Serve the browser build locally: http://localhost:8000
+serve:
+	cd build/web && python3 -m http.server 8000

@@ -6,7 +6,7 @@ extends Control
 const MENU_SCENE: String = "res://scenes/main_menu.tscn"
 
 var world: SimWorld
-var side: SideView
+var side: RailView
 var desk: CabPanel
 var minimap: Minimap
 var telemetry: TelemetryView
@@ -32,7 +32,7 @@ func _ready() -> void:
 	var cab_def: Dictionary = ContentDB.get_entry(&"cab", StringName(str(consist.get("cab", ""))))
 	var livery: Dictionary = _livery(consist)
 
-	side = SideView.new()
+	side = RailView.new()
 	side.set_anchors_preset(Control.PRESET_FULL_RECT)
 	side.mouse_filter = Control.MOUSE_FILTER_PASS
 	add_child(side)
@@ -242,6 +242,16 @@ func _unhandled_input(event: InputEvent) -> void:
 			SimClock.set_time_scale(_time_scale)
 		KEY_F:
 			side.follow = true
+		KEY_C:
+			side.next_preset()
+		KEY_BRACKETLEFT:
+			side.adjust(-5.0, 0.0)
+		KEY_BRACKETRIGHT:
+			side.adjust(5.0, 0.0)
+		KEY_PAGEUP:
+			side.adjust(0.0, 4.0)
+		KEY_PAGEDOWN:
+			side.adjust(0.0, -4.0)
 		KEY_EQUAL, KEY_KP_ADD:
 			side.zoom_by(1.2)
 		KEY_MINUS, KEY_KP_SUBTRACT:

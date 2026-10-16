@@ -20,33 +20,46 @@ const WHEEL_R: float = 0.525
 ## panto (0..1 or -1 for none), panto_top (m above rail when fully up), headlights (bool),
 ## wheel_angle (rad), brake (0..1), speed (m/s), time (s), lit_windows (bool)
 static func draw_car(ci: CanvasItem, v: VehicleSpec, livery: Dictionary, opts: Dictionary) -> void:
+	draw_running_gear(ci, v, opts)
+	draw_side(ci, v, livery, opts)
+	draw_roof_profile(ci, v, livery, opts)
+	var panto: float = float(opts.get("panto", -1.0))
+	if panto >= 0.0:
+		var h_top: float = float(v.visual.get("height_m", 4.25))
+		draw_pantograph(
+			ci, v.length_m * 0.5, -h_top - 0.2, float(opts.get("panto_top", 6.0)), panto, opts
+		)
+
+
+## Underframe equipment and bogies (in the plane of the near wheels).
+static func draw_running_gear(ci: CanvasItem, v: VehicleSpec, opts: Dictionary) -> void:
+	var vis: Dictionary = v.visual
+	var floor_h: float = float(vis.get("floor_m", 1.2))
+	var bogie_c: float = float(vis.get("bogie_centers_m", 15.0))
+	var axle_s: float = float(vis.get("axle_spacing_m", 2.6))
+	var mid: float = v.length_m * 0.5
+	ci.draw_rect(Rect2(mid - 5.6, -floor_h, 11.2, 0.45), Color(0.2, 0.21, 0.21))
+	for bx: float in [mid - 4.6, mid - 1.4, mid + 1.9]:
+		ci.draw_rect(Rect2(bx, -floor_h + 0.05, 2.2, 0.55), Color(0.26, 0.27, 0.27))
+		ci.draw_rect(Rect2(bx, -floor_h + 0.05, 2.2, 0.08), Color(0.34, 0.35, 0.35))
+	for sign: float in [-1.0, 1.0]:
+		_bogie(ci, mid + sign * bogie_c * 0.5, axle_s, opts)
+
+
+## The body side seen square-on: shell, livery, doors, windows, cab side windows.
+static func draw_side(ci: CanvasItem, v: VehicleSpec, livery: Dictionary, opts: Dictionary) -> void:
 	var length: float = v.length_m
 	var vis: Dictionary = v.visual
 	var h_top: float = float(vis.get("height_m", 4.25))
 	var floor_h: float = float(vis.get("floor_m", 1.2))
-	var bogie_c: float = float(vis.get("bogie_centers_m", 15.0))
-	var axle_s: float = float(vis.get("axle_spacing_m", 2.6))
 	var body := Color(str(livery["body"]))
 	var stripe := Color(str(livery["stripe"]))
 	var skirt := Color(str(livery["skirt"]))
-	var roof := Color(str(livery["roof"]))
 	var front := Color(str(livery["front"]))
 	var front_stripe := Color(str(livery["front_stripe"]))
 	var frame := Color(str(livery["window_frame"]))
 	var cab_l: bool = bool(opts.get("cab_left", false))
 	var cab_r: bool = bool(opts.get("cab_right", false))
-
-	# Underframe equipment between the bogies.
-	var mid: float = length * 0.5
-	ci.draw_rect(Rect2(mid - 5.6, -floor_h, 11.2, 0.45), Color(0.2, 0.21, 0.21))
-	for bx: float in [mid - 4.6, mid - 1.4, mid + 1.9]:
-		ci.draw_rect(Rect2(bx, -floor_h + 0.05, 2.2, 0.55), Color(0.26, 0.27, 0.27))
-		ci.draw_rect(Rect2(bx, -floor_h + 0.05, 2.2, 0.08), Color(0.34, 0.35, 0.35))
-
-	for sign: float in [-1.0, 1.0]:
-		_bogie(ci, mid + sign * bogie_c * 0.5, axle_s, opts)
-
-	# Body shell with cab noses.
 	var nose: float = 0.55
 	var pts := PackedVector2Array()
 	pts.append(Vector2(0.0 if not cab_l else 0.15, -floor_h))
@@ -62,24 +75,18 @@ static func draw_car(ci: CanvasItem, v: VehicleSpec, livery: Dictionary, opts: D
 	else:
 		pts.append(Vector2(0.0, -h_top))
 	ci.draw_colored_polygon(pts, body)
-	# Volume: lower skirt and darker band near the floor, highlight under the roof.
 	ci.draw_rect(Rect2(0.1, -floor_h - 0.32, length - 0.2, 0.32), skirt)
 	ci.draw_rect(Rect2(0.2, -h_top + 0.02, length - 0.4, 0.12), body.lightened(0.18))
-	# Livery stripes.
 	ci.draw_rect(Rect2(0.15, -2.02, length - 0.3, 0.16), stripe)
 	ci.draw_rect(Rect2(0.3, -3.22, length - 0.6, 0.06), stripe)
-	# Cab ends painted in the front colour.
 	if cab_r:
 		_cab_end(ci, length, -1.0, h_top, floor_h, nose, front, front_stripe, frame, opts, "right")
 	if cab_l:
 		_cab_end(ci, 0.0, 1.0, h_top, floor_h, nose, front, front_stripe, frame, opts, "left")
-
-	# Doors near the ends (vestibules), windows between them.
 	var door_w: float = 1.25
 	var inset_l: float = 3.3 if cab_l else 1.4
 	var inset_r: float = 3.3 if cab_r else 1.4
-	var doors: Array[float] = [inset_l, length - inset_r - door_w]
-	for dx: float in doors:
+	for dx: float in [inset_l, length - inset_r - door_w]:
 		_door(ci, dx, door_w, floor_h, frame)
 	var win_from: float = inset_l + door_w + 0.5
 	var win_to: float = length - inset_r - door_w - 0.5
@@ -91,7 +98,16 @@ static func draw_car(ci: CanvasItem, v: VehicleSpec, livery: Dictionary, opts: D
 			ci, Rect2(wx, -3.05, pitch - 0.24, 0.92), frame, bool(opts.get("lit_windows", false))
 		)
 
-	# Roof.
+
+## Roof silhouette and ventilators for the pure side view.
+static func draw_roof_profile(
+	ci: CanvasItem, v: VehicleSpec, livery: Dictionary, opts: Dictionary
+) -> void:
+	var length: float = v.length_m
+	var h_top: float = float(v.visual.get("height_m", 4.25))
+	var roof := Color(str(livery["roof"]))
+	var cab_l: bool = bool(opts.get("cab_left", false))
+	var cab_r: bool = bool(opts.get("cab_right", false))
 	var rpts := PackedVector2Array(
 		[
 			Vector2(0.65 if cab_l else 0.0, -h_top + 0.02),
@@ -104,14 +120,94 @@ static func draw_car(ci: CanvasItem, v: VehicleSpec, livery: Dictionary, opts: D
 	ci.draw_line(
 		Vector2(0.3, -h_top - 0.2), Vector2(length - 0.3, -h_top - 0.2), roof.lightened(0.25), 0.04
 	)
-	# Roof equipment: ventilators.
 	for k: int in 4:
 		var rx: float = length * (0.18 + k * 0.21)
 		ci.draw_rect(Rect2(rx, -h_top - 0.42, 1.1, 0.22), roof.darkened(0.25))
 		ci.draw_rect(Rect2(rx + 0.1, -h_top - 0.46, 0.9, 0.05), roof.darkened(0.1))
-	var panto: float = float(opts.get("panto", -1.0))
-	if panto >= 0.0:
-		_pantograph(ci, length * 0.5, -h_top - 0.2, float(opts.get("panto_top", 6.0)), panto, opts)
+
+
+## Roof seen from above. Local frame: x along the car (0..length), y across it
+## (-width/2 .. width/2, positive = far side).
+static func draw_roof(ci: CanvasItem, v: VehicleSpec, livery: Dictionary, opts: Dictionary) -> void:
+	var length: float = v.length_m
+	var half: float = float(v.visual.get("width_m", 3.48)) * 0.5
+	var roof := Color(str(livery["roof"]))
+	var cab_l: bool = bool(opts.get("cab_left", false))
+	var cab_r: bool = bool(opts.get("cab_right", false))
+	var x0: float = 0.75 if cab_l else 0.0
+	var x1: float = length - (0.75 if cab_r else 0.0)
+	ci.draw_rect(Rect2(x0, -half, x1 - x0, half * 2.0), roof)
+	# Curved roof shading: darker towards the near and far edges.
+	ci.draw_rect(Rect2(x0, -half, x1 - x0, half * 0.35), roof.darkened(0.12))
+	ci.draw_rect(Rect2(x0, half * 0.65, x1 - x0, half * 0.35), roof.darkened(0.2))
+	ci.draw_rect(Rect2(x0 + 0.2, -0.25, x1 - x0 - 0.4, 0.5), roof.lightened(0.1))
+	if cab_l:
+		ci.draw_rect(Rect2(0.0, -half + 0.25, 0.75, half * 2.0 - 0.5), Color(str(livery["front"])))
+	if cab_r:
+		ci.draw_rect(
+			Rect2(length - 0.75, -half + 0.25, 0.75, half * 2.0 - 0.5), Color(str(livery["front"]))
+		)
+	for k: int in 4:
+		var rx: float = length * (0.18 + k * 0.21)
+		ci.draw_rect(Rect2(rx, -0.6, 1.1, 1.2), roof.darkened(0.3))
+		ci.draw_rect(Rect2(rx + 0.1, -0.5, 0.9, 1.0), roof.darkened(0.15))
+	if float(opts.get("panto", -1.0)) >= 0.0:
+		var cx: float = length * 0.5
+		ci.draw_rect(Rect2(cx - 1.3, -0.9, 2.6, 1.8), roof.darkened(0.35))
+		for ix: float in [-0.9, 0.9]:
+			for iy: float in [-0.6, 0.6]:
+				ci.draw_circle(Vector2(cx + ix, iy), 0.13, INSULATOR)
+
+
+## Cab end face. Local frame: x across the car (-width/2 .. width/2, left to right as seen),
+## y up = negative height.
+static func draw_front(
+	ci: CanvasItem, v: VehicleSpec, livery: Dictionary, opts: Dictionary, leading: bool
+) -> void:
+	var half: float = float(v.visual.get("width_m", 3.48)) * 0.5
+	var h_top: float = float(v.visual.get("height_m", 4.25))
+	var floor_h: float = float(v.visual.get("floor_m", 1.2))
+	var front := Color(str(livery["front"]))
+	var front_stripe := Color(str(livery["front_stripe"]))
+	var frame := Color(str(livery["window_frame"]))
+	var face := PackedVector2Array(
+		[
+			Vector2(-half, -floor_h + 0.3),
+			Vector2(half, -floor_h + 0.3),
+			Vector2(half, -h_top + 0.3),
+			Vector2(half - 0.35, -h_top),
+			Vector2(-half + 0.35, -h_top),
+			Vector2(-half, -h_top + 0.3),
+		]
+	)
+	ci.draw_colored_polygon(face, front)
+	ci.draw_rect(Rect2(-half, -2.02, half * 2.0, 0.18), front_stripe)
+	ci.draw_rect(Rect2(-half, -floor_h - 0.02, half * 2.0, 0.3), Color(str(livery["skirt"])))
+	# Two windscreen panes with a centre pillar.
+	for sx: float in [-1.0, 1.0]:
+		var pane := Rect2(
+			Vector2(minf(sx * 0.08, sx * (half - 0.25)), -3.9), Vector2(half - 0.33, 1.25)
+		)
+		ci.draw_rect(pane.grow(0.06), frame)
+		ci.draw_rect(pane, GLASS)
+		ci.draw_rect(Rect2(pane.position, Vector2(pane.size.x, 0.25)), GLASS_SHINE)
+	var lights: bool = bool(opts.get("headlights", false))
+	var hl := Vector2(0.0, -h_top + 0.12)
+	ci.draw_circle(hl, 0.2, Color(0.2, 0.2, 0.2))
+	if leading and lights:
+		ci.draw_circle(hl, 0.15, HEADLIGHT)
+		ci.draw_circle(hl, 0.6, Color(1.0, 0.95, 0.75, 0.22))
+		ci.draw_circle(hl, 1.3, Color(1.0, 0.95, 0.75, 0.07))
+	for sx: float in [-1.0, 1.0]:
+		var bl := Vector2(sx * (half - 0.45), -1.6)
+		ci.draw_circle(bl, 0.13, Color(0.15, 0.15, 0.15))
+		if lights:
+			var c: Color = MARKER_WHITE if leading else MARKER_RED
+			ci.draw_circle(bl, 0.1, c)
+			ci.draw_circle(bl, 0.3, Color(c.r, c.g, c.b, 0.2))
+	# Coupler and buffer beam.
+	ci.draw_rect(Rect2(-half + 0.1, -1.0, half * 2.0 - 0.2, 0.2), Color(0.17, 0.17, 0.17))
+	ci.draw_rect(Rect2(-0.25, -1.15, 0.5, 0.35), Color(0.12, 0.12, 0.12))
 
 
 static func _bogie(ci: CanvasItem, x: float, axle_s: float, opts: Dictionary) -> void:
@@ -235,12 +331,14 @@ static func _cab_end(
 	ci.draw_rect(Rect2(x0 - inward * 0.35 - 0.2, -1.05, 0.4, 0.18), Color(0.14, 0.14, 0.14))
 
 
-## Diamond pantograph. `pos` 0 = folded, 1 = head at `top` metres above the rail.
-static func _pantograph(
+## Diamond pantograph (in the car's centre plane).
+## `pos` 0 = folded, 1 = head at `top` metres above the rail.
+static func draw_pantograph(
 	ci: CanvasItem, cx: float, base_y: float, top: float, pos: float, opts: Dictionary
 ) -> void:
 	var folded_h: float = 0.32
-	var full_h: float = top + base_y  # base_y is negative (roof), so this is head height above roof
+	# base_y is negative (the roof), so this is the head height above the roof.
+	var full_h: float = top + base_y
 	var h: float = lerpf(folded_h, full_h, clampf(pos, 0.0, 1.0))
 	var head_y: float = base_y - h
 	var arm: float = maxf(full_h * 0.5 + 0.15, 1.0)

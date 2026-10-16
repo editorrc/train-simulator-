@@ -1,6 +1,8 @@
 # Godot
 game/.godot/
 game/export/
+build/
+site/
 *.translation
 export_presets.cfg.local
 

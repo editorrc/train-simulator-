@@ -71,7 +71,11 @@ func _process(_delta: float) -> bool:
 				_cmd(Commands.cab_control(p, &"pantograph", true))
 				_run(1.0)
 	if _frames == 4 and _script != "menu":
-		(_scene.get("side") as SideView).snap_camera()
+		var view: RailView = _scene.get("side")
+		for a: String in OS.get_cmdline_user_args():
+			if a.begins_with("--preset="):
+				view.preset_index = int(a.substr(9))
+		view.snap_camera()
 	if _frames == 40:
 		var img: Image = root.get_viewport().get_texture().get_image()
 		img.save_png(_out)
