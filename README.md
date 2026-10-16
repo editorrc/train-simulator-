@@ -5,20 +5,25 @@
 з реалістичною кабіною, сигналізацією та правилами за ПТЕ. Далі — вся Україна та метро.
 
 **Стек:** Godot 4.7.2 (GDScript, строга типізація) · дані в JSON + JSON Schema · інструменти на Python.
-**Стадія:** M0 (фундамент) готовий; ядро колійного графа з тестами; далі — M1 (фізика руху).
+**Стадія:** M0–M2 готові: ядро руху поїзда з тестами, 2D-демо в Godot і веб-прев'ю. Далі — M3 (кабіна ЕР9М, пневматика, електрика).
 
 ## Швидкий старт
 ```bash
 pip install -r tools/requirements.txt
 make check GODOT=/шлях/до/Godot_v4.7.2-stable   # дані + лінт + тести, як у CI
 ```
-Відкрити в редакторі: Godot 4.7.2 → Import → `game/project.godot`.
+Відкрити в редакторі: Godot 4.7.2 → Import → `game/project.godot`, або одразу `make demo GODOT=...`.
+
+**Без Godot:** відкрийте `web_preview/index.html` у браузері — той самий полігон і та сама фізика (порт на JS, звірений з Godot).
+
+Керування: `W/S` контролер, `Q/E` кран машиніста, `Backspace` екстрене, `R` реверсор, `1/2` стрілки, `P` пауза, `T` прискорення часу.
 
 ## Структура
 ```
 game/       Godot-проєкт: core/ (ядро симуляції), autoload/, views/, ui/, content/base/ (базовий вміст як мод), tests/
 schemas/    JSON Schema для всіх типів даних
-tools/      validate_data.py (+ tests/)
+tools/      validate_data.py, build_web_preview.py (+ tests/)
+web_preview/ веб-прев'ю: sim.js (порт ядра), app.html → index.html
 mods/       приклади модів
 docs/       план, архітектура, рішення, глосарій, задачі
 ```

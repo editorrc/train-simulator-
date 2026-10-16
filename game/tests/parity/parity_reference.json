@@ -1,0 +1,8016 @@
+{
+ "samples": [
+  {
+   "tick": 30,
+   "speed_ms": 0.0241614273888558,
+   "odometer_m": 0.0032568197248642994,
+   "segment": "s1_a_to_b",
+   "offset_m": 520.0032568197249,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.2800000000000001,
+   "events": []
+  },
+  {
+   "tick": 60,
+   "speed_ms": 0.13020427411105673,
+   "odometer_m": 0.03920873280138091,
+   "segment": "s1_a_to_b",
+   "offset_m": 520.0392087328012,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.5800000000000003,
+   "events": []
+  },
+  {
+   "tick": 90,
+   "speed_ms": 0.32123078676876043,
+   "odometer_m": 0.15010846035337855,
+   "segment": "s1_a_to_b",
+   "offset_m": 520.1501084603532,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.8800000000000006,
+   "events": []
+  },
+  {
+   "tick": 120,
+   "speed_ms": 0.5819578720892333,
+   "odometer_m": 0.37684857134631516,
+   "segment": "s1_a_to_b",
+   "offset_m": 520.3768485713462,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 150,
+   "speed_ms": 0.8509244115876109,
+   "odometer_m": 0.7372228630564721,
+   "segment": "s1_a_to_b",
+   "offset_m": 520.7372228630563,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 180,
+   "speed_ms": 1.1220048111683216,
+   "odometer_m": 1.2326258793790459,
+   "segment": "s1_a_to_b",
+   "offset_m": 521.232625879379,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 210,
+   "speed_ms": 1.3952141443726567,
+   "odometer_m": 1.8641184409365887,
+   "segment": "s1_a_to_b",
+   "offset_m": 521.8641184409367,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 240,
+   "speed_ms": 1.6694504833711725,
+   "odometer_m": 2.6325722781240755,
+   "segment": "s1_a_to_b",
+   "offset_m": 522.632572278124,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 270,
+   "speed_ms": 1.9436289248114929,
+   "odometer_m": 3.5381293925168573,
+   "segment": "s1_a_to_b",
+   "offset_m": 523.538129392517,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 300,
+   "speed_ms": 2.2177479178292057,
+   "odometer_m": 4.580760434640297,
+   "segment": "s1_a_to_b",
+   "offset_m": 524.5807604346408,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 330,
+   "speed_ms": 2.4918059129124566,
+   "odometer_m": 5.760435279935507,
+   "segment": "s1_a_to_b",
+   "offset_m": 525.760435279936,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 360,
+   "speed_ms": 2.765801361936752,
+   "odometer_m": 7.077123029444631,
+   "segment": "s1_a_to_b",
+   "offset_m": 527.0771230294455,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 390,
+   "speed_ms": 3.039732718199704,
+   "odometer_m": 8.530792010513494,
+   "segment": "s1_a_to_b",
+   "offset_m": 528.5307920105145,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 420,
+   "speed_ms": 3.3135984364557034,
+   "odometer_m": 10.12140977751163,
+   "segment": "s1_a_to_b",
+   "offset_m": 530.1214097775126,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 450,
+   "speed_ms": 3.5873969729505184,
+   "odometer_m": 11.848943112569591,
+   "segment": "s1_a_to_b",
+   "offset_m": 531.8489431125705,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 480,
+   "speed_ms": 3.861126785455828,
+   "odometer_m": 13.713358026333577,
+   "segment": "s1_a_to_b",
+   "offset_m": 533.7133580263345,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 510,
+   "speed_ms": 4.134786333303679,
+   "odometer_m": 15.714619758737287,
+   "segment": "s1_a_to_b",
+   "offset_m": 535.7146197587379,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 540,
+   "speed_ms": 4.4083740774208655,
+   "odometer_m": 17.852692779790992,
+   "segment": "s1_a_to_b",
+   "offset_m": 537.8526927797917,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 570,
+   "speed_ms": 4.681888480363239,
+   "odometer_m": 20.127540790387773,
+   "segment": "s1_a_to_b",
+   "offset_m": 540.1275407903885,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 600,
+   "speed_ms": 4.955328006349932,
+   "odometer_m": 22.53912672312689,
+   "segment": "s1_a_to_b",
+   "offset_m": 542.5391267231273,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 630,
+   "speed_ms": 5.2286911212975005,
+   "odometer_m": 25.087412743154264,
+   "segment": "s1_a_to_b",
+   "offset_m": 545.0874127431548,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 660,
+   "speed_ms": 5.501976292854003,
+   "odometer_m": 27.77236024901998,
+   "segment": "s1_a_to_b",
+   "offset_m": 547.7723602490204,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 690,
+   "speed_ms": 5.775181990432973,
+   "odometer_m": 30.593929873552792,
+   "segment": "s1_a_to_b",
+   "offset_m": 550.5939298735534,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 720,
+   "speed_ms": 6.048306685247312,
+   "odometer_m": 33.5520814847517,
+   "segment": "s1_a_to_b",
+   "offset_m": 553.5520814847522,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 750,
+   "speed_ms": 6.321348850343117,
+   "odometer_m": 36.6467741866943,
+   "segment": "s1_a_to_b",
+   "offset_m": 556.646774186695,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 780,
+   "speed_ms": 6.594306960633391,
+   "odometer_m": 39.877966320462065,
+   "segment": "s1_a_to_b",
+   "offset_m": 559.8779663204629,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 810,
+   "speed_ms": 6.867179492931687,
+   "odometer_m": 43.245615465082636,
+   "segment": "s1_a_to_b",
+   "offset_m": 563.245615465083,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 840,
+   "speed_ms": 7.139964925985641,
+   "odometer_m": 46.74967843848863,
+   "segment": "s1_a_to_b",
+   "offset_m": 566.7496784384891,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 870,
+   "speed_ms": 7.412661740510432,
+   "odometer_m": 50.39011129849339,
+   "segment": "s1_a_to_b",
+   "offset_m": 570.3901112984938,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 900,
+   "speed_ms": 7.685268419222136,
+   "odometer_m": 54.16686934378332,
+   "segment": "s1_a_to_b",
+   "offset_m": 574.166869343784,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 930,
+   "speed_ms": 7.95778344687099,
+   "odometer_m": 58.07990711492701,
+   "segment": "s1_a_to_b",
+   "offset_m": 578.0799071149277,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 960,
+   "speed_ms": 8.230205310274549,
+   "odometer_m": 62.12917839540088,
+   "segment": "s1_a_to_b",
+   "offset_m": 582.1291783954016,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 990,
+   "speed_ms": 8.50253249835076,
+   "odometer_m": 66.31463621263129,
+   "segment": "s1_a_to_b",
+   "offset_m": 586.314636212632,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1020,
+   "speed_ms": 8.774763502150927,
+   "odometer_m": 70.63623283905332,
+   "segment": "s1_a_to_b",
+   "offset_m": 590.636232839054,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1050,
+   "speed_ms": 9.046896814892584,
+   "odometer_m": 75.09391979318602,
+   "segment": "s1_a_to_b",
+   "offset_m": 595.0939197931864,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1080,
+   "speed_ms": 9.31893093199223,
+   "odometer_m": 79.68764784072378,
+   "segment": "s1_a_to_b",
+   "offset_m": 599.6876478407239,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1110,
+   "speed_ms": 9.590864351097999,
+   "odometer_m": 84.41736699564453,
+   "segment": "s1_a_to_b",
+   "offset_m": 604.4173669956447,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1140,
+   "speed_ms": 9.862695572122234,
+   "odometer_m": 89.28302652133375,
+   "segment": "s1_a_to_b",
+   "offset_m": 609.2830265213341,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1170,
+   "speed_ms": 10.134423097273896,
+   "odometer_m": 94.28457493172507,
+   "segment": "s1_a_to_b",
+   "offset_m": 614.2845749317254,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1200,
+   "speed_ms": 10.406045431090911,
+   "odometer_m": 99.42195999245688,
+   "segment": "s1_a_to_b",
+   "offset_m": 619.421959992457,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1230,
+   "speed_ms": 10.677561080472401,
+   "odometer_m": 104.69512872204525,
+   "segment": "s1_a_to_b",
+   "offset_m": 624.6951287220453,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1260,
+   "speed_ms": 10.94896855471079,
+   "odometer_m": 110.1040273930726,
+   "segment": "s1_a_to_b",
+   "offset_m": 630.1040273930727,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1290,
+   "speed_ms": 11.219764115122244,
+   "odometer_m": 115.64856495012802,
+   "segment": "s1_a_to_b",
+   "offset_m": 635.648564950128,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1320,
+   "speed_ms": 11.485117722524075,
+   "odometer_m": 121.32726762817009,
+   "segment": "s1_a_to_b",
+   "offset_m": 641.3272676281706,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1350,
+   "speed_ms": 11.744180987617698,
+   "odometer_m": 127.13700411781805,
+   "segment": "s1_a_to_b",
+   "offset_m": 647.1370041178187,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1380,
+   "speed_ms": 11.997362471082988,
+   "odometer_m": 133.07473671719907,
+   "segment": "s1_a_to_b",
+   "offset_m": 653.0747367171997,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1410,
+   "speed_ms": 12.245027907096569,
+   "odometer_m": 139.1376206646556,
+   "segment": "s1_a_to_b",
+   "offset_m": 659.1376206646561,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1440,
+   "speed_ms": 12.487506240598073,
+   "odometer_m": 145.32298433423313,
+   "segment": "s1_a_to_b",
+   "offset_m": 665.3229843342334,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1470,
+   "speed_ms": 12.725094612280314,
+   "odometer_m": 151.6283121677091,
+   "segment": "s1_a_to_b",
+   "offset_m": 671.6283121677095,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1500,
+   "speed_ms": 12.95806250717138,
+   "odometer_m": 158.0512298752281,
+   "segment": "s1_a_to_b",
+   "offset_m": 678.0512298752284,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1530,
+   "speed_ms": 13.186655232211235,
+   "odometer_m": 164.5894915308612,
+   "segment": "s1_a_to_b",
+   "offset_m": 684.5894915308616,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1560,
+   "speed_ms": 13.411096850902663,
+   "odometer_m": 171.2409682620093,
+   "segment": "s1_a_to_b",
+   "offset_m": 691.2409682620095,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1590,
+   "speed_ms": 13.631592675186985,
+   "odometer_m": 178.00363828806286,
+   "segment": "s1_a_to_b",
+   "offset_m": 698.0036382880629,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1620,
+   "speed_ms": 13.84833139356606,
+   "odometer_m": 184.87557810810998,
+   "segment": "s1_a_to_b",
+   "offset_m": 704.8755781081097,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1650,
+   "speed_ms": 14.061486898345619,
+   "odometer_m": 191.85495467264445,
+   "segment": "s1_a_to_b",
+   "offset_m": 711.854954672644,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1680,
+   "speed_ms": 14.271219862420132,
+   "odometer_m": 198.9400184023155,
+   "segment": "s1_a_to_b",
+   "offset_m": 718.9400184023154,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1710,
+   "speed_ms": 14.477679106327198,
+   "odometer_m": 206.12909693936646,
+   "segment": "s1_a_to_b",
+   "offset_m": 726.1290969393666,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1740,
+   "speed_ms": 14.681002788695919,
+   "odometer_m": 213.42058953573408,
+   "segment": "s1_a_to_b",
+   "offset_m": 733.4205895357339,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1770,
+   "speed_ms": 14.88131944720234,
+   "odometer_m": 220.8129619967324,
+   "segment": "s1_a_to_b",
+   "offset_m": 740.8129619967324,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1800,
+   "speed_ms": 15.078748912358627,
+   "odometer_m": 228.30474211152054,
+   "segment": "s1_a_to_b",
+   "offset_m": 748.3047421115207,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1830,
+   "speed_ms": 15.27340311262529,
+   "odometer_m": 235.89451551168966,
+   "segment": "s1_a_to_b",
+   "offset_m": 755.8945155116896,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1860,
+   "speed_ms": 15.46538678624025,
+   "odometer_m": 243.5809219077234,
+   "segment": "s1_a_to_b",
+   "offset_m": 763.5809219077235,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1890,
+   "speed_ms": 15.654798112645686,
+   "odometer_m": 251.3626516601119,
+   "segment": "s1_a_to_b",
+   "offset_m": 771.3626516601119,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1920,
+   "speed_ms": 15.841729274342992,
+   "odometer_m": 259.23844264779393,
+   "segment": "s1_a_to_b",
+   "offset_m": 779.238442647794,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1950,
+   "speed_ms": 16.026266958322722,
+   "odometer_m": 267.20707740156587,
+   "segment": "s1_a_to_b",
+   "offset_m": 787.2070774015662,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 1980,
+   "speed_ms": 16.20849280482834,
+   "odometer_m": 275.26738047430365,
+   "segment": "s1_a_to_b",
+   "offset_m": 795.2673804743041,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2010,
+   "speed_ms": 16.388483810061857,
+   "odometer_m": 283.41821602341446,
+   "segment": "s1_a_to_b",
+   "offset_m": 803.4182160234152,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2040,
+   "speed_ms": 16.566312688481176,
+   "odometer_m": 291.6584855839843,
+   "segment": "s1_a_to_b",
+   "offset_m": 811.6584855839852,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2070,
+   "speed_ms": 16.742048199537795,
+   "odometer_m": 299.98712601370204,
+   "segment": "s1_a_to_b",
+   "offset_m": 819.9871260137033,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2100,
+   "speed_ms": 16.91575544303037,
+   "odometer_m": 308.40310759288275,
+   "segment": "s1_a_to_b",
+   "offset_m": 828.4031075928839,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2130,
+   "speed_ms": 17.08749612668243,
+   "odometer_m": 316.905432264853,
+   "segment": "s1_a_to_b",
+   "offset_m": 836.9054322648539,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2160,
+   "speed_ms": 17.257328809072053,
+   "odometer_m": 325.49313200363696,
+   "segment": "s1_a_to_b",
+   "offset_m": 845.493132003638,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2190,
+   "speed_ms": 17.42530912063336,
+   "odometer_m": 334.16526729733647,
+   "segment": "s1_a_to_b",
+   "offset_m": 854.1652672973374,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2220,
+   "speed_ms": 17.59148996510206,
+   "odometer_m": 342.9209257368676,
+   "segment": "s1_a_to_b",
+   "offset_m": 862.9209257368684,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2250,
+   "speed_ms": 17.755921703479572,
+   "odometer_m": 351.7592207008234,
+   "segment": "s1_a_to_b",
+   "offset_m": 871.7592207008239,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2280,
+   "speed_ms": 17.9186523223353,
+   "odometer_m": 360.6792901282017,
+   "segment": "s1_a_to_b",
+   "offset_m": 880.6792901282025,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2310,
+   "speed_ms": 18.079727588046786,
+   "odometer_m": 369.6802953715901,
+   "segment": "s1_a_to_b",
+   "offset_m": 889.680295371591,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2340,
+   "speed_ms": 18.239191188387693,
+   "odometer_m": 378.761420124145,
+   "segment": "s1_a_to_b",
+   "offset_m": 898.7614201241458,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2370,
+   "speed_ms": 18.397084862709995,
+   "odometer_m": 387.92186941437177,
+   "segment": "s1_a_to_b",
+   "offset_m": 907.9218694143723,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2400,
+   "speed_ms": 18.553448521823476,
+   "odometer_m": 397.1608686632897,
+   "segment": "s1_a_to_b",
+   "offset_m": 917.1608686632903,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2430,
+   "speed_ms": 18.70832035855234,
+   "odometer_m": 406.47766279909087,
+   "segment": "s1_a_to_b",
+   "offset_m": 926.4776627990916,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2460,
+   "speed_ms": 18.861736949840093,
+   "odometer_m": 415.8715154248597,
+   "segment": "s1_a_to_b",
+   "offset_m": 935.87151542486,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2490,
+   "speed_ms": 19.013733351179305,
+   "odometer_m": 425.3417080353305,
+   "segment": "s1_a_to_b",
+   "offset_m": 945.3417080353306,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2520,
+   "speed_ms": 19.164343184060087,
+   "odometer_m": 434.88753927903053,
+   "segment": "s1_a_to_b",
+   "offset_m": 954.8875392790303,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2550,
+   "speed_ms": 19.31359871705795,
+   "odometer_m": 444.508324262479,
+   "segment": "s1_a_to_b",
+   "offset_m": 964.5083242624788,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2580,
+   "speed_ms": 19.461530941117665,
+   "odometer_m": 454.203393893409,
+   "segment": "s1_a_to_b",
+   "offset_m": 974.203393893409,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2610,
+   "speed_ms": 19.608169639532967,
+   "odometer_m": 463.97209426024125,
+   "segment": "s1_a_to_b",
+   "offset_m": 983.9720942602414,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2640,
+   "speed_ms": 19.75354345307202,
+   "odometer_m": 473.8137860452759,
+   "segment": "s1_a_to_b",
+   "offset_m": 993.8137860452756,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2670,
+   "speed_ms": 19.897679940653944,
+   "odometer_m": 483.7278439692813,
+   "segment": "s1_a_to_b",
+   "offset_m": 1003.7278439692814,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2700,
+   "speed_ms": 20.040605635942367,
+   "odometer_m": 493.7136562653534,
+   "segment": "s1_a_to_b",
+   "offset_m": 1013.7136562653536,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2730,
+   "speed_ms": 20.18234610018704,
+   "odometer_m": 503.7706241800874,
+   "segment": "s1_a_to_b",
+   "offset_m": 1023.7706241800878,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2760,
+   "speed_ms": 20.322925971613135,
+   "odometer_m": 513.898161500268,
+   "segment": "s1_a_to_b",
+   "offset_m": 1033.8981615002688,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2790,
+   "speed_ms": 20.462369011629843,
+   "odometer_m": 524.0956941034211,
+   "segment": "s1_a_to_b",
+   "offset_m": 1044.0956941034221,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2820,
+   "speed_ms": 20.60069814810552,
+   "odometer_m": 534.3626595307032,
+   "segment": "s1_a_to_b",
+   "offset_m": 1054.362659530704,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2850,
+   "speed_ms": 20.73793551593345,
+   "odometer_m": 544.6985065807179,
+   "segment": "s1_a_to_b",
+   "offset_m": 1064.6985065807187,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2880,
+   "speed_ms": 20.87410249509312,
+   "odometer_m": 555.1026949229617,
+   "segment": "s1_a_to_b",
+   "offset_m": 1075.1026949229627,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2910,
+   "speed_ms": 21.00921974639319,
+   "odometer_m": 565.5746947296932,
+   "segment": "s1_a_to_b",
+   "offset_m": 1085.5746947296946,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2940,
+   "speed_ms": 21.143307245066683,
+   "odometer_m": 576.1139863251127,
+   "segment": "s1_a_to_b",
+   "offset_m": 1096.1139863251149,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 2970,
+   "speed_ms": 21.27638431237396,
+   "odometer_m": 586.7200598508189,
+   "segment": "s1_a_to_b",
+   "offset_m": 1106.7200598508207,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 3000,
+   "speed_ms": 21.408469645356067,
+   "odometer_m": 597.3924149465806,
+   "segment": "s1_a_to_b",
+   "offset_m": 1117.3924149465831,
+   "brake_demand": 0.0,
+   "traction_fraction": 1.0,
+   "events": []
+  },
+  {
+   "tick": 3030,
+   "speed_ms": 21.39502542375023,
+   "odometer_m": 608.0931763308427,
+   "segment": "s1_a_to_b",
+   "offset_m": 1128.0931763308456,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.09999999999999981,
+   "events": []
+  },
+  {
+   "tick": 3060,
+   "speed_ms": 21.381589554972173,
+   "odometer_m": 618.7872177624881,
+   "segment": "s1_a_to_b",
+   "offset_m": 1138.7872177624913,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3090,
+   "speed_ms": 21.368162030080153,
+   "odometer_m": 629.4745434156209,
+   "segment": "s1_a_to_b",
+   "offset_m": 1149.474543415624,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3120,
+   "speed_ms": 21.35474284014501,
+   "odometer_m": 640.155157459876,
+   "segment": "s1_a_to_b",
+   "offset_m": 1160.1551574598798,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3150,
+   "speed_ms": 21.341331976250075,
+   "odometer_m": 650.8290640604282,
+   "segment": "s1_a_to_b",
+   "offset_m": 1170.829064060432,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3180,
+   "speed_ms": 21.327929429491185,
+   "odometer_m": 661.4962673779969,
+   "segment": "s1_a_to_b",
+   "offset_m": 1181.4962673780003,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3210,
+   "speed_ms": 21.31453519097665,
+   "odometer_m": 672.1567715688524,
+   "segment": "s1_a_to_b",
+   "offset_m": 1192.1567715688554,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3240,
+   "speed_ms": 21.301149251827255,
+   "odometer_m": 682.8105807848225,
+   "segment": "s1_a_to_b",
+   "offset_m": 1202.810580784826,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3270,
+   "speed_ms": 21.28722494552234,
+   "odometer_m": 693.4576627287028,
+   "segment": "s1_a_to_b",
+   "offset_m": 1213.4576627287063,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3300,
+   "speed_ms": 21.27151365413172,
+   "odometer_m": 704.0972160463631,
+   "segment": "s1_a_to_b",
+   "offset_m": 1224.097216046367,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3330,
+   "speed_ms": 21.25517156971933,
+   "odometer_m": 714.7288788660957,
+   "segment": "s1_a_to_b",
+   "offset_m": 1234.7288788660999,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3360,
+   "speed_ms": 21.236278326880324,
+   "odometer_m": 725.3515834102925,
+   "segment": "s1_a_to_b",
+   "offset_m": 1245.351583410296,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3390,
+   "speed_ms": 21.216993727085942,
+   "odometer_m": 735.9648208393141,
+   "segment": "s1_a_to_b",
+   "offset_m": 1255.9648208393182,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3420,
+   "speed_ms": 21.196109403364293,
+   "odometer_m": 746.5679220490948,
+   "segment": "s1_a_to_b",
+   "offset_m": 1266.567922049099,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3450,
+   "speed_ms": 21.174704201409227,
+   "odometer_m": 757.1605577386614,
+   "segment": "s1_a_to_b",
+   "offset_m": 1277.160557738666,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3480,
+   "speed_ms": 21.150644186774603,
+   "odometer_m": 767.7416937180708,
+   "segment": "s1_a_to_b",
+   "offset_m": 1287.7416937180758,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3510,
+   "speed_ms": 21.126330304206483,
+   "odometer_m": 778.3107923254523,
+   "segment": "s1_a_to_b",
+   "offset_m": 1298.3107923254568,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3540,
+   "speed_ms": 21.100285417336266,
+   "odometer_m": 788.8672285477693,
+   "segment": "s1_a_to_b",
+   "offset_m": 1308.8672285477735,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3570,
+   "speed_ms": 21.073936285614863,
+   "odometer_m": 799.4106357910566,
+   "segment": "s1_a_to_b",
+   "offset_m": 1319.4106357910607,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3600,
+   "speed_ms": 21.044721831404434,
+   "odometer_m": 809.9400561193314,
+   "segment": "s1_a_to_b",
+   "offset_m": 1329.9400561193356,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3630,
+   "speed_ms": 21.015390965585983,
+   "odometer_m": 820.4548704969868,
+   "segment": "s1_a_to_b",
+   "offset_m": 1340.4548704969907,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3660,
+   "speed_ms": 20.98419777024398,
+   "odometer_m": 830.9545069414529,
+   "segment": "s1_a_to_b",
+   "offset_m": 1350.954506941457,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3690,
+   "speed_ms": 20.953023688913323,
+   "odometer_m": 841.4385517273635,
+   "segment": "s1_a_to_b",
+   "offset_m": 1361.4385517273672,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3720,
+   "speed_ms": 20.91866690128461,
+   "odometer_m": 851.9061871933031,
+   "segment": "s1_a_to_b",
+   "offset_m": 1371.906187193306,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3750,
+   "speed_ms": 20.88433111943911,
+   "odometer_m": 862.356649693478,
+   "segment": "s1_a_to_b",
+   "offset_m": 1382.3566496934811,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3780,
+   "speed_ms": 20.847027907252087,
+   "odometer_m": 872.7892274586612,
+   "segment": "s1_a_to_b",
+   "offset_m": 1392.789227458664,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3810,
+   "speed_ms": 20.8095340548116,
+   "odometer_m": 883.2030545489503,
+   "segment": "s1_a_to_b",
+   "offset_m": 1403.2030545489538,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3840,
+   "speed_ms": 20.77003298764998,
+   "odometer_m": 893.5976838141901,
+   "segment": "s1_a_to_b",
+   "offset_m": 1413.597683814194,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3870,
+   "speed_ms": 20.73024372856782,
+   "odometer_m": 903.9724204090704,
+   "segment": "s1_a_to_b",
+   "offset_m": 1423.9724204090746,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3900,
+   "speed_ms": 20.690478640934533,
+   "odometer_m": 914.3272686206814,
+   "segment": "s1_a_to_b",
+   "offset_m": 1434.3272686206856,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3930,
+   "speed_ms": 20.650737677199363,
+   "odometer_m": 924.6622405224599,
+   "segment": "s1_a_to_b",
+   "offset_m": 1444.6622405224641,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3960,
+   "speed_ms": 20.611020789900238,
+   "odometer_m": 934.9773481640905,
+   "segment": "s1_a_to_b",
+   "offset_m": 1454.977348164094,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 3990,
+   "speed_ms": 20.571327931663504,
+   "odometer_m": 945.2726035715491,
+   "segment": "s1_a_to_b",
+   "offset_m": 1465.2726035715523,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4020,
+   "speed_ms": 20.531659055203658,
+   "odometer_m": 955.5480187471478,
+   "segment": "s1_a_to_b",
+   "offset_m": 1475.5480187471508,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4050,
+   "speed_ms": 20.49201411332313,
+   "odometer_m": 965.8036056695789,
+   "segment": "s1_a_to_b",
+   "offset_m": 1485.8036056695817,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4080,
+   "speed_ms": 20.452393058912026,
+   "odometer_m": 976.0393762939583,
+   "segment": "s1_a_to_b",
+   "offset_m": 1496.039376293961,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4110,
+   "speed_ms": 20.412795844947922,
+   "odometer_m": 986.2553425518694,
+   "segment": "s1_a_to_b",
+   "offset_m": 1506.2553425518715,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4140,
+   "speed_ms": 20.37322242449558,
+   "odometer_m": 996.4515163514075,
+   "segment": "s1_a_to_b",
+   "offset_m": 1516.45151635141,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4170,
+   "speed_ms": 20.33367275070669,
+   "odometer_m": 1006.627909577222,
+   "segment": "s1_a_to_b",
+   "offset_m": 1526.627909577224,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4200,
+   "speed_ms": 20.294146776819666,
+   "odometer_m": 1016.7845340905609,
+   "segment": "s1_a_to_b",
+   "offset_m": 1536.7845340905635,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4230,
+   "speed_ms": 20.254644456159408,
+   "odometer_m": 1026.9214017293143,
+   "segment": "s1_a_to_b",
+   "offset_m": 1546.9214017293168,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4260,
+   "speed_ms": 20.215165742137028,
+   "odometer_m": 1037.0385243080566,
+   "segment": "s1_a_to_b",
+   "offset_m": 1557.038524308059,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4290,
+   "speed_ms": 20.17571058824964,
+   "odometer_m": 1047.135913618089,
+   "segment": "s1_a_to_b",
+   "offset_m": 1567.1359136180915,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4320,
+   "speed_ms": 20.136278948080108,
+   "odometer_m": 1057.213581427485,
+   "segment": "s1_a_to_b",
+   "offset_m": 1577.2135814274875,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4350,
+   "speed_ms": 20.096870775296807,
+   "odometer_m": 1067.2715394811312,
+   "segment": "s1_a_to_b",
+   "offset_m": 1587.2715394811337,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4380,
+   "speed_ms": 20.057486023653404,
+   "odometer_m": 1077.30979950077,
+   "segment": "s1_a_to_b",
+   "offset_m": 1597.3097995007724,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4410,
+   "speed_ms": 20.018124646988568,
+   "odometer_m": 1087.3283731850422,
+   "segment": "s1_a_to_b",
+   "offset_m": 1607.3283731850447,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4440,
+   "speed_ms": 19.978786599225817,
+   "odometer_m": 1097.327272209531,
+   "segment": "s1_a_to_b",
+   "offset_m": 1617.3272722095332,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4470,
+   "speed_ms": 19.93947183437323,
+   "odometer_m": 1107.306508226803,
+   "segment": "s1_a_to_b",
+   "offset_m": 1627.3065082268054,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4500,
+   "speed_ms": 19.9001803065232,
+   "odometer_m": 1117.2660928664498,
+   "segment": "s1_a_to_b",
+   "offset_m": 1637.266092866452,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4530,
+   "speed_ms": 19.860911969852243,
+   "odometer_m": 1127.2060377351315,
+   "segment": "s1_a_to_b",
+   "offset_m": 1647.2060377351338,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4560,
+   "speed_ms": 19.821666778620724,
+   "odometer_m": 1137.1263544166184,
+   "segment": "s1_a_to_b",
+   "offset_m": 1657.1263544166206,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4590,
+   "speed_ms": 19.782444687172656,
+   "odometer_m": 1147.027054471832,
+   "segment": "s1_a_to_b",
+   "offset_m": 1667.0270544718342,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4620,
+   "speed_ms": 19.74324564993546,
+   "odometer_m": 1156.9081494388877,
+   "segment": "s1_a_to_b",
+   "offset_m": 1676.90814943889,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4650,
+   "speed_ms": 19.70406962141971,
+   "odometer_m": 1166.7696508331362,
+   "segment": "s1_a_to_b",
+   "offset_m": 1686.7696508331385,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4680,
+   "speed_ms": 19.66491655621895,
+   "odometer_m": 1176.6115701472045,
+   "segment": "s1_a_to_b",
+   "offset_m": 1696.6115701472067,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4710,
+   "speed_ms": 19.625786409009432,
+   "odometer_m": 1186.4339188510378,
+   "segment": "s1_a_to_b",
+   "offset_m": 1706.43391885104,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4740,
+   "speed_ms": 19.586679134549872,
+   "odometer_m": 1196.236708391942,
+   "segment": "s1_a_to_b",
+   "offset_m": 1716.2367083919444,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4770,
+   "speed_ms": 19.547594687681272,
+   "odometer_m": 1206.0199501946217,
+   "segment": "s1_a_to_b",
+   "offset_m": 1726.019950194624,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4800,
+   "speed_ms": 19.508533023326642,
+   "odometer_m": 1215.7836556612233,
+   "segment": "s1_a_to_b",
+   "offset_m": 1735.7836556612256,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4830,
+   "speed_ms": 19.469494096490795,
+   "odometer_m": 1225.5278361713792,
+   "segment": "s1_a_to_b",
+   "offset_m": 1745.5278361713815,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4860,
+   "speed_ms": 19.43047786226014,
+   "odometer_m": 1235.2525030822408,
+   "segment": "s1_a_to_b",
+   "offset_m": 1755.252503082243,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4890,
+   "speed_ms": 19.391484275802416,
+   "odometer_m": 1244.9576677285254,
+   "segment": "s1_a_to_b",
+   "offset_m": 1764.9576677285277,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4920,
+   "speed_ms": 19.35251329236651,
+   "odometer_m": 1254.6433414225567,
+   "segment": "s1_a_to_b",
+   "offset_m": 1774.643341422559,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4950,
+   "speed_ms": 19.31356486728216,
+   "odometer_m": 1264.3095354543016,
+   "segment": "s1_a_to_b",
+   "offset_m": 1784.3095354543038,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 4980,
+   "speed_ms": 19.274638955959844,
+   "odometer_m": 1273.9562610914138,
+   "segment": "s1_a_to_b",
+   "offset_m": 1793.956261091416,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5010,
+   "speed_ms": 19.235735513890457,
+   "odometer_m": 1283.5835295792726,
+   "segment": "s1_a_to_b",
+   "offset_m": 1803.583529579275,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5040,
+   "speed_ms": 19.196854496645166,
+   "odometer_m": 1293.1913521410233,
+   "segment": "s1_a_to_b",
+   "offset_m": 1813.1913521410256,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5070,
+   "speed_ms": 19.1579958598751,
+   "odometer_m": 1302.7797399776182,
+   "segment": "s1_a_to_b",
+   "offset_m": 1822.7797399776205,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5100,
+   "speed_ms": 19.11915955931121,
+   "odometer_m": 1312.3487042678562,
+   "segment": "s1_a_to_b",
+   "offset_m": 1832.3487042678585,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5130,
+   "speed_ms": 19.08034555076402,
+   "odometer_m": 1321.89825616842,
+   "segment": "s1_a_to_b",
+   "offset_m": 1841.8982561684222,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5160,
+   "speed_ms": 19.041553790123377,
+   "odometer_m": 1331.4284068139207,
+   "segment": "s1_a_to_b",
+   "offset_m": 1851.428406813923,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5190,
+   "speed_ms": 19.002784233358295,
+   "odometer_m": 1340.9391673169328,
+   "segment": "s1_a_to_b",
+   "offset_m": 1860.939167316935,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5220,
+   "speed_ms": 18.964036836516676,
+   "odometer_m": 1350.4305487680372,
+   "segment": "s1_a_to_b",
+   "offset_m": 1870.4305487680394,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5250,
+   "speed_ms": 18.925311555725166,
+   "odometer_m": 1359.902562235858,
+   "segment": "s1_a_to_b",
+   "offset_m": 1879.9025622358604,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5280,
+   "speed_ms": 18.88660834718883,
+   "odometer_m": 1369.355218767104,
+   "segment": "s1_a_to_b",
+   "offset_m": 1889.3552187671062,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5310,
+   "speed_ms": 18.847927167191017,
+   "odometer_m": 1378.7885293866048,
+   "segment": "s1_a_to_b",
+   "offset_m": 1898.788529386607,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5340,
+   "speed_ms": 18.80926797209314,
+   "odometer_m": 1388.2025050973532,
+   "segment": "s1_a_to_b",
+   "offset_m": 1908.2025050973555,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5370,
+   "speed_ms": 18.770630718334438,
+   "odometer_m": 1397.5971568805444,
+   "segment": "s1_a_to_b",
+   "offset_m": 1917.5971568805467,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5400,
+   "speed_ms": 18.732015362431767,
+   "odometer_m": 1406.9724956956104,
+   "segment": "s1_a_to_b",
+   "offset_m": 1926.9724956956127,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5430,
+   "speed_ms": 18.693421860979374,
+   "odometer_m": 1416.3285324802634,
+   "segment": "s1_a_to_b",
+   "offset_m": 1936.3285324802657,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5460,
+   "speed_ms": 18.654850170648714,
+   "odometer_m": 1425.665278150532,
+   "segment": "s1_a_to_b",
+   "offset_m": 1945.6652781505343,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5490,
+   "speed_ms": 18.616300248188235,
+   "odometer_m": 1434.9827436007995,
+   "segment": "s1_a_to_b",
+   "offset_m": 1954.9827436008018,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5520,
+   "speed_ms": 18.57777205042312,
+   "odometer_m": 1444.2809397038448,
+   "segment": "s1_a_to_b",
+   "offset_m": 1964.280939703847,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5550,
+   "speed_ms": 18.539265534255136,
+   "odometer_m": 1453.5598773108795,
+   "segment": "s1_a_to_b",
+   "offset_m": 1973.5598773108818,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5580,
+   "speed_ms": 18.50078065666238,
+   "odometer_m": 1462.8195672515842,
+   "segment": "s1_a_to_b",
+   "offset_m": 1982.8195672515865,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5610,
+   "speed_ms": 18.462317374699087,
+   "odometer_m": 1472.0600203341503,
+   "segment": "s1_a_to_b",
+   "offset_m": 1992.0600203341526,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5640,
+   "speed_ms": 18.423875645495418,
+   "odometer_m": 1481.281247345313,
+   "segment": "s1_a_to_b",
+   "offset_m": 2001.2812473453153,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5670,
+   "speed_ms": 18.38545542625728,
+   "odometer_m": 1490.483259050394,
+   "segment": "s1_a_to_b",
+   "offset_m": 2010.4832590503963,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5700,
+   "speed_ms": 18.347056674266028,
+   "odometer_m": 1499.6660661933379,
+   "segment": "s1_a_to_b",
+   "offset_m": 2019.6660661933402,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5730,
+   "speed_ms": 18.308679346878385,
+   "odometer_m": 1508.8296794967491,
+   "segment": "s1_a_to_b",
+   "offset_m": 2028.8296794967514,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5760,
+   "speed_ms": 18.270323401526127,
+   "odometer_m": 1517.9741096619289,
+   "segment": "s1_a_to_b",
+   "offset_m": 2037.9741096619312,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5790,
+   "speed_ms": 18.231988795715935,
+   "odometer_m": 1527.0993673689147,
+   "segment": "s1_a_to_b",
+   "offset_m": 2047.099367368917,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5820,
+   "speed_ms": 18.193675487029175,
+   "odometer_m": 1536.2054632765173,
+   "segment": "s1_a_to_b",
+   "offset_m": 2056.2054632765175,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5850,
+   "speed_ms": 18.155383433121678,
+   "odometer_m": 1545.2924080223547,
+   "segment": "s1_a_to_b",
+   "offset_m": 2065.292408022354,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5880,
+   "speed_ms": 18.117112591723565,
+   "odometer_m": 1554.3602122228942,
+   "segment": "s1_a_to_b",
+   "offset_m": 2074.360212222892,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5910,
+   "speed_ms": 18.078862920639,
+   "odometer_m": 1563.408886473487,
+   "segment": "s1_a_to_b",
+   "offset_m": 2083.4088864734854,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5940,
+   "speed_ms": 18.04063437774605,
+   "odometer_m": 1572.4384413484045,
+   "segment": "s1_a_to_b",
+   "offset_m": 2092.4384413484045,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 5970,
+   "speed_ms": 18.002426920996424,
+   "odometer_m": 1581.4488874008782,
+   "segment": "s1_a_to_b",
+   "offset_m": 2101.448887400877,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6000,
+   "speed_ms": 17.964240508415283,
+   "odometer_m": 1590.440235163133,
+   "segment": "s1_a_to_b",
+   "offset_m": 2110.440235163132,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6030,
+   "speed_ms": 17.92607509810109,
+   "odometer_m": 1599.412495146425,
+   "segment": "s1_a_to_b",
+   "offset_m": 2119.412495146425,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6060,
+   "speed_ms": 17.887930648225314,
+   "odometer_m": 1608.3656778410796,
+   "segment": "s1_a_to_b",
+   "offset_m": 2128.3656778410787,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6090,
+   "speed_ms": 17.8498071170323,
+   "odometer_m": 1617.2997937165255,
+   "segment": "s1_a_to_b",
+   "offset_m": 2137.2997937165237,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6120,
+   "speed_ms": 17.811704462839067,
+   "odometer_m": 1626.2148532213328,
+   "segment": "s1_a_to_b",
+   "offset_m": 2146.2148532213323,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6150,
+   "speed_ms": 17.773622644035086,
+   "odometer_m": 1635.1108667832495,
+   "segment": "s1_a_to_b",
+   "offset_m": 2155.110866783249,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6180,
+   "speed_ms": 17.73556161908209,
+   "odometer_m": 1643.987844809236,
+   "segment": "s1_a_to_b",
+   "offset_m": 2163.9878448092363,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6210,
+   "speed_ms": 17.697521346513863,
+   "odometer_m": 1652.8457976855036,
+   "segment": "s1_a_to_b",
+   "offset_m": 2172.8457976855043,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6240,
+   "speed_ms": 17.65950178493607,
+   "odometer_m": 1661.6847357775475,
+   "segment": "s1_a_to_b",
+   "offset_m": 2181.6847357775496,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6270,
+   "speed_ms": 17.62150289302603,
+   "odometer_m": 1670.5046694301861,
+   "segment": "s1_a_to_b",
+   "offset_m": 2190.504669430187,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6300,
+   "speed_ms": 17.583524629532544,
+   "odometer_m": 1679.3056089675915,
+   "segment": "s1_a_to_b",
+   "offset_m": 2199.3056089675924,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6330,
+   "speed_ms": 17.545566953275696,
+   "odometer_m": 1688.0875646933323,
+   "segment": "s1_a_to_b",
+   "offset_m": 2208.087564693333,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6360,
+   "speed_ms": 17.50762982314663,
+   "odometer_m": 1696.8505468904038,
+   "segment": "s1_a_to_b",
+   "offset_m": 2216.850546890406,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6390,
+   "speed_ms": 17.46971319810739,
+   "odometer_m": 1705.594565821266,
+   "segment": "s1_a_to_b",
+   "offset_m": 2225.5945658212677,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6420,
+   "speed_ms": 17.431817037190697,
+   "odometer_m": 1714.319631727877,
+   "segment": "s1_a_to_b",
+   "offset_m": 2234.319631727879,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6450,
+   "speed_ms": 17.393941299499815,
+   "odometer_m": 1723.0257548317306,
+   "segment": "s1_a_to_b",
+   "offset_m": 2243.0257548317304,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6480,
+   "speed_ms": 17.35608594420825,
+   "odometer_m": 1731.712945333889,
+   "segment": "s1_a_to_b",
+   "offset_m": 2251.71294533389,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6510,
+   "speed_ms": 17.31825093055966,
+   "odometer_m": 1740.3812134150212,
+   "segment": "s1_a_to_b",
+   "offset_m": 2260.3812134150216,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6540,
+   "speed_ms": 17.280436217867635,
+   "odometer_m": 1749.0305692354345,
+   "segment": "s1_a_to_b",
+   "offset_m": 2269.0305692354355,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6570,
+   "speed_ms": 17.242641765515472,
+   "odometer_m": 1757.6610229351118,
+   "segment": "s1_a_to_b",
+   "offset_m": 2277.661022935113,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6600,
+   "speed_ms": 17.204867532955998,
+   "odometer_m": 1766.2725846337457,
+   "segment": "s1_a_to_b",
+   "offset_m": 2286.2725846337476,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6630,
+   "speed_ms": 17.167113479711414,
+   "odometer_m": 1774.865264430773,
+   "segment": "s1_a_to_b",
+   "offset_m": 2294.865264430774,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6660,
+   "speed_ms": 17.129379565373068,
+   "odometer_m": 1783.4390724054092,
+   "segment": "s1_a_to_b",
+   "offset_m": 2303.439072405411,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6690,
+   "speed_ms": 17.09166574960128,
+   "odometer_m": 1791.9940186166832,
+   "segment": "s1_a_to_b",
+   "offset_m": 2311.994018616685,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6720,
+   "speed_ms": 17.053971992125152,
+   "odometer_m": 1800.5301131034728,
+   "segment": "s1_a_to_b",
+   "offset_m": 2320.530113103474,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6750,
+   "speed_ms": 17.016298252742377,
+   "odometer_m": 1809.047365884537,
+   "segment": "s1_a_to_b",
+   "offset_m": 2329.0473658845376,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6780,
+   "speed_ms": 16.97864449131905,
+   "odometer_m": 1817.5457869585516,
+   "segment": "s1_a_to_b",
+   "offset_m": 2337.5457869585516,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6810,
+   "speed_ms": 16.94101066778949,
+   "odometer_m": 1826.025386304143,
+   "segment": "s1_a_to_b",
+   "offset_m": 2346.025386304143,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6840,
+   "speed_ms": 16.903396742156065,
+   "odometer_m": 1834.4861738799225,
+   "segment": "s1_a_to_b",
+   "offset_m": 2354.4861738799223,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6870,
+   "speed_ms": 16.86580267448896,
+   "odometer_m": 1842.9281596245212,
+   "segment": "s1_a_to_b",
+   "offset_m": 2362.928159624521,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6900,
+   "speed_ms": 16.828228424926035,
+   "odometer_m": 1851.35135345662,
+   "segment": "s1_a_to_b",
+   "offset_m": 2371.351353456621,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6930,
+   "speed_ms": 16.790673953672627,
+   "odometer_m": 1859.7557652749888,
+   "segment": "s1_a_to_b",
+   "offset_m": 2379.7557652749906,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6960,
+   "speed_ms": 16.753139221001376,
+   "odometer_m": 1868.1414049585171,
+   "segment": "s1_a_to_b",
+   "offset_m": 2388.1414049585173,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 6990,
+   "speed_ms": 16.71562418725199,
+   "odometer_m": 1876.5082823662474,
+   "segment": "s1_a_to_b",
+   "offset_m": 2396.508282366247,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7020,
+   "speed_ms": 16.67812881283115,
+   "odometer_m": 1884.8564073374098,
+   "segment": "s1_a_to_b",
+   "offset_m": 2404.8564073374077,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7050,
+   "speed_ms": 16.640653058212255,
+   "odometer_m": 1893.185789691454,
+   "segment": "s1_a_to_b",
+   "offset_m": 2413.1857896914516,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7080,
+   "speed_ms": 16.603196883935244,
+   "odometer_m": 1901.4964392280845,
+   "segment": "s1_a_to_b",
+   "offset_m": 2421.496439228082,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7110,
+   "speed_ms": 16.56576025060648,
+   "odometer_m": 1909.7883657272928,
+   "segment": "s1_a_to_b",
+   "offset_m": 2429.7883657272914,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7140,
+   "speed_ms": 16.52834311889851,
+   "odometer_m": 1918.061578949391,
+   "segment": "s1_a_to_b",
+   "offset_m": 2438.061578949389,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7170,
+   "speed_ms": 16.490945449549855,
+   "odometer_m": 1926.3160886350443,
+   "segment": "s1_a_to_b",
+   "offset_m": 2446.316088635042,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7200,
+   "speed_ms": 16.453567203364916,
+   "odometer_m": 1934.5519045053027,
+   "segment": "s1_a_to_b",
+   "offset_m": 2454.551904505303,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7230,
+   "speed_ms": 16.416208341213732,
+   "odometer_m": 1942.769036261639,
+   "segment": "s1_a_to_b",
+   "offset_m": 2462.769036261639,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7260,
+   "speed_ms": 16.378868824031837,
+   "odometer_m": 1950.9674935859744,
+   "segment": "s1_a_to_b",
+   "offset_m": 2470.967493585975,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7290,
+   "speed_ms": 16.341548612820038,
+   "odometer_m": 1959.1472861407165,
+   "segment": "s1_a_to_b",
+   "offset_m": 2479.1472861407174,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7320,
+   "speed_ms": 16.30424766864428,
+   "odometer_m": 1967.3084235687893,
+   "segment": "s1_a_to_b",
+   "offset_m": 2487.3084235687897,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7350,
+   "speed_ms": 16.26696595263543,
+   "odometer_m": 1975.4509154936663,
+   "segment": "s1_a_to_b",
+   "offset_m": 2495.4509154936673,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7380,
+   "speed_ms": 16.22970342598913,
+   "odometer_m": 1983.5747715194059,
+   "segment": "s1_a_to_b",
+   "offset_m": 2503.574771519406,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7410,
+   "speed_ms": 16.192460049965625,
+   "odometer_m": 1991.6800012306771,
+   "segment": "s1_a_to_b",
+   "offset_m": 2511.680001230678,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7440,
+   "speed_ms": 16.15523578588954,
+   "odometer_m": 1999.7666141927982,
+   "segment": "s1_a_to_b",
+   "offset_m": 2519.766614192799,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7470,
+   "speed_ms": 16.11803059514978,
+   "odometer_m": 2007.8346199517653,
+   "segment": "s1_a_to_b",
+   "offset_m": 2527.8346199517664,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7500,
+   "speed_ms": 16.08084443919928,
+   "odometer_m": 2015.8840280342863,
+   "segment": "s1_a_to_b",
+   "offset_m": 2535.884028034287,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7530,
+   "speed_ms": 16.04367727955486,
+   "odometer_m": 2023.914847947811,
+   "segment": "s1_a_to_b",
+   "offset_m": 2543.914847947812,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7560,
+   "speed_ms": 16.006529077797083,
+   "odometer_m": 2031.9270891805656,
+   "segment": "s1_a_to_b",
+   "offset_m": 2551.927089180567,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7590,
+   "speed_ms": 15.969399795569998,
+   "odometer_m": 2039.9207612015823,
+   "segment": "s1_a_to_b",
+   "offset_m": 2559.920761201583,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7620,
+   "speed_ms": 15.932289394581062,
+   "odometer_m": 2047.8958734607302,
+   "segment": "s1_a_to_b",
+   "offset_m": 2567.8958734607318,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7650,
+   "speed_ms": 15.895197836600914,
+   "odometer_m": 2055.8524353887497,
+   "segment": "s1_a_to_b",
+   "offset_m": 2575.8524353887515,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7680,
+   "speed_ms": 15.85812508346321,
+   "odometer_m": 2063.7904563972847,
+   "segment": "s1_a_to_b",
+   "offset_m": 2583.7904563972866,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7710,
+   "speed_ms": 15.821071097064454,
+   "odometer_m": 2071.7099458789094,
+   "segment": "s1_a_to_b",
+   "offset_m": 2591.709945878911,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7740,
+   "speed_ms": 15.784035839363826,
+   "odometer_m": 2079.6109132071642,
+   "segment": "s1_a_to_b",
+   "offset_m": 2599.610913207166,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7770,
+   "speed_ms": 15.747019272383012,
+   "odometer_m": 2087.4933677365825,
+   "segment": "s1_a_to_b",
+   "offset_m": 2607.4933677365843,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7800,
+   "speed_ms": 15.712233860136044,
+   "odometer_m": 2095.3576506928666,
+   "segment": "s1_a_to_b",
+   "offset_m": 2615.3576506928684,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7830,
+   "speed_ms": 15.679157439006476,
+   "odometer_m": 2103.2052221884055,
+   "segment": "s1_a_to_b",
+   "offset_m": 2623.2052221884073,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7860,
+   "speed_ms": 15.646097638519986,
+   "odometer_m": 2111.0362597683397,
+   "segment": "s1_a_to_b",
+   "offset_m": 2631.0362597683416,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7890,
+   "speed_ms": 15.617501779000676,
+   "odometer_m": 2118.8517353921707,
+   "segment": "s1_a_to_b",
+   "offset_m": 2638.8517353921725,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7920,
+   "speed_ms": 15.58980949940761,
+   "odometer_m": 2126.653331865288,
+   "segment": "s1_a_to_b",
+   "offset_m": 2646.6533318652896,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7950,
+   "speed_ms": 15.562355000328747,
+   "odometer_m": 2134.441091378946,
+   "segment": "s1_a_to_b",
+   "offset_m": 2654.441091378948,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 7980,
+   "speed_ms": 15.538048282685725,
+   "odometer_m": 2142.2159891379606,
+   "segment": "s1_a_to_b",
+   "offset_m": 2662.2159891379624,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8010,
+   "speed_ms": 15.513753707606242,
+   "odometer_m": 2149.978736675744,
+   "segment": "s1_a_to_b",
+   "offset_m": 2669.978736675746,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8040,
+   "speed_ms": 15.491072517941587,
+   "odometer_m": 2157.729473500234,
+   "segment": "s1_a_to_b",
+   "offset_m": 2677.7294735002356,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8070,
+   "speed_ms": 15.472137981657713,
+   "odometer_m": 2165.4701179444783,
+   "segment": "s1_a_to_b",
+   "offset_m": 2685.47011794448,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8100,
+   "speed_ms": 15.453212878255194,
+   "odometer_m": 2173.201297557913,
+   "segment": "s1_a_to_b",
+   "offset_m": 2693.201297557915,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8130,
+   "speed_ms": 15.436088322454902,
+   "odometer_m": 2180.9232708073364,
+   "segment": "s1_a_to_b",
+   "offset_m": 2700.923270807338,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8160,
+   "speed_ms": 15.420539131267748,
+   "odometer_m": 2188.6372977722776,
+   "segment": "s1_a_to_b",
+   "offset_m": 2708.6372977722795,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8190,
+   "speed_ms": 15.404997669741146,
+   "odometer_m": 2196.3435521388246,
+   "segment": "s1_a_to_b",
+   "offset_m": 2716.3435521388265,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8220,
+   "speed_ms": 15.393377702895313,
+   "odometer_m": 2204.042787952972,
+   "segment": "s1_a_to_b",
+   "offset_m": 2724.042787952974,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8250,
+   "speed_ms": 15.383186343039922,
+   "odometer_m": 2211.736843825832,
+   "segment": "s1_a_to_b",
+   "offset_m": 2731.7368438258336,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8280,
+   "speed_ms": 15.373000041480617,
+   "odometer_m": 2219.425805325684,
+   "segment": "s1_a_to_b",
+   "offset_m": 2739.425805325686,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8310,
+   "speed_ms": 15.365952955747575,
+   "odometer_m": 2227.1104324593625,
+   "segment": "s1_a_to_b",
+   "offset_m": 2747.1104324593643,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8340,
+   "speed_ms": 15.35913317838153,
+   "odometer_m": 2234.791647020625,
+   "segment": "s1_a_to_b",
+   "offset_m": 2754.791647020627,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8370,
+   "speed_ms": 15.353028483789547,
+   "odometer_m": 2242.4694822213223,
+   "segment": "s1_a_to_b",
+   "offset_m": 2762.469482221324,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8400,
+   "speed_ms": 15.351551727315071,
+   "odometer_m": 2250.145614937321,
+   "segment": "s1_a_to_b",
+   "offset_m": 2770.145614937323,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8430,
+   "speed_ms": 15.350075702826212,
+   "odometer_m": 2257.821009464195,
+   "segment": "s1_a_to_b",
+   "offset_m": 2777.821009464197,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8460,
+   "speed_ms": 15.350379575018055,
+   "odometer_m": 2265.49582926201,
+   "segment": "s1_a_to_b",
+   "offset_m": 2785.4958292620117,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8490,
+   "speed_ms": 15.354240744815682,
+   "odometer_m": 2273.1720165980614,
+   "segment": "s1_a_to_b",
+   "offset_m": 2793.1720165980632,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8520,
+   "speed_ms": 15.35810000053406,
+   "odometer_m": 2280.850134024515,
+   "segment": "s1_a_to_b",
+   "offset_m": 2800.8501340245166,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8550,
+   "speed_ms": 15.364039718897736,
+   "odometer_m": 2288.5304755999678,
+   "segment": "s1_a_to_b",
+   "offset_m": 2808.5304755999696,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8580,
+   "speed_ms": 15.371798118724413,
+   "odometer_m": 2296.2144998729104,
+   "segment": "s1_a_to_b",
+   "offset_m": 2816.2144998729123,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8610,
+   "speed_ms": 15.379552669695576,
+   "odometer_m": 2303.902402351451,
+   "segment": "s1_a_to_b",
+   "offset_m": 2823.902402351453,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8640,
+   "speed_ms": 15.3873033724706,
+   "odometer_m": 2311.5941811113335,
+   "segment": "s1_a_to_b",
+   "offset_m": 2831.5941811113353,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8670,
+   "speed_ms": 15.395050227710373,
+   "odometer_m": 2319.2898342286276,
+   "segment": "s1_a_to_b",
+   "offset_m": 2839.2898342286294,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8700,
+   "speed_ms": 15.402793236077327,
+   "odometer_m": 2326.989359779739,
+   "segment": "s1_a_to_b",
+   "offset_m": 2846.989359779741,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8730,
+   "speed_ms": 15.410532398235416,
+   "odometer_m": 2334.692755841403,
+   "segment": "s1_a_to_b",
+   "offset_m": 2854.692755841405,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8760,
+   "speed_ms": 15.418267714850138,
+   "odometer_m": 2342.4000204906865,
+   "segment": "s1_a_to_b",
+   "offset_m": 2862.4000204906883,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8790,
+   "speed_ms": 15.425999186588488,
+   "odometer_m": 2350.1111518049897,
+   "segment": "s1_a_to_b",
+   "offset_m": 2870.1111518049916,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8820,
+   "speed_ms": 15.433726814119002,
+   "odometer_m": 2357.826147862047,
+   "segment": "s1_a_to_b",
+   "offset_m": 2877.826147862049,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8850,
+   "speed_ms": 15.44145059811174,
+   "odometer_m": 2365.5450067399265,
+   "segment": "s1_a_to_b",
+   "offset_m": 2885.5450067399283,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8880,
+   "speed_ms": 15.44917053923827,
+   "odometer_m": 2373.267726517035,
+   "segment": "s1_a_to_b",
+   "offset_m": 2893.267726517037,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8910,
+   "speed_ms": 15.456886638171694,
+   "odometer_m": 2380.994305272111,
+   "segment": "s1_a_to_b",
+   "offset_m": 2900.994305272113,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8940,
+   "speed_ms": 15.46459889558661,
+   "odometer_m": 2388.724741084233,
+   "segment": "s1_a_to_b",
+   "offset_m": 2908.7247410842347,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 8970,
+   "speed_ms": 15.472307312159124,
+   "odometer_m": 2396.4590320328175,
+   "segment": "s1_a_to_b",
+   "offset_m": 2916.4590320328193,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9000,
+   "speed_ms": 15.48001188856688,
+   "odometer_m": 2404.1971761976174,
+   "segment": "s1_a_to_b",
+   "offset_m": 2924.1971761976192,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9030,
+   "speed_ms": 15.487712625489007,
+   "odometer_m": 2411.9391716587256,
+   "segment": "s1_a_to_b",
+   "offset_m": 2931.9391716587274,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9060,
+   "speed_ms": 15.495409523606147,
+   "odometer_m": 2419.6850164965745,
+   "segment": "s1_a_to_b",
+   "offset_m": 2939.6850164965763,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9090,
+   "speed_ms": 15.503102583600446,
+   "odometer_m": 2427.43470879194,
+   "segment": "s1_a_to_b",
+   "offset_m": 2947.434708791942,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9120,
+   "speed_ms": 15.510791806155558,
+   "odometer_m": 2435.188246625935,
+   "segment": "s1_a_to_b",
+   "offset_m": 2955.1882466259367,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9150,
+   "speed_ms": 15.518477191956633,
+   "odometer_m": 2442.9456280800164,
+   "segment": "s1_a_to_b",
+   "offset_m": 2962.945628080018,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9180,
+   "speed_ms": 15.526158741690319,
+   "odometer_m": 2450.7068512359874,
+   "segment": "s1_a_to_b",
+   "offset_m": 2970.7068512359892,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9210,
+   "speed_ms": 15.533836456044751,
+   "odometer_m": 2458.47191417599,
+   "segment": "s1_a_to_b",
+   "offset_m": 2978.471914175992,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9240,
+   "speed_ms": 15.541510335709573,
+   "odometer_m": 2466.2408149825114,
+   "segment": "s1_a_to_b",
+   "offset_m": 2986.2408149825133,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9270,
+   "speed_ms": 15.549180381375912,
+   "odometer_m": 2474.0135517383887,
+   "segment": "s1_a_to_b",
+   "offset_m": 2994.0135517383906,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9300,
+   "speed_ms": 15.556846593736381,
+   "odometer_m": 2481.7901225267997,
+   "segment": "s1_a_to_b",
+   "offset_m": 3001.7901225268015,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9330,
+   "speed_ms": 15.564508973485093,
+   "odometer_m": 2489.5705254312707,
+   "segment": "s1_a_to_b",
+   "offset_m": 3009.5705254312725,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9360,
+   "speed_ms": 15.571882843134752,
+   "odometer_m": 2497.3546968512865,
+   "segment": "s1_a_to_b",
+   "offset_m": 3017.3546968512883,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9390,
+   "speed_ms": 15.579196102627757,
+   "odometer_m": 2505.142527683883,
+   "segment": "s1_a_to_b",
+   "offset_m": 3025.142527683885,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9420,
+   "speed_ms": 15.586474565119339,
+   "odometer_m": 2512.934013422373,
+   "segment": "s1_a_to_b",
+   "offset_m": 3032.934013422375,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9450,
+   "speed_ms": 15.593313569268963,
+   "odometer_m": 2520.7290175902067,
+   "segment": "s1_a_to_b",
+   "offset_m": 3040.7290175902085,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9480,
+   "speed_ms": 15.600149149171346,
+   "odometer_m": 2528.5274403754865,
+   "segment": "s1_a_to_b",
+   "offset_m": 3048.5274403754884,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9510,
+   "speed_ms": 15.6068931434675,
+   "odometer_m": 2536.3292727192747,
+   "segment": "s1_a_to_b",
+   "offset_m": 3056.3292727192766,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9540,
+   "speed_ms": 15.613428099153229,
+   "odometer_m": 2544.134407624206,
+   "segment": "s1_a_to_b",
+   "offset_m": 3064.1344076242076,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9570,
+   "speed_ms": 15.619959780093785,
+   "odometer_m": 2551.942809160971,
+   "segment": "s1_a_to_b",
+   "offset_m": 3071.942809160973,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9600,
+   "speed_ms": 15.626223551944593,
+   "odometer_m": 2559.754435995362,
+   "segment": "s1_a_to_b",
+   "offset_m": 3079.754435995364,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9630,
+   "speed_ms": 15.632281866004334,
+   "odometer_m": 2567.5691129622696,
+   "segment": "s1_a_to_b",
+   "offset_m": 3087.5691129622714,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9660,
+   "speed_ms": 15.638337141794423,
+   "odometer_m": 2575.3868183012883,
+   "segment": "s1_a_to_b",
+   "offset_m": 3095.38681830129,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9690,
+   "speed_ms": 15.64415431065369,
+   "odometer_m": 2583.207501517547,
+   "segment": "s1_a_to_b",
+   "offset_m": 3103.2075015175487,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9720,
+   "speed_ms": 15.649909808133645,
+   "odometer_m": 2591.0310656299594,
+   "segment": "s1_a_to_b",
+   "offset_m": 3111.031065629961,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9750,
+   "speed_ms": 15.655631279654019,
+   "odometer_m": 2598.857505966442,
+   "segment": "s1_a_to_b",
+   "offset_m": 3118.857505966444,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9780,
+   "speed_ms": 15.660914064278064,
+   "odometer_m": 2606.6866864360436,
+   "segment": "s1_a_to_b",
+   "offset_m": 3126.6866864360454,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9810,
+   "speed_ms": 15.666194196418049,
+   "odometer_m": 2614.5185076127013,
+   "segment": "s1_a_to_b",
+   "offset_m": 3134.518507612703,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9840,
+   "speed_ms": 15.671383514739851,
+   "odometer_m": 2622.352960823362,
+   "segment": "s1_a_to_b",
+   "offset_m": 3142.352960823364,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9870,
+   "speed_ms": 15.676364566520379,
+   "odometer_m": 2630.1899394566153,
+   "segment": "s1_a_to_b",
+   "offset_m": 3150.189939456617,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9900,
+   "speed_ms": 15.681343115716494,
+   "odometer_m": 2638.0294079692267,
+   "segment": "s1_a_to_b",
+   "offset_m": 3158.0294079692285,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9930,
+   "speed_ms": 15.68605452805982,
+   "odometer_m": 2645.8713254130716,
+   "segment": "s1_a_to_b",
+   "offset_m": 3165.8713254130735,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9960,
+   "speed_ms": 15.69056125526092,
+   "odometer_m": 2653.715517009273,
+   "segment": "s1_a_to_b",
+   "offset_m": 3173.7155170092747,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 9990,
+   "speed_ms": 15.695065716857453,
+   "odometer_m": 2661.561961383761,
+   "segment": "s1_a_to_b",
+   "offset_m": 3181.561961383763,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10020,
+   "speed_ms": 15.699178770559342,
+   "odometer_m": 2669.41057308395,
+   "segment": "s1_a_to_b",
+   "offset_m": 3189.410573083952,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10050,
+   "speed_ms": 15.703211946797857,
+   "odometer_m": 2677.261204457537,
+   "segment": "s1_a_to_b",
+   "offset_m": 3197.261204457539,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10080,
+   "speed_ms": 15.707208926786125,
+   "odometer_m": 2685.113850756231,
+   "segment": "s1_a_to_b",
+   "offset_m": 3205.1138507562328,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10110,
+   "speed_ms": 15.71089646459169,
+   "odometer_m": 2692.9684079107906,
+   "segment": "s1_a_to_b",
+   "offset_m": 3212.9684079107924,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10140,
+   "speed_ms": 15.714582147052623,
+   "odometer_m": 2700.824808354927,
+   "segment": "s1_a_to_b",
+   "offset_m": 3220.824808354929,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10170,
+   "speed_ms": 15.718265974820039,
+   "odometer_m": 2708.6830511611392,
+   "segment": "s1_a_to_b",
+   "offset_m": 3228.683051161141,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10200,
+   "speed_ms": 15.72194794854515,
+   "odometer_m": 2716.5431354022476,
+   "segment": "s1_a_to_b",
+   "offset_m": 3236.5431354022494,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10230,
+   "speed_ms": 15.72562806887928,
+   "odometer_m": 2724.405060151399,
+   "segment": "s1_a_to_b",
+   "offset_m": 3244.405060151401,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10260,
+   "speed_ms": 15.72930633647383,
+   "odometer_m": 2732.2688244820647,
+   "segment": "s1_a_to_b",
+   "offset_m": 3252.2688244820665,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10290,
+   "speed_ms": 15.732982751980312,
+   "odometer_m": 2740.134427468046,
+   "segment": "s1_a_to_b",
+   "offset_m": 3260.1344274680478,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10320,
+   "speed_ms": 15.736657316050332,
+   "odometer_m": 2748.001868183464,
+   "segment": "s1_a_to_b",
+   "offset_m": 3268.001868183466,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10350,
+   "speed_ms": 15.740330029335587,
+   "odometer_m": 2755.871145702771,
+   "segment": "s1_a_to_b",
+   "offset_m": 3275.871145702773,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10380,
+   "speed_ms": 15.744000892487884,
+   "odometer_m": 2763.742259100744,
+   "segment": "s1_a_to_b",
+   "offset_m": 3283.7422591007457,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10410,
+   "speed_ms": 15.747669906159107,
+   "odometer_m": 2771.615207452482,
+   "segment": "s1_a_to_b",
+   "offset_m": 3291.615207452484,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10440,
+   "speed_ms": 15.751337071001247,
+   "odometer_m": 2779.4899898334147,
+   "segment": "s1_a_to_b",
+   "offset_m": 3299.4899898334165,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10470,
+   "speed_ms": 15.755002387666385,
+   "odometer_m": 2787.366605319295,
+   "segment": "s1_a_to_b",
+   "offset_m": 3307.366605319297,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10500,
+   "speed_ms": 15.758665856806696,
+   "odometer_m": 2795.2450529862035,
+   "segment": "s1_a_to_b",
+   "offset_m": 3315.2450529862053,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10530,
+   "speed_ms": 15.762327479074457,
+   "odometer_m": 2803.1253319105463,
+   "segment": "s1_a_to_b",
+   "offset_m": 3323.125331910548,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10560,
+   "speed_ms": 15.76598725512202,
+   "odometer_m": 2811.0074411690543,
+   "segment": "s1_a_to_b",
+   "offset_m": 3331.007441169056,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10590,
+   "speed_ms": 15.769645185601854,
+   "odometer_m": 2818.8913798387885,
+   "segment": "s1_a_to_b",
+   "offset_m": 3338.8913798387903,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10620,
+   "speed_ms": 15.773301271166499,
+   "odometer_m": 2826.777146997134,
+   "segment": "s1_a_to_b",
+   "offset_m": 3346.777146997136,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10650,
+   "speed_ms": 15.776955512468595,
+   "odometer_m": 2834.664741721799,
+   "segment": "s1_a_to_b",
+   "offset_m": 3354.664741721801,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10680,
+   "speed_ms": 15.780607910160866,
+   "odometer_m": 2842.554163090821,
+   "segment": "s1_a_to_b",
+   "offset_m": 3362.554163090823,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10710,
+   "speed_ms": 15.784258464896148,
+   "odometer_m": 2850.445410182565,
+   "segment": "s1_a_to_b",
+   "offset_m": 3370.445410182567,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10740,
+   "speed_ms": 15.787907177327344,
+   "odometer_m": 2858.3384820757205,
+   "segment": "s1_a_to_b",
+   "offset_m": 3378.3384820757224,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10770,
+   "speed_ms": 15.791554048107457,
+   "odometer_m": 2866.2333778493057,
+   "segment": "s1_a_to_b",
+   "offset_m": 3386.2333778493075,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10800,
+   "speed_ms": 15.79519907788958,
+   "odometer_m": 2874.130096582662,
+   "segment": "s1_a_to_b",
+   "offset_m": 3394.130096582664,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10830,
+   "speed_ms": 15.798842267326894,
+   "odometer_m": 2882.028637355459,
+   "segment": "s1_a_to_b",
+   "offset_m": 3402.028637355461,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10860,
+   "speed_ms": 15.802483617072662,
+   "odometer_m": 2889.9289992476956,
+   "segment": "s1_a_to_b",
+   "offset_m": 3409.9289992476974,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10890,
+   "speed_ms": 15.806123127780237,
+   "odometer_m": 2897.8311813396926,
+   "segment": "s1_a_to_b",
+   "offset_m": 3417.8311813396945,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10920,
+   "speed_ms": 15.809760800103074,
+   "odometer_m": 2905.735182712101,
+   "segment": "s1_a_to_b",
+   "offset_m": 3425.735182712103,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10950,
+   "speed_ms": 15.813396634694712,
+   "odometer_m": 2913.641002445896,
+   "segment": "s1_a_to_b",
+   "offset_m": 3433.641002445898,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 10980,
+   "speed_ms": 15.817030632208757,
+   "odometer_m": 2921.548639622379,
+   "segment": "s1_a_to_b",
+   "offset_m": 3441.548639622381,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11010,
+   "speed_ms": 15.820662793298915,
+   "odometer_m": 2929.4580933231846,
+   "segment": "s1_a_to_b",
+   "offset_m": 3449.4580933231864,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11040,
+   "speed_ms": 15.824293118618979,
+   "odometer_m": 2937.369362630267,
+   "segment": "s1_a_to_b",
+   "offset_m": 3457.369362630269,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11070,
+   "speed_ms": 15.827921608822827,
+   "odometer_m": 2945.2824466259103,
+   "segment": "s1_a_to_b",
+   "offset_m": 3465.282446625912,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11100,
+   "speed_ms": 15.831548264564418,
+   "odometer_m": 2953.1973443927272,
+   "segment": "s1_a_to_b",
+   "offset_m": 3473.197344392729,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11130,
+   "speed_ms": 15.8351730864978,
+   "odometer_m": 2961.1140550136547,
+   "segment": "s1_a_to_b",
+   "offset_m": 3481.1140550136565,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11160,
+   "speed_ms": 15.838796075277097,
+   "odometer_m": 2969.0325775719543,
+   "segment": "s1_a_to_b",
+   "offset_m": 3489.032577571956,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11190,
+   "speed_ms": 15.842417231556528,
+   "odometer_m": 2976.952911151221,
+   "segment": "s1_a_to_b",
+   "offset_m": 3496.952911151223,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11220,
+   "speed_ms": 15.84603655599038,
+   "odometer_m": 2984.8750548353746,
+   "segment": "s1_a_to_b",
+   "offset_m": 3504.8750548353764,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11250,
+   "speed_ms": 15.849654049233036,
+   "odometer_m": 2992.7990077086583,
+   "segment": "s1_a_to_b",
+   "offset_m": 3512.79900770866,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11280,
+   "speed_ms": 15.853269711938957,
+   "odometer_m": 3000.7247688556486,
+   "segment": "s1_a_to_b",
+   "offset_m": 3520.7247688556504,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11310,
+   "speed_ms": 15.856883544762688,
+   "odometer_m": 3008.652337361245,
+   "segment": "s1_a_to_b",
+   "offset_m": 3528.6523373612467,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11340,
+   "speed_ms": 15.86049554835886,
+   "odometer_m": 3016.581712310675,
+   "segment": "s1_a_to_b",
+   "offset_m": 3536.5817123106767,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11370,
+   "speed_ms": 15.864105723382167,
+   "odometer_m": 3024.5128927894943,
+   "segment": "s1_a_to_b",
+   "offset_m": 3544.512892789496,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11400,
+   "speed_ms": 15.867714070487397,
+   "odometer_m": 3032.445877883586,
+   "segment": "s1_a_to_b",
+   "offset_m": 3552.445877883588,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11430,
+   "speed_ms": 15.87132059032942,
+   "odometer_m": 3040.3806666791597,
+   "segment": "s1_a_to_b",
+   "offset_m": 3560.3806666791615,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11460,
+   "speed_ms": 15.874925283563172,
+   "odometer_m": 3048.3172582627544,
+   "segment": "s1_a_to_b",
+   "offset_m": 3568.3172582627562,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11490,
+   "speed_ms": 15.878528150843684,
+   "odometer_m": 3056.2556517212342,
+   "segment": "s1_a_to_b",
+   "offset_m": 3576.255651721236,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11520,
+   "speed_ms": 15.882129192826058,
+   "odometer_m": 3064.195846141792,
+   "segment": "s1_a_to_b",
+   "offset_m": 3584.195846141794,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11550,
+   "speed_ms": 15.885728410165475,
+   "odometer_m": 3072.137840611947,
+   "segment": "s1_a_to_b",
+   "offset_m": 3592.137840611949,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11580,
+   "speed_ms": 15.889325803517192,
+   "odometer_m": 3080.0816342195467,
+   "segment": "s1_a_to_b",
+   "offset_m": 3600.0816342195485,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11610,
+   "speed_ms": 15.892921373536549,
+   "odometer_m": 3088.027226052768,
+   "segment": "s1_a_to_b",
+   "offset_m": 3608.02722605277,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11640,
+   "speed_ms": 15.89673148668259,
+   "odometer_m": 3095.9746512629085,
+   "segment": "s1_a_to_b",
+   "offset_m": 3615.9746512629104,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11670,
+   "speed_ms": 15.900664900744662,
+   "odometer_m": 3103.9240332212453,
+   "segment": "s1_a_to_b",
+   "offset_m": 3623.924033221247,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11700,
+   "speed_ms": 15.904596320236212,
+   "odometer_m": 3111.8753813713183,
+   "segment": "s1_a_to_b",
+   "offset_m": 3631.87538137132,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11730,
+   "speed_ms": 15.908961574201546,
+   "odometer_m": 3119.8288000492253,
+   "segment": "s1_a_to_b",
+   "offset_m": 3639.828800049227,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11760,
+   "speed_ms": 15.91335573656446,
+   "odometer_m": 3127.7844160877385,
+   "segment": "s1_a_to_b",
+   "offset_m": 3647.7844160877403,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11790,
+   "speed_ms": 15.917816241185221,
+   "odometer_m": 3135.7422332030014,
+   "segment": "s1_a_to_b",
+   "offset_m": 3655.7422332030033,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11820,
+   "speed_ms": 15.922499731957346,
+   "odometer_m": 3143.7023513243253,
+   "segment": "s1_a_to_b",
+   "offset_m": 3663.702351324327,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11850,
+   "speed_ms": 15.927180845682676,
+   "odometer_m": 3151.6648105769336,
+   "segment": "s1_a_to_b",
+   "offset_m": 3671.6648105769355,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11880,
+   "speed_ms": 15.932108653125814,
+   "odometer_m": 3159.629645058909,
+   "segment": "s1_a_to_b",
+   "offset_m": 3679.6296450589107,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11910,
+   "speed_ms": 15.937251839460533,
+   "odometer_m": 3167.5970281506675,
+   "segment": "s1_a_to_b",
+   "offset_m": 3687.5970281506693,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11940,
+   "speed_ms": 15.942392413859412,
+   "odometer_m": 3175.5669821608103,
+   "segment": "s1_a_to_b",
+   "offset_m": 3695.566982160812,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 11970,
+   "speed_ms": 15.947775238415447,
+   "odometer_m": 3183.5395588404526,
+   "segment": "s1_a_to_b",
+   "offset_m": 3703.5395588404544,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 12000,
+   "speed_ms": 15.953204287979487,
+   "odometer_m": 3191.5148490789734,
+   "segment": "s1_a_to_b",
+   "offset_m": 3711.514849078975,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 12030,
+   "speed_ms": 15.97305275709007,
+   "odometer_m": 3199.49630148108,
+   "segment": "s1_a_to_b",
+   "offset_m": 3719.496301481082,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.25,
+   "events": []
+  },
+  {
+   "tick": 12060,
+   "speed_ms": 15.994472294814098,
+   "odometer_m": 3207.4883625607117,
+   "segment": "s1_a_to_b",
+   "offset_m": 3727.4883625607135,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.25,
+   "events": []
+  },
+  {
+   "tick": 12090,
+   "speed_ms": 16.058453309896702,
+   "odometer_m": 3215.502138153555,
+   "segment": "s1_a_to_b",
+   "offset_m": 3735.5021381535566,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.55,
+   "events": []
+  },
+  {
+   "tick": 12120,
+   "speed_ms": 16.122308083791214,
+   "odometer_m": 3223.547853258226,
+   "segment": "s1_a_to_b",
+   "offset_m": 3743.547853258228,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.55,
+   "events": []
+  },
+  {
+   "tick": 12150,
+   "speed_ms": 16.233947874803548,
+   "odometer_m": 3231.637880289335,
+   "segment": "s1_a_to_b",
+   "offset_m": 3751.637880289337,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12180,
+   "speed_ms": 16.344809327600263,
+   "odometer_m": 3239.783525517792,
+   "segment": "s1_a_to_b",
+   "offset_m": 3759.783525517794,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12210,
+   "speed_ms": 16.455279939889394,
+   "odometer_m": 3247.984481332921,
+   "segment": "s1_a_to_b",
+   "offset_m": 3767.9844813329228,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12240,
+   "speed_ms": 16.565091721529217,
+   "odometer_m": 3256.240520364108,
+   "segment": "s1_a_to_b",
+   "offset_m": 3776.2405203641097,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12270,
+   "speed_ms": 16.67425851166262,
+   "odometer_m": 3264.551279420288,
+   "segment": "s1_a_to_b",
+   "offset_m": 3784.55127942029,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12300,
+   "speed_ms": 16.783072064181788,
+   "odometer_m": 3272.916548863428,
+   "segment": "s1_a_to_b",
+   "offset_m": 3792.91654886343,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12330,
+   "speed_ms": 16.89117085804943,
+   "odometer_m": 3281.3360398970267,
+   "segment": "s1_a_to_b",
+   "offset_m": 3801.3360398970285,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12360,
+   "speed_ms": 16.998783639843957,
+   "odometer_m": 3289.8094344764813,
+   "segment": "s1_a_to_b",
+   "offset_m": 3809.809434476483,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12390,
+   "speed_ms": 17.105830069420033,
+   "odometer_m": 3298.336508496618,
+   "segment": "s1_a_to_b",
+   "offset_m": 3818.33650849662,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12420,
+   "speed_ms": 17.21219675357879,
+   "odometer_m": 3306.9169296366986,
+   "segment": "s1_a_to_b",
+   "offset_m": 3826.9169296367004,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12450,
+   "speed_ms": 17.31789538042784,
+   "odometer_m": 3315.55036105832,
+   "segment": "s1_a_to_b",
+   "offset_m": 3835.550361058322,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12480,
+   "speed_ms": 17.42293728814004,
+   "odometer_m": 3324.2364716761117,
+   "segment": "s1_a_to_b",
+   "offset_m": 3844.2364716761135,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12510,
+   "speed_ms": 17.527333479503767,
+   "odometer_m": 3332.974935986556,
+   "segment": "s1_a_to_b",
+   "offset_m": 3852.9749359865577,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12540,
+   "speed_ms": 17.631094635704336,
+   "odometer_m": 3341.7654339038945,
+   "segment": "s1_a_to_b",
+   "offset_m": 3861.7654339038963,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12570,
+   "speed_ms": 17.734231129385606,
+   "odometer_m": 3350.6076506027243,
+   "segment": "s1_a_to_b",
+   "offset_m": 3870.607650602726,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12600,
+   "speed_ms": 17.83675303703735,
+   "odometer_m": 3359.5012763669574,
+   "segment": "s1_a_to_b",
+   "offset_m": 3879.5012763669592,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12630,
+   "speed_ms": 17.938670150750347,
+   "odometer_m": 3368.4460064447994,
+   "segment": "s1_a_to_b",
+   "offset_m": 3888.4460064448012,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12660,
+   "speed_ms": 18.039991989378176,
+   "odometer_m": 3377.441540909468,
+   "segment": "s1_a_to_b",
+   "offset_m": 3897.44154090947,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12690,
+   "speed_ms": 18.140727809142003,
+   "odometer_m": 3386.487584525328,
+   "segment": "s1_a_to_b",
+   "offset_m": 3906.48758452533,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12720,
+   "speed_ms": 18.240886613711936,
+   "odometer_m": 3395.5838466192026,
+   "segment": "s1_a_to_b",
+   "offset_m": 3915.5838466192045,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12750,
+   "speed_ms": 18.34047716379612,
+   "odometer_m": 3404.730040956596,
+   "segment": "s1_a_to_b",
+   "offset_m": 3924.730040956598,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12780,
+   "speed_ms": 18.439507986266737,
+   "odometer_m": 3413.9258856225892,
+   "segment": "s1_a_to_b",
+   "offset_m": 3933.925885622591,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12810,
+   "speed_ms": 18.537987382849934,
+   "odometer_m": 3423.171102907183,
+   "segment": "s1_a_to_b",
+   "offset_m": 3943.171102907185,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12840,
+   "speed_ms": 18.635923438404813,
+   "odometer_m": 3432.4654191948825,
+   "segment": "s1_a_to_b",
+   "offset_m": 3952.4654191948844,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12870,
+   "speed_ms": 18.733324028815073,
+   "odometer_m": 3441.808564858315,
+   "segment": "s1_a_to_b",
+   "offset_m": 3961.808564858317,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12900,
+   "speed_ms": 18.830196828515223,
+   "odometer_m": 3451.2002741557035,
+   "segment": "s1_a_to_b",
+   "offset_m": 3971.2002741557053,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12930,
+   "speed_ms": 18.92654931767175,
+   "odometer_m": 3460.64028513201,
+   "segment": "s1_a_to_b",
+   "offset_m": 3980.6402851320117,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12960,
+   "speed_ms": 19.02238878903854,
+   "odometer_m": 3470.128339523584,
+   "segment": "s1_a_to_b",
+   "offset_m": 3990.128339523586,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 12990,
+   "speed_ms": 19.11772235450423,
+   "odometer_m": 3479.664182666164,
+   "segment": "s1_a_to_b",
+   "offset_m": 3999.6641826661657,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13020,
+   "speed_ms": 19.21255695134851,
+   "odometer_m": 3489.2475634060715,
+   "segment": "s1_a_to_b",
+   "offset_m": 4009.2475634060734,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13050,
+   "speed_ms": 19.306899348222757,
+   "odometer_m": 3498.8782340144603,
+   "segment": "s1_a_to_b",
+   "offset_m": 4018.878234014462,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13080,
+   "speed_ms": 19.400756150869903,
+   "odometer_m": 3508.555950104497,
+   "segment": "s1_a_to_b",
+   "offset_m": 4028.5559501044986,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13110,
+   "speed_ms": 19.49413380759724,
+   "odometer_m": 3518.280470551317,
+   "segment": "s1_a_to_b",
+   "offset_m": 4038.280470551319,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13140,
+   "speed_ms": 19.587038614515,
+   "odometer_m": 3528.05155741469,
+   "segment": "s1_a_to_b",
+   "offset_m": 4048.0515574146916,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13170,
+   "speed_ms": 19.679476720553044,
+   "odometer_m": 3537.868975864204,
+   "segment": "s1_a_to_b",
+   "offset_m": 4057.868975864206,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13200,
+   "speed_ms": 19.771454132266822,
+   "odometer_m": 3547.7324941069437,
+   "segment": "s1_a_to_b",
+   "offset_m": 4067.7324941069455,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13230,
+   "speed_ms": 19.862976718443516,
+   "odometer_m": 3557.6418833174907,
+   "segment": "s1_a_to_b",
+   "offset_m": 4077.6418833174926,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13260,
+   "speed_ms": 19.954050214518215,
+   "odometer_m": 3567.5969175701894,
+   "segment": "s1_a_to_b",
+   "offset_m": 4087.596917570191,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13290,
+   "speed_ms": 20.04468022680985,
+   "odometer_m": 3577.597373773578,
+   "segment": "s1_a_to_b",
+   "offset_m": 4097.5973737735785,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13320,
+   "speed_ms": 20.134872236585675,
+   "odometer_m": 3587.6430316068804,
+   "segment": "s1_a_to_b",
+   "offset_m": 4107.643031606883,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13350,
+   "speed_ms": 20.224631603962614,
+   "odometer_m": 3597.7336734584987,
+   "segment": "s1_a_to_b",
+   "offset_m": 4117.7336734585,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13380,
+   "speed_ms": 20.31396357165362,
+   "odometer_m": 3607.869084366412,
+   "segment": "s1_a_to_b",
+   "offset_m": 4127.869084366411,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13410,
+   "speed_ms": 20.40287326856632,
+   "odometer_m": 3618.0490519604077,
+   "segment": "s1_a_to_b",
+   "offset_m": 4138.0490519604045,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13440,
+   "speed_ms": 20.491365713261093,
+   "odometer_m": 3628.2733664060815,
+   "segment": "s1_a_to_b",
+   "offset_m": 4148.273366406076,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13470,
+   "speed_ms": 20.579445817275232,
+   "odometer_m": 3638.5418203505255,
+   "segment": "s1_a_to_b",
+   "offset_m": 4158.541820350518,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13500,
+   "speed_ms": 20.667118388319427,
+   "odometer_m": 3648.8542088696454,
+   "segment": "s1_a_to_b",
+   "offset_m": 4168.854208869639,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13530,
+   "speed_ms": 20.754388133352574,
+   "odometer_m": 3659.210329417054,
+   "segment": "s1_a_to_b",
+   "offset_m": 4179.210329417048,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13560,
+   "speed_ms": 20.841259661540494,
+   "odometer_m": 3669.6099817744544,
+   "segment": "s1_a_to_b",
+   "offset_m": 4189.609981774451,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13590,
+   "speed_ms": 20.927737487103826,
+   "odometer_m": 3680.0529680034942,
+   "segment": "s1_a_to_b",
+   "offset_m": 4200.052968003493,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13620,
+   "speed_ms": 21.013826032060244,
+   "odometer_m": 3690.5390923989967,
+   "segment": "s1_a_to_b",
+   "offset_m": 4210.539092398996,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13650,
+   "speed_ms": 21.098022858176925,
+   "odometer_m": 3701.0677844899687,
+   "segment": "s1_a_to_b",
+   "offset_m": 4221.067784489967,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13680,
+   "speed_ms": 21.18179379004881,
+   "odometer_m": 3711.6384522169456,
+   "segment": "s1_a_to_b",
+   "offset_m": 4231.638452216946,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13710,
+   "speed_ms": 21.26320607503114,
+   "odometer_m": 3722.250428756995,
+   "segment": "s1_a_to_b",
+   "offset_m": 4242.250428756998,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13740,
+   "speed_ms": 21.34411946515908,
+   "odometer_m": 3732.902949180564,
+   "segment": "s1_a_to_b",
+   "offset_m": 4252.902949180565,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13770,
+   "speed_ms": 21.423473183498594,
+   "odometer_m": 3743.595553225556,
+   "segment": "s1_a_to_b",
+   "offset_m": 4263.595553225555,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13800,
+   "speed_ms": 21.502349167706278,
+   "odometer_m": 3754.327680329988,
+   "segment": "s1_a_to_b",
+   "offset_m": 4274.327680329989,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13830,
+   "speed_ms": 21.578967243228632,
+   "odometer_m": 3765.098709663203,
+   "segment": "s1_a_to_b",
+   "offset_m": 4285.098709663205,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13860,
+   "speed_ms": 21.65504441877141,
+   "odometer_m": 3775.9078601107663,
+   "segment": "s1_a_to_b",
+   "offset_m": 4295.907860110771,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13890,
+   "speed_ms": 21.729590567481427,
+   "odometer_m": 3786.7546834982163,
+   "segment": "s1_a_to_b",
+   "offset_m": 4306.75468349822,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13920,
+   "speed_ms": 21.80368706492035,
+   "odometer_m": 3797.6386334349145,
+   "segment": "s1_a_to_b",
+   "offset_m": 4317.63863343492,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13950,
+   "speed_ms": 21.87548228866312,
+   "odometer_m": 3808.559069847355,
+   "segment": "s1_a_to_b",
+   "offset_m": 4328.55906984736,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 13980,
+   "speed_ms": 21.9468347816743,
+   "odometer_m": 3819.515256161378,
+   "segment": "s1_a_to_b",
+   "offset_m": 4339.515256161381,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14010,
+   "speed_ms": 22.016593510150813,
+   "odometer_m": 3830.5067174759674,
+   "segment": "s1_a_to_b",
+   "offset_m": 4350.506717475975,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14040,
+   "speed_ms": 22.08601818283031,
+   "odometer_m": 3841.532960922445,
+   "segment": "s1_a_to_b",
+   "offset_m": 4361.532960922454,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14070,
+   "speed_ms": 22.153025312539437,
+   "odometer_m": 3852.5932916995953,
+   "segment": "s1_a_to_b",
+   "offset_m": 4372.593291699604,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14100,
+   "speed_ms": 22.219614773000547,
+   "odometer_m": 3863.6870512531127,
+   "segment": "s1_a_to_b",
+   "offset_m": 4383.687051253124,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14130,
+   "speed_ms": 22.28394329310453,
+   "odometer_m": 3874.8134877876128,
+   "segment": "s1_a_to_b",
+   "offset_m": 4394.8134877876255,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14160,
+   "speed_ms": 22.347801702341176,
+   "odometer_m": 3885.9720121569917,
+   "segment": "s1_a_to_b",
+   "offset_m": 4405.972012157004,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14190,
+   "speed_ms": 22.41005059994115,
+   "odometer_m": 3897.162004472007,
+   "segment": "s1_a_to_b",
+   "offset_m": 4417.16200447202,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14220,
+   "speed_ms": 22.47204830569221,
+   "odometer_m": 3908.383056256903,
+   "segment": "s1_a_to_b",
+   "offset_m": 4428.383056256914,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14250,
+   "speed_ms": 22.533796910923876,
+   "odometer_m": 3919.635042457311,
+   "segment": "s1_a_to_b",
+   "offset_m": 4439.635042457321,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14280,
+   "speed_ms": 22.595298476125798,
+   "odometer_m": 3930.9178390565357,
+   "segment": "s1_a_to_b",
+   "offset_m": 4450.917839056545,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14310,
+   "speed_ms": 22.65655503159418,
+   "odometer_m": 3942.231323060298,
+   "segment": "s1_a_to_b",
+   "offset_m": 4462.2313230603095,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14340,
+   "speed_ms": 22.717568578060888,
+   "odometer_m": 3953.575372481804,
+   "segment": "s1_a_to_b",
+   "offset_m": 4473.575372481816,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14370,
+   "speed_ms": 22.77834108730569,
+   "odometer_m": 3964.9498663271247,
+   "segment": "s1_a_to_b",
+   "offset_m": 4484.949866327135,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14400,
+   "speed_ms": 22.838874502752304,
+   "odometer_m": 3976.3546845808646,
+   "segment": "s1_a_to_b",
+   "offset_m": 4496.354684580878,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14430,
+   "speed_ms": 22.89917074004871,
+   "odometer_m": 3987.789708192147,
+   "segment": "s1_a_to_b",
+   "offset_m": 4507.789708192161,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14460,
+   "speed_ms": 22.959231687632297,
+   "odometer_m": 3999.2548190608622,
+   "segment": "s1_a_to_b",
+   "offset_m": 4519.25481906088,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14490,
+   "speed_ms": 23.019059207280144,
+   "odometer_m": 4010.749900024214,
+   "segment": "s1_a_to_b",
+   "offset_m": 4530.749900024229,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14520,
+   "speed_ms": 23.0786551346452,
+   "odometer_m": 4022.274834843519,
+   "segment": "s1_a_to_b",
+   "offset_m": 4542.274834843536,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14550,
+   "speed_ms": 23.13802127977856,
+   "odometer_m": 4033.829508191286,
+   "segment": "s1_a_to_b",
+   "offset_m": 4553.829508191307,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14580,
+   "speed_ms": 23.19715942763833,
+   "odometer_m": 4045.41380563855,
+   "segment": "s1_a_to_b",
+   "offset_m": 4565.413805638572,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14610,
+   "speed_ms": 23.256071338585635,
+   "odometer_m": 4057.027613642446,
+   "segment": "s1_a_to_b",
+   "offset_m": 4577.027613642472,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14640,
+   "speed_ms": 23.314758748867966,
+   "odometer_m": 4068.670819534043,
+   "segment": "s1_a_to_b",
+   "offset_m": 4588.67081953407,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14670,
+   "speed_ms": 23.373223371090347,
+   "odometer_m": 4080.343311506407,
+   "segment": "s1_a_to_b",
+   "offset_m": 4600.3433115064345,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14700,
+   "speed_ms": 23.43146689467481,
+   "odometer_m": 4092.044978602896,
+   "segment": "s1_a_to_b",
+   "offset_m": 4612.044978602924,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14730,
+   "speed_ms": 23.489490986308322,
+   "odometer_m": 4103.77571070569,
+   "segment": "s1_a_to_b",
+   "offset_m": 4623.775710705718,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14760,
+   "speed_ms": 23.547297290379603,
+   "odometer_m": 4115.535398524531,
+   "segment": "s1_a_to_b",
+   "offset_m": 4635.535398524559,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14790,
+   "speed_ms": 23.604887429405277,
+   "odometer_m": 4127.323933585692,
+   "segment": "s1_a_to_b",
+   "offset_m": 4647.323933585721,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14820,
+   "speed_ms": 23.66226300444548,
+   "odometer_m": 4139.141208221141,
+   "segment": "s1_a_to_b",
+   "offset_m": 4659.141208221169,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14850,
+   "speed_ms": 23.719425595509435,
+   "odometer_m": 4150.987115557922,
+   "segment": "s1_a_to_b",
+   "offset_m": 4670.98711555795,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14880,
+   "speed_ms": 23.776376761951084,
+   "odometer_m": 4162.86154950773,
+   "segment": "s1_a_to_b",
+   "offset_m": 4682.861549507758,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14910,
+   "speed_ms": 23.833118042855308,
+   "odometer_m": 4174.764404756687,
+   "segment": "s1_a_to_b",
+   "offset_m": 4694.7644047567155,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14940,
+   "speed_ms": 23.889650957414766,
+   "odometer_m": 4186.6955767553045,
+   "segment": "s1_a_to_b",
+   "offset_m": 4706.695576755333,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 14970,
+   "speed_ms": 23.945977005297845,
+   "odometer_m": 4198.65496170863,
+   "segment": "s1_a_to_b",
+   "offset_m": 4718.654961708658,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15000,
+   "speed_ms": 24.002097667007796,
+   "odometer_m": 4210.642456566576,
+   "segment": "s1_a_to_b",
+   "offset_m": 4730.642456566604,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15030,
+   "speed_ms": 24.058014404233464,
+   "odometer_m": 4222.657959014433,
+   "segment": "s1_a_to_b",
+   "offset_m": 4742.657959014461,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15060,
+   "speed_ms": 24.113728660191732,
+   "odometer_m": 4234.701367463558,
+   "segment": "s1_a_to_b",
+   "offset_m": 4754.701367463586,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15090,
+   "speed_ms": 24.169241859962025,
+   "odometer_m": 4246.772581042209,
+   "segment": "s1_a_to_b",
+   "offset_m": 4766.772581042236,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15120,
+   "speed_ms": 24.224555410812926,
+   "odometer_m": 4258.871499586571,
+   "segment": "s1_a_to_b",
+   "offset_m": 4778.8714995865985,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15150,
+   "speed_ms": 24.279670702521415,
+   "odometer_m": 4270.998023631925,
+   "segment": "s1_a_to_b",
+   "offset_m": 4790.9980236319525,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15180,
+   "speed_ms": 24.334589107684593,
+   "odometer_m": 4283.152054404005,
+   "segment": "s1_a_to_b",
+   "offset_m": 4803.152054404032,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15210,
+   "speed_ms": 24.389311982024402,
+   "odometer_m": 4295.333493810458,
+   "segment": "s1_a_to_b",
+   "offset_m": 4815.333493810485,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15240,
+   "speed_ms": 24.443840664685307,
+   "odometer_m": 4307.542244432502,
+   "segment": "s1_a_to_b",
+   "offset_m": 4827.5422444325295,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15270,
+   "speed_ms": 24.498176478525323,
+   "odometer_m": 4319.778209516706,
+   "segment": "s1_a_to_b",
+   "offset_m": 4839.778209516733,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15300,
+   "speed_ms": 24.552320730400474,
+   "odometer_m": 4332.041292966927,
+   "segment": "s1_a_to_b",
+   "offset_m": 4852.041292966955,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15330,
+   "speed_ms": 24.606274711442758,
+   "odometer_m": 4344.331399336371,
+   "segment": "s1_a_to_b",
+   "offset_m": 4864.331399336398,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15360,
+   "speed_ms": 24.6600396973321,
+   "odometer_m": 4356.648433819814,
+   "segment": "s1_a_to_b",
+   "offset_m": 4876.648433819842,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15390,
+   "speed_ms": 24.71361694856206,
+   "odometer_m": 4368.992302245936,
+   "segment": "s1_a_to_b",
+   "offset_m": 4888.992302245963,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15420,
+   "speed_ms": 24.76700771069987,
+   "odometer_m": 4381.3629110697875,
+   "segment": "s1_a_to_b",
+   "offset_m": 4901.362911069815,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15450,
+   "speed_ms": 24.82021321464058,
+   "odometer_m": 4393.760167365413,
+   "segment": "s1_a_to_b",
+   "offset_m": 4913.76016736544,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15480,
+   "speed_ms": 24.873234676855798,
+   "odometer_m": 4406.183978818559,
+   "segment": "s1_a_to_b",
+   "offset_m": 4926.183978818586,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15510,
+   "speed_ms": 24.926073299636883,
+   "odometer_m": 4418.6342537195505,
+   "segment": "s1_a_to_b",
+   "offset_m": 4938.634253719578,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15540,
+   "speed_ms": 24.97873027133294,
+   "odometer_m": 4431.110900956228,
+   "segment": "s1_a_to_b",
+   "offset_m": 4951.110900956255,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15570,
+   "speed_ms": 25.03120676658368,
+   "odometer_m": 4443.613830007064,
+   "segment": "s1_a_to_b",
+   "offset_m": 4963.613830007092,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15600,
+   "speed_ms": 25.08350394654727,
+   "odometer_m": 4456.14295093436,
+   "segment": "s1_a_to_b",
+   "offset_m": 4976.142950934387,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15630,
+   "speed_ms": 25.135622959123307,
+   "odometer_m": 4468.6981743775605,
+   "segment": "s1_a_to_b",
+   "offset_m": 4988.698174377588,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15660,
+   "speed_ms": 25.187564939171075,
+   "odometer_m": 4481.279411546679,
+   "segment": "s3_b_track2",
+   "offset_m": 1.2794115467071994,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15690,
+   "speed_ms": 25.23933100872316,
+   "odometer_m": 4493.886574215841,
+   "segment": "s3_b_track2",
+   "offset_m": 13.88657421587104,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15720,
+   "speed_ms": 25.290922277194603,
+   "odometer_m": 4506.51957471692,
+   "segment": "s3_b_track2",
+   "offset_m": 26.519574716950693,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15750,
+   "speed_ms": 25.34233984158759,
+   "odometer_m": 4519.178325933278,
+   "segment": "s3_b_track2",
+   "offset_m": 39.178325933310475,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15780,
+   "speed_ms": 25.393584786692035,
+   "odometer_m": 4531.86274129362,
+   "segment": "s3_b_track2",
+   "offset_m": 51.86274129365273,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15810,
+   "speed_ms": 25.44465818528177,
+   "odometer_m": 4544.572734765929,
+   "segment": "s3_b_track2",
+   "offset_m": 64.5727347659625,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15840,
+   "speed_ms": 25.495561098306887,
+   "odometer_m": 4557.308220851514,
+   "segment": "s3_b_track2",
+   "offset_m": 77.30822085154935,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15870,
+   "speed_ms": 25.546294575081994,
+   "odometer_m": 4570.06911457915,
+   "segment": "s3_b_track2",
+   "offset_m": 90.06911457918433,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15900,
+   "speed_ms": 25.596859653470663,
+   "odometer_m": 4582.855331499296,
+   "segment": "s3_b_track2",
+   "offset_m": 102.85533149933006,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15930,
+   "speed_ms": 25.647257360066153,
+   "odometer_m": 4595.666787678428,
+   "segment": "s3_b_track2",
+   "offset_m": 115.6667876784619,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15960,
+   "speed_ms": 25.697488710368344,
+   "odometer_m": 4608.503399693447,
+   "segment": "s3_b_track2",
+   "offset_m": 128.5033996934787,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 15990,
+   "speed_ms": 25.747554708957267,
+   "odometer_m": 4621.365084626171,
+   "segment": "s3_b_track2",
+   "offset_m": 141.36508462620134,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.75,
+   "events": []
+  },
+  {
+   "tick": 16020,
+   "speed_ms": 25.7533067564758,
+   "odometer_m": 4634.24403171977,
+   "segment": "s3_b_track2",
+   "offset_m": 154.2440317197989,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.15000000000000002,
+   "events": []
+  },
+  {
+   "tick": 16050,
+   "speed_ms": 25.736966386822708,
+   "odometer_m": 4647.116463351648,
+   "segment": "s3_b_track2",
+   "offset_m": 167.11646335167708,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16080,
+   "speed_ms": 25.720637643966736,
+   "odometer_m": 4659.980727802865,
+   "segment": "s3_b_track2",
+   "offset_m": 179.98072780289337,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16110,
+   "speed_ms": 25.704320514093617,
+   "odometer_m": 4672.836830883247,
+   "segment": "s3_b_track2",
+   "offset_m": 192.83683088327678,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16140,
+   "speed_ms": 25.688014983410703,
+   "odometer_m": 4685.684778395724,
+   "segment": "s3_b_track2",
+   "offset_m": 205.68477839575465,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16170,
+   "speed_ms": 25.671721038146977,
+   "odometer_m": 4698.524576136333,
+   "segment": "s3_b_track2",
+   "offset_m": 218.52457613636378,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16200,
+   "speed_ms": 25.655438664552957,
+   "odometer_m": 4711.356229894227,
+   "segment": "s3_b_track2",
+   "offset_m": 231.35622989426082,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16230,
+   "speed_ms": 25.6391678489007,
+   "odometer_m": 4724.1797454517,
+   "segment": "s3_b_track2",
+   "offset_m": 244.17974545173342,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16260,
+   "speed_ms": 25.622908577483734,
+   "odometer_m": 4736.995128584176,
+   "segment": "s3_b_track2",
+   "offset_m": 256.9951285842107,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16290,
+   "speed_ms": 25.60666083661704,
+   "odometer_m": 4749.802385060238,
+   "segment": "s3_b_track2",
+   "offset_m": 269.8023850602741,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16320,
+   "speed_ms": 25.59042461263696,
+   "odometer_m": 4762.6015206416305,
+   "segment": "s3_b_track2",
+   "offset_m": 282.60152064166823,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16350,
+   "speed_ms": 25.574199891901227,
+   "odometer_m": 4775.392541083273,
+   "segment": "s3_b_track2",
+   "offset_m": 295.3925410833109,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16380,
+   "speed_ms": 25.557986660788853,
+   "odometer_m": 4788.175452133266,
+   "segment": "s3_b_track2",
+   "offset_m": 308.1754521333049,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16410,
+   "speed_ms": 25.541784905700126,
+   "odometer_m": 4800.95025953291,
+   "segment": "s3_b_track2",
+   "offset_m": 320.95025953294765,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16440,
+   "speed_ms": 25.525594613056573,
+   "odometer_m": 4813.716969016705,
+   "segment": "s3_b_track2",
+   "offset_m": 333.7169690167425,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16470,
+   "speed_ms": 25.509415769300894,
+   "odometer_m": 4826.475586312372,
+   "segment": "s3_b_track2",
+   "offset_m": 346.4755863124086,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16500,
+   "speed_ms": 25.49324836089695,
+   "odometer_m": 4839.2261171408545,
+   "segment": "s3_b_track2",
+   "offset_m": 359.22611714089254,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16530,
+   "speed_ms": 25.477092374329693,
+   "odometer_m": 4851.9685672163405,
+   "segment": "s3_b_track2",
+   "offset_m": 371.9685672163778,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16560,
+   "speed_ms": 25.460947796105145,
+   "odometer_m": 4864.702942246257,
+   "segment": "s3_b_track2",
+   "offset_m": 384.7029422462958,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16590,
+   "speed_ms": 25.444814612750335,
+   "odometer_m": 4877.429247931297,
+   "segment": "s3_b_track2",
+   "offset_m": 397.42924793133636,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16620,
+   "speed_ms": 25.42869281081327,
+   "odometer_m": 4890.147489965419,
+   "segment": "s3_b_track2",
+   "offset_m": 410.14748996545865,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16650,
+   "speed_ms": 25.412582376862908,
+   "odometer_m": 4902.857674035861,
+   "segment": "s3_b_track2",
+   "offset_m": 422.8576740359008,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16680,
+   "speed_ms": 25.396483297489112,
+   "odometer_m": 4915.55980582315,
+   "segment": "s3_b_track2",
+   "offset_m": 435.559805823191,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16710,
+   "speed_ms": 25.38039555930258,
+   "odometer_m": 4928.253891001118,
+   "segment": "s3_b_track2",
+   "offset_m": 448.2538910011579,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16740,
+   "speed_ms": 25.36431914893484,
+   "odometer_m": 4940.9399352369,
+   "segment": "s3_b_track2",
+   "offset_m": 460.93993523694087,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16770,
+   "speed_ms": 25.348254053038193,
+   "odometer_m": 4953.617944190958,
+   "segment": "s3_b_track2",
+   "offset_m": 473.61794419100005,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16800,
+   "speed_ms": 25.33220025828568,
+   "odometer_m": 4966.287923517087,
+   "segment": "s3_b_track2",
+   "offset_m": 486.28792351712724,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16830,
+   "speed_ms": 25.316157751371037,
+   "odometer_m": 4978.949878862414,
+   "segment": "s3_b_track2",
+   "offset_m": 498.9498788624565,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16860,
+   "speed_ms": 25.30012651900864,
+   "odometer_m": 4991.603815867428,
+   "segment": "s3_b_track2",
+   "offset_m": 511.60381586747366,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16890,
+   "speed_ms": 25.28410654793348,
+   "odometer_m": 5004.249740165981,
+   "segment": "s3_b_track2",
+   "offset_m": 524.2497401660273,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16920,
+   "speed_ms": 25.268097824901144,
+   "odometer_m": 5016.8876573852895,
+   "segment": "s3_b_track2",
+   "offset_m": 536.8876573853381,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16950,
+   "speed_ms": 25.252100336687732,
+   "odometer_m": 5029.517573145966,
+   "segment": "s3_b_track2",
+   "offset_m": 549.5175731460109,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 16980,
+   "speed_ms": 25.236114070089865,
+   "odometer_m": 5042.139493061998,
+   "segment": "s3_b_track2",
+   "offset_m": 562.1394930620438,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17010,
+   "speed_ms": 25.220139011924598,
+   "odometer_m": 5054.753422740793,
+   "segment": "s3_b_track2",
+   "offset_m": 574.7534227408376,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17040,
+   "speed_ms": 25.204175149029403,
+   "odometer_m": 5067.359367783163,
+   "segment": "s3_b_track2",
+   "offset_m": 587.3593677832072,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17070,
+   "speed_ms": 25.18822246826213,
+   "odometer_m": 5079.957333783348,
+   "segment": "s3_b_track2",
+   "offset_m": 599.9573337833926,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17100,
+   "speed_ms": 25.17228095650094,
+   "odometer_m": 5092.547326329023,
+   "segment": "s3_b_track2",
+   "offset_m": 612.5473263290665,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17130,
+   "speed_ms": 25.15635060064434,
+   "odometer_m": 5105.129351001305,
+   "segment": "s3_b_track2",
+   "offset_m": 625.129351001347,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17160,
+   "speed_ms": 25.14043138761106,
+   "odometer_m": 5117.703413374761,
+   "segment": "s3_b_track2",
+   "offset_m": 637.7034133748059,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17190,
+   "speed_ms": 25.124523304340055,
+   "odometer_m": 5130.269519017438,
+   "segment": "s3_b_track2",
+   "offset_m": 650.2695190174798,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17220,
+   "speed_ms": 25.108626337790465,
+   "odometer_m": 5142.8276734908395,
+   "segment": "s3_b_track2",
+   "offset_m": 662.8276734908794,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17250,
+   "speed_ms": 25.09274047494156,
+   "odometer_m": 5155.377882349963,
+   "segment": "s3_b_track2",
+   "offset_m": 675.3778823500027,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17280,
+   "speed_ms": 25.07686570279271,
+   "odometer_m": 5167.920151143301,
+   "segment": "s3_b_track2",
+   "offset_m": 687.9201511433397,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17310,
+   "speed_ms": 25.061002008363353,
+   "odometer_m": 5180.454485412849,
+   "segment": "s3_b_track2",
+   "offset_m": 700.454485412886,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17340,
+   "speed_ms": 25.045149378692955,
+   "odometer_m": 5192.980890694115,
+   "segment": "s3_b_track2",
+   "offset_m": 712.980890694153,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17370,
+   "speed_ms": 25.029307800840957,
+   "odometer_m": 5205.499372516138,
+   "segment": "s3_b_track2",
+   "offset_m": 725.4993725161761,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17400,
+   "speed_ms": 25.013477261886752,
+   "odometer_m": 5218.009936401489,
+   "segment": "s3_b_track2",
+   "offset_m": 738.0099364015258,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17430,
+   "speed_ms": 24.997657748929626,
+   "odometer_m": 5230.512587866281,
+   "segment": "s3_b_track2",
+   "offset_m": 750.5125878663172,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17460,
+   "speed_ms": 24.981849249088768,
+   "odometer_m": 5243.007332420185,
+   "segment": "s3_b_track2",
+   "offset_m": 763.0073324202207,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17490,
+   "speed_ms": 24.966051749503137,
+   "odometer_m": 5255.494175566433,
+   "segment": "s3_b_track2",
+   "offset_m": 775.4941755664714,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17520,
+   "speed_ms": 24.950265237331536,
+   "odometer_m": 5267.973122801839,
+   "segment": "s3_b_track2",
+   "offset_m": 787.9731228018791,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17550,
+   "speed_ms": 24.9344896997525,
+   "odometer_m": 5280.444179616795,
+   "segment": "s3_b_track2",
+   "offset_m": 800.4441796168369,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17580,
+   "speed_ms": 24.918725123964297,
+   "odometer_m": 5292.9073514952925,
+   "segment": "s3_b_track2",
+   "offset_m": 812.9073514953334,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17598,
+   "speed_ms": 24.90927163483282,
+   "odometer_m": 5300.381472131834,
+   "segment": "s4_b_to_c",
+   "offset_m": 0.38147213187452017,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": [
+    "switch_trailed"
+   ]
+  },
+  {
+   "tick": 17610,
+   "speed_ms": 24.90297149718486,
+   "odometer_m": 5305.362643914922,
+   "segment": "s4_b_to_c",
+   "offset_m": 5.36264391496167,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17640,
+   "speed_ms": 24.887228806651752,
+   "odometer_m": 5317.810062346887,
+   "segment": "s4_b_to_c",
+   "offset_m": 17.810062346927747,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17670,
+   "speed_ms": 24.871497039622163,
+   "odometer_m": 5330.24961225602,
+   "segment": "s4_b_to_c",
+   "offset_m": 30.24961225606231,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17700,
+   "speed_ms": 24.85577618337282,
+   "odometer_m": 5342.681299100786,
+   "segment": "s4_b_to_c",
+   "offset_m": 42.68129910082944,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17730,
+   "speed_ms": 24.840066225199987,
+   "odometer_m": 5355.1051283332945,
+   "segment": "s4_b_to_c",
+   "offset_m": 55.10512833333669,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17760,
+   "speed_ms": 24.824367152419427,
+   "odometer_m": 5367.5211053993025,
+   "segment": "s4_b_to_c",
+   "offset_m": 67.52110539934469,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17790,
+   "speed_ms": 24.808678952366343,
+   "odometer_m": 5379.929235738234,
+   "segment": "s4_b_to_c",
+   "offset_m": 79.92923573827707,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17820,
+   "speed_ms": 24.79300161239535,
+   "odometer_m": 5392.3295247831875,
+   "segment": "s4_b_to_c",
+   "offset_m": 92.32952478322997,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17850,
+   "speed_ms": 24.77733511988047,
+   "odometer_m": 5404.721977960938,
+   "segment": "s4_b_to_c",
+   "offset_m": 104.721977960982,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17880,
+   "speed_ms": 24.761679462215003,
+   "odometer_m": 5417.106600691957,
+   "segment": "s4_b_to_c",
+   "offset_m": 117.10660069200365,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17910,
+   "speed_ms": 24.746034626811614,
+   "odometer_m": 5429.48339839042,
+   "segment": "s4_b_to_c",
+   "offset_m": 129.48339839046707,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17940,
+   "speed_ms": 24.730400601102204,
+   "odometer_m": 5441.85237646421,
+   "segment": "s4_b_to_c",
+   "offset_m": 141.8523764642558,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 17970,
+   "speed_ms": 24.71477737253791,
+   "odometer_m": 5454.213540314927,
+   "segment": "s4_b_to_c",
+   "offset_m": 154.21354031497424,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18000,
+   "speed_ms": 24.699164928589052,
+   "odometer_m": 5466.566895337911,
+   "segment": "s4_b_to_c",
+   "offset_m": 166.56689533795722,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18030,
+   "speed_ms": 24.68356325674511,
+   "odometer_m": 5478.912446922233,
+   "segment": "s4_b_to_c",
+   "offset_m": 178.91244692227983,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18060,
+   "speed_ms": 24.667972344514684,
+   "odometer_m": 5491.2502004507205,
+   "segment": "s4_b_to_c",
+   "offset_m": 191.2502004507668,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18090,
+   "speed_ms": 24.652392179425455,
+   "odometer_m": 5503.580161299958,
+   "segment": "s4_b_to_c",
+   "offset_m": 203.58016130000215,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18120,
+   "speed_ms": 24.636822749024148,
+   "odometer_m": 5515.902334840294,
+   "segment": "s4_b_to_c",
+   "offset_m": 215.90233484033848,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18150,
+   "speed_ms": 24.62126404087647,
+   "odometer_m": 5528.216726435862,
+   "segment": "s4_b_to_c",
+   "offset_m": 228.21672643590685,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18180,
+   "speed_ms": 24.605716042567156,
+   "odometer_m": 5540.523341444582,
+   "segment": "s4_b_to_c",
+   "offset_m": 240.52334144462586,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18210,
+   "speed_ms": 24.590178741699816,
+   "odometer_m": 5552.822185218165,
+   "segment": "s4_b_to_c",
+   "offset_m": 252.8221852182116,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18240,
+   "speed_ms": 24.574652125897035,
+   "odometer_m": 5565.113263102142,
+   "segment": "s4_b_to_c",
+   "offset_m": 265.11326310218664,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18270,
+   "speed_ms": 24.559136182800184,
+   "odometer_m": 5577.396580435847,
+   "segment": "s4_b_to_c",
+   "offset_m": 277.39658043589,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18300,
+   "speed_ms": 24.543630900069495,
+   "odometer_m": 5589.672142552443,
+   "segment": "s4_b_to_c",
+   "offset_m": 289.67214255248615,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18330,
+   "speed_ms": 24.528136265384,
+   "odometer_m": 5601.93995477893,
+   "segment": "s4_b_to_c",
+   "offset_m": 301.93995477897425,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18360,
+   "speed_ms": 24.512652266441478,
+   "odometer_m": 5614.200022436154,
+   "segment": "s4_b_to_c",
+   "offset_m": 314.2000224361985,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18390,
+   "speed_ms": 24.497178890958416,
+   "odometer_m": 5626.45235083881,
+   "segment": "s4_b_to_c",
+   "offset_m": 326.4523508388557,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18420,
+   "speed_ms": 24.481716126669994,
+   "odometer_m": 5638.696945295462,
+   "segment": "s4_b_to_c",
+   "offset_m": 338.6969452955068,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18450,
+   "speed_ms": 24.466263961330053,
+   "odometer_m": 5650.93381110854,
+   "segment": "s4_b_to_c",
+   "offset_m": 350.9338111085848,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18480,
+   "speed_ms": 24.450822382711035,
+   "odometer_m": 5663.162953574357,
+   "segment": "s4_b_to_c",
+   "offset_m": 363.16295357440424,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18510,
+   "speed_ms": 24.435391378603963,
+   "odometer_m": 5675.384377983125,
+   "segment": "s4_b_to_c",
+   "offset_m": 375.3843779831707,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18540,
+   "speed_ms": 24.419970936818398,
+   "odometer_m": 5687.598089618944,
+   "segment": "s4_b_to_c",
+   "offset_m": 387.59808961899046,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18570,
+   "speed_ms": 24.404561045182394,
+   "odometer_m": 5699.804093759831,
+   "segment": "s4_b_to_c",
+   "offset_m": 399.80409375987887,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18600,
+   "speed_ms": 24.38916169154251,
+   "odometer_m": 5712.00239567772,
+   "segment": "s4_b_to_c",
+   "offset_m": 412.00239567777044,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18630,
+   "speed_ms": 24.373772863763698,
+   "odometer_m": 5724.193000638477,
+   "segment": "s4_b_to_c",
+   "offset_m": 424.19300063852756,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18660,
+   "speed_ms": 24.35839454972936,
+   "odometer_m": 5736.375913901901,
+   "segment": "s4_b_to_c",
+   "offset_m": 436.37591390194973,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18690,
+   "speed_ms": 24.343026737341233,
+   "odometer_m": 5748.551140721733,
+   "segment": "s4_b_to_c",
+   "offset_m": 448.55114072178327,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18720,
+   "speed_ms": 24.327669414519395,
+   "odometer_m": 5760.718686345679,
+   "segment": "s4_b_to_c",
+   "offset_m": 460.71868634572974,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18750,
+   "speed_ms": 24.312322569202202,
+   "odometer_m": 5772.878556015407,
+   "segment": "s4_b_to_c",
+   "offset_m": 472.87855601545573,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18780,
+   "speed_ms": 24.29698618934631,
+   "odometer_m": 5785.030754966555,
+   "segment": "s4_b_to_c",
+   "offset_m": 485.0307549666014,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18810,
+   "speed_ms": 24.281660262926575,
+   "odometer_m": 5797.175288428742,
+   "segment": "s4_b_to_c",
+   "offset_m": 497.1752884287903,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18840,
+   "speed_ms": 24.26634477793604,
+   "odometer_m": 5809.3121616255885,
+   "segment": "s4_b_to_c",
+   "offset_m": 509.312161625638,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18870,
+   "speed_ms": 24.251039722385936,
+   "odometer_m": 5821.441379774712,
+   "segment": "s4_b_to_c",
+   "offset_m": 521.4413797747608,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18900,
+   "speed_ms": 24.235745084305584,
+   "odometer_m": 5833.562948087739,
+   "segment": "s4_b_to_c",
+   "offset_m": 533.5629480877863,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18930,
+   "speed_ms": 24.22046085174241,
+   "odometer_m": 5845.676871770314,
+   "segment": "s4_b_to_c",
+   "offset_m": 545.6768717703605,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18960,
+   "speed_ms": 24.205187012761904,
+   "odometer_m": 5857.783156022116,
+   "segment": "s4_b_to_c",
+   "offset_m": 557.7831560221586,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 18990,
+   "speed_ms": 24.18992355544755,
+   "odometer_m": 5869.88180603685,
+   "segment": "s4_b_to_c",
+   "offset_m": 569.8818060368923,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19020,
+   "speed_ms": 24.174670467900846,
+   "odometer_m": 5881.972827002279,
+   "segment": "s4_b_to_c",
+   "offset_m": 581.9728270023205,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19050,
+   "speed_ms": 24.15942773824124,
+   "odometer_m": 5894.056224100215,
+   "segment": "s4_b_to_c",
+   "offset_m": 594.0562241002566,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19080,
+   "speed_ms": 24.144195354606065,
+   "odometer_m": 5906.132002506538,
+   "segment": "s4_b_to_c",
+   "offset_m": 606.1320025065794,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19110,
+   "speed_ms": 24.12897330515059,
+   "odometer_m": 5918.200167391203,
+   "segment": "s4_b_to_c",
+   "offset_m": 618.2001673912404,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19140,
+   "speed_ms": 24.113761578047903,
+   "odometer_m": 5930.260723918236,
+   "segment": "s4_b_to_c",
+   "offset_m": 630.2607239182731,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19170,
+   "speed_ms": 24.09856016148891,
+   "odometer_m": 5942.313677245764,
+   "segment": "s4_b_to_c",
+   "offset_m": 642.3136772458029,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19200,
+   "speed_ms": 24.08336904368231,
+   "odometer_m": 5954.359032526015,
+   "segment": "s4_b_to_c",
+   "offset_m": 654.3590325260545,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19230,
+   "speed_ms": 24.068188212854555,
+   "odometer_m": 5966.396794905322,
+   "segment": "s4_b_to_c",
+   "offset_m": 666.3967949053624,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19260,
+   "speed_ms": 24.053017657249786,
+   "odometer_m": 5978.426969524137,
+   "segment": "s4_b_to_c",
+   "offset_m": 678.4269695241775,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19290,
+   "speed_ms": 24.03785736512987,
+   "odometer_m": 5990.44956151704,
+   "segment": "s4_b_to_c",
+   "offset_m": 690.4495615170788,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19320,
+   "speed_ms": 24.022707324774284,
+   "odometer_m": 6002.464576012741,
+   "segment": "s4_b_to_c",
+   "offset_m": 702.46457601278,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19350,
+   "speed_ms": 24.007567524480155,
+   "odometer_m": 6014.472018134101,
+   "segment": "s4_b_to_c",
+   "offset_m": 714.4720181341388,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19380,
+   "speed_ms": 23.99243795256216,
+   "odometer_m": 6026.47189299813,
+   "segment": "s4_b_to_c",
+   "offset_m": 726.4718929981675,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19410,
+   "speed_ms": 23.977318597352564,
+   "odometer_m": 6038.464205716004,
+   "segment": "s4_b_to_c",
+   "offset_m": 738.4642057160389,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19440,
+   "speed_ms": 23.96220944720111,
+   "odometer_m": 6050.448961393061,
+   "segment": "s4_b_to_c",
+   "offset_m": 750.4489613930969,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19470,
+   "speed_ms": 23.947110490475065,
+   "odometer_m": 6062.42616512883,
+   "segment": "s4_b_to_c",
+   "offset_m": 762.4261651288642,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19500,
+   "speed_ms": 23.93202171555911,
+   "odometer_m": 6074.395822017017,
+   "segment": "s4_b_to_c",
+   "offset_m": 774.3958220170524,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19530,
+   "speed_ms": 23.916943110855364,
+   "odometer_m": 6086.3579371455335,
+   "segment": "s4_b_to_c",
+   "offset_m": 786.35793714557,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19560,
+   "speed_ms": 23.901874664783318,
+   "odometer_m": 6098.312515596495,
+   "segment": "s4_b_to_c",
+   "offset_m": 798.3125155965306,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19590,
+   "speed_ms": 23.886816365779836,
+   "odometer_m": 6110.259562446225,
+   "segment": "s4_b_to_c",
+   "offset_m": 810.2595624462618,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19620,
+   "speed_ms": 23.874683007354495,
+   "odometer_m": 6122.199787247613,
+   "segment": "s4_b_to_c",
+   "offset_m": 822.1997872476506,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19650,
+   "speed_ms": 23.863335298972306,
+   "odometer_m": 6134.134073565983,
+   "segment": "s4_b_to_c",
+   "offset_m": 834.1340735660209,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19680,
+   "speed_ms": 23.855694792608357,
+   "odometer_m": 6146.063767204058,
+   "segment": "s4_b_to_c",
+   "offset_m": 846.0637672040972,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19710,
+   "speed_ms": 23.848955008493654,
+   "odometer_m": 6157.9897240144055,
+   "segment": "s4_b_to_c",
+   "offset_m": 857.9897240144452,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19740,
+   "speed_ms": 23.84401032236867,
+   "odometer_m": 6169.912924003009,
+   "segment": "s4_b_to_c",
+   "offset_m": 869.9129240030492,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19770,
+   "speed_ms": 23.841346077932474,
+   "odometer_m": 6181.833975117085,
+   "segment": "s4_b_to_c",
+   "offset_m": 881.8339751171258,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19800,
+   "speed_ms": 23.8406754326835,
+   "odometer_m": 6193.7544748872615,
+   "segment": "s4_b_to_c",
+   "offset_m": 893.7544748873021,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19830,
+   "speed_ms": 23.841975259224174,
+   "odometer_m": 6205.675017068255,
+   "segment": "s4_b_to_c",
+   "offset_m": 905.6750170682957,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19860,
+   "speed_ms": 23.84399034256513,
+   "odometer_m": 6217.596525317458,
+   "segment": "s4_b_to_c",
+   "offset_m": 917.5965253174967,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19890,
+   "speed_ms": 23.849988491732038,
+   "odometer_m": 6229.520003757093,
+   "segment": "s4_b_to_c",
+   "offset_m": 929.5200037571326,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19920,
+   "speed_ms": 23.856625371907505,
+   "odometer_m": 6241.446635083727,
+   "segment": "s4_b_to_c",
+   "offset_m": 941.4466350837661,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19950,
+   "speed_ms": 23.865585682211368,
+   "odometer_m": 6253.377262767407,
+   "segment": "s4_b_to_c",
+   "offset_m": 953.3772627674451,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 19980,
+   "speed_ms": 23.87596325972197,
+   "odometer_m": 6265.312499522188,
+   "segment": "s4_b_to_c",
+   "offset_m": 965.3124995222237,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20010,
+   "speed_ms": 23.88917948513,
+   "odometer_m": 6277.253895713923,
+   "segment": "s4_b_to_c",
+   "offset_m": 977.2538957139594,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20040,
+   "speed_ms": 23.904663931569257,
+   "odometer_m": 6289.202220329799,
+   "segment": "s4_b_to_c",
+   "offset_m": 989.2022203298368,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20070,
+   "speed_ms": 23.922129756422702,
+   "odometer_m": 6301.159064790186,
+   "segment": "s4_b_to_c",
+   "offset_m": 1001.1590647902225,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20100,
+   "speed_ms": 23.941874169809736,
+   "odometer_m": 6313.125078142367,
+   "segment": "s4_b_to_c",
+   "offset_m": 1013.1250781424033,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20130,
+   "speed_ms": 23.96243784741477,
+   "odometer_m": 6325.101328088073,
+   "segment": "s4_b_to_c",
+   "offset_m": 1025.1013280881077,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20160,
+   "speed_ms": 23.982987651842123,
+   "odometer_m": 6337.087856288655,
+   "segment": "s4_b_to_c",
+   "offset_m": 1037.0878562886865,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20190,
+   "speed_ms": 24.00352358367435,
+   "odometer_m": 6349.084655807668,
+   "segment": "s4_b_to_c",
+   "offset_m": 1049.084655807701,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20220,
+   "speed_ms": 24.02404564351137,
+   "odometer_m": 6361.0917197089775,
+   "segment": "s4_b_to_c",
+   "offset_m": 1061.0917197090073,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20250,
+   "speed_ms": 24.04455383197048,
+   "odometer_m": 6373.109041056739,
+   "segment": "s4_b_to_c",
+   "offset_m": 1073.109041056767,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20280,
+   "speed_ms": 24.06504814968627,
+   "odometer_m": 6385.1366129154285,
+   "segment": "s4_b_to_c",
+   "offset_m": 1085.1366129154535,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20310,
+   "speed_ms": 24.085528597310653,
+   "odometer_m": 6397.174428349839,
+   "segment": "s4_b_to_c",
+   "offset_m": 1097.1744283498638,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20340,
+   "speed_ms": 24.105995175512863,
+   "odometer_m": 6409.222480425099,
+   "segment": "s4_b_to_c",
+   "offset_m": 1109.222480425124,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20370,
+   "speed_ms": 24.126447884979335,
+   "odometer_m": 6421.280762206672,
+   "segment": "s4_b_to_c",
+   "offset_m": 1121.2807622067003,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20400,
+   "speed_ms": 24.146886726413786,
+   "odometer_m": 6433.349266760377,
+   "segment": "s4_b_to_c",
+   "offset_m": 1133.3492667604044,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20430,
+   "speed_ms": 24.16731170053712,
+   "odometer_m": 6445.427987152378,
+   "segment": "s4_b_to_c",
+   "offset_m": 1145.427987152407,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20460,
+   "speed_ms": 24.187722808087393,
+   "odometer_m": 6457.516916449214,
+   "segment": "s4_b_to_c",
+   "offset_m": 1157.5169164492427,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20490,
+   "speed_ms": 24.208120049819858,
+   "odometer_m": 6469.616047717787,
+   "segment": "s4_b_to_c",
+   "offset_m": 1169.6160477178182,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20520,
+   "speed_ms": 24.228503426506897,
+   "odometer_m": 6481.725374025392,
+   "segment": "s4_b_to_c",
+   "offset_m": 1181.725374025424,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20550,
+   "speed_ms": 24.248872938937993,
+   "odometer_m": 6493.844888439709,
+   "segment": "s4_b_to_c",
+   "offset_m": 1193.8448884397403,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20580,
+   "speed_ms": 24.269228587919713,
+   "odometer_m": 6505.974584028815,
+   "segment": "s4_b_to_c",
+   "offset_m": 1205.974584028848,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20610,
+   "speed_ms": 24.289570374275694,
+   "odometer_m": 6518.114453861201,
+   "segment": "s4_b_to_c",
+   "offset_m": 1218.1144538612334,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20640,
+   "speed_ms": 24.30989829884658,
+   "odometer_m": 6530.264491005767,
+   "segment": "s4_b_to_c",
+   "offset_m": 1230.2644910058004,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20670,
+   "speed_ms": 24.33021236249005,
+   "odometer_m": 6542.424688531844,
+   "segment": "s4_b_to_c",
+   "offset_m": 1242.424688531877,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20700,
+   "speed_ms": 24.350512566080745,
+   "odometer_m": 6554.595039509191,
+   "segment": "s4_b_to_c",
+   "offset_m": 1254.5950395092257,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20730,
+   "speed_ms": 24.370798910510274,
+   "odometer_m": 6566.775537008014,
+   "segment": "s4_b_to_c",
+   "offset_m": 1266.7755370080483,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20760,
+   "speed_ms": 24.391071396687188,
+   "odometer_m": 6578.966174098965,
+   "segment": "s4_b_to_c",
+   "offset_m": 1278.9661740989989,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20790,
+   "speed_ms": 24.411330025536945,
+   "odometer_m": 6591.166943853153,
+   "segment": "s4_b_to_c",
+   "offset_m": 1291.1669438531899,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20820,
+   "speed_ms": 24.431574798001865,
+   "odometer_m": 6603.377839342162,
+   "segment": "s4_b_to_c",
+   "offset_m": 1303.3778393422006,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20850,
+   "speed_ms": 24.45180571504114,
+   "odometer_m": 6615.598853638044,
+   "segment": "s4_b_to_c",
+   "offset_m": 1315.5988536380846,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20880,
+   "speed_ms": 24.4720227776308,
+   "odometer_m": 6627.829979813341,
+   "segment": "s4_b_to_c",
+   "offset_m": 1327.8299798133808,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20910,
+   "speed_ms": 24.492225986763685,
+   "odometer_m": 6640.071210941081,
+   "segment": "s4_b_to_c",
+   "offset_m": 1340.0712109411197,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20940,
+   "speed_ms": 24.512415343449394,
+   "odometer_m": 6652.322540094798,
+   "segment": "s4_b_to_c",
+   "offset_m": 1352.3225400948347,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 20970,
+   "speed_ms": 24.532590848714317,
+   "odometer_m": 6664.583960348528,
+   "segment": "s4_b_to_c",
+   "offset_m": 1364.5839603485663,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21000,
+   "speed_ms": 24.552752503601543,
+   "odometer_m": 6676.855464776834,
+   "segment": "s4_b_to_c",
+   "offset_m": 1376.8554647768722,
+   "brake_demand": 0.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21030,
+   "speed_ms": 24.418333938296378,
+   "odometer_m": 6689.109566470806,
+   "segment": "s4_b_to_c",
+   "offset_m": 1389.109566470846,
+   "brake_demand": 0.7500000000000003,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21060,
+   "speed_ms": 24.054688600625184,
+   "odometer_m": 6701.227731969112,
+   "segment": "s4_b_to_c",
+   "offset_m": 1401.2277319691525,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21090,
+   "speed_ms": 23.67633687148518,
+   "odometer_m": 6713.157324808326,
+   "segment": "s4_b_to_c",
+   "offset_m": 1413.1573248083644,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21120,
+   "speed_ms": 23.29823819820516,
+   "odometer_m": 6724.897807286608,
+   "segment": "s4_b_to_c",
+   "offset_m": 1424.897807286647,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21150,
+   "speed_ms": 22.920389440262735,
+   "odometer_m": 6736.449305120257,
+   "segment": "s4_b_to_c",
+   "offset_m": 1436.4493051202953,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21180,
+   "speed_ms": 22.542787465104446,
+   "odometer_m": 6747.811942457364,
+   "segment": "s4_b_to_c",
+   "offset_m": 1447.8119424574052,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21210,
+   "speed_ms": 22.165429148038143,
+   "odometer_m": 6758.98584188179,
+   "segment": "s4_b_to_c",
+   "offset_m": 1458.985841881832,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21240,
+   "speed_ms": 21.788311372126092,
+   "odometer_m": 6769.971124417049,
+   "segment": "s4_b_to_c",
+   "offset_m": 1469.9711244170908,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21270,
+   "speed_ms": 21.4114310280785,
+   "odometer_m": 6780.76790953017,
+   "segment": "s4_b_to_c",
+   "offset_m": 1480.7679095302112,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21300,
+   "speed_ms": 21.034785014147555,
+   "odometer_m": 6791.376315135487,
+   "segment": "s4_b_to_c",
+   "offset_m": 1491.376315135528,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21330,
+   "speed_ms": 20.658370236022016,
+   "odometer_m": 6801.796457598387,
+   "segment": "s4_b_to_c",
+   "offset_m": 1501.7964575984292,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21360,
+   "speed_ms": 20.282128938662527,
+   "odometer_m": 6812.028449916719,
+   "segment": "s4_b_to_c",
+   "offset_m": 1512.0284499167628,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21390,
+   "speed_ms": 19.905620876137846,
+   "odometer_m": 6822.072240486348,
+   "segment": "s4_b_to_c",
+   "offset_m": 1522.0722404863925,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21420,
+   "speed_ms": 19.529335128121534,
+   "odometer_m": 6831.927834584064,
+   "segment": "s4_b_to_c",
+   "offset_m": 1531.927834584109,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21450,
+   "speed_ms": 19.152546420170857,
+   "odometer_m": 6841.595162006448,
+   "segment": "s4_b_to_c",
+   "offset_m": 1541.5951620064923,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21480,
+   "speed_ms": 18.775949398254436,
+   "odometer_m": 6851.074138701696,
+   "segment": "s4_b_to_c",
+   "offset_m": 1551.0741387017395,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21510,
+   "speed_ms": 18.39923680158959,
+   "odometer_m": 6860.364811835582,
+   "segment": "s4_b_to_c",
+   "offset_m": 1560.3648118356257,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21540,
+   "speed_ms": 18.022593841689883,
+   "odometer_m": 6869.467122098738,
+   "segment": "s4_b_to_c",
+   "offset_m": 1569.4671220987823,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21570,
+   "speed_ms": 17.645909452799867,
+   "odometer_m": 6878.381141819878,
+   "segment": "s4_b_to_c",
+   "offset_m": 1578.3811418199218,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21600,
+   "speed_ms": 17.268931761426018,
+   "odometer_m": 6887.106702174478,
+   "segment": "s4_b_to_c",
+   "offset_m": 1587.106702174522,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21630,
+   "speed_ms": 16.89215600126254,
+   "odometer_m": 6895.643825976406,
+   "segment": "s4_b_to_c",
+   "offset_m": 1595.6438259764489,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21660,
+   "speed_ms": 16.515171669886215,
+   "odometer_m": 6903.992521719362,
+   "segment": "s4_b_to_c",
+   "offset_m": 1603.9925217194063,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21690,
+   "speed_ms": 16.138320699249388,
+   "odometer_m": 6912.152746290373,
+   "segment": "s4_b_to_c",
+   "offset_m": 1612.1527462904173,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21720,
+   "speed_ms": 15.761488372948818,
+   "odometer_m": 6920.124583738754,
+   "segment": "s4_b_to_c",
+   "offset_m": 1620.1245837387994,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21750,
+   "speed_ms": 15.384273330322287,
+   "odometer_m": 6927.907872847691,
+   "segment": "s4_b_to_c",
+   "offset_m": 1627.9078728477375,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21780,
+   "speed_ms": 15.007245568235772,
+   "odometer_m": 6935.502602943099,
+   "segment": "s4_b_to_c",
+   "offset_m": 1635.5026029431463,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21810,
+   "speed_ms": 14.630213963662316,
+   "odometer_m": 6942.908846502221,
+   "segment": "s4_b_to_c",
+   "offset_m": 1642.9088465022696,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21840,
+   "speed_ms": 14.253081593183584,
+   "odometer_m": 6950.126520134499,
+   "segment": "s4_b_to_c",
+   "offset_m": 1650.126520134546,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21870,
+   "speed_ms": 13.87612759404907,
+   "odometer_m": 6957.155673787369,
+   "segment": "s4_b_to_c",
+   "offset_m": 1657.1556737874155,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21900,
+   "speed_ms": 13.499050031194953,
+   "odometer_m": 6963.996363480001,
+   "segment": "s4_b_to_c",
+   "offset_m": 1663.996363480047,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21930,
+   "speed_ms": 13.121696659512239,
+   "odometer_m": 6970.648398419192,
+   "segment": "s4_b_to_c",
+   "offset_m": 1670.6483984192396,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21960,
+   "speed_ms": 12.744512888675347,
+   "odometer_m": 6977.111800612471,
+   "segment": "s4_b_to_c",
+   "offset_m": 1677.1118006125198,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 21990,
+   "speed_ms": 12.367420955523981,
+   "odometer_m": 6983.38665158533,
+   "segment": "s4_b_to_c",
+   "offset_m": 1683.3866515853774,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22020,
+   "speed_ms": 11.989820172380384,
+   "odometer_m": 6989.472808437301,
+   "segment": "s4_b_to_c",
+   "offset_m": 1689.4728084373521,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22050,
+   "speed_ms": 11.612380216380432,
+   "odometer_m": 6995.370206570934,
+   "segment": "s4_b_to_c",
+   "offset_m": 1695.3702065709863,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22080,
+   "speed_ms": 11.235098057416154,
+   "odometer_m": 7001.07892561681,
+   "segment": "s4_b_to_c",
+   "offset_m": 1701.0789256168641,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22110,
+   "speed_ms": 10.857752009933597,
+   "odometer_m": 7006.599020002956,
+   "segment": "s4_b_to_c",
+   "offset_m": 1706.5990200030121,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22140,
+   "speed_ms": 10.480229875107078,
+   "odometer_m": 7011.930363194348,
+   "segment": "s4_b_to_c",
+   "offset_m": 1711.9303631944015,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22170,
+   "speed_ms": 10.102856686182054,
+   "odometer_m": 7017.072983921781,
+   "segment": "s4_b_to_c",
+   "offset_m": 1717.0729839218359,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22200,
+   "speed_ms": 9.72562942374475,
+   "odometer_m": 7022.026955878004,
+   "segment": "s4_b_to_c",
+   "offset_m": 1722.0269558780562,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22230,
+   "speed_ms": 9.348545072984727,
+   "odometer_m": 7026.792351247238,
+   "segment": "s4_b_to_c",
+   "offset_m": 1726.7923512472912,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22260,
+   "speed_ms": 8.971600623597231,
+   "odometer_m": 7031.369240707478,
+   "segment": "s4_b_to_c",
+   "offset_m": 1731.3692407075316,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22290,
+   "speed_ms": 8.594793069685826,
+   "odometer_m": 7035.757693432706,
+   "segment": "s4_b_to_c",
+   "offset_m": 1735.757693432758,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22320,
+   "speed_ms": 8.218119409665338,
+   "odometer_m": 7039.957777095072,
+   "segment": "s4_b_to_c",
+   "offset_m": 1739.9577770951237,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22350,
+   "speed_ms": 7.841576646165079,
+   "odometer_m": 7043.969557867027,
+   "segment": "s4_b_to_c",
+   "offset_m": 1743.9695578670787,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22380,
+   "speed_ms": 7.4651617859323816,
+   "odometer_m": 7047.793100423404,
+   "segment": "s4_b_to_c",
+   "offset_m": 1747.7931004234565,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22410,
+   "speed_ms": 7.088871839736375,
+   "odometer_m": 7051.428467943456,
+   "segment": "s4_b_to_c",
+   "offset_m": 1751.4284679435084,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22440,
+   "speed_ms": 6.7127038222720445,
+   "odometer_m": 7054.875722112833,
+   "segment": "s4_b_to_c",
+   "offset_m": 1754.8757221128872,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22470,
+   "speed_ms": 6.33665475206456,
+   "odometer_m": 7058.134923125532,
+   "segment": "s4_b_to_c",
+   "offset_m": 1758.134923125586,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22500,
+   "speed_ms": 5.960721651373855,
+   "odometer_m": 7061.206129685777,
+   "segment": "s4_b_to_c",
+   "offset_m": 1761.2061296858312,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22530,
+   "speed_ms": 5.584901546099453,
+   "odometer_m": 7064.0893990098675,
+   "segment": "s4_b_to_c",
+   "offset_m": 1764.0893990099223,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22560,
+   "speed_ms": 5.209191465685552,
+   "odometer_m": 7066.784786827972,
+   "segment": "s4_b_to_c",
+   "offset_m": 1766.7847868280282,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22590,
+   "speed_ms": 4.833588443026314,
+   "odometer_m": 7069.292347385881,
+   "segment": "s4_b_to_c",
+   "offset_m": 1769.2923473859353,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22620,
+   "speed_ms": 4.458089514371429,
+   "odometer_m": 7071.612133446693,
+   "segment": "s4_b_to_c",
+   "offset_m": 1771.6121334467482,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22650,
+   "speed_ms": 4.082691719231863,
+   "odometer_m": 7073.744196292487,
+   "segment": "s4_b_to_c",
+   "offset_m": 1773.7441962925407,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22680,
+   "speed_ms": 3.7073921002858503,
+   "odometer_m": 7075.688585725915,
+   "segment": "s4_b_to_c",
+   "offset_m": 1775.6885857259674,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22710,
+   "speed_ms": 3.3321877032850895,
+   "odometer_m": 7077.445350071767,
+   "segment": "s4_b_to_c",
+   "offset_m": 1777.4453500718175,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22740,
+   "speed_ms": 2.957075576961133,
+   "odometer_m": 7079.014536178483,
+   "segment": "s4_b_to_c",
+   "offset_m": 1779.0145361785305,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22770,
+   "speed_ms": 2.5820527729319878,
+   "odometer_m": 7080.396189419614,
+   "segment": "s4_b_to_c",
+   "offset_m": 1780.396189419662,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22800,
+   "speed_ms": 2.2071163456089087,
+   "odometer_m": 7081.590353695254,
+   "segment": "s4_b_to_c",
+   "offset_m": 1781.590353695301,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22830,
+   "speed_ms": 1.8322633521033742,
+   "odometer_m": 7082.597071433398,
+   "segment": "s4_b_to_c",
+   "offset_m": 1782.597071433444,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22860,
+   "speed_ms": 1.4574908521342391,
+   "odometer_m": 7083.416383591275,
+   "segment": "s4_b_to_c",
+   "offset_m": 1783.4163835913207,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22890,
+   "speed_ms": 1.081831331045301,
+   "odometer_m": 7084.048192919911,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.0481929199575,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22920,
+   "speed_ms": 0.7032817322645785,
+   "odometer_m": 7084.491439928985,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.4914399290324,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22950,
+   "speed_ms": 0.32175594695426785,
+   "odometer_m": 7084.744644385515,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.7446443855613,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 22980,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23010,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23040,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23070,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23100,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23130,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23160,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23190,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23220,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23250,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23280,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23310,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23340,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23370,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23400,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23430,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23460,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23490,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23520,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23550,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23580,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23610,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23640,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23670,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23700,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23730,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23760,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23790,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23820,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23850,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23880,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23910,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23940,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 23970,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  },
+  {
+   "tick": 24000,
+   "speed_ms": 0.0,
+   "odometer_m": 7084.8093985968435,
+   "segment": "s4_b_to_c",
+   "offset_m": 1784.8093985968885,
+   "brake_demand": 1.0,
+   "traction_fraction": 0.0,
+   "events": []
+  }
+ ]
+}

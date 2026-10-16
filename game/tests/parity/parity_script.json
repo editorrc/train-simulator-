@@ -1,0 +1,103 @@
+{
+  "scenario": "polygon_free_drive",
+  "ticks": 24000,
+  "sample_every": 30,
+  "commands": [
+    {
+      "tick": 0,
+      "cmd": {
+        "type": "brake_valve_set",
+        "train": "player",
+        "position": "I"
+      }
+    },
+    {
+      "tick": 1,
+      "cmd": {
+        "type": "reverser_set",
+        "train": "player",
+        "value": 1
+      }
+    },
+    {
+      "tick": 2,
+      "cmd": {
+        "type": "controller_set",
+        "train": "player",
+        "position": "4"
+      }
+    },
+    {
+      "tick": 3,
+      "cmd": {
+        "type": "switch_set",
+        "node": "sw_b_west",
+        "diverging": true
+      }
+    },
+    {
+      "tick": 3,
+      "cmd": {
+        "type": "controller_step",
+        "train": "player",
+        "delta": 5
+      }
+    },
+    {
+      "tick": 3000,
+      "cmd": {
+        "type": "controller_set",
+        "train": "player",
+        "position": "0"
+      }
+    },
+    {
+      "tick": 3000,
+      "cmd": {
+        "type": "brake_valve_set",
+        "train": "player",
+        "position": "II"
+      }
+    },
+    {
+      "tick": 12000,
+      "cmd": {
+        "type": "controller_step",
+        "train": "player",
+        "delta": 1
+      }
+    },
+    {
+      "tick": 12060,
+      "cmd": {
+        "type": "controller_step",
+        "train": "player",
+        "delta": 1
+      }
+    },
+    {
+      "tick": 12120,
+      "cmd": {
+        "type": "controller_step",
+        "train": "player",
+        "delta": 1
+      }
+    },
+    {
+      "tick": 16000,
+      "cmd": {
+        "type": "controller_set",
+        "train": "player",
+        "position": "0"
+      }
+    },
+    {
+      "tick": 21000,
+      "cmd": {
+        "type": "brake_valve_set",
+        "train": "player",
+        "position": "VI"
+      }
+    }
+  ]
+}

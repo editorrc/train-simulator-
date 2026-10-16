@@ -22,6 +22,10 @@
     "a": 1.1,
     "b": 0.011,
     "c": 0.00018,
-    "units": "N_per_kN_v_kmh"
+    "units": "N_per_kN_v_kmh",
+    "starting_n_per_kn": 2.5
+  },
+  "brakes": {
+    "max_brake_force_kn": 38
   }
 }

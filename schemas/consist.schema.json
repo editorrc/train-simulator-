@@ -8,7 +8,10 @@
     "id",
     "series",
     "meta",
-    "vehicles"
+    "vehicles",
+    "controller",
+    "brake_valve",
+    "adhesion"
   ],
   "properties": {
     "id": {
@@ -37,6 +40,132 @@
       "minItems": 1,
       "items": {
         "$ref": "#/$defs/id"
+      }
+    },
+    "passenger_mass_kg": {
+      "type": "number",
+      "minimum": 0
+    },
+    "adhesion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "a",
+        "b",
+        "c",
+        "d"
+      ],
+      "description": "ψк(v) = a + b / (c + d·v), v in km/h (ПТР form)",
+      "properties": {
+        "a": {
+          "type": "number"
+        },
+        "b": {
+          "type": "number"
+        },
+        "c": {
+          "type": "number"
+        },
+        "d": {
+          "type": "number"
+        }
+      }
+    },
+    "controller": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "positions",
+        "force_ramp_per_s"
+      ],
+      "properties": {
+        "positions": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "force",
+              "power"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "force": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              },
+              "power": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        },
+        "force_ramp_per_s": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "how fast traction follows the position, fraction of Fmax per s"
+        }
+      }
+    },
+    "brake_valve": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "positions",
+        "default"
+      ],
+      "description": "Simple brake-demand model until the pneumatic model (T3.1).",
+      "properties": {
+        "model": {
+          "const": "simple"
+        },
+        "default": {
+          "type": "string"
+        },
+        "positions": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "action"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name_uk": {
+                "type": "string"
+              },
+              "action": {
+                "enum": [
+                  "release",
+                  "hold",
+                  "apply"
+                ]
+              },
+              "rate_per_s": {
+                "type": "number",
+                "minimum": 0
+              },
+              "limit": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        }
       }
     }
   },

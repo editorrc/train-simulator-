@@ -1,7 +1,14 @@
 extends Node
-## Discovers and loads content packs. The base game is itself a mod ("base") in
-## res://content/base. See docs/ARCHITECTURE.md §5 and docs/TASKS.md M8.
-## TODO(T8.1): manifest parsing, api_version check, dependency ordering, user://mods.
+## Discovers and loads content packs into ContentDB. The base game is itself a mod ("base")
+## in res://content/base. See docs/ARCHITECTURE.md §5.
+## TODO(T8.1): api_version check, dependency ordering, user://mods, enable/disable list.
 
 const API_VERSION: String = "0.1.0"
-const SEARCH_PATHS: PackedStringArray = ["res://content", "user://mods"]
+const BUILTIN_ROOT: String = "res://content"
+const USER_ROOT: String = "user://mods"
+
+
+func _ready() -> void:
+	ContentDB.library.load_all(BUILTIN_ROOT)
+	for e: String in ContentDB.library.errors:
+		push_error("ModLoader: " + e)

@@ -214,5 +214,22 @@ mods/my_mod/
 | `core/track/track_graph.gd` | граф, поиск узла по концу, перевод стрелки, `validate()` |
 | `core/track/track_position.gd`, `track_advance.gd` | движение по графу с событиями |
 | `tests/run_tests.gd`, `tests/framework/*` | раннер, `TestCase`, перехват ошибок скриптов |
+| `core/train/*` | `VehicleSpec`, `ConsistSpec`, `Resistance`, `Adhesion`, `Train` (динамика, D-009, D-010) |
+| `core/world.gd`, `core/scenario_builder.gd`, `core/commands/commands.gd` | мир, команды, сохранение/восстановление, сборка из сценария |
+| `content_io/content_library.gd` | чтение модов с диска в таблицы, `build_world(scenario)` |
+| `views/map2d/*`, `ui/driver_hud.gd`, `scenes/demo_2d.*` | 2D-демо (главная сцена) |
+| `tests/parity/*` | эталонная траектория для сверки с веб-превью |
 | `content/base/**` | мод `base`: полигон, ЕР9М (заглушки), сценарий |
 | `schemas/*.schema.json`, `tools/validate_data.py` | схемы и валидатор данных |
+
+## 10. Веб-превью (`web_preview/`)
+Порт ядра на JS для просмотра в браузере, не игра (D-008).
+
+| Файл | Что |
+|---|---|
+| `sim.js` | порт `core/` 1:1 (UMD: браузер и node) |
+| `app.html` | шаблон страницы: схема пути, график скорости/профиля, пульт |
+| `index.html` | **сгенерирован** `tools/build_web_preview.py` — открыть в браузере |
+| `parity_check.js` | сверка `sim.js` с эталоном из Godot |
+
+Цикл при изменении физики: правка GDScript → `make reference` → правка `sim.js` до зелёного `make web-check` → `make web`.

@@ -9,6 +9,8 @@ var moved_m: float = 0.0
 var blocked: bool = false
 ## {type: StringName, node: StringName, at_m: float}
 var events: Array[Dictionary] = []
+## Every node crossed, in order (for occupancy, switch locking, signalling).
+var nodes_passed: Array[StringName] = []
 
 
 func has_event(type: StringName) -> bool:

@@ -2,9 +2,10 @@
 #   make test GODOT=~/bin/Godot_v4.7.2-stable_linux.x86_64
 GODOT ?= godot
 
-.PHONY: check test import lint format validate
 
-check: validate lint test
+.PHONY: check test import lint format validate web web-check reference demo
+
+check: validate lint test web-check
 
 import:
 	$(GODOT) --headless --path game --import
@@ -22,3 +23,20 @@ format:
 validate:
 	python3 tools/validate_data.py
 	python3 -m unittest discover -s tools/tests
+
+# Rebuild the self-contained browser preview (web_preview/index.html).
+web:
+	python3 tools/build_web_preview.py
+
+# JS port must match the GDScript trajectory; committed index.html must be fresh.
+web-check:
+	node web_preview/parity_check.js
+	python3 tools/build_web_preview.py --check
+
+# After an intentional physics change: re-record the GDScript reference trajectory.
+reference: import
+	$(GODOT) --headless --path game -s res://tests/parity/record_reference.gd
+
+# Run the 2D demo.
+demo:
+	$(GODOT) --path game

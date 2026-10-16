@@ -25,6 +25,10 @@
 - Стиль: `gdformat`, `gdlint`; имена — `snake_case` для функций/переменных, `PascalCase` для классов, `class_name` для классов ядра.
 - Новые зависимости/аддоны — только с обоснованием в PR.
 
+## Веб-превью (D-008)
+- `web_preview/sim.js` — зеркало `game/core`. Меняешь физику/логику ядра → `make reference`, затем правишь `sim.js`, пока `make web-check` не станет зелёным, затем `make web`.
+- `web_preview/index.html` не редактировать руками — он генерируется из `app.html`.
+
 ## Запрещено
 - Переписывать ядро «целиком, чтобы было лучше» без задачи.
 - Хардкодить числа из реального мира в коде.
@@ -39,6 +43,10 @@ make test         # headless-тесты Godot (с импортом проект�
 make lint         # gdformat --check + gdlint
 make format       # автоформат GDScript
 make validate     # JSON-схемы + перекрёстные ссылки + тесты валидатора
+make web          # пересобрать web_preview/index.html
+make web-check    # сверка JS-порта с Godot + свежесть index.html
+make reference    # перезаписать эталонную траекторию (после намеренного изменения физики)
+make demo         # запустить 2D-демо
 # один тест / файл:
 godot --headless --path game -s res://tests/run_tests.gd -- --filter=test_track_position
 ```

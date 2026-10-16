@@ -91,3 +91,23 @@ func _index() -> void:
 		for e: TrackEnd in n.all_ends():
 			if e != null:
 				_end_to_node[str(e)] = n.id
+
+
+## Grade ratio at a position, signed for the position's heading (positive = uphill ahead).
+func grade_ratio_at(pos: TrackPosition) -> float:
+	var seg: TrackSegment = get_segment(pos.segment_id)
+	if seg == null:
+		return 0.0
+	return seg.grade_ratio_at(pos.offset_m) * pos.direction
+
+
+## Curve radius at a position in m (INF on straight track).
+func curve_radius_at(pos: TrackPosition) -> float:
+	var seg: TrackSegment = get_segment(pos.segment_id)
+	return seg.curve_radius_at(pos.offset_m) if seg != null else INF
+
+
+## Permanent speed limit at a position in m/s (INF if none).
+func speed_limit_at(pos: TrackPosition) -> float:
+	var seg: TrackSegment = get_segment(pos.segment_id)
+	return seg.speed_limit_at(pos.offset_m) if seg != null else INF

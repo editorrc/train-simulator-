@@ -58,6 +58,8 @@ func advance(graph: TrackGraph, distance_m: float) -> TrackAdvance:
 			if node != null
 			else {"next": null, "event": &"end_of_track"}
 		)
+		if node != null:
+			result.nodes_passed.append(node.id)
 		var event: StringName = passed["event"]
 		if event != &"":
 			result.events.append(

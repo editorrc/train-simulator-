@@ -13,7 +13,8 @@
     "length_m",
     "axles",
     "powered_axles",
-    "resistance"
+    "resistance",
+    "brakes"
   ],
   "properties": {
     "id": {
@@ -100,6 +101,11 @@
         "units": {
           "const": "N_per_kN_v_kmh",
           "description": "w0 = a + b·v + c·v², N/kN, v in km/h (ПТР convention)"
+        },
+        "starting_n_per_kn": {
+          "type": "number",
+          "minimum": 0,
+          "description": "extra resistance when starting from rest (ПТР), N/kN; fades out by ~5 km/h"
         }
       }
     },
@@ -111,6 +117,39 @@
         },
         "model_3d": {
           "type": "string"
+        }
+      }
+    },
+    "traction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_force_kn",
+        "max_power_kw"
+      ],
+      "description": "Motor cars only. Simple model until T3.2: F = min(force_frac·Fmax, power_frac·Pmax / v).",
+      "properties": {
+        "max_force_kn": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "max_power_kw": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "brakes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_brake_force_kn"
+      ],
+      "properties": {
+        "max_brake_force_kn": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "at full brake demand (1.0), simple model until T3.1"
         }
       }
     }

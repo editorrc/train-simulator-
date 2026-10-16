@@ -21,5 +21,96 @@
     "er9m_motor",
     "er9m_motor",
     "er9m_head"
-  ]
+  ],
+  "passenger_mass_kg": 75,
+  "adhesion": {
+    "a": 0.25,
+    "b": 8,
+    "c": 100,
+    "d": 20
+  },
+  "controller": {
+    "force_ramp_per_s": 0.6,
+    "positions": [
+      {
+        "id": "0",
+        "force": 0,
+        "power": 0
+      },
+      {
+        "id": "М",
+        "force": 0.25,
+        "power": 0.08
+      },
+      {
+        "id": "1",
+        "force": 0.55,
+        "power": 0.3
+      },
+      {
+        "id": "2",
+        "force": 0.75,
+        "power": 0.55
+      },
+      {
+        "id": "3",
+        "force": 0.9,
+        "power": 0.8
+      },
+      {
+        "id": "4",
+        "force": 1.0,
+        "power": 1.0
+      }
+    ]
+  },
+  "brake_valve": {
+    "model": "simple",
+    "default": "II",
+    "positions": [
+      {
+        "id": "I",
+        "name_uk": "Відпуск і зарядка",
+        "action": "release",
+        "rate_per_s": 1.0
+      },
+      {
+        "id": "II",
+        "name_uk": "Поїзне",
+        "action": "release",
+        "rate_per_s": 0.3
+      },
+      {
+        "id": "III",
+        "name_uk": "Перекриша без живлення",
+        "action": "hold"
+      },
+      {
+        "id": "IV",
+        "name_uk": "Перекриша з живленням",
+        "action": "hold"
+      },
+      {
+        "id": "V",
+        "name_uk": "Службове гальмування",
+        "action": "apply",
+        "rate_per_s": 0.25,
+        "limit": 0.85
+      },
+      {
+        "id": "Va",
+        "name_uk": "Службове з уповільненою розрядкою",
+        "action": "apply",
+        "rate_per_s": 0.08,
+        "limit": 0.85
+      },
+      {
+        "id": "VI",
+        "name_uk": "Екстрене гальмування",
+        "action": "apply",
+        "rate_per_s": 1.5,
+        "limit": 1.0
+      }
+    ]
+  }
 }
