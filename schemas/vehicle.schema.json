@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/editorrc/train-simulator-/schemas/vehicle.schema.json",
+  "title": "Single vehicle (rolling_stock/<series>/vehicles/<id>.json)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "series",
+    "type",
+    "meta",
+    "mass_empty_t",
+    "length_m",
+    "axles",
+    "powered_axles",
+    "resistance"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "series": {
+      "type": "string"
+    },
+    "type": {
+      "enum": [
+        "head_trailer",
+        "head_motor",
+        "motor",
+        "trailer",
+        "locomotive",
+        "coach",
+        "wagon"
+      ]
+    },
+    "name_uk": {
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "gauge_mm": {
+      "const": 1520
+    },
+    "mass_empty_t": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "length_m": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "axles": {
+      "type": "integer",
+      "minimum": 2
+    },
+    "powered_axles": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "seats": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "has_cab": {
+      "type": "boolean"
+    },
+    "max_speed_kmh": {
+      "type": "number",
+      "exclusiveMinimum": 0
+    },
+    "rotational_inertia_coef": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 0.5
+    },
+    "resistance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model",
+        "a",
+        "b",
+        "c",
+        "units"
+      ],
+      "properties": {
+        "model": {
+          "const": "davis"
+        },
+        "a": {
+          "type": "number"
+        },
+        "b": {
+          "type": "number"
+        },
+        "c": {
+          "type": "number"
+        },
+        "units": {
+          "const": "N_per_kN_v_kmh",
+          "description": "w0 = a + b·v + c·v², N/kN, v in km/h (ПТР convention)"
+        }
+      }
+    },
+    "visual": {
+      "type": "object",
+      "properties": {
+        "sprite_2d": {
+          "type": "string"
+        },
+        "model_3d": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "verified",
+        "sources"
+      ],
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "description": "false = placeholder value, must be confirmed (docs/RESEARCH.md)"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

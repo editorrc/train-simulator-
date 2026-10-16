@@ -1,0 +1,6 @@
+{
+  "segments": [
+    { "id": "s1", "length_m": 100, "node_a": "n1", "node_b": "n2", "speed_limits": [{ "from_m": 0, "to_m": 150, "speed_kmh": 60 }] }
+  ],
+  "nodes": [{ "id": "n1", "kind": "end", "ends": [{ "segment": "s1", "end": "a" }] }]
+}

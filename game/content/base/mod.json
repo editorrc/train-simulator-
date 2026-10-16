@@ -1,0 +1,10 @@
+{
+  "id": "base",
+  "name": "Ukraine Visual Train Sim — базовий вміст",
+  "version": "0.1.0",
+  "api_version": "0.1.0",
+  "authors": ["Ukraine Visual Train Sim contributors"],
+  "license": "CC0-1.0",
+  "depends": [],
+  "load_after": []
+}

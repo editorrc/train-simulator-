@@ -1,0 +1,42 @@
+; Engine configuration file.
+; Godot version is pinned: 4.7.2-stable (see docs/DECISIONS.md, D-001).
+
+config_version=5
+
+[application]
+
+config/name="Ukraine Visual Train Sim"
+config/description="Realistic Ukrainian railway simulator"
+run/main_scene="res://scenes/main.tscn"
+config/features=PackedStringArray("4.7")
+
+[autoload]
+
+EventBus="*res://autoload/event_bus.gd"
+SimClock="*res://autoload/sim_clock.gd"
+ContentDB="*res://autoload/content_db.gd"
+ModLoader="*res://autoload/mod_loader.gd"
+Settings="*res://autoload/settings.gd"
+Locale="*res://autoload/locale.gd"
+
+[debug]
+
+gdscript/warnings/untyped_declaration=2
+gdscript/warnings/unsafe_property_access=1
+gdscript/warnings/unsafe_method_access=1
+gdscript/warnings/unsafe_call_argument=1
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[internationalization]
+
+locale/fallback="uk"
+
+[physics]
+
+common/physics_ticks_per_second=60

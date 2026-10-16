@@ -1,0 +1,27 @@
+{
+  "id": "er9m_head",
+  "series": "ЕР9М",
+  "type": "head_trailer",
+  "name_uk": "Головний причіпний вагон ЕР9М",
+  "meta": {
+    "verified": false,
+    "sources": [],
+    "note": "TODO_SOURCE: оцінка-заглушка для розробки, уточнити за RESEARCH.md S1/S2"
+  },
+  "gauge_mm": 1520,
+  "mass_empty_t": 48.0,
+  "length_m": 21.5,
+  "axles": 4,
+  "powered_axles": 0,
+  "seats": 88,
+  "has_cab": true,
+  "max_speed_kmh": 120,
+  "rotational_inertia_coef": 0.1,
+  "resistance": {
+    "model": "davis",
+    "a": 1.1,
+    "b": 0.011,
+    "c": 0.00018,
+    "units": "N_per_kN_v_kmh"
+  }
+}

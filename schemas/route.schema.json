@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/editorrc/train-simulator-/schemas/route.schema.json",
+  "title": "Route index (route.json)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name_uk",
+    "meta",
+    "track_graph",
+    "stations"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "name_uk": {
+      "type": "string"
+    },
+    "name_ru": {
+      "type": "string"
+    },
+    "name_en": {
+      "type": "string"
+    },
+    "description_uk": {
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "electrification": {
+      "enum": [
+        "none",
+        "ac_25kv",
+        "dc_3kv",
+        "mixed"
+      ]
+    },
+    "track_graph": {
+      "type": "string"
+    },
+    "geometry": {
+      "type": "string"
+    },
+    "stations": {
+      "type": "string"
+    },
+    "signals": {
+      "type": "string"
+    },
+    "timetable": {
+      "type": "string"
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "verified",
+        "sources"
+      ],
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "description": "false = placeholder value, must be confirmed (docs/RESEARCH.md)"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

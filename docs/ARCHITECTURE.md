@@ -62,9 +62,11 @@
 │   │       ├── routes/kyiv_ring/…
 │   │       └── scenarios/…
 │   ├── locale/               # uk.po (основной), ru.po, en.po
-│   └── tests/                # юнит- и интеграционные тесты
+│   ├── scenes/               # main.tscn и прочие сцены верхнего уровня
+│   └── tests/                # run_tests.gd, framework/, core/ …
 ├── schemas/                  # JSON Schema для всех типов данных
-├── tools/                    # Python: osm_import, dem_profile, validate_data
+├── tools/                    # Python: validate_data (+ tests/), позже osm_import, dem_profile
+├── Makefile                  # make check / test / lint / validate
 ├── mods/                     # примеры модов
 └── .github/workflows/        # CI
 ```
@@ -72,7 +74,7 @@
 ## 3. Ядро симуляции
 
 ### 3.1 Время
-- Фиксированный шаг **`SIM_DT = 1/60 с`** (аккумулятор времени в `SimClock`), независимо от FPS.
+- Фиксированный шаг **`SimConfig.SIM_DT = 1/60 с`** (`FixedStepClock` в ядре, автозагрузка `SimClock` кормит его временем кадра), независимо от FPS.
 - Множитель времени (×1, ×2, ×4 — только вне режимов оценки), пауза.
 - Подсистемы с разной частотой: динамика поезда — каждый шаг; пневматика — каждый шаг
   (может потребовать подшагов); ИИ-диспетчер — 1–2 Гц; ИИ-поезда — 10 Гц упрощённо.
@@ -82,7 +84,7 @@
 (км/ч, кгс/см², тс, ‰) — **только** в `core/units.gd` и в UI. Это правило в GEMINI.md, нарушать нельзя.
 
 ### 3.3 Модель пути
-- `TrackGraph`: узлы (`TrackNode` — стрелки, концы путей, точки соединения) и рёбра (`TrackSegment`).
+- `TrackGraph`: узлы (`TrackNode` — стрелки, концы путей, точки соединения) и рёбра (`TrackSegment`). Подробно — D-005 в DECISIONS.md.
 - `TrackSegment`: `id`, `length_m`, массив профиля (точки изменения уклона, ‰), массив кривых (радиус),
   ограничения скорости, электрификация (`ac_25kv`, `dc_3kv`, `none`), номер пути, принадлежность станции/перегону.
 - Геометрия для отрисовки хранится отдельно (`polyline` в локальных метрах, проекция UTM 36N / EPSG:32636),
@@ -193,8 +195,24 @@ mods/my_mod/
 `TranslationServer`, `.po`-файлы. Основной язык — **українська**, затем русский и английский.
 Все строки UI — через `tr()`. Термины ПТЕ не переводить «по смыслу» — держать глоссарий в `docs/GLOSSARY.md` (создать в M0).
 
-## 8. CI (GitHub Actions)
-1. Валидация JSON по схемам (`tools/validate_data.py`).
-2. Линт GDScript (`gdlint` из gdtoolkit) + формат (`gdformat --check`).
-3. Headless-тесты: `godot --headless --path game -s addons/gut/gut_cmdln.gd` (или аналог gdUnit4).
+## 8. CI (GitHub Actions, `.github/workflows/ci.yml`)
+1. **data** — `tools/validate_data.py` (схемы + перекрёстные ссылки) и юнит-тесты валидатора.
+2. **lint** — `gdformat --check game/`, `gdlint game/`.
+3. **godot-tests** — Godot 4.7.2 headless: `--import` (регистрирует `class_name`), затем `-s res://tests/run_tests.gd`.
 4. (Позже) Экспорт сборок Windows/Linux по тегу.
+
+Локально то же самое: `make check`.
+
+## 9. Что уже реализовано (эталон)
+| Файл | Что |
+|---|---|
+| `core/units.gd` | конверсии единиц |
+| `core/sim_config.gd`, `core/fixed_step_clock.gd` | фиксированный шаг, пауза, ускорение, защита от «спирали смерти» |
+| `core/track/track_end.gd` | конец сегмента (A/B) |
+| `core/track/track_node.gd` | узлы end/joint/switch, проход через стрелку, событие взреза |
+| `core/track/track_segment.gd` | длина, профиль, кривые, ограничения, электрификация; загрузка с конверсией в СИ |
+| `core/track/track_graph.gd` | граф, поиск узла по концу, перевод стрелки, `validate()` |
+| `core/track/track_position.gd`, `track_advance.gd` | движение по графу с событиями |
+| `tests/run_tests.gd`, `tests/framework/*` | раннер, `TestCase`, перехват ошибок скриптов |
+| `content/base/**` | мод `base`: полигон, ЕР9М (заглушки), сценарий |
+| `schemas/*.schema.json`, `tools/validate_data.py` | схемы и валидатор данных |

@@ -1,0 +1,10 @@
+{
+  "id": "test_polygon",
+  "name_uk": "Тестовий полігон",
+  "description_uk": "Синтетична ділянка ~10 км: 3 станції, розʼїзд на станції Б, ухили та криві. Для розробки та тестів.",
+  "meta": { "verified": true, "sources": ["synthetic"] },
+  "electrification": "ac_25kv",
+  "track_graph": "track_graph.json",
+  "geometry": "geometry.json",
+  "stations": "stations.json"
+}

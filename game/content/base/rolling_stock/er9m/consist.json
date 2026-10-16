@@ -1,0 +1,25 @@
+{
+  "id": "er9m_10",
+  "series": "ЕР9М",
+  "name_uk": "ЕР9М, 10 вагонів",
+  "meta": {
+    "verified": false,
+    "sources": [],
+    "note": "TODO_SOURCE: оцінка-заглушка для розробки, уточнити за RESEARCH.md S1/S2"
+  },
+  "electrification": [
+    "ac_25kv"
+  ],
+  "vehicles": [
+    "er9m_head",
+    "er9m_motor",
+    "er9m_trailer",
+    "er9m_motor",
+    "er9m_trailer",
+    "er9m_motor",
+    "er9m_trailer",
+    "er9m_motor",
+    "er9m_motor",
+    "er9m_head"
+  ]
+}

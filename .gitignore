@@ -1,0 +1,16 @@
+# Godot
+game/.godot/
+game/export/
+*.translation
+export_presets.cfg.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

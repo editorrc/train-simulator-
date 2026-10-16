@@ -1,7 +1,8 @@
 # Правила для ИИ-агента (Gemini и другие)
 
 Проект: **Ukraine Visual Train Sim** — реалистичный симулятор железной дороги Украины на Godot 4 (GDScript).
-Сначала прочитай: `docs/PLAN.md` → `docs/ARCHITECTURE.md` → `docs/SIMULATION.md` → `docs/TASKS.md`.
+Сначала прочитай: `docs/PLAN.md` → `docs/ARCHITECTURE.md` → `docs/DECISIONS.md` → `docs/SIMULATION.md` → `docs/TASKS.md`.
+Термины — строго по `docs/GLOSSARY.md`. Образец кода и тестов — `game/core/track/` и `game/tests/core/`.
 
 ## Как работать
 1. Бери **одну** задачу из `docs/TASKS.md` по порядку. Не делай несколько задач в одном коммите/PR.
@@ -16,6 +17,8 @@
 - **Внутри ядра только СИ** (м, с, кг, Н, Па). Конверсии — только в `core/units.gd` и в UI.
 - **Строгая типизация GDScript везде**: типы у переменных, параметров, возвратов. Включить предупреждения о нетипизированном коде как ошибки.
 - **Детерминизм:** никакого глобального `randf()`/`randi()` в ядре — только RNG из `SimWorld` с сидом. Никакой зависимости от `delta` кадра — только `SIM_DT`.
+- **Единицы в JSON — суффиксом в имени ключа** (`length_m`, `speed_kmh`, `permille`, `pressure_kgf_cm2`); конверсия в СИ — в `from_dict()` через `Units` (D-003).
+- Классы ядра: `static func from_dict(d: Dictionary)` для загрузки, значения-объекты не мутируются (см. `TrackPosition.advance`).
 - **Параметры подвижного состава, маршрутов, сигналов, правил — в JSON (`game/content/`), не в коде.**
 - Каждый JSON-тип имеет схему в `schemas/` и проходит `tools/validate_data.py`.
 - Строки интерфейса — только через `tr()`; основной язык — украинский.
@@ -28,12 +31,20 @@
 - Сочинять тексты нормативных документов и регламента переговоров и выдавать их за официальные.
 - Коммитить бинарные ассеты мимо Git LFS.
 
-## Команды (заполнить в задаче T0.3/T0.4)
+## Команды
+Godot 4.7.2 должен быть в `PATH` как `godot` или передан `GODOT=...`.
 ```
-# тесты
-godot --headless --path game -s <test runner>
-# линт
-gdlint game/ && gdformat --check game/
-# данные
-python tools/validate_data.py
+make check        # всё, что делает CI: данные + линт + тесты
+make test         # headless-тесты Godot (с импортом проекта)
+make lint         # gdformat --check + gdlint
+make format       # автоформат GDScript
+make validate     # JSON-схемы + перекрёстные ссылки + тесты валидатора
+# один тест / файл:
+godot --headless --path game -s res://tests/run_tests.gd -- --filter=test_track_position
 ```
+Python-зависимости: `pip install -r tools/requirements.txt`.
+
+## Перед каждым коммитом
+1. `make check` зелёный.
+2. Новый тип JSON → схема в `schemas/` + правило в `SCHEMA_RULES` (`tools/validate_data.py`).
+3. Отметить задачу в `docs/TASKS.md` (✅ / 🟡 с заметкой). Новое архитектурное решение → `docs/DECISIONS.md`.

@@ -1,0 +1,10 @@
+{
+  "meta": { "verified": true, "sources": ["synthetic"] },
+  "crs": "local_m",
+  "polylines": [
+    { "segment": "s1_a_to_b", "points": [[0, 0], [3000, 0], [3300, 60], [5000, 60]] },
+    { "segment": "s2_b_track1", "points": [[5000, 60], [5800, 60]] },
+    { "segment": "s3_b_track2", "points": [[5000, 60], [5050, 65.3], [5750, 65.3], [5800, 60]] },
+    { "segment": "s4_b_to_c", "points": [[5800, 60], [7300, 60], [7700, 0], [10300, 0]] }
+  ]
+}

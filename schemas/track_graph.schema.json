@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/editorrc/train-simulator-/schemas/track_graph.schema.json",
+  "title": "Track topology (track_graph.json). Units are in key suffixes; the loader converts to SI.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "segments",
+    "nodes"
+  ],
+  "properties": {
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "length_m",
+          "node_a",
+          "node_b"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "length_m": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "node_a": {
+            "$ref": "#/$defs/id"
+          },
+          "node_b": {
+            "$ref": "#/$defs/id"
+          },
+          "electrification": {
+            "enum": [
+              "none",
+              "ac_25kv",
+              "dc_3kv"
+            ]
+          },
+          "track_number": {
+            "type": "string"
+          },
+          "km_at_a": {
+            "type": "number",
+            "description": "railway kilometrage at end A, km"
+          },
+          "grades": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "at_m",
+                "permille"
+              ],
+              "properties": {
+                "at_m": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "permille": {
+                  "type": "number",
+                  "minimum": -60,
+                  "maximum": 60
+                }
+              }
+            }
+          },
+          "curves": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "from_m",
+                "to_m",
+                "radius_m"
+              ],
+              "properties": {
+                "from_m": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "to_m": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "radius_m": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                }
+              }
+            }
+          },
+          "speed_limits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "from_m",
+                "to_m",
+                "speed_kmh"
+              ],
+              "properties": {
+                "from_m": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "to_m": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "speed_kmh": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "maximum": 350
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "ends"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/id"
+              },
+              "kind": {
+                "enum": [
+                  "end",
+                  "joint"
+                ]
+              },
+              "ends": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 2,
+                "items": {
+                  "$ref": "#/$defs/end"
+                }
+              }
+            }
+          },
+          {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "kind",
+              "trunk",
+              "straight",
+              "diverging"
+            ],
+            "properties": {
+              "id": {
+                "$ref": "#/$defs/id"
+              },
+              "kind": {
+                "const": "switch"
+              },
+              "trunk": {
+                "$ref": "#/$defs/end"
+              },
+              "straight": {
+                "$ref": "#/$defs/end"
+              },
+              "diverging": {
+                "$ref": "#/$defs/end"
+              },
+              "state": {
+                "enum": [
+                  "straight",
+                  "diverging"
+                ]
+              },
+              "number": {
+                "type": "string",
+                "description": "switch number on the station plan"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "end": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segment",
+        "end"
+      ],
+      "properties": {
+        "segment": {
+          "$ref": "#/$defs/id"
+        },
+        "end": {
+          "enum": [
+            "a",
+            "b"
+          ]
+        }
+      }
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "verified",
+        "sources"
+      ],
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "description": "false = placeholder value, must be confirmed (docs/RESEARCH.md)"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

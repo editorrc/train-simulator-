@@ -2,42 +2,45 @@
 
 Формат задачи: **ID — название** · зависимости · что сделать · **DoD** (Definition of Done — критерии готовности).
 Брать задачи строго по порядку внутри вехи. Одна задача = одна ветка/PR = маленький проверяемый шаг.
-Перед началом прочитать [../GEMINI.md](../GEMINI.md), [ARCHITECTURE.md](ARCHITECTURE.md), [SIMULATION.md](SIMULATION.md).
+Перед началом прочитать [../GEMINI.md](../GEMINI.md), [ARCHITECTURE.md](ARCHITECTURE.md), [SIMULATION.md](SIMULATION.md), [DECISIONS.md](DECISIONS.md).
+
+Статус: ✅ сделано · 🟡 частично (см. заметку) · без отметки — не начато.
+Эталон стиля для новых задач — уже готовые `game/core/track/*` и их тесты в `game/tests/core/`.
 
 ---
 
 ## M0 — Фундамент
 
-**T0.1 — Godot-проект** · —
-Создать `game/project.godot` (Godot 4.x stable, версию зафиксировать в `docs/ARCHITECTURE.md` и CI),
+✅ **T0.1 — Godot-проект** · —
+Создать `game/project.godot` (Godot 4.7.2-stable, D-001),
 папки по ARCHITECTURE.md §2 с `.gdkeep`, настройки: физика 60 Гц, окно 1920×1080, растяжение `canvas_items`.
 DoD: проект открывается в редакторе без ошибок; `godot --headless --path game --quit` завершается с кодом 0.
 
-**T0.2 — Репозиторные файлы** · T0.1
+✅ **T0.2 — Репозиторные файлы** · T0.1
 `.gitignore` (Godot: `.godot/`, `*.import` по необходимости, `export/`), `.gitattributes` + Git LFS для `*.glb *.png *.jpg *.ogg *.wav *.blend`, `.editorconfig`.
 DoD: `git lfs track` показывает нужные шаблоны.
 
-**T0.3 — Тестовый фреймворк** · T0.1
-Подключить GUT **или** gdUnit4 (одно, по итогам spike T1 из RESEARCH.md) в `game/addons/`, пример теста в `game/tests/`.
+✅ **T0.3 — Тестовый фреймворк** · T0.1
+Собственный раннер `game/tests/run_tests.gd` + `TestCase` (решение D-004), без внешних аддонов.
 DoD: один зелёный тест запускается командой из README.
 
-**T0.4 — CI** · T0.3
+✅ **T0.4 — CI** · T0.3
 `.github/workflows/ci.yml`: установка Godot нужной версии, gdtoolkit (`gdlint`, `gdformat --check`), headless-тесты, `python tools/validate_data.py`.
 DoD: CI зелёный на PR.
 
-**T0.5 — Автозагрузки-заглушки** · T0.1
-`autoload/`: `EventBus`, `SimClock`, `ContentDB`, `ModLoader`, `Settings`, `Locale` — пустые классы с документированным API.
+✅ **T0.5 — Автозагрузки-заглушки** · T0.1
+`autoload/`: `EventBus`, `SimClock`, `ContentDB`, `ModLoader`, `Settings`, `Locale`. `SimClock` уже рабочий (обёртка над `core/fixed_step_clock.gd`), `ContentDB` — реестр; `ModLoader` — заглушка до T8.1.
 DoD: регистрируются в `project.godot`, проект запускается.
 
-**T0.6 — Units** · T0.3
+✅ **T0.6 — Units** · T0.3
 `core/units.gd`: константы и функции `kmh_to_ms`, `ms_to_kmh`, `kgfcm2_to_pa`, `pa_to_kgfcm2`, `permille_to_ratio`, `tf_to_n` и т.д.
 DoD: тесты на каждую конверсию туда-обратно.
 
-**T0.7 — Схемы и валидатор** · —
+✅ **T0.7 — Схемы и валидатор** · —
 `schemas/` (vehicle, consist, cab, route, track_graph, stations, signals, scenario, mod_manifest) + `tools/validate_data.py` (jsonschema).
 DoD: валидатор проходит по `game/content/**` и падает на заведомо битом тестовом файле.
 
-**T0.8 — Глоссарий** · —
+✅ **T0.8 — Глоссарий** · —
 `docs/GLOSSARY.md`: термин UA / RU / EN / идентификатор в коде (ДСП, ДНЦ, ТМ, ГР, ТЦ, ГВ, ТЭД, АЛСН, ЕПК, РБ, ЭПТ, КС, блок-участок …).
 DoD: все сокращения из docs/ присутствуют.
 
@@ -45,20 +48,22 @@ DoD: все сокращения из docs/ присутствуют.
 
 ## M1 — Ядро симуляции (headless)
 
-**T1.1 — TrackSegment / TrackGraph** · T0.6
+✅ **T1.1 — TrackSegment / TrackGraph** · T0.6
 Классы по ARCHITECTURE.md §3.3, загрузка из `track_graph.json`.
 DoD: тест — граф из 3 сегментов и 1 стрелки загружается, длины и связи корректны.
 
-**T1.2 — TrackPosition.advance()** · T1.1
+✅ **T1.2 — TrackPosition.advance()** · T1.1
 Движение вперёд/назад с переходом через узлы и стрелки (по их положению), уход в тупик = событие.
 DoD: тесты: проход через стрелку в обоих положениях, разворот направления, конец пути.
 
-**T1.3 — Профиль и кривые** · T1.1
-Функции `grade_at(pos)`, `curve_radius_at(pos)`, усреднение по длине состава.
+🟡 **T1.3 — Профиль и кривые** · T1.1
+Сделано: `TrackSegment.grade_ratio_at / curve_radius_at / speed_limit_at` (по одному сегменту).
+Осталось: функции по `TrackPosition` с учётом направления (уклон A→B меняет знак при движении B→A) и **усреднение по длине состава**, которое проходит через узлы назад от головы (`advance` с отрицательной дистанцией).
 DoD: тесты на синтетическом профиле (площадка, подъём 10‰, кривая R=500).
 
 **T1.4 — Consist / Vehicle из JSON** · T0.7
-Загрузка состава ЕР9М (параметры-заглушки с `verified:false`).
+Загрузка состава ЕР9М из `content/base/rolling_stock/er9m/` (данные-заглушки уже лежат, `verified:false`).
+Новые поля в JSON — сначала в `schemas/vehicle.schema.json`.
 DoD: масса, длина, сцепной вес считаются из данных.
 
 **T1.5 — Сопротивление движению** · T1.3, T1.4
@@ -85,9 +90,12 @@ DoD: тест: запись 60 с поездки → повтор даёт то 
 
 ## M2 — Тестовый полигон 2D
 
-**T2.1 — Контент полигона** · M1
-`content/base/routes/test_polygon/`: ~10 км, 3 станции, уклоны, кривые, платформы.
-DoD: проходит валидатор.
+✅ **T2.1 — Контент полигона** · M1
+`content/base/routes/test_polygon/` — 10,3 км, станции А/Б/В, разъезд на Б (2 стрелки), уклоны −8…+6 ‰, кривые R500/R800; сценарий `scenarios/polygon_free_drive.json`.
+
+**T2.1b — Загрузка сценария** · T1.7, T1.4
+`ScenarioLoader`: читает сценарий из `ContentDB`, строит `SimWorld` (граф, состав, позиция, стрелки).
+DoD: тест — `polygon_free_drive` загружается, поезд стоит на `s1_a_to_b@520`.
 
 **T2.2 — Вид map2d** · T2.1
 Отрисовка пути из `geometry.json`, поезда, станций; зум/панорамирование.

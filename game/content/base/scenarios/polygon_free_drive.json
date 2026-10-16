@@ -1,0 +1,14 @@
+{
+  "id": "polygon_free_drive",
+  "name_uk": "Полігон: вільна поїздка",
+  "description_uk": "ЕР9М на станції А, поїзд готовий до відправлення. Доїхати до станції В із зупинкою на станції Б.",
+  "meta": { "verified": true, "sources": ["synthetic"] },
+  "route": "test_polygon",
+  "consist": "er9m_10",
+  "mode": "free",
+  "start": { "segment": "s1_a_to_b", "offset_m": 520, "direction": 1, "time": "08:00", "cold_start": false },
+  "switches": { "sw_b_west": "straight", "sw_b_east": "straight" },
+  "passenger_load": 0.5,
+  "weather": "clear",
+  "objectives": []
+}

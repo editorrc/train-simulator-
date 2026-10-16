@@ -1,0 +1,26 @@
+{
+  "meta": { "verified": true, "sources": ["synthetic"] },
+  "stations": [
+    {
+      "id": "st_a",
+      "name_uk": "Станція А",
+      "kind": "station",
+      "platforms": [{ "id": "st_a_p1", "segment": "s1_a_to_b", "from_m": 300, "to_m": 520, "side": "right" }]
+    },
+    {
+      "id": "st_b",
+      "name_uk": "Станція Б",
+      "kind": "station",
+      "platforms": [
+        { "id": "st_b_p1", "segment": "s2_b_track1", "from_m": 290, "to_m": 510, "side": "right" },
+        { "id": "st_b_p2", "segment": "s3_b_track2", "from_m": 300, "to_m": 520, "side": "left" }
+      ]
+    },
+    {
+      "id": "st_c",
+      "name_uk": "Станція В",
+      "kind": "station",
+      "platforms": [{ "id": "st_c_p1", "segment": "s4_b_to_c", "from_m": 4100, "to_m": 4320, "side": "right" }]
+    }
+  ]
+}

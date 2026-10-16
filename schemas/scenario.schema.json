@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/editorrc/train-simulator-/schemas/scenario.schema.json",
+  "title": "Scenario (scenarios/<id>.json). Draft — extend in M2/M7.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name_uk",
+    "route",
+    "consist",
+    "start"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/$defs/id"
+    },
+    "name_uk": {
+      "type": "string"
+    },
+    "description_uk": {
+      "type": "string"
+    },
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "route": {
+      "$ref": "#/$defs/id"
+    },
+    "consist": {
+      "$ref": "#/$defs/id"
+    },
+    "mode": {
+      "enum": [
+        "free",
+        "timetable",
+        "lesson",
+        "exam"
+      ]
+    },
+    "start": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segment",
+        "offset_m",
+        "direction"
+      ],
+      "properties": {
+        "segment": {
+          "$ref": "#/$defs/id"
+        },
+        "offset_m": {
+          "type": "number",
+          "minimum": 0
+        },
+        "direction": {
+          "enum": [
+            1,
+            -1
+          ]
+        },
+        "time": {
+          "type": "string",
+          "pattern": "^\\d{2}:\\d{2}$"
+        },
+        "cold_start": {
+          "type": "boolean"
+        }
+      }
+    },
+    "switches": {
+      "type": "object",
+      "additionalProperties": {
+        "enum": [
+          "straight",
+          "diverging"
+        ]
+      }
+    },
+    "passenger_load": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 2
+    },
+    "weather": {
+      "enum": [
+        "clear",
+        "rain",
+        "snow",
+        "fog"
+      ]
+    },
+    "objectives": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "verified",
+        "sources"
+      ],
+      "properties": {
+        "verified": {
+          "type": "boolean",
+          "description": "false = placeholder value, must be confirmed (docs/RESEARCH.md)"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

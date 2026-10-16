@@ -1,0 +1,1 @@
+{ "stations": [{ "id": "st", "name_uk": "Ст", "kind": "stop", "platforms": [{ "id": "p", "segment": "nope", "from_m": 0, "to_m": 10, "side": "right" }] }] }
