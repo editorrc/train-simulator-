@@ -50,7 +50,7 @@
           },
           "km_at_a": {
             "type": "number",
-            "description": "railway kilometrage at end A, km"
+            "description": "railway chainage (кілометраж) at end A, km; increases A→B"
           },
           "grades": {
             "type": "array",

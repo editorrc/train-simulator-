@@ -35,6 +35,7 @@ static func straight_track(length_m: float, permille: float = 0.0) -> Dictionary
 				"length_m": length_m,
 				"node_a": "west",
 				"node_b": "east",
+				"electrification": "ac_25kv",
 				"grades": [{"at_m": 0, "permille": permille}],
 			}
 		],

@@ -10,6 +10,7 @@ const BRAKE_VALVE_STEP: StringName = &"brake_valve_step"
 const BRAKE_VALVE_SET: StringName = &"brake_valve_set"
 const REVERSER_SET: StringName = &"reverser_set"
 const SWITCH_SET: StringName = &"switch_set"
+const CAB_CONTROL: StringName = &"cab_control"
 
 
 static func controller_step(train: StringName, delta: int) -> Dictionary:
@@ -34,3 +35,8 @@ static func reverser_set(train: StringName, value: int) -> Dictionary:
 
 static func switch_set(node: StringName, diverging: bool) -> Dictionary:
 	return {"type": SWITCH_SET, "node": node, "diverging": diverging}
+
+
+## Cab switch / button / held button. Buttons act on value = true.
+static func cab_control(train: StringName, control: StringName, value: bool) -> Dictionary:
+	return {"type": CAB_CONTROL, "train": train, "control": control, "value": value}

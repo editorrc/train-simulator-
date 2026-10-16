@@ -1,0 +1,28 @@
+{
+  "id": "polygon_cold_start",
+  "name_uk": "Полігон: приймання й запуск ЕР9М",
+  "description_uk": "Поїзд відстояв ніч: батарея вимкнена, повітря немає. Підготуйте ЕР9М до роботи за порядком і рушайте зі станції А.",
+  "meta": {
+    "verified": true,
+    "sources": [
+      "synthetic"
+    ]
+  },
+  "route": "test_polygon",
+  "consist": "er9m_10",
+  "mode": "free",
+  "start": {
+    "segment": "s1_a_to_b",
+    "offset_m": 520,
+    "direction": 1,
+    "time": "05:40",
+    "cold_start": true
+  },
+  "switches": {
+    "sw_b_west": "straight",
+    "sw_b_east": "straight"
+  },
+  "passenger_load": 0.2,
+  "weather": "clear",
+  "objectives": []
+}

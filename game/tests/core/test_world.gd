@@ -18,6 +18,7 @@ func test_controller_steps_are_bounded() -> void:
 	assert_true(w.apply_command(Commands.controller_step(&"player", 1)))
 	assert_eq(w.player().controller_position_id(), "М")
 	assert_eq(w.events.back()["type"], &"command_rejected")
+	assert_eq(w.events.back()["reason"], "немає такого положення")
 
 
 func test_brake_valve_default_is_running_position() -> void:

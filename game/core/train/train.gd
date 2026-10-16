@@ -1,14 +1,18 @@
 class_name Train
 extends RefCounted
-## One train: static consist + dynamic state + the longitudinal dynamics step.
-## Brakes and traction here are the simple models of M1 (T1.6, T1.8); the pneumatic and
-## electrical systems of M3 (T3.1, T3.2) will replace them behind the same state fields.
-## See docs/SIMULATION.md §1–§2.
+## One train: static consist + cab + systems (electrical, pneumatic) + longitudinal dynamics.
+## See docs/SIMULATION.md §1–§4.
 
 ## Traction falls to this share of the adhesion limit while the wheels slip.
 const SLIP_TRACTION_SHARE: float = 0.6
-## Traction is cut (interlock) above this brake demand.
-const TRACTION_CUTOFF_BRAKE: float = 0.05
+## Traction is blocked while the brake cylinders hold more than this, Pa (≈ 0.3 kgf/cm²).
+const TRACTION_CUTOFF_TC_PA: float = 0.3 * Units.PA_PER_KGF_CM2
+## Brakes count as released below this cylinder pressure, Pa (≈ 0.1 kgf/cm²).
+const BRAKES_RELEASED_PA: float = 0.1 * Units.PA_PER_KGF_CM2
+## The brake pipe counts as charged within this margin of the charge pressure, Pa.
+const PIPE_CHARGED_MARGIN_PA: float = 0.2 * Units.PA_PER_KGF_CM2
+## Overspeed is reported this far above the limit, m/s (2 km/h).
+const OVERSPEED_MARGIN_MS: float = 2.0 / 3.6
 ## Hitting the end of track faster than this is a collision, m/s (≈ 3 km/h).
 const BUFFER_COLLISION_MS: float = 0.83
 
@@ -27,9 +31,15 @@ var reverser: int = 0
 var controller_index: int = 0
 var brake_valve_index: int = 0
 
-## Internal state of the simple models
+var cab: CabState = CabState.new()
+var power: ElectricalSystem
+var air: PneumaticSystem
+
+## Derived each step
 var traction_fraction: float = 0.0
+## Brake effort 0..1 from the cylinder pressure (for HUD and the web preview).
 var brake_demand: float = 0.0
+var overspeed: bool = false
 var slipping: bool = false
 var odometer_m: float = 0.0
 
@@ -51,7 +61,66 @@ func _init(p_id: StringName, p_consist: ConsistSpec, p_head: TrackPosition, p_lo
 	head = p_head
 	load_factor = p_load
 	brake_valve_index = maxi(0, consist.brake_valve_index_of(consist.brake_valve_default))
+	power = ElectricalSystem.from_dict(consist.electrical_data)
+	air = PneumaticSystem.from_dict(consist.pneumatic_data)
 	_recompute_mass()
+
+
+## Puts the train in the state after a completed startup procedure (warm scenarios).
+func warm_start() -> void:
+	for id: StringName in CabState.TOGGLES:
+		cab.values[id] = true
+	power.start_ready()
+	air.charge_fully()
+
+
+## Cab switches and buttons. Returns "" on success or a reason for the player.
+func operate(control: StringName, value: bool) -> String:
+	if not CabState.is_known(control):
+		return "невідомий орган керування %s" % control
+	if control in CabState.BUTTONS:
+		return power.press(control, cab, controller_index) if value else ""
+	cab.values[control] = value
+	return ""
+
+
+## Named state checks used by cab lamps and the startup checklist (cab.json).
+func check(name: String) -> bool:
+	match name:
+		"battery_on":
+			return cab.is_on(&"battery")
+		"control_on":
+			return power.control_on(cab)
+		"pantograph_air_ok":
+			return air.p_panto >= air.panto_min or power.pantograph_up()
+		"pantograph_up":
+			return power.pantograph_up()
+		"catenary_voltage":
+			return power.line_voltage > 0.0
+		"main_breaker_on":
+			return power.main_breaker_on
+		"aux_running":
+			return power.aux_running()
+		"compressors_on":
+			return power.compressors_enabled(cab)
+		"main_reservoir_charged":
+			return air.p_gr >= air.gr_min
+		"brake_pipe_charged":
+			return air.p_tm >= air.tm_charge - PIPE_CHARGED_MARGIN_PA
+		"ep_brake_on":
+			return cab.is_on(&"ep_brake") and power.control_on(cab)
+		"reverser_set":
+			return reverser != 0
+		"brakes_released":
+			return air.p_tc < BRAKES_RELEASED_PA
+		"brakes_applied":
+			return air.p_tc >= BRAKES_RELEASED_PA
+		"protection_tripped":
+			return power.protection_tripped
+		"traction_on":
+			return absf(last_traction_n) > 1000.0
+	push_warning("Train.check: unknown check '%s'" % name)
+	return false
 
 
 func _recompute_mass() -> void:
@@ -92,7 +161,7 @@ func brake_valve_position_id() -> String:
 
 ## Advances the train by dt. Appends events to `events`.
 func step(graph: TrackGraph, dt: float, events: Array[Dictionary]) -> void:
-	_update_brake(dt)
+	_update_systems(graph, dt, events)
 	_update_traction_fraction(dt)
 
 	# Forces from each vehicle's own place on the track (grade, curve, limits).
@@ -112,9 +181,10 @@ func step(graph: TrackGraph, dt: float, events: Array[Dictionary]) -> void:
 		starting += Resistance.starting_n(v, m, speed_ms)
 		limit = minf(limit, graph.speed_limit_at(center))
 	last_speed_limit_ms = limit
+	_check_overspeed(events)
 
 	var traction: float = _traction_force(events) * reverser
-	var brake: float = brake_demand * consist.max_brake_force_n()
+	var brake: float = air.brake_fraction() * consist.max_brake_force_n()
 
 	# Integrate: active forces (traction, grade) vs dissipative ones (resistance, brakes)
 	# that only ever oppose motion and can bring the train to rest but never reverse it.
@@ -167,22 +237,52 @@ func _move(graph: TrackGraph, distance: float, events: Array[Dictionary]) -> voi
 		accel_ms2 = 0.0
 
 
-func _update_brake(dt: float) -> void:
-	var pos: Dictionary = consist.brake_valve_positions[brake_valve_index]
-	match str(pos["action"]):
-		"release":
-			brake_demand = maxf(0.0, brake_demand - float(pos.get("rate_per_s", 1.0)) * dt)
-		"apply":
-			var lim: float = float(pos.get("limit", 1.0))
-			if brake_demand < lim:
-				brake_demand = minf(lim, brake_demand + float(pos.get("rate_per_s", 0.2)) * dt)
-		_:
-			pass  # hold (перекриша)
+func _update_systems(graph: TrackGraph, dt: float, events: Array[Dictionary]) -> void:
+	var seg: TrackSegment = graph.get_segment(head.segment_id)
+	var wire_live: bool = (
+		seg != null and seg.electrification == TrackSegment.Electrification.AC_25KV
+	)
+	power.step(
+		dt, cab, air.p_panto >= air.panto_min, wire_live, absf(last_traction_n) > 0.0, events
+	)
+	var kind: PneumaticSystem.ValveKind = PneumaticSystem.kind_from_string(
+		str(consist.brake_valve_positions[brake_valve_index]["kind"])
+	)
+	air.step(
+		dt,
+		kind,
+		power.compressors_enabled(cab),
+		cab.is_on(&"aux_compressor") and cab.is_on(&"battery"),
+		cab.is_on(&"ep_brake") and power.control_on(cab)
+	)
+	brake_demand = air.brake_fraction()
+
+
+func _check_overspeed(events: Array[Dictionary]) -> void:
+	if is_inf(last_speed_limit_ms):
+		overspeed = false
+		return
+	var v: float = absf(speed_ms)
+	if not overspeed and v > last_speed_limit_ms + OVERSPEED_MARGIN_MS:
+		overspeed = true
+		(
+			events
+			. append(
+				{
+					"type": &"overspeed",
+					"train": id,
+					"speed_ms": v,
+					"limit_ms": last_speed_limit_ms,
+				}
+			)
+		)
+	elif overspeed and v <= last_speed_limit_ms:
+		overspeed = false
 
 
 func _update_traction_fraction(dt: float) -> void:
 	var target: float = float(consist.controller_positions[controller_index]["force"])
-	if reverser == 0 or brake_demand > TRACTION_CUTOFF_BRAKE:
+	if reverser == 0 or not power.traction_ready() or air.p_tc > TRACTION_CUTOFF_TC_PA:
 		target = 0.0
 	var ramp: float = consist.controller_force_ramp_per_s
 	if traction_fraction < target:
@@ -226,7 +326,11 @@ func to_dict() -> Dictionary:
 		"traction_fraction": traction_fraction,
 		"brake_demand": brake_demand,
 		"slipping": slipping,
+		"overspeed": overspeed,
 		"odometer_m": odometer_m,
+		"cab": cab.to_dict(),
+		"power": power.to_dict(),
+		"air": air.to_dict(),
 	}
 
 
@@ -245,5 +349,9 @@ func restore(d: Dictionary) -> void:
 	traction_fraction = float(d["traction_fraction"])
 	brake_demand = float(d["brake_demand"])
 	slipping = bool(d["slipping"])
+	overspeed = bool(d["overspeed"])
 	odometer_m = float(d["odometer_m"])
+	cab.restore(d["cab"] as Dictionary)
+	power.restore(d["power"] as Dictionary)
+	air.restore(d["air"] as Dictionary)
 	_recompute_mass()

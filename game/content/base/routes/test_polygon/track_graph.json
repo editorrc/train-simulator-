@@ -1,22 +1,54 @@
 {
-  "meta": { "verified": true, "sources": ["synthetic"] },
+  "meta": {
+    "verified": true,
+    "sources": [
+      "synthetic"
+    ]
+  },
   "segments": [
     {
       "id": "s1_a_to_b",
       "length_m": 5000,
       "node_a": "end_west",
       "node_b": "sw_b_west",
+      "km_at_a": 0.0,
       "electrification": "ac_25kv",
       "grades": [
-        { "at_m": 0, "permille": 0 },
-        { "at_m": 1200, "permille": 6 },
-        { "at_m": 2600, "permille": -4 },
-        { "at_m": 4200, "permille": 0 }
+        {
+          "at_m": 0,
+          "permille": 0
+        },
+        {
+          "at_m": 1200,
+          "permille": 6
+        },
+        {
+          "at_m": 2600,
+          "permille": -4
+        },
+        {
+          "at_m": 4200,
+          "permille": 0
+        }
       ],
-      "curves": [{ "from_m": 3000, "to_m": 3600, "radius_m": 800 }],
+      "curves": [
+        {
+          "from_m": 3000,
+          "to_m": 3600,
+          "radius_m": 800
+        }
+      ],
       "speed_limits": [
-        { "from_m": 0, "to_m": 700, "speed_kmh": 60 },
-        { "from_m": 700, "to_m": 5000, "speed_kmh": 120 }
+        {
+          "from_m": 0,
+          "to_m": 700,
+          "speed_kmh": 60
+        },
+        {
+          "from_m": 700,
+          "to_m": 5000,
+          "speed_kmh": 120
+        }
       ]
     },
     {
@@ -24,58 +56,153 @@
       "length_m": 800,
       "node_a": "sw_b_west",
       "node_b": "sw_b_east",
+      "km_at_a": 5.0,
       "electrification": "ac_25kv",
-      "grades": [{ "at_m": 0, "permille": 0 }],
-      "speed_limits": [{ "from_m": 0, "to_m": 800, "speed_kmh": 120 }]
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 800,
+          "speed_kmh": 120
+        }
+      ]
     },
     {
       "id": "s3_b_track2",
       "length_m": 820,
       "node_a": "sw_b_west",
       "node_b": "sw_b_east",
+      "km_at_a": 5.0,
       "electrification": "ac_25kv",
-      "grades": [{ "at_m": 0, "permille": 0 }],
-      "speed_limits": [{ "from_m": 0, "to_m": 820, "speed_kmh": 40 }]
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 820,
+          "speed_kmh": 40
+        }
+      ]
     },
     {
       "id": "s4_b_to_c",
       "length_m": 4500,
       "node_a": "sw_b_east",
       "node_b": "end_east",
+      "km_at_a": 5.8,
       "electrification": "ac_25kv",
       "grades": [
-        { "at_m": 0, "permille": 0 },
-        { "at_m": 800, "permille": -8 },
-        { "at_m": 2000, "permille": 3 },
-        { "at_m": 3500, "permille": 0 }
+        {
+          "at_m": 0,
+          "permille": 0
+        },
+        {
+          "at_m": 800,
+          "permille": -8
+        },
+        {
+          "at_m": 2000,
+          "permille": 3
+        },
+        {
+          "at_m": 3500,
+          "permille": 0
+        }
       ],
-      "curves": [{ "from_m": 1500, "to_m": 1900, "radius_m": 500 }],
+      "curves": [
+        {
+          "from_m": 1500,
+          "to_m": 1900,
+          "radius_m": 500
+        }
+      ],
       "speed_limits": [
-        { "from_m": 0, "to_m": 1400, "speed_kmh": 120 },
-        { "from_m": 1400, "to_m": 2000, "speed_kmh": 80 },
-        { "from_m": 2000, "to_m": 3800, "speed_kmh": 120 },
-        { "from_m": 3800, "to_m": 4500, "speed_kmh": 60 }
+        {
+          "from_m": 0,
+          "to_m": 1400,
+          "speed_kmh": 120
+        },
+        {
+          "from_m": 1400,
+          "to_m": 2000,
+          "speed_kmh": 80
+        },
+        {
+          "from_m": 2000,
+          "to_m": 3800,
+          "speed_kmh": 120
+        },
+        {
+          "from_m": 3800,
+          "to_m": 4500,
+          "speed_kmh": 60
+        }
       ]
     }
   ],
   "nodes": [
-    { "id": "end_west", "kind": "end", "ends": [{ "segment": "s1_a_to_b", "end": "a" }] },
+    {
+      "id": "end_west",
+      "kind": "end",
+      "ends": [
+        {
+          "segment": "s1_a_to_b",
+          "end": "a"
+        }
+      ]
+    },
     {
       "id": "sw_b_west",
       "kind": "switch",
-      "trunk": { "segment": "s1_a_to_b", "end": "b" },
-      "straight": { "segment": "s2_b_track1", "end": "a" },
-      "diverging": { "segment": "s3_b_track2", "end": "a" },
+      "trunk": {
+        "segment": "s1_a_to_b",
+        "end": "b"
+      },
+      "straight": {
+        "segment": "s2_b_track1",
+        "end": "a"
+      },
+      "diverging": {
+        "segment": "s3_b_track2",
+        "end": "a"
+      },
       "state": "straight"
     },
     {
       "id": "sw_b_east",
       "kind": "switch",
-      "trunk": { "segment": "s4_b_to_c", "end": "a" },
-      "straight": { "segment": "s2_b_track1", "end": "b" },
-      "diverging": { "segment": "s3_b_track2", "end": "b" },
+      "trunk": {
+        "segment": "s4_b_to_c",
+        "end": "a"
+      },
+      "straight": {
+        "segment": "s2_b_track1",
+        "end": "b"
+      },
+      "diverging": {
+        "segment": "s3_b_track2",
+        "end": "b"
+      },
       "state": "straight"
     },
-    { "id": "end_east", "kind": "end", "ends": [{ "segment": "s4_b_to_c", "end": "b" }] }
+    {
+      "id": "end_east",
+      "kind": "end",
+      "ends": [
+        {
+          "segment": "s4_b_to_c",
+          "end": "b"
+        }
+      ]
+    }
   ]
 }

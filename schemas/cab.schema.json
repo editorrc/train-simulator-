@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/editorrc/train-simulator-/schemas/cab.schema.json",
+  "title": "Driver's cab definition (rolling_stock/<series>/cab.json)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "meta",
+    "controls",
+    "lamps",
+    "startup_checklist"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$"
+    },
+    "meta": {
+      "type": "object",
+      "required": [
+        "verified",
+        "sources"
+      ],
+      "properties": {
+        "verified": {
+          "type": "boolean"
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "note": {
+          "type": "string"
+        }
+      }
+    },
+    "controls": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "label_uk"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "battery",
+              "control_circuits",
+              "pantograph",
+              "main_breaker_on",
+              "main_breaker_off",
+              "protection_reset",
+              "aux_machines",
+              "compressors",
+              "ep_brake",
+              "aux_compressor",
+              "headlights",
+              "horn"
+            ],
+            "description": "control id is the contract with the core (core/train/cab_state.gd)"
+          },
+          "type": {
+            "enum": [
+              "toggle",
+              "button",
+              "hold"
+            ]
+          },
+          "label_uk": {
+            "type": "string"
+          },
+          "hint_uk": {
+            "type": "string"
+          },
+          "hotkey": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string"
+          },
+          "color": {
+            "enum": [
+              "neutral",
+              "green",
+              "red",
+              "yellow"
+            ]
+          }
+        }
+      }
+    },
+    "lamps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label_uk",
+          "color",
+          "when"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label_uk": {
+            "type": "string"
+          },
+          "color": {
+            "enum": [
+              "red",
+              "yellow",
+              "green",
+              "white",
+              "blue"
+            ]
+          },
+          "when": {
+            "type": "string",
+            "description": "name of a core check (Train.check); lamp lit when the check is TRUE, or FALSE when prefixed with '!'"
+          }
+        }
+      }
+    },
+    "startup_checklist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check",
+          "label_uk"
+        ],
+        "properties": {
+          "check": {
+            "type": "string"
+          },
+          "label_uk": {
+            "type": "string"
+          },
+          "hint_uk": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

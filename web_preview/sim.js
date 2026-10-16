@@ -29,7 +29,7 @@
 
   function segmentFromDict(d) {
     const s = {
-      id: d.id, length_m: +d.length_m, node_a: d.node_a, node_b: d.node_b,
+      id: d.id, length_m: +d.length_m, node_a: d.node_a, node_b: d.node_b, electrification: d.electrification || "none",
       grade_points: (d.grades || []).map((p) => ({ at_m: +p.at_m, ratio: Units.permille_to_ratio(+p.permille) }))
         .sort((x, y) => x.at_m - y.at_m),
       curves: (d.curves || []).map((c) => ({ from_m: +c.from_m, to_m: +c.to_m, radius_m: +c.radius_m })),
@@ -111,6 +111,7 @@
       vehicles: d.vehicles.map((id) => vehicleFromDict(vehicles[id])),
       controller: d.controller.positions, ramp: +d.controller.force_ramp_per_s,
       valve: d.brake_valve.positions, valve_default: d.brake_valve.default,
+      pneumatic: d.pneumatic, electrical: d.electrical,
     };
     const sum = (f) => c.vehicles.reduce((s, v) => s + f(v), 0);
     c.length_m = () => sum((v) => v.length_m);
@@ -135,11 +136,119 @@
     return (coef.a + coef.b / (coef.c + coef.d * v)) * RAIL[cond] * mass * Units.G;
   }
 
+
+  // ---- core/train/cab_state.gd
+  const TOGGLES = ["battery", "control_circuits", "pantograph", "aux_machines", "compressors", "ep_brake", "headlights"];
+  const HOLDS = ["aux_compressor", "horn"];
+  const BUTTONS = ["main_breaker_on", "main_breaker_off", "protection_reset"];
+
+  // ---- core/systems/pneumatic_system.gd
+  const KGF = 98066.5;
+  const VALVE_KINDS = { charge: 0, train: 1, lap: 2, lap_feed: 3, service: 4, service_slow: 5, emergency: 6 };
+  function makeAir(d) {
+    const k = (key) => +d[key] * KGF;
+    const a = {
+      gr_min: k("main_reservoir_min_kgf_cm2"), gr_max: k("main_reservoir_max_kgf_cm2"), compressor_rate: k("compressor_rate_kgf_cm2_s"),
+      tm_charge: k("brake_pipe_charge_kgf_cm2"), tc_max: k("brake_cylinder_max_kgf_cm2"), charge_rate: k("charge_rate_kgf_cm2_s"),
+      fast_charge_rate: k("fast_charge_rate_kgf_cm2_s"), service_rate: k("service_rate_kgf_cm2_s"), slow_service_rate: k("slow_service_rate_kgf_cm2_s"),
+      emergency_rate: k("emergency_rate_kgf_cm2_s"), leak_rate: k("brake_pipe_leak_kgf_cm2_s"), gr_drain_ratio: +d.main_reservoir_drain_ratio,
+      distributor_ratio: +d.distributor_ratio, apply_sensitivity: k("distributor_sensitivity_kgf_cm2"), release_sensitivity: k("release_sensitivity_kgf_cm2"),
+      emergency_threshold: k("emergency_threshold_kgf_cm2"), tc_fill_rate: k("cylinder_fill_rate_kgf_cm2_s"),
+      tc_emergency_fill_rate: k("cylinder_emergency_fill_rate_kgf_cm2_s"), tc_release_rate: k("cylinder_release_rate_kgf_cm2_s"),
+      ep_fill_rate: k("ep_fill_rate_kgf_cm2_s"), panto_min: k("pantograph_min_kgf_cm2"), aux_compressor_rate: k("aux_compressor_rate_kgf_cm2_s"),
+      aux_compressor_max: k("aux_compressor_max_kgf_cm2"),
+      p_gr: 0, p_tm: 0, p_zr: 0, p_tc: 0, p_panto: 0, compressor_working: false, applied: false, tm_min: 0, ep_target: 0, lap_target: 0, last_kind: 1,
+    };
+    const BLEED = 0.003 * KGF, ZR_RATE = 0.4 * KGF, ZR_SOFT = 0.006 * KGF;
+    a.charge_fully = () => { a.p_gr = a.gr_max; a.p_tm = a.tm_charge; a.p_zr = a.tm_charge; a.p_tc = 0; a.p_panto = a.gr_max; a.applied = false; a.ep_target = 0; };
+    a.brake_fraction = () => Math.min(Math.max(a.p_tc / a.tc_max, 0), 1);
+    const feed = (dt, target, rate) => {
+      const limit = Math.min(target, a.p_gr); if (a.p_tm >= limit) return;
+      const dp = Math.min(rate * dt, limit - a.p_tm); a.p_tm += dp; a.p_gr = Math.max(0, a.p_gr - dp * a.gr_drain_ratio);
+    };
+    a.step = (dt, kind, compressorsEnabled, auxRunning, ep) => {
+      if (!compressorsEnabled) a.compressor_working = false;
+      else if (a.p_gr < a.gr_min) a.compressor_working = true;
+      else if (a.p_gr >= a.gr_max) a.compressor_working = false;
+      if (a.compressor_working) a.p_gr = Math.min(a.gr_max, a.p_gr + a.compressor_rate * dt);
+      if (a.p_gr > a.p_panto) a.p_panto = a.p_gr;
+      if (auxRunning && a.p_panto < a.aux_compressor_max) a.p_panto = Math.min(a.aux_compressor_max, a.p_panto + a.aux_compressor_rate * dt);
+      // driver's valve
+      if (kind !== a.last_kind && kind === 3) a.lap_target = a.p_tm;
+      a.p_tm = Math.max(0, a.p_tm - a.leak_rate * dt);
+      switch (kind) {
+        case 0: feed(dt, a.p_gr, a.fast_charge_rate); break;
+        case 1: if (a.p_tm > a.tm_charge) a.p_tm = Math.max(a.tm_charge, a.p_tm - BLEED * dt); else feed(dt, a.tm_charge, a.charge_rate); break;
+        case 3: feed(dt, a.lap_target, a.charge_rate); break;
+        case 4: if (!ep) a.p_tm = Math.max(0, a.p_tm - a.service_rate * dt); break;
+        case 5: if (!ep) a.p_tm = Math.max(0, a.p_tm - a.slow_service_rate * dt); break;
+        case 6: a.p_tm = Math.max(0, a.p_tm - a.emergency_rate * dt); break;
+      }
+      // distributor
+      if (a.p_tm > a.p_zr) a.p_zr = Math.min(a.p_tm, a.p_zr + ZR_RATE * dt);
+      else if (!a.applied) a.p_zr = Math.max(a.p_tm, a.p_zr - ZR_SOFT * dt);
+      const reduction = a.p_zr - a.p_tm;
+      if (!a.applied && reduction > a.apply_sensitivity) { a.applied = true; a.tm_min = a.p_tm; }
+      if (a.applied) { a.tm_min = Math.min(a.tm_min, a.p_tm); if (a.p_tm > a.tm_min + a.release_sensitivity) a.applied = false; }
+      const emergency = a.p_tm < a.emergency_threshold && a.p_zr > a.emergency_threshold;
+      let pneu = 0;
+      if (a.applied || emergency) pneu = emergency ? a.tc_max : Math.min(Math.max((a.p_zr - a.tm_min) * a.distributor_ratio, 0), a.tc_max);
+      if (ep) {
+        if (kind === 6) a.ep_target = a.tc_max;
+        else if (kind === 4) a.ep_target = Math.min(a.tc_max, a.ep_target + a.ep_fill_rate * dt);
+        else if (kind === 5) a.ep_target = Math.min(a.tc_max, a.ep_target + a.ep_fill_rate / 3.0 * dt);
+        else if (kind === 0 || kind === 1) a.ep_target = Math.max(0, a.ep_target - a.tc_release_rate * dt);
+      } else a.ep_target = 0;
+      const target = Math.max(pneu, a.ep_target);
+      if (a.p_tc < target) {
+        let rate = emergency || kind === 6 ? a.tc_emergency_fill_rate : a.tc_fill_rate;
+        if (ep && a.ep_target > pneu) rate = Math.max(rate, a.ep_fill_rate);
+        a.p_tc = Math.min(target, a.p_tc + rate * dt);
+      } else if (a.p_tc > target) a.p_tc = Math.max(target, a.p_tc - a.tc_release_rate * dt);
+      a.last_kind = kind;
+    };
+    return a;
+  }
+
+  // ---- core/systems/electrical_system.gd
+  function makePower(d) {
+    const e = { raise_s: +d.pantograph_raise_s, lower_s: +d.pantograph_lower_s, aux_s: +d.aux_start_s, nominal_v: +d.catenary_kv * 1000,
+      pantograph_position: 0, main_breaker_on: false, protection_tripped: false, aux_progress: 0, line_voltage: 0 };
+    e.control_on = (cab) => cab.battery && cab.control_circuits;
+    e.pantograph_up = () => e.pantograph_position >= 1.0;
+    e.aux_running = () => e.main_breaker_on && e.aux_progress >= 1.0;
+    e.compressors_enabled = (cab) => e.aux_running() && cab.compressors;
+    e.traction_ready = () => e.main_breaker_on && e.aux_running() && !e.protection_tripped;
+    e.press = (button, cab, controllerIndex) => {
+      if (button === "main_breaker_on") {
+        if (!e.control_on(cab)) return "немає живлення кіл керування";
+        if (e.protection_tripped) return "спрацювало реле захисту — спершу «Поверн. РП»";
+        if (e.line_voltage <= 0) return "немає напруги в контактній мережі (струмоприймач опущено?)";
+        if (controllerIndex !== 0) return "контролер має бути в положенні 0";
+        e.main_breaker_on = true;
+      } else if (button === "main_breaker_off") e.main_breaker_on = false;
+      else if (button === "protection_reset") { if (!e.control_on(cab)) return "немає живлення кіл керування"; e.protection_tripped = false; }
+      return "";
+    };
+    e.step = (dt, cab, airOk, wireLive, current, events) => {
+      const wantUp = e.control_on(cab) && cab.pantograph && airOk, wasUp = e.pantograph_up();
+      e.pantograph_position = wantUp ? Math.min(1, e.pantograph_position + dt / e.raise_s) : Math.max(0, e.pantograph_position - dt / e.lower_s);
+      if (wasUp && !e.pantograph_up() && e.main_breaker_on && current) { events.push({ type: "pantograph_lowered_under_load" }); e.protection_tripped = true; }
+      e.line_voltage = e.pantograph_up() && wireLive ? e.nominal_v : 0;
+      if (e.main_breaker_on && (e.line_voltage <= 0 || !e.control_on(cab))) { e.main_breaker_on = false; events.push({ type: "main_breaker_tripped" }); }
+      e.aux_progress = e.main_breaker_on && cab.aux_machines ? Math.min(1, e.aux_progress + dt / e.aux_s) : 0;
+    };
+    e.start_ready = () => { e.pantograph_position = 1; e.main_breaker_on = true; e.aux_progress = 1; e.line_voltage = e.nominal_v; };
+    return e;
+  }
+
   function makeTrain(id, consist, head, load) {
     const t = {
       id, consist, head, load, rail: "dry", speed_ms: 0, accel_ms2: 0, reverser: 0, controller_index: 0,
       valve_index: Math.max(0, consist.valve_index_of(consist.valve_default)),
-      traction_fraction: 0, brake_demand: 0, slipping: false, odometer_m: 0,
+      traction_fraction: 0, brake_demand: 0, slipping: false, overspeed: false, odometer_m: 0,
+      cab: Object.fromEntries([...TOGGLES, ...HOLDS].map((k) => [k, false])),
+      power: makePower(consist.electrical), air: makeAir(consist.pneumatic),
       last: { traction: 0, brake: 0, resistance: 0, grade: 0, limit: Infinity },
     };
     t.masses = consist.vehicles.map((v) => v.mass_empty_kg + v.seats * load * consist.pax_kg);
@@ -147,18 +256,47 @@
     t.eff_mass = consist.vehicles.reduce((s, v, i) => s + t.masses[i] * (1.0 + v.rot), 0);
     t.rear = (g) => advance(g, t.head, -consist.length_m()).position;
     t.occupied_nodes = (g) => advance(g, t.head, -consist.length_m()).nodes_passed;
+    t.warm_start = () => { for (const k of TOGGLES) t.cab[k] = true; t.power.start_ready(); t.air.charge_fully(); };
+    t.operate = (control, value) => {
+      if (!TOGGLES.includes(control) && !HOLDS.includes(control) && !BUTTONS.includes(control)) return "невідомий орган керування " + control;
+      if (BUTTONS.includes(control)) return value ? t.power.press(control, t.cab, t.controller_index) : "";
+      t.cab[control] = !!value; return "";
+    };
+    t.check = (name) => {
+      const P = t.power, A = t.air, c = t.cab;
+      switch (name) {
+        case "battery_on": return c.battery;
+        case "control_on": return P.control_on(c);
+        case "pantograph_air_ok": return A.p_panto >= A.panto_min || P.pantograph_up();
+        case "pantograph_up": return P.pantograph_up();
+        case "catenary_voltage": return P.line_voltage > 0;
+        case "main_breaker_on": return P.main_breaker_on;
+        case "aux_running": return P.aux_running();
+        case "compressors_on": return P.compressors_enabled(c);
+        case "main_reservoir_charged": return A.p_gr >= A.gr_min;
+        case "brake_pipe_charged": return A.p_tm >= A.tm_charge - 0.2 * KGF;
+        case "ep_brake_on": return c.ep_brake && P.control_on(c);
+        case "reverser_set": return t.reverser !== 0;
+        case "brakes_released": return A.p_tc < 0.1 * KGF;
+        case "brakes_applied": return A.p_tc >= 0.1 * KGF;
+        case "protection_tripped": return P.protection_tripped;
+        case "traction_on": return Math.abs(t.last.traction) > 1000;
+      }
+      return false;
+    };
     return t;
   }
 
   function trainStep(t, g, dt, events) {
     const c = t.consist;
-    // brake (simple model)
-    const vp = c.valve[t.valve_index];
-    if (vp.action === "release") t.brake_demand = Math.max(0, t.brake_demand - (vp.rate_per_s ?? 1.0) * dt);
-    else if (vp.action === "apply") { const lim = vp.limit ?? 1.0; if (t.brake_demand < lim) t.brake_demand = Math.min(lim, t.brake_demand + (vp.rate_per_s ?? 0.2) * dt); }
+    // systems
+    const seg = g.segments[t.head.segment];
+    t.power.step(dt, t.cab, t.air.p_panto >= t.air.panto_min, !!seg && seg.electrification === "ac_25kv", Math.abs(t.last.traction) > 0, events);
+    t.air.step(dt, VALVE_KINDS[c.valve[t.valve_index].kind] ?? 2, t.power.compressors_enabled(t.cab), t.cab.aux_compressor && t.cab.battery, t.cab.ep_brake && t.power.control_on(t.cab));
+    t.brake_demand = t.air.brake_fraction();
     // traction fraction ramp
     let target = +c.controller[t.controller_index].force;
-    if (t.reverser === 0 || t.brake_demand > 0.05) target = 0;
+    if (t.reverser === 0 || !t.power.traction_ready() || t.air.p_tc > 0.3 * KGF) target = 0;
     if (t.traction_fraction < target) t.traction_fraction = Math.min(target, t.traction_fraction + c.ramp * dt);
     else t.traction_fraction = Math.max(target, t.traction_fraction - c.ramp * 3.0 * dt);
     // per-vehicle forces
@@ -174,8 +312,14 @@
       limit = Math.min(limit, g.speed_limit_at(center));
     });
     t.last.limit = limit;
+    if (!isFinite(limit)) t.overspeed = false;
+    else {
+      const v = Math.abs(t.speed_ms);
+      if (!t.overspeed && v > limit + 2.0 / 3.6) { t.overspeed = true; events.push({ type: "overspeed", train: t.id, speed_ms: v, limit_ms: limit }); }
+      else if (t.overspeed && v <= limit) t.overspeed = false;
+    }
     const traction = tractionForce(t, events) * t.reverser;
-    const brake = t.brake_demand * c.brake_max();
+    const brake = t.air.brake_fraction() * c.brake_max();
     const active = traction + grade, dissipative = resist + brake;
     let nv;
     if (t.speed_ms === 0) {
@@ -228,6 +372,7 @@
     const train = makeTrain("player", consistFromDict(consistData, vehicles), head, +(scenario.passenger_load ?? 0.5));
     if (scenario.weather === "rain") train.rail = "wet";
     if (scenario.weather === "snow") train.rail = "ice";
+    if (!scenario.start.cold_start) train.warm_start();
     const w = { graph, trains: { player: train }, tick: 0, dt: SIM_DT, start_time_s: hh * 3600 + mm * 60, events: [], command_log: [] };
     w.player = () => w.trains.player;
     w.clock_s = () => w.start_time_s + w.tick * w.dt;
@@ -238,17 +383,24 @@
       n.state = diverging ? "diverging" : "straight"; return true;
     };
     w.apply_command = (cmd) => {
-      const ok = execute(w, cmd);
-      if (ok) w.command_log.push({ ...cmd, tick: w.tick }); else w.events.push({ type: "command_rejected", command: cmd, tick: w.tick });
-      return ok;
+      const reason = execute(w, cmd);
+      if (reason === "") { w.command_log.push({ ...cmd, tick: w.tick }); return true; }
+      w.events.push({ type: "command_rejected", command: cmd, reason, tick: w.tick });
+      return false;
     };
     return w;
   }
 
   function execute(w, cmd) {
-    if (cmd.type === "switch_set") return w.set_switch(cmd.node, !!cmd.diverging);
-    const t = w.trains[cmd.train]; if (!t) return false;
+    if (cmd.type === "switch_set") return w.set_switch(cmd.node, !!cmd.diverging) ? "" : "стрілка замкнена під поїздом";
+    const t = w.trains[cmd.train]; if (!t) return "немає такого поїзда";
     const c = t.consist;
+    if (cmd.type === "cab_control") return t.operate(cmd.control, !!cmd.value);
+    if (cmd.type === "reverser_set") {
+      if (cmd.value < -1 || cmd.value > 1) return "немає такого положення реверсора";
+      if (Math.abs(t.speed_ms) > 0.1) return "реверсор перемикається лише на стоянці";
+      t.reverser = cmd.value; return "";
+    }
     const bounded = (i, n) => (i >= 0 && i < n ? i : -1);
     let idx = -1;
     switch (cmd.type) {
@@ -256,13 +408,11 @@
       case "controller_set": idx = c.controller_index_of(cmd.position); break;
       case "brake_valve_step": idx = bounded(t.valve_index + cmd.delta, c.valve.length); break;
       case "brake_valve_set": idx = c.valve_index_of(cmd.position); break;
-      case "reverser_set":
-        if (cmd.value >= -1 && cmd.value <= 1 && Math.abs(t.speed_ms) <= 0.1) { t.reverser = cmd.value; return true; }
-        return false;
+      default: return "невідома команда";
     }
-    if (idx < 0) return false;
+    if (idx < 0) return "немає такого положення";
     if (cmd.type.startsWith("controller")) t.controller_index = idx; else t.valve_index = idx;
-    return true;
+    return "";
   }
 
   const Commands = {
@@ -272,6 +422,7 @@
     brake_valve_set: (train, position) => ({ type: "brake_valve_set", train, position }),
     reverser_set: (train, value) => ({ type: "reverser_set", train, value }),
     switch_set: (node, diverging) => ({ type: "switch_set", node, diverging }),
+    cab_control: (train, control, value) => ({ type: "cab_control", train, control, value }),
   };
 
   return { Units, SIM_DT, advance, buildWorld, Commands, graphFromDict };

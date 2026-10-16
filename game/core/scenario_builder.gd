@@ -40,6 +40,8 @@ static func build(
 			train.rail_condition = Adhesion.RailCondition.WET
 		"snow":
 			train.rail_condition = Adhesion.RailCondition.ICE
+	if not bool(start.get("cold_start", false)):
+		train.warm_start()
 	world.add_train(train, true)
 	return world
 

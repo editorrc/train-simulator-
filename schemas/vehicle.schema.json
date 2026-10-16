@@ -111,12 +111,47 @@
     },
     "visual": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
-        "sprite_2d": {
-          "type": "string"
+        "body": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
         },
-        "model_3d": {
-          "type": "string"
+        "stripe": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "roof": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "front": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$"
+        },
+        "doors_per_side": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "windows_per_side": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "height_m": {
+          "type": "number"
+        },
+        "floor_m": {
+          "type": "number"
+        },
+        "bogie_centers_m": {
+          "type": "number",
+          "description": "distance between bogie pivots"
+        },
+        "axle_spacing_m": {
+          "type": "number"
+        },
+        "wheel_diameter_m": {
+          "type": "number"
         }
       }
     },
@@ -152,6 +187,9 @@
           "description": "at full brake demand (1.0), simple model until T3.1"
         }
       }
+    },
+    "has_pantograph": {
+      "type": "boolean"
     }
   },
   "$defs": {

@@ -496,7 +496,7 @@ const CONTENT = /*__DATA__*/;
     const valve = $("valve"); valve.textContent = "";
     CONSIST.brake_valve.positions.forEach((p) => {
       const b = document.createElement("button"); b.className = "valve-pos" + (p.id === "VI" ? " emerg" : ""); b.dataset.id = p.id;
-      b.innerHTML = `${p.id}<small>${{ release: "відпуск", hold: "перекр.", apply: "гальм." }[p.action]}</small>`;
+      b.innerHTML = `${p.id}<small>${{ charge: "відпуск", train: "поїзне", lap: "перекр.", lap_feed: "перекр.", service: "гальм.", service_slow: "гальм.", emergency: "екстр." }[p.kind]}</small>`;
       b.title = p.name_uk; b.addEventListener("click", () => cmd(Commands.brake_valve_set("player", p.id))); valve.appendChild(b);
     });
     for (const b of $("rev").children) b.addEventListener("click", () => cmd(Commands.reverser_set("player", +b.dataset.v)));

@@ -11,7 +11,10 @@
     "vehicles",
     "controller",
     "brake_valve",
-    "adhesion"
+    "adhesion",
+    "pneumatic",
+    "electrical",
+    "cab"
   ],
   "properties": {
     "id": {
@@ -122,10 +125,10 @@
         "positions",
         "default"
       ],
-      "description": "Simple brake-demand model until the pneumatic model (T3.1).",
+      "description": "Driver's brake valve (кран машиніста усл. №395 or similar). Each position has a pneumatic kind.",
       "properties": {
         "model": {
-          "const": "simple"
+          "const": "395"
         },
         "default": {
           "type": "string"
@@ -138,7 +141,7 @@
             "additionalProperties": false,
             "required": [
               "id",
-              "action"
+              "kind"
             ],
             "properties": {
               "id": {
@@ -147,24 +150,206 @@
               "name_uk": {
                 "type": "string"
               },
-              "action": {
+              "kind": {
                 "enum": [
-                  "release",
-                  "hold",
-                  "apply"
+                  "charge",
+                  "train",
+                  "lap",
+                  "lap_feed",
+                  "service",
+                  "service_slow",
+                  "emergency"
                 ]
-              },
-              "rate_per_s": {
-                "type": "number",
-                "minimum": 0
-              },
-              "limit": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 1
               }
             }
           }
+        }
+      }
+    },
+    "cab": {
+      "$ref": "#/$defs/id",
+      "description": "id of the cab definition (rolling_stock/<series>/cab.json)"
+    },
+    "pneumatic": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Pneumatic brake model (docs/SIMULATION.md §4). Pressures are gauge, kgf/cm²; rates kgf/cm² per s.",
+      "required": [
+        "main_reservoir_min_kgf_cm2",
+        "main_reservoir_max_kgf_cm2",
+        "compressor_rate_kgf_cm2_s",
+        "brake_pipe_charge_kgf_cm2",
+        "brake_cylinder_max_kgf_cm2",
+        "charge_rate_kgf_cm2_s",
+        "fast_charge_rate_kgf_cm2_s",
+        "service_rate_kgf_cm2_s",
+        "slow_service_rate_kgf_cm2_s",
+        "emergency_rate_kgf_cm2_s",
+        "brake_pipe_leak_kgf_cm2_s",
+        "main_reservoir_drain_ratio",
+        "distributor_ratio",
+        "distributor_sensitivity_kgf_cm2",
+        "release_sensitivity_kgf_cm2",
+        "emergency_threshold_kgf_cm2",
+        "cylinder_fill_rate_kgf_cm2_s",
+        "cylinder_emergency_fill_rate_kgf_cm2_s",
+        "cylinder_release_rate_kgf_cm2_s",
+        "ep_fill_rate_kgf_cm2_s",
+        "pantograph_min_kgf_cm2",
+        "aux_compressor_rate_kgf_cm2_s",
+        "aux_compressor_max_kgf_cm2"
+      ],
+      "properties": {
+        "main_reservoir_min_kgf_cm2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "main_reservoir_min_kgf_cm2"
+        },
+        "main_reservoir_max_kgf_cm2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "main_reservoir_max_kgf_cm2"
+        },
+        "compressor_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "compressor_rate_kgf_cm2_s"
+        },
+        "brake_pipe_charge_kgf_cm2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "brake_pipe_charge_kgf_cm2"
+        },
+        "brake_cylinder_max_kgf_cm2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "brake_cylinder_max_kgf_cm2"
+        },
+        "charge_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "charge_rate_kgf_cm2_s"
+        },
+        "fast_charge_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "fast_charge_rate_kgf_cm2_s"
+        },
+        "service_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "service_rate_kgf_cm2_s"
+        },
+        "slow_service_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "slow_service_rate_kgf_cm2_s"
+        },
+        "emergency_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "emergency_rate_kgf_cm2_s"
+        },
+        "brake_pipe_leak_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "brake_pipe_leak_kgf_cm2_s"
+        },
+        "main_reservoir_drain_ratio": {
+          "type": "number",
+          "minimum": 0,
+          "description": "main_reservoir_drain_ratio"
+        },
+        "distributor_ratio": {
+          "type": "number",
+          "minimum": 0,
+          "description": "distributor_ratio"
+        },
+        "distributor_sensitivity_kgf_cm2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "distributor_sensitivity_kgf_cm2"
+        },
+        "release_sensitivity_kgf_cm2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "release_sensitivity_kgf_cm2"
+        },
+        "emergency_threshold_kgf_cm2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "emergency_threshold_kgf_cm2"
+        },
+        "cylinder_fill_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "cylinder_fill_rate_kgf_cm2_s"
+        },
+        "cylinder_emergency_fill_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "cylinder_emergency_fill_rate_kgf_cm2_s"
+        },
+        "cylinder_release_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "cylinder_release_rate_kgf_cm2_s"
+        },
+        "ep_fill_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "ep_fill_rate_kgf_cm2_s"
+        },
+        "pantograph_min_kgf_cm2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "pantograph_min_kgf_cm2"
+        },
+        "aux_compressor_rate_kgf_cm2_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "aux_compressor_rate_kgf_cm2_s"
+        },
+        "aux_compressor_max_kgf_cm2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "aux_compressor_max_kgf_cm2"
+        }
+      }
+    },
+    "electrical": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pantograph_raise_s",
+        "pantograph_lower_s",
+        "aux_start_s",
+        "catenary_kv"
+      ],
+      "properties": {
+        "pantograph_raise_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "s"
+        },
+        "pantograph_lower_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "s"
+        },
+        "aux_start_s": {
+          "type": "number",
+          "minimum": 0,
+          "description": "s, phase splitter / aux converter run-up"
+        },
+        "catenary_kv": {
+          "type": "number",
+          "description": "nominal line voltage the train is built for"
+        },
+        "battery_v": {
+          "type": "number",
+          "minimum": 0,
+          "description": "V"
         }
       }
     }

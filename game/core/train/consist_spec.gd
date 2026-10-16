@@ -13,9 +13,12 @@ var adhesion: Dictionary = {}
 ## [{id: String, force: float, power: float}]
 var controller_positions: Array[Dictionary] = []
 var controller_force_ramp_per_s: float = 0.5
-## [{id, name_uk, action: "release"|"hold"|"apply", rate_per_s, limit}]
+## [{id, name_uk, kind: "charge"|"train"|"lap"|"lap_feed"|"service"|"service_slow"|"emergency"}]
 var brake_valve_positions: Array[Dictionary] = []
 var brake_valve_default: String = ""
+var pneumatic_data: Dictionary = {}
+var electrical_data: Dictionary = {}
+var cab_id: StringName = &""
 
 
 func length_m() -> float:
@@ -100,6 +103,9 @@ static func from_dict(d: Dictionary, vehicle_data: Dictionary) -> ConsistSpec:
 	c.controller_force_ramp_per_s = float(ctl["force_ramp_per_s"])
 	for p: Variant in ctl["positions"]:
 		c.controller_positions.append(p as Dictionary)
+	c.pneumatic_data = d["pneumatic"]
+	c.electrical_data = d["electrical"]
+	c.cab_id = StringName(str(d.get("cab", "")))
 	var bv: Dictionary = d["brake_valve"]
 	c.brake_valve_default = str(bv["default"])
 	for p: Variant in bv["positions"]:

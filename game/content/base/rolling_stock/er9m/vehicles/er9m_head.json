@@ -27,5 +27,19 @@
   },
   "brakes": {
     "max_brake_force_kn": 45
+  },
+  "has_pantograph": false,
+  "visual": {
+    "body": "#2f6b45",
+    "stripe": "#e0c65a",
+    "roof": "#8b9190",
+    "front": "#c8452c",
+    "doors_per_side": 2,
+    "windows_per_side": 9,
+    "height_m": 4.25,
+    "floor_m": 1.2,
+    "bogie_centers_m": 15.0,
+    "axle_spacing_m": 2.6,
+    "wheel_diameter_m": 1.05
   }
 }

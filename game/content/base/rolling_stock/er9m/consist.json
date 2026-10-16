@@ -65,52 +65,77 @@
     ]
   },
   "brake_valve": {
-    "model": "simple",
+    "model": "395",
     "default": "II",
     "positions": [
       {
         "id": "I",
         "name_uk": "Відпуск і зарядка",
-        "action": "release",
-        "rate_per_s": 1.0
+        "kind": "charge"
       },
       {
         "id": "II",
         "name_uk": "Поїзне",
-        "action": "release",
-        "rate_per_s": 0.3
+        "kind": "train"
       },
       {
         "id": "III",
         "name_uk": "Перекриша без живлення",
-        "action": "hold"
+        "kind": "lap"
       },
       {
         "id": "IV",
         "name_uk": "Перекриша з живленням",
-        "action": "hold"
+        "kind": "lap_feed"
       },
       {
         "id": "V",
         "name_uk": "Службове гальмування",
-        "action": "apply",
-        "rate_per_s": 0.25,
-        "limit": 0.85
+        "kind": "service"
       },
       {
         "id": "Va",
         "name_uk": "Службове з уповільненою розрядкою",
-        "action": "apply",
-        "rate_per_s": 0.08,
-        "limit": 0.85
+        "kind": "service_slow"
       },
       {
         "id": "VI",
         "name_uk": "Екстрене гальмування",
-        "action": "apply",
-        "rate_per_s": 1.5,
-        "limit": 1.0
+        "kind": "emergency"
       }
     ]
+  },
+  "cab": "er9m_cab",
+  "pneumatic": {
+    "main_reservoir_min_kgf_cm2": 6.5,
+    "main_reservoir_max_kgf_cm2": 8.0,
+    "compressor_rate_kgf_cm2_s": 0.06,
+    "brake_pipe_charge_kgf_cm2": 4.8,
+    "brake_cylinder_max_kgf_cm2": 3.8,
+    "charge_rate_kgf_cm2_s": 0.25,
+    "fast_charge_rate_kgf_cm2_s": 1.0,
+    "service_rate_kgf_cm2_s": 0.2,
+    "slow_service_rate_kgf_cm2_s": 0.06,
+    "emergency_rate_kgf_cm2_s": 1.6,
+    "brake_pipe_leak_kgf_cm2_s": 0.004,
+    "main_reservoir_drain_ratio": 0.3,
+    "distributor_ratio": 2.5,
+    "distributor_sensitivity_kgf_cm2": 0.15,
+    "release_sensitivity_kgf_cm2": 0.15,
+    "emergency_threshold_kgf_cm2": 2.8,
+    "cylinder_fill_rate_kgf_cm2_s": 0.6,
+    "cylinder_emergency_fill_rate_kgf_cm2_s": 1.4,
+    "cylinder_release_rate_kgf_cm2_s": 0.7,
+    "ep_fill_rate_kgf_cm2_s": 0.8,
+    "pantograph_min_kgf_cm2": 3.5,
+    "aux_compressor_rate_kgf_cm2_s": 0.12,
+    "aux_compressor_max_kgf_cm2": 5.0
+  },
+  "electrical": {
+    "pantograph_raise_s": 6,
+    "pantograph_lower_s": 3,
+    "aux_start_s": 6,
+    "catenary_kv": 25,
+    "battery_v": 50
   }
 }

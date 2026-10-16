@@ -24,6 +24,9 @@ var starting_n_per_kn: float
 var max_traction_force_n: float = 0.0
 var max_traction_power_w: float = 0.0
 var max_brake_force_n: float
+var has_pantograph: bool = false
+## Drawing hints (colours, door/window counts, bogie geometry), see vehicle.schema.json.
+var visual: Dictionary = {}
 var verified: bool
 
 
@@ -55,5 +58,7 @@ static func from_dict(d: Dictionary) -> VehicleSpec:
 		v.max_traction_force_n = float(t["max_force_kn"]) * 1000.0
 		v.max_traction_power_w = float(t["max_power_kw"]) * 1000.0
 	v.max_brake_force_n = float((d["brakes"] as Dictionary)["max_brake_force_kn"]) * 1000.0
+	v.has_pantograph = bool(d.get("has_pantograph", false))
+	v.visual = d.get("visual", {})
 	v.verified = bool((d.get("meta", {}) as Dictionary).get("verified", false))
 	return v

@@ -52,50 +52,61 @@ func step() -> Array[Dictionary]:
 	return events
 
 
-## Applies a command now. Returns false (and emits &"command_rejected") if not allowed.
+## Applies a command now. Returns false (and emits &"command_rejected" with a reason for
+## the player) if it is not allowed.
 func apply_command(cmd: Dictionary) -> bool:
-	var ok: bool = _execute(cmd)
-	if ok:
+	var reason: String = _execute(cmd)
+	if reason == "":
 		var logged: Dictionary = cmd.duplicate()
 		logged["tick"] = tick
 		command_log.append(logged)
-	else:
-		events.append({"type": &"command_rejected", "command": cmd, "tick": tick})
-	return ok
+		return true
+	events.append({"type": &"command_rejected", "command": cmd, "reason": reason, "tick": tick})
+	return false
 
 
-func _execute(cmd: Dictionary) -> bool:
+func _execute(cmd: Dictionary) -> String:
 	var type: StringName = StringName(str(cmd.get("type", "")))
 	if type == Commands.SWITCH_SET:
-		return set_switch(StringName(str(cmd["node"])), bool(cmd["diverging"]))
+		var ok: bool = set_switch(StringName(str(cmd["node"])), bool(cmd["diverging"]))
+		return "" if ok else "стрілка замкнена під поїздом"
 	var t: Train = trains.get(StringName(str(cmd.get("train", "")))) as Train
 	if t == null:
-		return false
-	var positions: int = t.consist.controller_positions.size()
-	var valve_positions: int = t.consist.brake_valve_positions.size()
+		return "немає такого поїзда"
+	match type:
+		Commands.CAB_CONTROL:
+			return t.operate(StringName(str(cmd["control"])), bool(cmd["value"]))
+		Commands.REVERSER_SET:
+			var value: int = int(cmd["value"])
+			if value < -1 or value > 1:
+				return "немає такого положення реверсора"
+			if absf(t.speed_ms) > REVERSER_MAX_SPEED_MS:
+				return "реверсор перемикається лише на стоянці"
+			t.reverser = value
+			return ""
 	var index: int = -1
 	match type:
 		Commands.CONTROLLER_STEP:
-			index = _bounded(t.controller_index + int(cmd["delta"]), positions)
+			index = _bounded(
+				t.controller_index + int(cmd["delta"]), t.consist.controller_positions.size()
+			)
 		Commands.CONTROLLER_SET:
 			index = t.consist.controller_index_of(str(cmd["position"]))
 		Commands.BRAKE_VALVE_STEP:
-			index = _bounded(t.brake_valve_index + int(cmd["delta"]), valve_positions)
+			index = _bounded(
+				t.brake_valve_index + int(cmd["delta"]), t.consist.brake_valve_positions.size()
+			)
 		Commands.BRAKE_VALVE_SET:
 			index = t.consist.brake_valve_index_of(str(cmd["position"]))
-		Commands.REVERSER_SET:
-			var value: int = int(cmd["value"])
-			if value >= -1 and value <= 1 and absf(t.speed_ms) <= REVERSER_MAX_SPEED_MS:
-				t.reverser = value
-				return true
-			return false
+		_:
+			return "невідома команда"
 	if index < 0:
-		return false
+		return "немає такого положення"
 	if type == Commands.CONTROLLER_STEP or type == Commands.CONTROLLER_SET:
 		t.controller_index = index
 	else:
 		t.brake_valve_index = index
-	return true
+	return ""
 
 
 static func _bounded(index: int, size: int) -> int:
