@@ -1,5 +1,8 @@
 # Настольная демка 0.3.1
 
+Скачать: [Windows ZIP с готовым EXE](https://raw.githubusercontent.com/editorrc/train-simulator-/d8a543ae6adad0a352619c546fdb3328dab309e0/TrainSimulator-Windows.zip) · [macOS universal DMG](https://raw.githubusercontent.com/editorrc/train-simulator-/d8a543ae6adad0a352619c546fdb3328dab309e0/TrainSimulator-macOS-universal.dmg).
+Обе HTTPS-загрузки повторно скачаны и проверены по SHA256. Подробности: [BUILD_VALIDATION.md](BUILD_VALIDATION.md).
+
 Windows: скачать TrainSimulator-Windows.zip, распаковать и запустить TrainSimulator.exe.
 Можно скачать EXE отдельно вместе с файлом лицензий. Godot, Python и браузер не нужны.
 
