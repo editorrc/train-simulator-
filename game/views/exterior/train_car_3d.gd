@@ -74,7 +74,7 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	var stripe: StandardMaterial3D = material(Color(str(livery.get("stripe", "#e9d37c"))))
 	var steel: StandardMaterial3D = material(Color("667078"), 0.7)
 	var dark: StandardMaterial3D = material(Color("171e24"), 0.3)
-	var glass: StandardMaterial3D = material(Color("1b2b35"), .85, .06)
+	var glass: StandardMaterial3D = material(Color("2b3e4a"), .55, .08)
 	var black: StandardMaterial3D = material(Color("0d1418"))
 	body = Node3D.new()
 	add_child(body)
@@ -108,17 +108,41 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 		var windows: int = int(spec.visual.get("windows_per_side", 9))
 		for i: int in windows:
 			var z: float = lerpf(-end + 4.0, end - 4.0, float(i) / maxf(windows - 1, 1))
-			box(body, Vector3(side * 1.716, 3.12, z), Vector3(0.04, 1.05, 1.25), black)
-			box(body, Vector3(side * 1.744, 3.12, z), Vector3(0.025, 0.92, 1.12), glass)
-			box(body, Vector3(side * 1.76, 3.37, z), Vector3(0.025, 0.025, 1.12), steel)
+			# Rubber gasket, aluminium frame, recessed glass and the upper vent (форточка).
+			box(body, Vector3(side * 1.716, 3.12, z), Vector3(0.04, 1.1, 1.3), black)
+			box(body, Vector3(side * 1.728, 3.12, z), Vector3(0.025, 0.94, 1.14), glass)
+			for frame_y: float in [2.66, 3.58]:
+				box(body, Vector3(side * 1.742, frame_y, z), Vector3(0.022, 0.04, 1.18), steel)
+			for frame_z: float in [-0.57, 0.57]:
+				box(
+					body,
+					Vector3(side * 1.742, 3.12, z + frame_z),
+					Vector3(0.022, 0.96, 0.04),
+					steel
+				)
+			box(body, Vector3(side * 1.742, 3.36, z), Vector3(0.022, 0.03, 1.14), steel)
+			box(body, Vector3(side * 1.742, 3.47, z), Vector3(0.022, 0.22, 0.03), steel)
 		for z: float in [-end + 2.6, end - 2.6]:
-			box(body, Vector3(side * 1.73, 2.28, z), Vector3(0.025, 2.13, 1.28), black)
+			# Door opening with a dark seal, a step below and grab rails on both sides.
+			box(body, Vector3(side * 1.73, 2.28, z), Vector3(0.025, 2.17, 1.34), black)
+			box(body, Vector3(side * 1.74, 1.13, z), Vector3(0.18, 0.06, 1.3), steel)
+			for rail_z: float in [-0.76, 0.76]:
+				cylinder(body, Vector3(side * 1.78, 2.25, z + rail_z), .022, 1.3, steel, 8)
 			for leaf: float in [-1.0, 1.0]:
 				var panel := Node3D.new()
 				panel.position = Vector3(side * 1.77, 0, z + leaf * 0.31)
 				body.add_child(panel)
 				box(panel, Vector3(0, 2.28, 0), Vector3(0.035, 2.06, 0.6), door_paint)
-				box(panel, Vector3(side * 0.025, 2.95, 0), Vector3(0.02, 0.72, 0.43), glass)
+				# Window with its rubber, the meeting-edge seal and a kick plate.
+				box(panel, Vector3(side * 0.02, 2.95, 0), Vector3(0.02, 0.8, 0.47), black)
+				box(panel, Vector3(side * 0.03, 2.95, 0), Vector3(0.02, 0.7, 0.39), glass)
+				box(
+					panel,
+					Vector3(side * 0.022, 2.28, -leaf * 0.29),
+					Vector3(0.02, 2.06, 0.03),
+					black
+				)
+				box(panel, Vector3(side * 0.022, 1.42, 0), Vector3(0.02, 0.2, 0.56), steel)
 				doors.append({"node": panel, "base": panel.position.z, "leaf": leaf, "side": side})
 	# Roof: walkway strip and ventilator hoods along the centre line.
 	var roof_detail: StandardMaterial3D = material(

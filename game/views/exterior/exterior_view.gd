@@ -84,7 +84,7 @@ func setup(
 		env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
 		env.ambient_light_sky_contribution = .7
 		env.tonemap_mode = Environment.TONE_MAPPER_ACES
-		env.tonemap_exposure = .92
+		env.tonemap_exposure = .8
 		env.glow_enabled = true
 		env.glow_intensity = .55
 		env.glow_bloom = .04
@@ -618,7 +618,7 @@ func _process(delta: float) -> void:
 			)
 		car.update_detail(car._wheel_radius * 2.0 * pixel_scale if adaptive else 100.0)
 	var night: bool = not preview_mode and bool(Settings.get_value("visual", "night", false))
-	_sun.light_energy = 1.0 if preview_mode else (.06 if night else 1.1)
+	_sun.light_energy = .9 if preview_mode else (.06 if night else 1.1)
 	_environment.environment.ambient_light_energy = .28 if preview_mode else (.15 if night else .7)
 	cam_ch = world.graph.chainage_at(head)
 	queue_redraw()
@@ -721,10 +721,24 @@ func _fit_preview(
 	# Menu lens differs from the game cameras on purpose: a long (telephoto) lens from far
 	# away compresses the formation like a studio photo instead of stretching it into a
 	# string. The off-axis frustum below still fits the whole formation.
+	# A slow idle drift keeps the studio shot alive (a few decimetres, no sudden moves).
+	var drift := Vector3.ZERO
+	if bool(Settings.get_value("visual", "menu_camera_drift", true)):
+		var t: float = Time.get_ticks_msec() / 1000.0
+		drift = (
+			right * sin(t * .11) * 1.4
+			+ Vector3.UP * sin(t * .083 + 1.3) * .35
+			+ forward * sin(t * .067 + .4) * 1.1
+		)
+	# More face-on, like the concept: the nose sits in the left half of the frame.
 	_camera.position = (
-		head.origin + forward * (specs[0].length_m * .5 + 17.0) - right * 22.0 + Vector3.UP * 4.6
+		head.origin
+		+ forward * (specs[0].length_m * .5 + 24.0)
+		- right * 15.0
+		+ Vector3.UP * 4.0
+		+ drift
 	)
-	_camera.look_at(head.origin - forward * 24.0 + Vector3.UP * 2.0)
+	_camera.look_at(head.origin - forward * 22.0 + Vector3.UP * 2.0)
 	# Off-axis lens fits the whole formation while keeping a large cab in the foreground.
 	# Changing FOV alone would either crop the nose or shrink all cars into a thin strip.
 	var low := Vector2(INF, INF)
