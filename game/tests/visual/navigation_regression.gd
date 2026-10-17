@@ -58,6 +58,18 @@ func _run() -> void:
 			),
 			"preview physics uses selected formation"
 		)
+		var view: Node = preview.get("_view")
+		var camera: Camera3D = view.get("_camera")
+		var cars: Array = view.get("_cars")
+		var viewport: SubViewport = view.get("_viewport")
+		for car: Node3D in cars:
+			check(absf(car.position.x) < .001, "studio formation is straight")
+		var tail: Node3D = cars.back()
+		var projected: Vector2 = camera.unproject_position(tail.position + Vector3.UP * 2.5)
+		check(
+			Rect2(Vector2.ZERO, Vector2(viewport.size)).has_point(projected),
+			"tail visible for %d cars" % count
+		)
 		capture("formation-%d" % count)
 	menu.call("_pick_formation", 8)
 	for page: int in [1, 2, 3, 4, 0]:

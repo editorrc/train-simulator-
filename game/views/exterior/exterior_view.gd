@@ -118,12 +118,11 @@ func setup(
 
 func _build_preview_track() -> void:
 	var train: Train = world.player()
-	var center: Vector3 = _position(train.head)
+	var center := Vector3.ZERO
 	var rails: Array[Transform3D] = []
 	var sleepers: Array[Transform3D] = []
 	for index: int in int((train.consist.length_m() + 30) / 1.5):
-		var at: TrackPosition = train.head.advance(world.graph, 12 - index * 1.5).position
-		var frame: Transform3D = _rail_path.frame(at)
+		var frame := Transform3D(Basis.IDENTITY, Vector3(0, 0, -12 + index * 1.5))
 		sleepers.append(frame.translated_local(Vector3(0, -.04, 0)))
 		for side: float in [-1.0, 1.0]:
 			rails.append(frame.translated_local(Vector3(side * .76, .10, 0)))
@@ -423,7 +422,9 @@ func _process(delta: float) -> void:
 		specs.append(t.consist.vehicles[i])
 		if i < _cars.size() - 1:
 			extensions.append(_cars[i].suspension.extension)
-	var states: Array[Dictionary] = _consist_pose.solve(head, specs, extensions)
+	var states: Array[Dictionary] = (
+		_preview_states(specs) if preview_mode else _consist_pose.solve(head, specs, extensions)
+	)
 	forward = -(states[0]["body"] as Transform3D).basis.z
 	_forward = forward
 	var active_cab: int = 0 if t.reverser >= 0 else _cars.size() - 1
@@ -621,6 +622,30 @@ func adjust(d_yaw: float, d_pitch: float) -> void:
 		"pitch",
 		clampf(float(Settings.get_value("camera", "pitch", 25)) + d_pitch, 10, 70)
 	)
+
+
+func _preview_states(specs: Array[VehicleSpec]) -> Array[Dictionary]:
+	# A studio formation is independent of the route selected for driving.
+	var states: Array[Dictionary] = []
+	var offset: float = 0.0
+	for spec: VehicleSpec in specs:
+		var center := Vector3(0, 0, offset + spec.length_m * .5)
+		var half_bogie: float = float(spec.visual.get("bogie_centers_m", 15.0)) * .5
+		var inset: float = float(spec.visual.get("body_end_inset_m", .35))
+		states.append(
+			{
+				"body": Transform3D(Basis.IDENTITY, center),
+				"front": Vector3(0, 0, offset + inset),
+				"rear": Vector3(0, 0, offset + spec.length_m - inset),
+				"bogies":
+				[
+					Transform3D(Basis.IDENTITY, center + Vector3.FORWARD * half_bogie),
+					Transform3D(Basis.IDENTITY, center - Vector3.FORWARD * half_bogie)
+				]
+			}
+		)
+		offset += spec.length_m
+	return states
 
 
 func _fit_preview(

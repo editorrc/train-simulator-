@@ -27,6 +27,15 @@ func _ready() -> void:
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+	var watermark := TextureRect.new()
+	watermark.texture = load("res://ui/artem_mark.svg") as Texture2D
+	watermark.position = Vector2(48, 2)
+	watermark.size = Vector2(520, 164)
+	watermark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	watermark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	watermark.modulate = Color(1, 1, 1, .035)
+	watermark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(watermark)
 	var root := VBoxContainer.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.offset_left = 104
@@ -41,16 +50,7 @@ func _ready() -> void:
 	brand.add_theme_constant_override("separation", -2)
 	brand.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	brand.add_child(PanoramaTheme.label("ARTEM", 16, PanoramaTheme.MUTED))
-	var name_row := HBoxContainer.new()
-	name_row.add_theme_constant_override("separation", 12)
-	var mark := TextureRect.new()
-	mark.texture = load("res://ui/artem_mark.svg") as Texture2D
-	mark.custom_minimum_size = Vector2(64, 48)
-	mark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	mark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	name_row.add_child(mark)
-	name_row.add_child(PanoramaTheme.label("Train Emulator", 44))
-	brand.add_child(name_row)
+	brand.add_child(PanoramaTheme.label("Train Emulator", 44))
 	header.add_child(brand)
 	for i: int in PAGES.size():
 		var button: Button = PanoramaTheme.button(PAGES[i], _show_page.bind(i))
