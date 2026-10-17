@@ -93,15 +93,15 @@ def main():
     parser.add_argument('--hfs-out',type=Path)
     args=parser.parse_args()
     out=args.release
-    exe=(out/'TrainSimulator-Windows.exe').read_bytes()
+    exe=(out/'ARTEM-Windows.exe').read_bytes()
     assert exe[:2]==b'MZ'
     pe=struct.unpack_from('<I',exe,0x3c)[0]
     assert exe[pe:pe+4]==b'PE\0\0'
     assert struct.unpack_from('<H',exe,pe+4)[0]==0x8664
     assert exe[-4:]==b'GDPC','Missing embedded PCK'
     print('Windows GUI PE x86_64 with embedded PCK:',len(exe),'bytes')
-    digest=mac_app(out/'macos-stage/TrainSimulator.app')
+    digest=mac_app(out/'macos-stage/ARTEM.app')
     print('Mac executable SHA256:',digest)
-    if args.hfs_out:dmg_roundtrip(out/'TrainSimulator-macOS-universal.dmg',out/'macos-hfs.img',args.hfs_out)
+    if args.hfs_out:dmg_roundtrip(out/'ARTEM-macOS-universal.dmg',out/'macos-hfs.img',args.hfs_out)
 
 if __name__=='__main__':main()

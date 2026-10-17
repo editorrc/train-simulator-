@@ -17,7 +17,7 @@
     {
       "id": "control_circuits",
       "type": "toggle",
-      "label_uk": "Кола керув.",
+      "label_uk": "Кола керування",
       "hint_uk": "Кола керування",
       "hotkey": "N",
       "group": "power"
@@ -25,7 +25,7 @@
     {
       "id": "aux_compressor",
       "type": "hold",
-      "label_uk": "Доп. компр.",
+      "label_uk": "Допом. компр.",
       "hint_uk": "Допоміжний компресор (тримати): накачати повітря для підйому струмоприймача, коли ГР порожні",
       "hotkey": "Y",
       "group": "power",
@@ -34,7 +34,7 @@
     {
       "id": "pantograph",
       "type": "toggle",
-      "label_uk": "Струмопр.",
+      "label_uk": "Струмоприймач",
       "hint_uk": "Підняти / опустити струмоприймач",
       "hotkey": "U",
       "group": "hv"
@@ -42,7 +42,7 @@
     {
       "id": "main_breaker_on",
       "type": "button",
-      "label_uk": "ГВ увімк.",
+      "label_uk": "Увімкнення ГВ",
       "hint_uk": "Увімкнути головний вимикач (контролер у 0)",
       "hotkey": "G",
       "group": "hv",
@@ -51,7 +51,7 @@
     {
       "id": "main_breaker_off",
       "type": "button",
-      "label_uk": "ГВ вимк.",
+      "label_uk": "Вимкнення ГВ",
       "hint_uk": "Вимкнути головний вимикач",
       "hotkey": "H",
       "group": "hv",
@@ -60,7 +60,7 @@
     {
       "id": "protection_reset",
       "type": "button",
-      "label_uk": "Поверн. РП",
+      "label_uk": "Скидання захисту",
       "hint_uk": "Повернення реле захисту після спрацювання",
       "hotkey": "X",
       "group": "hv",
@@ -71,7 +71,7 @@
       "type": "toggle",
       "label_uk": "Доп. машини",
       "hint_uk": "Допоміжні машини (розщеплювач фаз, вентилятори)",
-      "hotkey": "M",
+      "hotkey": "A",
       "group": "aux"
     },
     {
@@ -171,7 +171,7 @@
     },
     {
       "id": "td",
-      "label_uk": "ТД",
+      "label_uk": "ТЕД",
       "color": "green",
       "when": "traction_on"
     }
@@ -205,7 +205,7 @@
     {
       "check": "aux_running",
       "label_uk": "Запустити допоміжні машини",
-      "hint_uk": "Тумблер «Доп. машини» (M), лампа ДМ згасне"
+      "hint_uk": "Тумблер «Доп. машини» (A), лампа ДМ згасне"
     },
     {
       "check": "compressors_on",
@@ -229,7 +229,7 @@
     },
     {
       "check": "reverser_set",
-      "label_uk": "Реверсор — Вперед",
+      "label_uk": "Реверсор — уперед",
       "hint_uk": "R"
     },
     {

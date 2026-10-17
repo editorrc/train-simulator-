@@ -5,9 +5,9 @@ config_version=5
 
 [application]
 
-config/name="Ukraine Visual Train Sim"
-config/version="0.3.3"
-config/description="Realistic Ukrainian railway simulator"
+config/name="ARTEM"
+config/version="0.3.4"
+config/description="Artificial Realistic Train Emulator with Modifications"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7")
 
@@ -58,4 +58,4 @@ textures/vram_compression/import_etc2_astc=true
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 
-environment/defaults/default_clear_color=Color(0.08, 0.09, 0.11, 1)
+environment/defaults/default_clear_color=Color(0.125, 0.129, 0.137, 1)

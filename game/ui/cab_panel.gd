@@ -27,6 +27,7 @@ const BUTTON_COLORS: Dictionary[String, Color] = {
 	"yellow": Color("d8a52a"),
 }
 
+var bindings: ControlBindings
 var world: SimWorld
 var cab_def: Dictionary = {}
 ## Hit regions rebuilt every draw: [{rect: Rect2, kind: String, id: String}]
@@ -93,44 +94,46 @@ func _click(h: Dictionary) -> void:
 			_send(Commands.reverser_set(p, int(id)))
 
 
-## Keyboard: hotkeys from cab.json plus the fixed driving keys. Returns true if handled.
-func handle_key(event: InputEventKey) -> bool:
-	if world == null:
-		return false
+## Actions are shared with the controls editor; model interlocks remain in SimWorld.
+func apply_action(id: String, pressed: bool) -> bool:
 	var p: StringName = world.player_train_id
-	var key_name: String = OS.get_keycode_string(event.keycode)
-	for c: Variant in cab_def.get("controls", []):
-		var cd: Dictionary = c
-		if str(cd.get("hotkey", "")) != key_name:
+	for raw: Variant in cab_def.get("controls", []):
+		var control: Dictionary = raw
+		if str(control["id"]) != id:
 			continue
-		var id := StringName(str(cd["id"]))
-		match str(cd["type"]):
-			"toggle":
-				if event.pressed and not event.echo:
-					_send(Commands.cab_control(p, id, not _train().cab.is_on(id)))
-			"button":
-				if event.pressed and not event.echo:
-					_send(Commands.cab_control(p, id, true))
+		match str(control["type"]):
 			"hold":
-				if not event.echo:
-					_send(Commands.cab_control(p, id, event.pressed))
+				_send(Commands.cab_control(p, StringName(id), pressed))
+			"toggle":
+				if pressed:
+					_send(
+						Commands.cab_control(
+							p, StringName(id), not _train().cab.is_on(StringName(id))
+						)
+					)
+			"button":
+				if pressed:
+					_send(Commands.cab_control(p, StringName(id), true))
 		return true
-	if not event.pressed or event.echo:
+	if not pressed:
 		return false
-	match event.keycode:
-		KEY_W:
+	match id:
+		"controller_up":
 			_send(Commands.controller_step(p, 1))
-		KEY_S:
+		"controller_down":
 			_send(Commands.controller_step(p, -1))
-		KEY_Q:
+		"brake_release":
 			_send(Commands.brake_valve_step(p, -1))
-		KEY_E:
+		"brake_apply":
 			_send(Commands.brake_valve_step(p, 1))
-		KEY_BACKSPACE:
+		"emergency":
 			_send(Commands.brake_valve_set(p, "VI"))
-		KEY_R:
-			var next: int = {1: 0, 0: -1, -1: 1}[_train().reverser]
-			_send(Commands.reverser_set(p, next))
+		"reverser_forward":
+			_send(Commands.reverser_set(p, 1))
+		"reverser_neutral":
+			_send(Commands.reverser_set(p, 0))
+		"reverser_reverse":
+			_send(Commands.reverser_set(p, -1))
 		_:
 			return false
 	return true
@@ -245,7 +248,7 @@ func _draw_instruments(r: Rect2) -> void:
 		6,
 		1,
 		0.5,
-		"СТР.",
+		tr("ПОВ. СП"),
 		"кгс/см²",
 		[{"value": _kgf(t.air.p_panto), "color": Color("111111")}],
 		[{"value": 3.5, "color": Color("d8a52a")}]
@@ -257,11 +260,11 @@ func _draw_instruments(r: Rect2) -> void:
 		absf(t.last_traction_n) / maxf(t.consist.max_traction_force_n(), 1.0), 0, 1
 	)
 	draw_rect(Rect2(bar.position, Vector2(bar.size.x * frac, bar.size.y)), Color("57e38a"))
-	var font: Font = ThemeDB.fallback_font
+	var font: Font = get_theme_default_font()
 	draw_string(
 		font,
 		bar.position + Vector2(bar.size.x + 8, 9),
-		"Тяга %d кН" % roundi(t.last_traction_n / 1000.0),
+		tr("Тяга %d кН") % roundi(t.last_traction_n / 1000.0),
 		HORIZONTAL_ALIGNMENT_LEFT,
 		-1,
 		13,
@@ -270,7 +273,7 @@ func _draw_instruments(r: Rect2) -> void:
 
 
 func _draw_switchboard(r: Rect2) -> void:
-	var font: Font = ThemeDB.fallback_font
+	var font: Font = get_theme_default_font()
 	var t: Train = _train()
 	# Signal lamps.
 	var lamps: Array = cab_def.get("lamps", [])
@@ -311,7 +314,7 @@ func _draw_switchboard(r: Rect2) -> void:
 
 
 func _toggle(c: Vector2, cd: Dictionary) -> void:
-	var font: Font = ThemeDB.fallback_font
+	var font: Font = get_theme_default_font()
 	var id := StringName(str(cd["id"]))
 	var on: bool = _train().cab.is_on(id)
 	var plate := Rect2(c + Vector2(-26, -30), Vector2(52, 60))
@@ -322,7 +325,7 @@ func _toggle(c: Vector2, cd: Dictionary) -> void:
 	draw_line(c, tip, Color("c9cfcc"), 6.0, true)
 	draw_circle(tip, 6, Color("e7ecea"))
 	draw_string(
-		font, plate.position + Vector2(4, 12), "УВ", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, LABEL_DIM
+		font, plate.position + Vector2(4, 12), "УВІМК", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, LABEL_DIM
 	)
 	draw_string(
 		font, plate.position + Vector2(4, 57), "ВИМК", HORIZONTAL_ALIGNMENT_LEFT, -1, 9, LABEL_DIM
@@ -330,14 +333,16 @@ func _toggle(c: Vector2, cd: Dictionary) -> void:
 	var y: float = _centered_words(
 		c + Vector2(0, 46), str(cd["label_uk"]), _toggle_pitch - 6.0, 12, LABEL
 	)
-	var hk: String = str(cd.get("hotkey", ""))
+	var hk: String = (
+		bindings.label_for(str(cd["id"])) if bindings != null else str(cd.get("hotkey", ""))
+	)
 	if hk != "":
 		_centered_words(Vector2(c.x, y), "[%s]" % hk, 80.0, 11, LABEL_DIM)
 	_hits.append({"rect": plate.grow(6), "kind": "toggle", "id": str(id)})
 
 
 func _push_button(c: Vector2, cd: Dictionary) -> void:
-	var font: Font = ThemeDB.fallback_font
+	var font: Font = get_theme_default_font()
 	var id: String = str(cd["id"])
 	var col: Color = BUTTON_COLORS.get(str(cd.get("color", "neutral")), BUTTON_COLORS["neutral"])
 	var pressed: bool = (
@@ -349,7 +354,9 @@ func _push_button(c: Vector2, cd: Dictionary) -> void:
 	if not pressed:
 		draw_circle(c + Vector2(-5, -6), 5, Color(1, 1, 1, 0.35))
 	var y: float = _centered_words(c + Vector2(0, 40), str(cd["label_uk"]), 84.0, 12, LABEL)
-	var hk: String = str(cd.get("hotkey", ""))
+	var hk: String = (
+		bindings.label_for(str(cd["id"])) if bindings != null else str(cd.get("hotkey", ""))
+	)
 	if hk != "":
 		_centered_words(Vector2(c.x, y), "[%s]" % hk, 84.0, 11, LABEL_DIM)
 	_hits.append(
@@ -360,7 +367,7 @@ func _push_button(c: Vector2, cd: Dictionary) -> void:
 ## Draws text centred under a control, wrapping on spaces and shrinking the font until the
 ## longest word fits. Returns the next baseline y.
 func _centered_words(at: Vector2, text: String, max_w: float, size_px: int, col: Color) -> float:
-	var font: Font = ThemeDB.fallback_font
+	var font: Font = get_theme_default_font()
 	var fs: int = size_px
 	for word: String in text.split(" "):
 		while fs > 8 and font.get_string_size(word, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x > max_w:
@@ -394,7 +401,7 @@ func _draw_handles(r: Rect2) -> void:
 	_rotary(
 		Vector2(r.position.x + rad + 20, cy),
 		rad,
-		"КОНТРОЛЕР",
+		tr("КОНТРОЛЕР"),
 		ctl_ids,
 		t.controller_index,
 		"controller",
@@ -408,7 +415,7 @@ func _draw_handles(r: Rect2) -> void:
 	_rotary(
 		Vector2(r.position.x + r.size.x * 0.55, cy),
 		rad * 1.1,
-		"КРАН №395",
+		tr("КРАН МАШИНІСТА"),
 		valve_ids,
 		t.brake_valve_index,
 		"valve",
@@ -417,7 +424,7 @@ func _draw_handles(r: Rect2) -> void:
 		20.0
 	)
 	var name: String = str(t.consist.brake_valve_positions[t.brake_valve_index].get("name_uk", ""))
-	var font: Font = ThemeDB.fallback_font
+	var font: Font = get_theme_default_font()
 	var nw: float = font.get_string_size(name, HORIZONTAL_ALIGNMENT_LEFT, -1, 14).x
 	draw_string(
 		font,
@@ -433,7 +440,7 @@ func _draw_handles(r: Rect2) -> void:
 	draw_string(
 		font,
 		announce_rect.position + Vector2(12, 23),
-		tr("Інформатор · I"),
+		tr("Інформатор") + " · " + (bindings.label_for("announcer") if bindings != null else "I"),
 		HORIZONTAL_ALIGNMENT_LEFT,
 		-1,
 		16,
@@ -442,12 +449,12 @@ func _draw_handles(r: Rect2) -> void:
 	_hits.append({"rect": announce_rect, "kind": "announcer", "id": ""})
 	# Reverser: three key positions.
 	var rx: float = r.end.x - 46
-	var labels: Array[String] = ["Вперед", "0", "Назад"]
+	var labels: Array[String] = [tr("Уперед"), "0", tr("Назад")]
 	var values: Array[int] = [1, 0, -1]
 	draw_string(
 		font,
 		Vector2(rx - 34, r.position.y + 20),
-		"РЕВЕРСОР",
+		tr("РЕВЕРСОР"),
 		HORIZONTAL_ALIGNMENT_LEFT,
 		-1,
 		13,
@@ -482,7 +489,7 @@ func _rotary(
 	deg_from: float,
 	deg_to: float
 ) -> void:
-	var font: Font = ThemeDB.fallback_font
+	var font: Font = get_theme_default_font()
 	var tw: float = font.get_string_size(title, HORIZONTAL_ALIGNMENT_LEFT, -1, 13).x
 	draw_string(
 		font, c + Vector2(-tw * 0.5, -rad - 30), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 13, LABEL_DIM

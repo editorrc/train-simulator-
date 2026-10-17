@@ -22,7 +22,7 @@ def run(*args,env=None):
 
 def licenses(out):
     parts=[]
-    for path in [ROOT/'LICENSE',ROOT/'game/audio/recordings/CREDITS.md',ROOT/'game/audio/recordings/LICENSE-OpenSFX.txt',ROOT/'game/audio/recordings/LICENSE-Kenney.txt',ROOT/'game/audio/announcements/CREDITS.md',ROOT/'game/audio/announcements/LICENSE-Ukrainian-TTS.txt']:
+    for path in [ROOT/'LICENSE',ROOT/'game/audio/recordings/CREDITS.md',ROOT/'game/audio/recordings/LICENSE-OpenSFX.txt',ROOT/'game/audio/recordings/LICENSE-Kenney.txt',ROOT/'game/audio/announcements/CREDITS.md',ROOT/'game/audio/announcements/LICENSE-Ukrainian-TTS.txt',ROOT/'game/ui/fonts/CREDITS.md',ROOT/'game/ui/fonts/LICENSE-e-Ukraine.txt']:
         if path.exists():parts.append(path.name+'\n'+path.read_text())
     # Godot's official copyright inventory includes bundled third-party libraries.
     cache=ROOT/'build/licenses'
@@ -32,7 +32,7 @@ def licenses(out):
         path=cache/('GODOT-'+name)
         if not path.exists():urllib.request.urlretrieve('https://raw.githubusercontent.com/godotengine/godot/4.7.2-stable/'+name,path)
         parts.append(path.name+'\n'+path.read_text())
-    target=out/'TrainSimulator-Licenses.txt'
+    target=out/'ARTEM-Licenses.txt'
     target.write_text('\n\n'.join(parts),encoding='utf-8')
     return target
 
@@ -51,10 +51,10 @@ def extract_app(archive,stage):
                     target.write_bytes(z.read(info))
                     target.chmod(0o755 if mode&0o111 else 0o644)
     app=next(stage.glob('*.app'))
-    app.rename(stage/'TrainSimulator.app')
+    app.rename(stage/'ARTEM.app')
     for path in stage.rglob('*'):
         if path.is_dir():path.chmod(0o755)
-    return stage/'TrainSimulator.app'
+    return stage/'ARTEM.app'
 
 def main():
     parser=argparse.ArgumentParser()
@@ -66,23 +66,24 @@ def main():
     parser.add_argument('--xorriso-library-dir',type=Path)
     args=parser.parse_args()
     out=args.out.resolve();out.mkdir(parents=True,exist_ok=True)
+    run('python3',ROOT/'tools/prepare_fonts.py')
     license_file=licenses(out)
     run(args.godot,'--headless','--path',GAME,'--import')
     targets=['windows','macos'] if args.target=='all' else [args.target]
     for target in targets:
         if target=='windows':
-            exe=out/'TrainSimulator-Windows.exe'
+            exe=out/'ARTEM-Windows.exe'
             run(args.godot,'--headless','--path',GAME,'--export-release','Windows Demo',exe)
-            with zipfile.ZipFile(out/'TrainSimulator-Windows.zip','w',zipfile.ZIP_DEFLATED) as z:
-                z.write(exe,'TrainSimulator.exe')
+            with zipfile.ZipFile(out/'ARTEM-Windows.zip','w',zipfile.ZIP_DEFLATED) as z:
+                z.write(exe,'ARTEM.exe')
                 z.write(license_file,license_file.name)
                 z.write(ROOT/'docs/DEMO.md','README.md')
         elif target=='linux':
-            binary=out/'TrainSimulator-Linux.x86_64'
+            binary=out/'ARTEM-Linux.x86_64'
             run(args.godot,'--headless','--path',GAME,'--export-release','Linux Demo',binary)
             binary.chmod(0o755)
         else:
-            archive=out/'TrainSimulator-macOS.zip'
+            archive=out/'ARTEM-macOS.zip'
             run(args.godot,'--headless','--path',GAME,'--export-release','macOS Demo',archive)
             stage=out/'macos-stage'
             if stage.exists():shutil.rmtree(stage)
@@ -91,16 +92,16 @@ def main():
             (stage/'Applications').symlink_to('/Applications',target_is_directory=True)
             shutil.copy2(license_file,stage/license_file.name)
             shutil.copy2(ROOT/'docs/DEMO.md',stage/'README.md')
-            dmg=out/'TrainSimulator-macOS-universal.dmg'
+            dmg=out/'ARTEM-macOS-universal.dmg'
             if platform.system()=='Darwin':
                 run('codesign','--verify','--deep','--strict',app)
-                run('hdiutil','create','-volname','Train Simulator','-srcfolder',stage,'-ov','-format','UDZO',dmg)
+                run('hdiutil','create','-volname','ARTEM','-srcfolder',stage,'-ov','-format','UDZO',dmg)
                 run('hdiutil','verify',dmg)
             elif args.xorriso and args.dmg_tool:
                 raw=out/'macos-hfs.img'
                 env=os.environ.copy()
                 if args.xorriso_library_dir:env['LD_LIBRARY_PATH']=str(args.xorriso_library_dir)
-                run(args.xorriso,'-as','mkisofs','-V','TRAIN_SIMULATOR','-R','-J','-hfsplus','-apm-block-size','512','-o',raw,stage,env=env)
+                run(args.xorriso,'-as','mkisofs','-V','ARTEM','-R','-J','-hfsplus','-apm-block-size','512','-o',raw,stage,env=env)
                 run(args.dmg_tool,'dmg',raw,dmg)
             else:
                 raise RuntimeError('DMG needs native macOS hdiutil, or explicitly supplied Linux HFS+ and UDIF tools')

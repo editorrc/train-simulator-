@@ -63,15 +63,15 @@ func set_collapsed(value: bool) -> void:
 
 
 func _draw() -> void:
-	var font: Font = ThemeDB.fallback_font
+	var font: Font = get_theme_default_font()
 	var body := StyleBoxFlat.new()
-	body.bg_color = Color(0.07, 0.09, 0.085, opacity)
+	body.bg_color = Color(PanoramaTheme.BACKGROUND, opacity)
 	body.border_color = Color(1, 1, 1, 0.12)
 	body.set_border_width_all(1)
 	body.set_corner_radius_all(6)
 	draw_style_box(body, Rect2(Vector2.ZERO, size))
 	var bar := StyleBoxFlat.new()
-	bar.bg_color = Color(0.16, 0.21, 0.19, minf(1.0, opacity + 0.1))
+	bar.bg_color = Color(PanoramaTheme.SURFACE, minf(1.0, opacity + 0.1))
 	bar.corner_radius_top_left = 6
 	bar.corner_radius_top_right = 6
 	if collapsed:
@@ -79,7 +79,7 @@ func _draw() -> void:
 		bar.corner_radius_bottom_right = 6
 	draw_style_box(bar, Rect2(0, 0, size.x, TITLE_H))
 	draw_string(
-		font, Vector2(28, 18), title, HORIZONTAL_ALIGNMENT_LEFT, size.x - 60, 14, Color("dfe8e3")
+		font, Vector2(28, 18), title, HORIZONTAL_ALIGNMENT_LEFT, size.x - 60, 14, PanoramaTheme.TEXT
 	)
 	# Collapse arrow.
 	var a := Vector2(14, 13)
@@ -88,7 +88,7 @@ func _draw() -> void:
 		if not collapsed
 		else PackedVector2Array([a + Vector2(-3, -5), a + Vector2(-3, 5), a + Vector2(4, 0)])
 	)
-	draw_colored_polygon(tri, Color("bcd0c6"))
+	draw_colored_polygon(tri, PanoramaTheme.ACCENT)
 	# Grip dots.
 	draw_string(
 		font, Vector2(size.x - 44, 18), "⠿", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1, 1, 1, 0.35)

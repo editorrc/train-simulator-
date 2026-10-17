@@ -64,6 +64,9 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	_length = spec.length_m - 2.0 * float(spec.visual.get("body_end_inset_m", .35))
 	var end: float = _length * 0.5
 	var paint: StandardMaterial3D = material(Color(str(livery.get("body", "#287958"))), 0.25)
+	var door_paint: StandardMaterial3D = material(
+		Color(str(livery.get("doors", livery.get("body", "#287958")))), .25
+	)
 	var roof: StandardMaterial3D = material(Color(str(livery.get("roof", "#88928c"))), 0.2)
 	var stripe: StandardMaterial3D = material(Color(str(livery.get("stripe", "#e9d37c"))))
 	var steel: StandardMaterial3D = material(Color("667078"), 0.7)
@@ -78,14 +81,30 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	_rounded_shell(front, rear, paint, roof)
 	box(body, Vector3(0, 0.9, -1), Vector3(2.0, 0.5, 6.0), dark)
 	for side: float in [-1.0, 1.0]:
+		if livery.has("lower_body"):
+			box(
+				body,
+				Vector3(side * 1.721, 1.85, (front + rear) * .5),
+				Vector3(.025, 1.15, rear - front),
+				material(Color(str(livery["lower_body"])), .25)
+			)
 		box(
 			body,
 			Vector3(side * 1.71, 2.0, (front + rear) * 0.5),
 			Vector3(0.025, 0.20, rear - front),
 			stripe
 		)
-		for i: int in 7:
-			var z: float = lerpf(-end + 4.0, end - 4.0, i / 6.0)
+		# Shallow pressed ribs and sill trim remain in the same rigid mesh batch.
+		for y: float in [1.46, 1.55, 1.64, 1.73, 1.82, 2.24, 2.33, 2.42]:
+			box(
+				body,
+				Vector3(side * 1.726, y, (front + rear) * .5),
+				Vector3(.028, .018, rear - front),
+				paint
+			)
+		var windows: int = int(spec.visual.get("windows_per_side", 9))
+		for i: int in windows:
+			var z: float = lerpf(-end + 4.0, end - 4.0, float(i) / maxf(windows - 1, 1))
 			box(body, Vector3(side * 1.716, 3.12, z), Vector3(0.04, 1.05, 1.25), black)
 			box(body, Vector3(side * 1.744, 3.12, z), Vector3(0.025, 0.92, 1.12), glass)
 			box(body, Vector3(side * 1.76, 3.37, z), Vector3(0.025, 0.025, 1.12), steel)
@@ -95,7 +114,7 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 				var panel := Node3D.new()
 				panel.position = Vector3(side * 1.77, 0, z + leaf * 0.31)
 				body.add_child(panel)
-				box(panel, Vector3(0, 2.28, 0), Vector3(0.035, 2.06, 0.6), paint)
+				box(panel, Vector3(0, 2.28, 0), Vector3(0.035, 2.06, 0.6), door_paint)
 				box(panel, Vector3(side * 0.025, 2.95, 0), Vector3(0.02, 0.72, 0.43), glass)
 				doors.append({"node": panel, "base": panel.position.z, "leaf": leaf, "side": side})
 	var bogie_half: float = float(spec.visual.get("bogie_centers_m", 15.0)) * .5
@@ -113,6 +132,19 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 		add_child(truck)
 		trucks.append(truck)
 		box(truck, Vector3(0, .65, 0), Vector3(2.45, .4, 3.2), dark)
+		for side: float in [-1.0, 1.0]:
+			box(truck, Vector3(side * 1.12, .70, 0), Vector3(.22, .32, 2.9), steel)
+			for axle: float in [-axle_half, axle_half]:
+				box(truck, Vector3(side * 1.21, .58, axle), Vector3(.28, .30, .33), dark)
+				for coil: int in 4:
+					cylinder(
+						truck,
+						Vector3(side * 1.1, .87 + coil * .055, axle * .55),
+						.16,
+						.025,
+						steel,
+						12
+					)
 		RigidMeshBatch.merge(truck)
 		var multi := MultiMesh.new()
 		multi.transform_format = MultiMesh.TRANSFORM_3D
@@ -130,7 +162,15 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	if spec.has_pantograph:
 		_build_pantograph(dark)
 	if cab:
-		_cab(end, paint, stripe, glass, black, steel)
+		_cab(
+			end,
+			material(Color(str(livery.get("front", livery.get("body", "#287958")))), .25),
+			material(Color(str(livery.get("front_stripe", livery.get("stripe", "#e9d37c"))))),
+			glass,
+			black,
+			steel
+		)
+		_cab_roof(end, roof)
 	var moving: Array[Node3D] = []
 	if pantograph != null:
 		moving.append(pantograph)
@@ -263,13 +303,13 @@ func _cab(
 	for x: float in [-1.1, 1.1]:
 		var housing: MeshInstance3D = cylinder(body, Vector3(x, 1.72, -end - .07), .18, .12, black)
 		housing.rotation.x = PI / 2.0
-		cylinder(housing, Vector3(0, .08, 0), .13, .025, material(Color("e1d3a5")))
+		cylinder(housing, Vector3(0, -.08, 0), .13, .025, material(Color("e1d3a5")))
 	var top: MeshInstance3D = cylinder(body, Vector3(0, 3.88, -end - .04), .25, .17, steel)
 	top.rotation.x = PI / 2.0
 	var lens_mat: StandardMaterial3D = material(Color("fff2d2"))
 	lens_mat.emission_enabled = true
 	lens_mat.emission = Color("fff0c0")
-	cylinder(top, Vector3(0, .10, 0), .19, .025, lens_mat)
+	cylinder(top, Vector3(0, -.10, 0), .19, .025, lens_mat)
 	for y: float in [2.33, 2.40, 2.47, 2.54]:
 		box(body, Vector3(0, y, -end - .035), Vector3(1.6, .025, .025), black)
 	var badge := Label3D.new()
@@ -303,6 +343,31 @@ func _cab(
 	beam.position.z = -25.0
 	beam.rotation.x = PI / 2.0
 	lamp.add_child(beam)
+
+
+func _cab_roof(end: float, roof: Material) -> void:
+	var tool := SurfaceTool.new()
+	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+	for i: int in 20:
+		var a: float = PI * i / 20.0
+		var b: float = PI * (i + 1) / 20.0
+		var points: Array[Vector3] = [
+			Vector3(cos(a) * 1.53, 3.79 + sin(a) * .53, -end - .02),
+			Vector3(cos(b) * 1.53, 3.79 + sin(b) * .53, -end - .02),
+			Vector3(cos(b) * 1.7, 3.70 + sin(b) * .55, -end + 1.65),
+			Vector3(cos(a) * 1.7, 3.70 + sin(a) * .55, -end + 1.65)
+		]
+		for index: int in [0, 2, 1, 0, 3, 2]:
+			var point: Vector3 = points[index]
+			tool.set_normal(Vector3(point.x / 1.6, (point.y - 3.7) / .55, 0).normalized())
+			tool.add_vertex(point)
+		tool.set_normal(Vector3(0, 0, -1))
+		for point: Vector3 in [Vector3(0, 3.79, -end - .02), points[1], points[0]]:
+			tool.add_vertex(point)
+	var shell := MeshInstance3D.new()
+	shell.mesh = tool.commit()
+	shell.material_override = roof
+	body.add_child(shell)
 
 
 static func _section(z: float, half: float, floor_y: float, roof_y: float) -> PackedVector3Array:

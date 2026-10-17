@@ -10,7 +10,7 @@ static func material() -> ShaderMaterial:
 	if _material == null:
 		var shader := Shader.new()
 		shader.code = """shader_type spatial;
-render_mode cull_back;
+render_mode cull_disabled;
 void fragment() {
 	ALBEDO = COLOR.rgb;
 	METALLIC = UV2.x;

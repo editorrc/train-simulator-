@@ -21,3 +21,4 @@ Thumbs.db
 # Distributed inside release binaries; never commit binary assets outside LFS.
 game/audio/recordings/*.wav
 game/audio/announcements/*.wav
+game/ui/fonts/*.otf

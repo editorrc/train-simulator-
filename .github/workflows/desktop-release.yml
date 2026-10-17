@@ -60,7 +60,7 @@ jobs:
         run: python tools/build_desktop.py --godot "$GODOT" --target all --out build/release
       - name: Verify universal macOS application and launch menu
         run: |
-          app="build/release/macos-stage/TrainSimulator.app"
+          app="build/release/macos-stage/ARTEM.app"
           binary="$app/Contents/MacOS/$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Contents/Info.plist")"
           lipo "$binary" -verify_arch arm64 x86_64
           codesign --verify --deep --strict "$app"
@@ -88,7 +88,7 @@ jobs:
         shell: pwsh
         run: |
           $log = Join-Path $env:RUNNER_TEMP 'windows-smoke.log'
-          $process = Start-Process -FilePath '.\release\TrainSimulator-Windows.exe' -ArgumentList @('--headless','--quit-after','120','--log-file',"`"$log`"") -Wait -PassThru
+          $process = Start-Process -FilePath '.\release\ARTEM-Windows.exe' -ArgumentList @('--headless','--quit-after','120','--log-file',"`"$log`"") -Wait -PassThru
           if ($process.ExitCode -ne 0) { throw "EXE exited with $($process.ExitCode)" }
           Get-Content $log
           if (Select-String -Path $log -Pattern 'SCRIPT ERROR:') { throw 'GDScript startup failure' }

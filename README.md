@@ -1,4 +1,4 @@
-# Ukraine Visual Train Sim
+# ARTEM — Train Emulator
 
 Реалістичний симулятор залізничного транспорту України.
 Старт — **Київська міська електричка (Kyiv City Express)** на електропоїздах **ЕР9М, ЕД9М, ЕПЛ9Т**,
@@ -9,6 +9,8 @@
 
 **Стадія:** M0–M3: ядро, пневматика й електрика ЕР9М, холодний запуск, 3D/2.5D-вид з камерами, пульт, записані звуки, інформатор і 20 станцій кільця.
 
+> Artificial Realistic Train Emulator with Modifications
+
 ## Як запустити
 - **Готові настільні збірки 0.3.3:** [Windows ZIP з EXE](https://raw.githubusercontent.com/editorrc/train-simulator-/360800b17bfdc6da0e2208298388d89bda39f253/TrainSimulator-Windows.zip) · [macOS DMG](https://raw.githubusercontent.com/editorrc/train-simulator-/360800b17bfdc6da0e2208298388d89bda39f253/TrainSimulator-macOS-universal.dmg). Розпакувати / перенести застосунок у «Програми»; рушій встановлювати не потрібно.
 - **У браузері (GitHub Pages):** https://editorrc.github.io/train-simulator-/ — після разового ввімкнення Settings → Pages → Source: GitHub Actions.
@@ -16,7 +18,17 @@
 - **Локально (гра):** Godot 4.7.2 → Import → `game/project.godot` → F5, або `make demo GODOT=...`.
 - **Локально (веб-збірка):** `make web-export GODOT=...`, потім `make serve` → http://localhost:8000
 
-Керування: B АКБ, N кола керування, Y (тримати) доп. компресор, U струмоприймач, G/H ГВ увімк/вимк, M доп. машини, K компресори, J ЕПГ, L прожектор, Space тифон; W/S контролер, Q/E кран 395, Backspace екстрене, R реверсор; V свисток, Z/C двері, I інформатор; F2 камера, F3 налаштування, F4 пульт, F5 карта, [ ] поворот, PgUp/PgDn нахил, колесо — масштаб, F1 панелі, F10 скинути розкладку, Esc меню.
+Керування у поточних вихідних кодах: ↑/↓ — контролер, ←/→ — кран; ⌫ — екстрене,
+R/Shift+R/Option+R — реверсор; Space/V — тифон/свисток, Z/C — двері.
+Tab — ракурс, F — з платформи, D — пульт, M — схема, Esc — пауза з продовженням.
+Налаштування — ⌘+, (Windows Ctrl+,); переназначення — у розділі «Керування».
+Повна [інструкція](docs/DEMO.md); [roadmap](docs/ROADMAP.md);
+[передача роботи Claude](docs/HANDOFF_CLAUDE.md).
+
+**У роботі 0.3.4:** нове меню ARTEM / Train Emulator, 4/6/8/10 вагонів і шість
+забарвлень. Посилання на готові збірки вище поки ведуть на **0.3.3**.
+Для фінальних шрифтів перед імпортом: `python tools/prepare_fonts.py`.
+
 
 ## Швидкий старт
 ```bash

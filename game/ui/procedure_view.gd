@@ -13,7 +13,7 @@ func _process(_delta: float) -> void:
 func _draw() -> void:
 	if world == null:
 		return
-	var font: Font = ThemeDB.fallback_font
+	var font: Font = get_theme_default_font()
 	var t: Train = world.player()
 	var y: float = 18.0
 	var next_found: bool = false
@@ -52,7 +52,7 @@ func _draw() -> void:
 		draw_string(
 			font,
 			Vector2(8, y + 6),
-			"Поїзд готовий. Кран у II, контролер — вперед (W).",
+			tr("Поїзд готовий. Кран у II; наберіть позицію контролера."),
 			HORIZONTAL_ALIGNMENT_LEFT,
 			size.x - 16,
 			13,

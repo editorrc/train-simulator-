@@ -96,6 +96,21 @@
           "number": {
             "type": "string",
             "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "doors": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "lower_body": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$"
+          },
+          "reference_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "short_name_uk": {
+            "type": "string"
           }
         }
       }

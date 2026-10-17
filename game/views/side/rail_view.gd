@@ -225,7 +225,14 @@ func _draw() -> void:
 	var w: float = size.x
 	draw_polygon(
 		PackedVector2Array([Vector2(0, 0), Vector2(w, 0), Vector2(w, size.y), Vector2(0, size.y)]),
-		PackedColorArray([Color("171c22"), Color("171c22"), Color("171c22"), Color("171c22")])
+		PackedColorArray(
+			[
+				PanoramaTheme.BACKGROUND,
+				PanoramaTheme.BACKGROUND,
+				PanoramaTheme.BACKGROUND,
+				PanoramaTheme.BACKGROUND
+			]
+		)
 	)
 	var rng: Vector2 = _visible_range(10.0)
 

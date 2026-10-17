@@ -12,7 +12,7 @@ var _last_livery: String = ""
 func _process(_dt: float) -> void:
 	if livery.is_empty():
 		return
-	var key: String = str(livery.get("id", ""))
+	var key: String = "%s:%s:%d" % [livery.get("id", ""), Session.scenario_id, Session.car_count]
 	if key == _last_livery and _view != null:
 		return
 	_last_livery = key
@@ -23,7 +23,7 @@ func _process(_dt: float) -> void:
 	_view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(_view)
-	var world: SimWorld = ContentDB.build_world(Session.scenario_id)
+	var world: SimWorld = Session.build_world()
 	var scenario: Dictionary = ContentDB.get_entry(&"scenario", Session.scenario_id)
 	var route: Dictionary = ContentDB.get_entry(&"route", StringName(str(scenario["route"])))
 	_view.setup(world, route["stations"], livery, "")

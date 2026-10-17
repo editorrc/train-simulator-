@@ -51,6 +51,7 @@ func setup(
 	_viewport.size = Vector2i(1920, 1080)
 	_viewport.msaa_3d = Viewport.MSAA_2X
 	_viewport.own_world_3d = true
+	_viewport.transparent_bg = preview_mode
 	_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
 	_viewport_container.add_child(_viewport)
 	_viewport_container.texture = _viewport.get_texture()
@@ -60,9 +61,21 @@ func setup(
 	_environment = WorldEnvironment.new()
 	_environment.environment = Environment.new()
 	_environment.environment.background_mode = Environment.BG_COLOR
-	_environment.environment.background_color = Color("171c22")
+	_environment.environment.background_color = (
+		Color(0, 0, 0, 0) if preview_mode else PanoramaTheme.BACKGROUND
+	)
 	_environment.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	_environment.environment.ambient_light_color = Color("b3c4da")
+	if preview_mode:
+		var sky := Sky.new()
+		var sky_material := ProceduralSkyMaterial.new()
+		sky_material.sky_top_color = Color("6b8195")
+		sky_material.sky_horizon_color = Color("c7d3dc")
+		sky_material.ground_bottom_color = Color("1b2530")
+		sky_material.ground_horizon_color = Color("7d929f")
+		sky.sky_material = sky_material
+		_environment.environment.sky = sky
+		_environment.environment.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
 	_stage.add_child(_environment)
 	_sun = DirectionalLight3D.new()
 	_sun.rotation_degrees = Vector3(-42, -35, 0)
@@ -81,8 +94,6 @@ func setup(
 
 	var t: Train = world.player()
 	for i: int in t.consist.vehicles.size():
-		if preview_mode and i > 1:
-			break
 		var car := TrainCar3D.new()
 		car.build(t.consist.vehicles[i], livery, i == 0 or i == t.consist.vehicles.size() - 1)
 		car.reversed_body = i == t.consist.vehicles.size() - 1 and i > 0
@@ -97,9 +108,29 @@ func setup(
 					TrainCar3D.material(Color("4b5154"), .7)
 				)
 			)
-	_build_track()
+	if preview_mode:
+		_build_preview_track()
+	else:
+		_build_track()
 	if not preview_mode:
 		_build_platforms()
+
+
+func _build_preview_track() -> void:
+	var train: Train = world.player()
+	var center: Vector3 = _position(train.head)
+	var rails: Array[Transform3D] = []
+	var sleepers: Array[Transform3D] = []
+	for index: int in int((train.consist.length_m() + 30) / 1.5):
+		var at: TrackPosition = train.head.advance(world.graph, 12 - index * 1.5).position
+		var frame: Transform3D = _rail_path.frame(at)
+		sleepers.append(frame.translated_local(Vector3(0, -.04, 0)))
+		for side: float in [-1.0, 1.0]:
+			rails.append(frame.translated_local(Vector3(side * .76, .10, 0)))
+	_batch(rails, Vector3(.07, .15, 1.53), TrainCar3D.material(Color("9aa1a5"), .8), center)
+	_batch(sleepers, Vector3(2.5, .13, .24), TrainCar3D.material(Color("434c51")), center)
+	_sun.shadow_enabled = true
+	_sun.directional_shadow_max_distance = 250
 
 
 func _position(pos: TrackPosition) -> Vector3:
@@ -309,19 +340,56 @@ func _build_platforms() -> void:
 				)
 				TrainCar3D.box(furniture, Vector3(side * 6.3, 2.7, 0), Vector3(.13, 3.2, .13), roof)
 				TrainCar3D.box(furniture, Vector3(side * 5, 1.5, 0), Vector3(1.5, .15, .5), roof)
-			if track_offset != 0:
-				continue
-			var label := Label3D.new()
-			label.text = str(station["name_uk"])
-			label.font_size = 64
-			label.pixel_size = .025
-			label.position = (
-				_rail_path.offset_point(TrackPosition.new(seg.id, middle, 1), side * 3, 3.2)
-				- group.position
+			for offset: float in [-45.0, 45.0]:
+				var frame: Transform3D = _rail_path.frame(
+					TrackPosition.new(seg.id, clampf(middle + offset, begin, end), 1)
+				)
+				var sign := Node3D.new()
+				group.add_child(sign)
+				sign.name = "StationSign"
+				sign.transform = Transform3D(
+					frame.basis,
+					frame.origin + frame.basis.x * (track_offset + side * 6.8) - group.position
+				)
+				_build_station_sign(sign, str(station["name_uk"]))
+
+
+func _build_station_sign(sign: Node3D, station_name: String) -> void:
+	var blue: StandardMaterial3D = TrainCar3D.material(Color("153d72"), .1)
+	var metal: StandardMaterial3D = TrainCar3D.material(Color("a1a9af"), .6)
+	var width: float = clampf(station_name.length() * .35 + .8, 3.2, 11.0)
+	TrainCar3D.box(sign, Vector3(0, 3.2, 0), Vector3(.12, 1.05, width), blue)
+	for end: float in [-1.0, 1.0]:
+		TrainCar3D.box(
+			sign, Vector3(0, 2.0, end * (width * .5 - .35)), Vector3(.10, 1.8, .10), metal
+		)
+		var label := Label3D.new()
+		label.name = "StationName"
+		label.text = station_name
+		label.font_size = 64
+		label.pixel_size = minf(
+			.010,
+			(
+				(width - .4)
+				/ maxf(
+					(
+						ThemeDB
+						. fallback_font
+						. get_string_size(station_name, HORIZONTAL_ALIGNMENT_LEFT, -1, 64)
+						. x
+					),
+					1
+				)
 			)
-			label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-			label.visibility_range_end = 220
-			group.add_child(label)
+		)
+		label.position = Vector3(end * .071, 3.2, 0)
+		label.rotation.y = end * PI * .5
+		label.modulate = Color.WHITE
+		label.outline_size = 0
+		label.no_depth_test = false
+		label.billboard = BaseMaterial3D.BILLBOARD_DISABLED
+		label.visibility_range_end = 220
+		sign.add_child(label)
 
 
 func _draw() -> void:
@@ -391,6 +459,8 @@ func _process(delta: float) -> void:
 			i == 0 if t.reverser >= 0 else i == _cars.size() - 1,
 			world.clock_s()
 		)
+		if preview_mode and car.lamp != null:
+			car.lamp.visible = false
 		if i > 0:
 			var from: Vector3 = states[i - 1]["rear"]
 			var to: Vector3 = states[i]["front"]
@@ -399,7 +469,8 @@ func _process(delta: float) -> void:
 			link.look_at(to + Vector3.UP)
 			link.scale.z = from.distance_to(to)
 	var zoom: float = float(Settings.get_value("camera", "zoom", 1.0))
-	var target: Vector3 = point - forward * (18.0 if preview_mode else 8.0 / zoom)
+	var length: float = t.consist.length_m()
+	var target: Vector3 = point - forward * (length * .48 if preview_mode else 8.0 / zoom)
 	var lag: float = float(Settings.get_value("camera", "follow_s", .18))
 	if not _camera_ready or point.distance_to(_focus) > 350:
 		_focus = target
@@ -416,17 +487,26 @@ func _process(delta: float) -> void:
 		forward if bool(Settings.get_value("camera", "follow_heading", false)) else _orbit_reference
 	)
 	var right: Vector3 = reference.cross(Vector3.UP).normalized()
-	var yaw: float = deg_to_rad(float(Settings.get_value("camera", "yaw", 0.0)))
-	var pitch: float = deg_to_rad(float(Settings.get_value("camera", "pitch", 25.0)))
+	var yaw: float = (
+		0.0 if preview_mode else deg_to_rad(float(Settings.get_value("camera", "yaw", 0.0)))
+	)
+	var pitch: float = deg_to_rad(
+		18.0 if preview_mode else float(Settings.get_value("camera", "pitch", 25.0))
+	)
 	var angle: float = (-.6 if _mode == 0 else .6) + yaw
 	if _mode == 2:
 		angle = 0.0
 	var outward: Vector3 = right * _platform_side * cos(angle) + reference * sin(-angle)
 	var focus: Vector3 = _focus + right * _pan + Vector3(0, 2, 0)
 	_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-	_camera.size = (18.0 if preview_mode else 45.0) / zoom
-	_camera.position = focus + outward * 90 * cos(pitch) + Vector3.UP * 90 * sin(pitch)
+	_camera.size = (
+		maxf(24, length * .7 / maxf(size.x / maxf(size.y, 1), 1)) if preview_mode else 45.0 / zoom
+	)
+	var radius: float = maxf(90, length) if preview_mode else 90.0
+	_camera.position = focus + outward * radius * cos(pitch) + Vector3.UP * radius * sin(pitch)
 	_camera.look_at(focus)
+	if preview_mode:
+		_fit_preview(states, specs, focus)
 	if _mode == 3:
 		_camera.projection = Camera3D.PROJECTION_PERSPECTIVE
 		_camera.fov = clampf(65.0 / zoom, 35.0, 100.0)
@@ -458,19 +538,23 @@ func _process(delta: float) -> void:
 	var adaptive: bool = bool(Settings.get_value("visual", "adaptive_detail", true))
 	for car: TrainCar3D in _cars:
 		var pixel_scale: float = _viewport.size.y / _camera.size
-		if _camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
+		if _camera.projection != Camera3D.PROJECTION_ORTHOGONAL:
 			pixel_scale = (
 				_viewport.size.y
 				/ (
 					2.0
-					* tan(deg_to_rad(_camera.fov * .5))
+					* (
+						tan(deg_to_rad(_camera.fov * .5))
+						if _camera.projection == Camera3D.PROJECTION_PERSPECTIVE
+						else _camera.size * .5 / _camera.near
+					)
 					* maxf(1, _camera.position.distance_to(car.position))
 				)
 			)
 		car.update_detail(car._wheel_radius * 2.0 * pixel_scale if adaptive else 100.0)
-	var night: bool = bool(Settings.get_value("visual", "night", false))
-	_sun.light_energy = .06 if night else 1.1
-	_environment.environment.ambient_light_energy = .15 if night else .7
+	var night: bool = not preview_mode and bool(Settings.get_value("visual", "night", false))
+	_sun.light_energy = 1.65 if preview_mode else (.06 if night else 1.1)
+	_environment.environment.ambient_light_energy = .9 if preview_mode else (.15 if night else .7)
 	cam_ch = world.graph.chainage_at(head)
 	queue_redraw()
 
@@ -537,6 +621,43 @@ func adjust(d_yaw: float, d_pitch: float) -> void:
 		"pitch",
 		clampf(float(Settings.get_value("camera", "pitch", 25)) + d_pitch, 10, 70)
 	)
+
+
+func _fit_preview(
+	states: Array[Dictionary], specs: Array[VehicleSpec], _focus_point: Vector3
+) -> void:
+	var head: Transform3D = states[0]["body"]
+	var forward: Vector3 = -head.basis.z
+	var right: Vector3 = head.basis.x
+	_camera.position = (
+		head.origin + forward * (specs[0].length_m * .5 + 7.0) - right * 15.0 + Vector3.UP * 5.5
+	)
+	_camera.look_at(head.origin - forward * 20.0 + Vector3.UP * 2.0)
+	# Off-axis lens fits the whole formation while keeping a large cab in the foreground.
+	# Changing FOV alone would either crop the nose or shrink all cars into a thin strip.
+	var low := Vector2(INF, INF)
+	var high := Vector2(-INF, -INF)
+	var inverse: Transform3D = _camera.transform.affine_inverse()
+	for i: int in states.size():
+		var body: Transform3D = states[i]["body"]
+		var height_m: float = (
+			6.1 if specs[i].has_pantograph else float(specs[i].visual.get("height_m", 4.25)) + .1
+		)
+		for x: float in [-1.85, 1.85]:
+			for y: float in [0.0, height_m]:
+				for z: float in [-specs[i].length_m * .5 - .4, specs[i].length_m * .5 + .4]:
+					var point: Vector3 = inverse * (body * Vector3(x, y, z))
+					var projected := Vector2(point.x, point.y) / maxf(-point.z, .1)
+					low = low.min(projected)
+					high = high.max(projected)
+	var aspect: float = size.x / maxf(size.y, 1.0)
+	var span: Vector2 = high - low
+	var height: float = maxf(span.y * 1.06, span.x / aspect * 1.06)
+	_camera.set_frustum(height, (high + low) * .5, 1.0, 800.0)
+	_sun.position = (
+		head.origin + (_camera.position - head.origin).normalized() * 50 + Vector3.UP * 45
+	)
+	_sun.look_at(head.origin)
 
 
 func pan_px(dx: float) -> void:

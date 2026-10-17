@@ -3,25 +3,30 @@
   "id": "er9m_liveries",
   "meta": {
     "verified": false,
-    "sources": [],
-    "note": "Окраси — художні, натхненні класичним радянським і сучасними міськими; не копія фірмового стилю"
+    "sources": [
+      "https://commons.wikimedia.org/wiki/File:ER9M-522.jpg",
+      "https://commons.wikimedia.org/wiki/File:ER9M-537-Tsibuleve-Fundukleevka.jpg",
+      "https://commons.wikimedia.org/wiki/File:ER9M_multiple_unit_in_Vilnius.JPG"
+    ],
+    "note": "Три початкові забарвлення художні; три додаткові палітри за фото ЕР9М-522, ЕР9М-537 та ER9M-390. Кольори й межі зон наближені, без точних логотипів. verified:false — це не заводська карта фарбування."
   },
   "liveries": [
     {
       "id": "classic_green",
-      "name_uk": "Класичний зелений",
+      "name_uk": "Класичне зелене",
       "body": "#2f6b45",
       "stripe": "#e3c75b",
       "skirt": "#24342c",
       "roof": "#8d9391",
-      "front": "#c8452c",
+      "front": "#2f6b45",
       "front_stripe": "#e3c75b",
       "window_frame": "#1c2622",
-      "number": "#f1ead2"
+      "number": "#f1ead2",
+      "short_name_uk": "Класичне"
     },
     {
       "id": "city_blue",
-      "name_uk": "Міський синьо-жовтий",
+      "name_uk": "Міське синьо-жовте",
       "body": "#1d5ea8",
       "stripe": "#f2c230",
       "skirt": "#173a63",
@@ -29,11 +34,12 @@
       "front": "#f2c230",
       "front_stripe": "#1d5ea8",
       "window_frame": "#13253b",
-      "number": "#ffffff"
+      "number": "#ffffff",
+      "short_name_uk": "Міське"
     },
     {
       "id": "heritage_red",
-      "name_uk": "Ретро вишневий",
+      "name_uk": "Ретро вишневе",
       "body": "#7c2230",
       "stripe": "#e9dcc0",
       "skirt": "#3c1418",
@@ -41,7 +47,56 @@
       "front": "#e9dcc0",
       "front_stripe": "#7c2230",
       "window_frame": "#2a1216",
-      "number": "#e9dcc0"
+      "number": "#e9dcc0",
+      "short_name_uk": "Вишневе"
+    },
+    {
+      "id": "kyiv_522",
+      "name_uk": "Київ · ЕР9М-522",
+      "body": "#d0d4d3",
+      "stripe": "#e4c347",
+      "skirt": "#4c535a",
+      "roof": "#374a5c",
+      "front": "#c92e3c",
+      "front_stripe": "#e5e4de",
+      "window_frame": "#1c262c",
+      "number": "#eeeeec",
+      "doors": "#d1b83f",
+      "lower_body": "#b1bac0",
+      "reference_url": "https://commons.wikimedia.org/wiki/File:ER9M-522.jpg",
+      "short_name_uk": "Київ-522"
+    },
+    {
+      "id": "marinesko_537",
+      "name_uk": "Біло-блакитне · ЕР9М-537",
+      "body": "#d9dedc",
+      "stripe": "#2787bb",
+      "skirt": "#204a66",
+      "roof": "#a59c7d",
+      "front": "#d5dadb",
+      "front_stripe": "#2d8dbb",
+      "window_frame": "#1c262c",
+      "number": "#eeeeec",
+      "doors": "#258bbb",
+      "lower_body": "#3689b2",
+      "reference_url": "https://commons.wikimedia.org/wiki/File:ER9M-537-Tsibuleve-Fundukleevka.jpg",
+      "short_name_uk": "Блакитне"
+    },
+    {
+      "id": "vilnius_390",
+      "name_uk": "Червоно-сріблясте · ER9M-390",
+      "body": "#ba2835",
+      "stripe": "#dbdedc",
+      "skirt": "#585a5e",
+      "roof": "#aeb0a8",
+      "front": "#c52e39",
+      "front_stripe": "#d6d8d6",
+      "window_frame": "#1c262c",
+      "number": "#eeeeec",
+      "doors": "#c02d37",
+      "lower_body": "#bcc0bd",
+      "reference_url": "https://commons.wikimedia.org/wiki/File:ER9M_multiple_unit_in_Vilnius.JPG",
+      "short_name_uk": "Сріблясте"
     }
   ]
 }
