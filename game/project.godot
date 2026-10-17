@@ -6,7 +6,7 @@ config_version=5
 [application]
 
 config/name="Ukraine Visual Train Sim"
-config/version="0.3.2"
+config/version="0.3.3"
 config/description="Realistic Ukrainian railway simulator"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7")
@@ -35,6 +35,7 @@ gdscript/warnings/unsafe_call_argument=1
 [display]
 
 window/dpi/allow_hidpi=true
+window/size/mode=2
 window/size/window_width_override=1600
 window/size/window_height_override=1000
 window/size/viewport_width=1920

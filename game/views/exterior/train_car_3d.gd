@@ -2,16 +2,27 @@ class_name TrainCar3D
 extends Node3D
 ## Visual reconstruction, not factory CAD. Wheels stay on the rails; only the body sways.
 
+static var _shared_wheel_meshes: Dictionary[String, Mesh] = {}
+
+var doors: Array[Dictionary] = []
+var lamp: SpotLight3D
+var pantograph: Node3D
 var body: Node3D
 var trucks: Array[Node3D] = []
 var reversed_body: bool = false
 var suspension := RailSuspension.new()
-var wheels: Array[Node3D] = []
-var doors: Array[Dictionary] = []
-var lamp: SpotLight3D
+var wheels: Array[MultiMesh] = []
+var _wheel_offsets: Array[Transform3D] = []
+var _wheel_radius: float = .525
+var _wheel_distance: float = INF
+var _wheel_meshes: Array[Mesh] = []
+var _wheel_lod: int = 2
 var _door_left: float = 0.0
 var _door_right: float = 0.0
 var _length: float = 20.0
+var _pantograph_arms: MultiMesh
+var _pantograph_bar: MeshInstance3D
+var _pantograph_position: float = INF
 
 
 static func material(color: Color, metal: float = 0.0) -> StandardMaterial3D:
@@ -34,13 +45,13 @@ static func box(parent: Node3D, at: Vector3, dimensions: Vector3, mat: Material)
 
 
 static func cylinder(
-	parent: Node3D, at: Vector3, radius: float, height: float, mat: Material
+	parent: Node3D, at: Vector3, radius: float, height: float, mat: Material, segments: int = 40
 ) -> MeshInstance3D:
 	var mesh := CylinderMesh.new()
 	mesh.top_radius = radius
 	mesh.bottom_radius = radius
 	mesh.height = height
-	mesh.radial_segments = 40
+	mesh.radial_segments = segments
 	var item := MeshInstance3D.new()
 	item.mesh = mesh
 	item.material_override = mat
@@ -90,41 +101,125 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	var bogie_half: float = float(spec.visual.get("bogie_centers_m", 15.0)) * .5
 	var axle_half: float = float(spec.visual.get("axle_spacing_m", 2.6)) * .5
 	var radius: float = float(spec.visual.get("wheel_diameter_m", 1.05)) * .5
+	_wheel_radius = radius
+	for segments: int in [8, 16, 40]:
+		_wheel_meshes.append(_wheel_mesh(radius, steel, dark, segments))
+	var wheel_mesh: Mesh = _wheel_meshes[_wheel_lod]
+	for axle: float in [-axle_half, axle_half]:
+		_wheel_offsets.append(Transform3D(Basis.IDENTITY, Vector3(0, radius, axle)))
 	for z: float in [-bogie_half, bogie_half]:
 		var truck := Node3D.new()
 		truck.position.z = z
 		add_child(truck)
 		trucks.append(truck)
 		box(truck, Vector3(0, .65, 0), Vector3(2.45, .4, 3.2), dark)
-		for axle: float in [-axle_half, axle_half]:
-			var shaft: MeshInstance3D = cylinder(truck, Vector3(0, radius, axle), .09, 2.7, steel)
-			shaft.rotation.z = PI / 2
-			for x: float in [-.84, .84]:
-				var pivot := Node3D.new()
-				pivot.position = Vector3(x, radius, axle)
-				truck.add_child(pivot)
-				wheels.append(pivot)
-				var tread: MeshInstance3D = cylinder(pivot, Vector3.ZERO, radius, .16, steel)
-				tread.rotation.z = PI / 2
-				var web: MeshInstance3D = cylinder(pivot, Vector3.ZERO, radius * .83, .165, dark)
-				web.rotation.z = PI / 2
-				var flange: MeshInstance3D = cylinder(
-					pivot, Vector3(-signf(x) * .067, 0, 0), radius + .025, .025, steel
-				)
-				flange.rotation.z = PI / 2
-				var hub: MeshInstance3D = cylinder(pivot, Vector3.ZERO, .16, .24, steel)
-				hub.rotation.z = PI / 2
+		RigidMeshBatch.merge(truck)
+		var multi := MultiMesh.new()
+		multi.transform_format = MultiMesh.TRANSFORM_3D
+		multi.mesh = wheel_mesh
+		multi.instance_count = _wheel_offsets.size()
+		for index: int in _wheel_offsets.size():
+			multi.set_instance_transform(index, _wheel_offsets[index])
+		var wheel_instances := MultiMeshInstance3D.new()
+		wheel_instances.multimesh = multi
+		wheel_instances.material_override = RigidMeshBatch.material()
+		truck.add_child(wheel_instances)
+		wheels.append(multi)
 	for z: float in [-end - .25, end + .25]:
 		box(self, Vector3(0, 1.0, z), Vector3(.35, .22, .50), steel)
 	if spec.has_pantograph:
-		for sign_x: float in [-1.0, 1.0]:
-			var rod: MeshInstance3D = box(
-				body, Vector3(sign_x * .38, 4.85, 0), Vector3(.06, 1.7, .06), dark
-			)
-			rod.rotation.z = sign_x * .45
-		box(body, Vector3(0, 5.7, 0), Vector3(1.9, .08, .18), dark)
+		_build_pantograph(dark)
 	if cab:
 		_cab(end, paint, stripe, glass, black, steel)
+	var moving: Array[Node3D] = []
+	if pantograph != null:
+		moving.append(pantograph)
+	for door: Dictionary in doors:
+		var panel: Node3D = door["node"]
+		moving.append(panel)
+		RigidMeshBatch.merge(panel)
+	RigidMeshBatch.merge(body, moving)
+	var separate: Array[Node3D] = [body]
+	separate.append_array(trucks)
+	RigidMeshBatch.merge(self, separate)
+
+
+func _build_pantograph(dark: Material) -> void:
+	pantograph = Node3D.new()
+	body.add_child(pantograph)
+	var rod := BoxMesh.new()
+	rod.size = Vector3(.06, 1, .06)
+	_pantograph_arms = MultiMesh.new()
+	_pantograph_arms.transform_format = MultiMesh.TRANSFORM_3D
+	_pantograph_arms.mesh = rod
+	_pantograph_arms.instance_count = 8
+	var arms := MultiMeshInstance3D.new()
+	arms.multimesh = _pantograph_arms
+	arms.material_override = dark
+	pantograph.add_child(arms)
+	_pantograph_bar = box(pantograph, Vector3(0, 6, 0), Vector3(1.9, .08, .18), dark)
+	for x: float in [-.55, .55]:
+		for z: float in [-.8, .8]:
+			cylinder(body, Vector3(x, 4.38, z), .12, .2, material(Color("6a4836")), 16)
+	_animate_pantograph(1.0)
+
+
+func _animate_pantograph(position: float) -> void:
+	if _pantograph_arms == null or position == _pantograph_position:
+		return
+	var base: float = 4.55
+	var top: float = lerpf(4.75, 6.0, position)
+	var half_height: float = (top - base) * .5
+	var spread: float = sqrt(1.0 - half_height * half_height)
+	var index: int = 0
+	for x: float in [-.55, .55]:
+		for side: float in [-1.0, 1.0]:
+			var middle := Vector3(x, (top + base) * .5, side * spread)
+			for end: Vector3 in [Vector3(x, base, 0), Vector3(x, top, 0)]:
+				var direction: Vector3 = (end - middle).normalized()
+				var basis := Basis(Vector3.RIGHT, direction, Vector3.RIGHT.cross(direction))
+				_pantograph_arms.set_instance_transform(
+					index, Transform3D(basis, (middle + end) * .5)
+				)
+				index += 1
+	_pantograph_bar.position.y = top
+	_pantograph_position = position
+
+
+func _wheel_mesh(radius: float, steel: Material, dark: Material, segments: int) -> Mesh:
+	var key: String = "%f:%d" % [radius, segments]
+	if _shared_wheel_meshes.has(key):
+		return _shared_wheel_meshes[key]
+	var part := Node3D.new()
+	var shaft: MeshInstance3D = cylinder(part, Vector3.ZERO, .09, 2.7, steel, segments)
+	shaft.rotation.z = PI / 2
+	for x: float in [-.84, .84]:
+		var tread: MeshInstance3D = cylinder(part, Vector3(x, 0, 0), radius, .16, steel, segments)
+		tread.rotation.z = PI / 2
+		var web: MeshInstance3D = cylinder(
+			part, Vector3(x, 0, 0), radius * .83, .165, dark, segments
+		)
+		web.rotation.z = PI / 2
+		var flange: MeshInstance3D = cylinder(
+			part, Vector3(x - signf(x) * .067, 0, 0), radius + .025, .025, steel, segments
+		)
+		flange.rotation.z = PI / 2
+		var hub: MeshInstance3D = cylinder(part, Vector3(x, 0, 0), .16, .24, steel, segments)
+		hub.rotation.z = PI / 2
+	var merged: MeshInstance3D = RigidMeshBatch.merge(part)
+	var result: Mesh = merged.mesh
+	part.free()
+	_shared_wheel_meshes[key] = result
+	return result
+
+
+func update_detail(projected_diameter_px: float) -> void:
+	var level: int = 0 if projected_diameter_px < 8 else (1 if projected_diameter_px < 20 else 2)
+	if level == _wheel_lod:
+		return
+	for multi: MultiMesh in wheels:
+		multi.mesh = _wheel_meshes[level]
+	_wheel_lod = level
 
 
 func _cab(
@@ -157,6 +252,14 @@ func _cab(
 			frame, Vector3(.10, -.14, -.06), Vector3(.42, .025, .02), steel
 		)
 		wiper.rotation.z = .30
+	for side: float in [-1.0, 1.0]:
+		var window: MeshInstance3D = box(
+			body, Vector3(side * 1.61, 3.2, -end + .94), Vector3(.04, .82, .85), black
+		)
+		box(window, Vector3(side * .025, 0, 0), Vector3(.025, .69, .72), glass)
+		box(body, Vector3(side * 1.35, 2.40, -end - .09), Vector3(.035, 1.05, .035), steel)
+	for y: float in [.65, .90]:
+		box(body, Vector3(0, y, -end - .10), Vector3(.72, .06, .24), steel)
 	for x: float in [-1.1, 1.1]:
 		var housing: MeshInstance3D = cylinder(body, Vector3(x, 1.72, -end - .07), .18, .12, black)
 		housing.rotation.x = PI / 2.0
@@ -224,6 +327,7 @@ static func _quad(surface: SurfaceTool, points: Array) -> void:
 
 
 func animate(t: Train, distance: float, dt: float, leading: bool, _clock_s: float) -> void:
+	_animate_pantograph(t.power.pantograph_position)
 	_door_left = move_toward(
 		_door_left,
 		1.0 if t.cab.is_on(&"doors_right" if reversed_body else &"doors_left") else 0.0,
@@ -240,8 +344,14 @@ func animate(t: Train, distance: float, dt: float, leading: bool, _clock_s: floa
 			float(item["base"])
 			+ float(item["leaf"]) * .60 * (_door_left if float(item["side"]) < 0 else _door_right)
 		)
-	for wheel: Node3D in wheels:
-		wheel.rotation.x = -distance / .525
+	if distance != _wheel_distance:
+		var spin := Basis(Vector3.RIGHT, fmod(-distance / _wheel_radius, TAU))
+		for multi: MultiMesh in wheels:
+			for index: int in _wheel_offsets.size():
+				var local: Transform3D = _wheel_offsets[index]
+				local.basis = spin * local.basis
+				multi.set_instance_transform(index, local)
+		_wheel_distance = distance
 	var sway: float = float(Settings.get_value("camera", "sway", 1.0))
 	body.rotation = Vector3(
 		suspension.pitch * sway, PI if reversed_body else 0.0, suspension.roll * sway

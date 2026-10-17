@@ -98,9 +98,7 @@ func _player(
 	var p := AudioStreamPlayer.new()
 	var stream: AudioStreamWAV = load(RECORDINGS + name + ".wav") as AudioStreamWAV
 	if stream != null:
-		stream.loop_mode = AudioStreamWAV.LOOP_FORWARD if loop else AudioStreamWAV.LOOP_DISABLED
-		stream.loop_begin = 0
-		stream.loop_end = stream.data.size() / (2 * (2 if stream.stereo else 1))
+		RecordedStream.configure_loop(stream, loop)
 	p.stream = stream
 	p.bus = bus
 	p.volume_db = -80.0

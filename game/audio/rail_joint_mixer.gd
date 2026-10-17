@@ -47,46 +47,32 @@ func render(frames: int, velocity_ms: float, muted: bool = false) -> PackedVecto
 	buffer.resize(frames)
 	var finish: float = distance_m + (0.0 if muted else velocity_ms) * frames / sample_rate
 	var hits: Array[Dictionary] = events(distance_m, finish)
-	var next: int = 0
-	for frame: int in frames:
-		while (
-			next < hits.size()
-			and maxi(0, int(ceil(float(hits[next]["fraction"]) * frames)) - 1) <= frame
-		):
-			var hit: Dictionary = hits[next]
-			var axle: int = int(hit["axle"])
-			var distance: float = absf(axle_offsets[axle] - 8.0)
-			var attenuation: float = 1.0 / pow(1.0 + distance / 22.0, 1.5)
-			var variant: int = (
-				posmod(int(hit["joint"]) * 7 + axle * 3, samples.size())
-				if not samples.is_empty()
-				else 0
-			)
-			if not samples.is_empty():
-				_voices.append(
-					{
-						"sample": variant,
-						"cursor": 0,
-						"gain": .24 * attenuation * clampf(absf(velocity_ms) / 25.0, .05, 1.0),
-						"pan": clampf((axle_offsets[axle] - 8.0) / 100.0, -.25, .25)
-					}
-				)
-			next += 1
-		var value := Vector2.ZERO
-		for voice: Dictionary in _voices:
-			var sample: PackedFloat32Array = samples[int(voice["sample"])]
-			var cursor: int = int(voice["cursor"])
-			if cursor >= sample.size():
-				continue
-			var mono: float = sample[cursor] * float(voice["gain"])
-			if muted:
-				mono *= .25
-			value += Vector2(mono * (1.0 - float(voice["pan"])), mono * (1.0 + float(voice["pan"])))
-			voice["cursor"] = cursor + 1
-		buffer[frame] = value
+	for hit: Dictionary in hits:
+		if samples.is_empty():
+			break
+		var axle: int = int(hit["axle"])
+		var distance: float = absf(axle_offsets[axle] - 8.0)
+		var attenuation: float = 1.0 / pow(1.0 + distance / 22.0, 1.5)
+		_voices.append(
+			{
+				"sample": posmod(int(hit["joint"]) * 7 + axle * 3, samples.size()),
+				"cursor": -maxi(0, int(ceil(float(hit["fraction"]) * frames)) - 1),
+				"gain": .24 * attenuation * clampf(absf(velocity_ms) / 25.0, .05, 1.0),
+				"pan": clampf((axle_offsets[axle] - 8.0) / 100.0, -.25, .25)
+			}
+		)
 	var remaining: Array[Dictionary] = []
 	for voice: Dictionary in _voices:
-		if int(voice["cursor"]) < samples[int(voice["sample"])].size():
+		# Read voice metadata once per block, rather than doing dictionary lookups per sample.
+		var sample: PackedFloat32Array = samples[int(voice["sample"])]
+		var cursor: int = int(voice["cursor"])
+		var gain: float = float(voice["gain"]) * (.25 if muted else 1.0)
+		var pan: float = float(voice["pan"])
+		var stereo_gain := Vector2(gain * (1.0 - pan), gain * (1.0 + pan))
+		for frame: int in range(maxi(0, -cursor), mini(frames, sample.size() - cursor)):
+			buffer[frame] += sample[cursor + frame] * stereo_gain
+		voice["cursor"] = cursor + frames
+		if cursor + frames < sample.size():
 			remaining.append(voice)
 	_voices = remaining
 	distance_m = finish

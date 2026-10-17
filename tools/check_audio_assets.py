@@ -15,4 +15,7 @@ for path in paths:
     with wave.open(str(path),'rb') as wav:
         assert wav.getnchannels()==1 and wav.getsampwidth()==2 and wav.getframerate()==22050,path
         assert wav.getnframes()>100,path
+    if path.parent == REC:
+        metadata=Path(str(path)+'.import').read_text()
+        assert 'compress/mode=0' in metadata, f'{path}: runtime mixer/loops require PCM import'
 print(f'{len(paths)} valid offline PCM16 audio assets')

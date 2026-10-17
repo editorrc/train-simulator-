@@ -68,6 +68,45 @@
     return g;
   }
 
+  // TrackProfileSpan: piecewise-exact profile under a uniformly distributed vehicle.
+  function profileSpan(g, front, length) {
+    const result = { grade_ratio: 0, inverse_radius_m: 0, speed_limit_ms: Infinity };
+    let p = { ...front, dir: -front.dir }, remaining = length;
+    for (let hop = 0; hop < 10000; hop++) {
+      const s = g.segments[p.segment];
+      if (!s || remaining <= 1e-9) break;
+      const available = p.dir > 0 ? s.length_m - p.offset : p.offset;
+      const extent = Math.min(remaining, available), end = p.offset + p.dir * extent;
+      const low = Math.min(p.offset, end), high = Math.max(p.offset, end), cuts = [low, high];
+      for (const grade of s.grade_points) if (grade.at_m > low && grade.at_m < high) cuts.push(grade.at_m);
+      for (const intervals of [s.curves, s.speed_limits]) for (const interval of intervals)
+        for (const key of ['from_m', 'to_m']) if (interval[key] > low && interval[key] < high) cuts.push(interval[key]);
+      cuts.sort((a, b) => a - b);
+      for (let i = 1; i < cuts.length; i++) {
+        const span = cuts[i] - cuts[i - 1];
+        if (span <= 0) continue;
+        const mid = (cuts[i] + cuts[i - 1]) * .5, radius = s.curve_radius_at(mid);
+        result.grade_ratio += s.grade_ratio_at(mid) * -p.dir * span;
+        result.inverse_radius_m += radius > 0 ? span / radius : 0;
+        result.speed_limit_ms = Math.min(result.speed_limit_ms, s.speed_limit_at(mid));
+      }
+      remaining -= extent;
+      if (remaining <= 1e-9) break;
+      const exit = { segment: s.id, side: p.dir > 0 ? SIDE_B : SIDE_A };
+      const node = g.node_at(exit), next = node ? node.pass_through(exit).next : null;
+      if (!next) {
+        result.grade_ratio += s.grade_ratio_at(end) * -p.dir * remaining;
+        const radius = s.curve_radius_at(end);
+        result.inverse_radius_m += radius > 0 ? remaining / radius : 0;
+        result.speed_limit_ms = Math.min(result.speed_limit_ms, s.speed_limit_at(end));
+        break;
+      }
+      p = { segment: next.segment, offset: next.side === SIDE_A ? 0 : g.segments[next.segment].length_m, dir: next.side === SIDE_A ? 1 : -1 };
+    }
+    if (length > 0) { result.grade_ratio /= length; result.inverse_radius_m /= length; }
+    return result;
+  }
+
   // TrackPosition as a plain value {segment, offset, dir}; advance() never mutates.
   function advance(graph, pos, distance) {
     const res = { position: null, moved_m: 0, blocked: false, events: [], nodes_passed: [] };
@@ -307,13 +346,14 @@
     let grade = 0, resist = 0, starting = 0, limit = Infinity, behind = 0;
     c.vehicles.forEach((v, i) => {
       const m = t.masses[i];
-      const center = advance(g, t.head, -(behind + v.length_m * 0.5)).position;
+      const front = advance(g, t.head, -behind).position;
+      const profile = profileSpan(g, front, v.length_m);
       behind += v.length_m;
-      grade += Resistance.grade_n(m, g.grade_ratio_at(center));
+      grade += Resistance.grade_n(m, profile.grade_ratio);
       resist += Resistance.basic_n(v, m, t.speed_ms);
-      resist += Resistance.curve_n(m, g.curve_radius_at(center));
+      resist += Units.specific_resistance_to_n(700 * profile.inverse_radius_m, m);
       starting += Resistance.starting_n(v, m, t.speed_ms);
-      limit = Math.min(limit, g.speed_limit_at(center));
+      limit = Math.min(limit, profile.speed_limit_ms);
     });
     t.last.limit = limit;
     if (!isFinite(limit)) t.overspeed = false;

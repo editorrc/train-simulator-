@@ -297,6 +297,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			_expand_panel("desk")
 		KEY_F5:
 			_expand_panel("map")
+		KEY_F8:
+			(side as ExteriorView).platform_view()
 		KEY_F:
 			side.snap_camera()
 		KEY_F2:

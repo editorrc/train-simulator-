@@ -29,7 +29,7 @@ STOPS = [
  ('beresteiska','Берестейська',47.4,[-7,1.5]),
 ]
 META = dict(verified=False, sources=[SOURCE, 'https://swrailway.gov.ua/timetable/eltrain/?gid=1&rid=480&reverse=1'],
- note='TODO_SOURCE: назви, порядок і тарифні відстані з опублікованого розкладу; геометрія і платформи ілюстративні, профіль та швидкості умовні. Не геодезична модель.')
+ note='TODO_SOURCE: назви, порядок і тарифні відстані з опублікованого розкладу; геометрія і платформи ілюстративні, профіль та швидкості умовні. Не геодезична модель. TODO_SOURCE: міжколійя -5.3 м та дві бічні платформи — ілюстративне компонування, не перевірена схема станцій.')
 
 def write(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -61,7 +61,7 @@ def main():
         lines.append(dict(segment=seg,points=pts))
         stations.append(dict(id=sid,name_uk=name,kind='station',platforms=[dict(id=sid+'_p1',segment=seg,from_m=20,to_m=260,side='right')]))
         chainage+=length
-    write(out/'route.json',dict(id='kyiv_city_ring',name_uk='Київська кільцева · 20 зупинок',description_uk='Повне кільце 49,5 км. Ілюстративна геометрія, справжні назви та порядок станцій.',meta=META,electrification='ac_25kv',track_graph='track_graph.json',geometry='geometry.json',stations='stations.json'))
+    write(out/'route.json',dict(id='kyiv_city_ring',name_uk='Київська кільцева · 20 зупинок',description_uk='Повне кільце 49,5 км. Ілюстративна геометрія, справжні назви та порядок станцій.',meta=META,electrification='ac_25kv',track_graph='track_graph.json',geometry='geometry.json',stations='stations.json',visual=dict(parallel_track_offset_m=-5.3)))
     write(out/'track_graph.json',dict(meta=META,segments=segments,nodes=nodes))
     write(out/'geometry.json',dict(meta=META,crs='local_m',polylines=lines,map_features=[dict(kind='river',label_uk='Дніпро',points=[[x*scale,y*scale] for x,y in [[4.5,9],[4,6],[4.5,2],[4,-1],[4.5,-3],[6,-7],[7,-10]]])]))
     write(out/'stations.json',dict(meta=META,stations=stations))

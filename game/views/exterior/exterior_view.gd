@@ -22,6 +22,8 @@ var _forward := Vector3.FORWARD
 var _orbit_reference := Vector3.FORWARD
 var _camera_ready: bool = false
 var _pan: float = 0.0
+var _parallel_offset: float = 0.0
+var _platform_side: float = 1.0
 
 
 func setup(
@@ -30,6 +32,11 @@ func setup(
 	super.setup(p_world, p_stations, p_livery, p_number)
 	var sc: Dictionary = ContentDB.get_entry(&"scenario", Session.scenario_id)
 	var route: Dictionary = ContentDB.get_entry(&"route", StringName(str(sc["route"])))
+	_parallel_offset = float(
+		((route.get("route", {}) as Dictionary).get("visual", {}) as Dictionary).get(
+			"parallel_track_offset_m", 0.0
+		)
+	)
 	_geometry = RouteGeometry.from_dict(route["geometry"])
 	_rail_path = RailPath.new(world.graph, _geometry)
 	_consist_pose = RailConsistPose.new(_rail_path)
@@ -38,12 +45,13 @@ func setup(
 	_viewport_container.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_viewport_container.stretch_mode = TextureRect.STRETCH_SCALE
 	_viewport_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_viewport_container.visible = false
 	add_child(_viewport_container)
 	_viewport = SubViewport.new()
 	_viewport.size = Vector2i(1920, 1080)
-	_viewport.msaa_3d = Viewport.MSAA_4X
+	_viewport.msaa_3d = Viewport.MSAA_2X
 	_viewport.own_world_3d = true
-	_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	_viewport.render_target_update_mode = SubViewport.UPDATE_DISABLED
 	_viewport_container.add_child(_viewport)
 	_viewport_container.texture = _viewport.get_texture()
 	_mode = 0 if preview_mode else int(Settings.get_value("camera", "view_mode", 0))
@@ -131,6 +139,9 @@ func _build_track() -> void:
 	var steel: StandardMaterial3D = TrainCar3D.material(Color("a2a9ad"), .75)
 	var concrete: StandardMaterial3D = TrainCar3D.material(Color("898b87"))
 	var poles: StandardMaterial3D = TrainCar3D.material(Color("454e51"), .4)
+	var offsets := PackedFloat64Array([0.0])
+	if _parallel_offset != 0:
+		offsets.append(_parallel_offset)
 	for segment: TrackSegment in world.graph.segments.values():
 		var chunk: float = 0.0
 		while chunk < segment.length_m:
@@ -153,22 +164,26 @@ func _build_track() -> void:
 					break
 				var basis: Basis = Basis.looking_at(forward, Vector3.UP)
 				var center: Vector3 = (start + end) * .5
-				beds.append(Transform3D(basis, center + Vector3(0, -.42, 0)))
-				for x: float in [-.7975, .7975]:
-					rails.append(Transform3D(basis, center + basis.x * x + Vector3(0, -.09, 0)))
-				wires.append(Transform3D(basis, center + Vector3(0, 6, 0)))
+				for offset: float in offsets:
+					beds.append(Transform3D(basis, center + basis.x * offset + Vector3(0, -.42, 0)))
+					for x: float in [-.7975, .7975]:
+						rails.append(
+							Transform3D(
+								basis, center + basis.x * (x + offset) + Vector3(0, -.09, 0)
+							)
+						)
+					wires.append(Transform3D(basis, center + basis.x * offset + Vector3(0, 6, 0)))
 				d += 2
 			var sleeper_at: float = ceil(chunk / .65) * .65
 			while sleeper_at < finish:
 				var start: Vector3 = _at(segment, sleeper_at)
 				var end: Vector3 = _at(segment, minf(sleeper_at + 1, segment.length_m))
 				if start.distance_to(end) > .01:
-					sleepers.append(
-						Transform3D(
-							Basis.looking_at((end - start).normalized()),
-							start + Vector3(0, -.25, 0)
+					var basis: Basis = Basis.looking_at((end - start).normalized())
+					for offset: float in offsets:
+						sleepers.append(
+							Transform3D(basis, start + basis.x * offset + Vector3(0, -.25, 0))
 						)
-					)
 				sleeper_at += .65
 			var mast_at: float = ceil(chunk / 65) * 65
 			while mast_at < finish:
@@ -177,7 +192,9 @@ func _build_track() -> void:
 					(_at(segment, minf(mast_at + 1, segment.length_m)) - p).normalized()
 				)
 				var basis: Basis = Basis.looking_at(tangent)
-				masts.append(Transform3D(basis, p + basis.x * 3.1 + Vector3(0, 3.6, 0)))
+				for offset: float in offsets:
+					var across: float = offset + (3.1 if offset == 0 else -3.1)
+					masts.append(Transform3D(basis, p + basis.x * across + Vector3(0, 3.6, 0)))
 				mast_at += 65
 			_batch(beds, Vector3(3.7, .28, 2.02), ballast, origin)
 			_batch(rails, Vector3(.075, .18, 2.02), steel, origin)
@@ -193,11 +210,11 @@ func _platform_strip(
 	begin: float,
 	end: float,
 	side: float,
-	low_x: float,
-	high_x: float,
+	across_m: Vector2,
 	floor_y: float,
 	height: float,
-	mat: Material
+	mat: Material,
+	track_offset: float = 0.0
 ) -> void:
 	var surface := SurfaceTool.new()
 	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -212,12 +229,14 @@ func _platform_strip(
 		for frame: Transform3D in frames:
 			var points := PackedVector3Array()
 			for section: Vector2 in [
-				Vector2(low_x, floor_y),
-				Vector2(high_x, floor_y),
-				Vector2(high_x, floor_y + height),
-				Vector2(low_x, floor_y + height)
+				Vector2(across_m.x, floor_y),
+				Vector2(across_m.y, floor_y),
+				Vector2(across_m.y, floor_y + height),
+				Vector2(across_m.x, floor_y + height)
 			]:
-				points.append(frame * Vector3(section.x * side, section.y, 0) - group.position)
+				points.append(
+					frame * Vector3(section.x * side + track_offset, section.y, 0) - group.position
+				)
 			corners.append(points)
 		for index: int in 4:
 			var other: int = (index + 1) % 4
@@ -242,29 +261,42 @@ func _build_platforms() -> void:
 		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	for st: Variant in stations.get("stations", []):
 		var station: Dictionary = st
+		var layouts: Array[Dictionary] = []
 		for raw: Variant in station["platforms"]:
 			var platform: Dictionary = raw
+			layouts.append(platform)
+			if _parallel_offset != 0:
+				var opposite: Dictionary = platform.duplicate()
+				opposite["visual_track_offset_m"] = _parallel_offset
+				opposite["side"] = "left" if _parallel_offset < 0 else "right"
+				layouts.append(opposite)
+		for platform: Dictionary in layouts:
 			var seg: TrackSegment = world.graph.get_segment(StringName(str(platform["segment"])))
 			var begin: float = float(platform["from_m"])
 			var end: float = float(platform["to_m"])
 			var middle: float = (begin + end) * .5
 			var side: float = 1.0 if str(platform["side"]) == "right" else -1.0
+			var track_offset: float = float(platform.get("visual_track_offset_m", 0.0))
 			var group := Node3D.new()
 			_stage.add_child(group)
 			group.position = _at(seg, middle)
-			_platform_strip(group, seg, begin, end, side, 1.95, 7.95, 0, 1.1, concrete)
-			_platform_strip(group, seg, begin, end, side, 1.95, 2.20, 1.101, .015, edge)
+			_platform_strip(
+				group, seg, begin, end, side, Vector2(1.95, 7.95), 0, 1.1, concrete, track_offset
+			)
+			_platform_strip(
+				group, seg, begin, end, side, Vector2(1.95, 2.20), 1.101, .015, edge, track_offset
+			)
 			_platform_strip(
 				group,
 				seg,
 				maxf(begin, middle - 27),
 				minf(end, middle + 27),
 				side,
-				2.0,
-				7.95,
+				Vector2(2.0, 7.95),
 				4.3,
 				.15,
-				roof
+				roof,
+				track_offset
 			)
 			for delta: float in [-24, -12, 0, 12, 24]:
 				var frame: Transform3D = _rail_path.frame(
@@ -272,9 +304,13 @@ func _build_platforms() -> void:
 				)
 				var furniture := Node3D.new()
 				group.add_child(furniture)
-				furniture.transform = Transform3D(frame.basis, frame.origin - group.position)
+				furniture.transform = Transform3D(
+					frame.basis, frame.origin + frame.basis.x * track_offset - group.position
+				)
 				TrainCar3D.box(furniture, Vector3(side * 6.3, 2.7, 0), Vector3(.13, 3.2, .13), roof)
 				TrainCar3D.box(furniture, Vector3(side * 5, 1.5, 0), Vector3(1.5, .15, .5), roof)
+			if track_offset != 0:
+				continue
 			var label := Label3D.new()
 			label.text = str(station["name_uk"])
 			label.font_size = 64
@@ -369,6 +405,7 @@ func _process(delta: float) -> void:
 		_focus = target
 		_previous_target = target
 		_orbit_reference = forward
+		_platform_side = _platform_side_at(head)
 		_camera_ready = true
 	for axis: int in 3:
 		_focus[axis] = RenderPose.follow(
@@ -384,7 +421,7 @@ func _process(delta: float) -> void:
 	var angle: float = (-.6 if _mode == 0 else .6) + yaw
 	if _mode == 2:
 		angle = 0.0
-	var outward: Vector3 = -right * cos(angle) + reference * sin(-angle)
+	var outward: Vector3 = right * _platform_side * cos(angle) + reference * sin(-angle)
 	var focus: Vector3 = _focus + right * _pan + Vector3(0, 2, 0)
 	_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	_camera.size = (18.0 if preview_mode else 45.0) / zoom
@@ -418,6 +455,19 @@ func _process(delta: float) -> void:
 		_cab_lamp.look_at(_cab_lamp.position - shell.basis.z * 100.0 - shell.basis.y * 5.0)
 
 	_cab_lamp.visible = _mode == 3 and t.cab.is_on(&"headlights") and t.power.control_on(t.cab)
+	var adaptive: bool = bool(Settings.get_value("visual", "adaptive_detail", true))
+	for car: TrainCar3D in _cars:
+		var pixel_scale: float = _viewport.size.y / _camera.size
+		if _camera.projection == Camera3D.PROJECTION_PERSPECTIVE:
+			pixel_scale = (
+				_viewport.size.y
+				/ (
+					2.0
+					* tan(deg_to_rad(_camera.fov * .5))
+					* maxf(1, _camera.position.distance_to(car.position))
+				)
+			)
+		car.update_detail(car._wheel_radius * 2.0 * pixel_scale if adaptive else 100.0)
 	var night: bool = bool(Settings.get_value("visual", "night", false))
 	_sun.light_energy = .06 if night else 1.1
 	_environment.environment.ambient_light_energy = .15 if night else .7
@@ -429,6 +479,29 @@ func next_preset() -> void:
 	_mode = (_mode + 1) % 5
 	_camera_ready = false
 	Settings.set_value("camera", "view_mode", _mode)
+
+
+func _platform_side_at(head: TrackPosition) -> float:
+	var nearest: float = INF
+	var result: float = 1.0
+	for raw: Variant in stations.get("stations", []):
+		for platform: Dictionary in (raw as Dictionary)["platforms"]:
+			var middle: float = (float(platform["from_m"]) + float(platform["to_m"])) * .5
+			var position := TrackPosition.new(StringName(str(platform["segment"])), middle, 1)
+			var distance: float = _position(head).distance_squared_to(_position(position))
+			if distance < nearest:
+				nearest = distance
+				result = (1.0 if str(platform["side"]) != "left" else -1.0) * head.direction
+	return result
+
+
+func platform_view() -> void:
+	_mode = 0
+	_camera_ready = false
+	_pan = 0.0
+	Settings.set_value("camera", "view_mode", 0)
+	Settings.set_value("camera", "yaw", 0.0)
+	Settings.set_value("camera", "pitch", 25.0)
 
 
 func preset_name() -> String:
@@ -477,7 +550,8 @@ func snap_camera() -> void:
 
 
 func _update_render_size() -> void:
-	var physical: Vector2 = get_viewport().get_texture().get_size()
+	# Texture.get_size() may be logical after stretch; Window.size matches the physical image.
+	var physical := Vector2(get_window().size)
 	var logical: Vector2 = get_viewport_rect().size
 	var ratio: Vector2 = size / logical.max(Vector2.ONE)
 	var scale_factor: float = float(Settings.get_value("visual", "render_scale", 1.0))
@@ -485,3 +559,9 @@ func _update_render_size() -> void:
 	desired = desired.clamp(Vector2i(64, 64), Vector2i(8192, 8192))
 	if _viewport.size != desired:
 		_viewport.size = desired
+	var samples: int = int(Settings.get_value("visual", "msaa", 2))
+	_viewport.msaa_3d = (
+		Viewport.MSAA_DISABLED
+		if samples == 0
+		else (Viewport.MSAA_4X if samples == 4 else Viewport.MSAA_2X)
+	)

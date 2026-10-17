@@ -52,6 +52,16 @@
     },
     "timetable": {
       "type": "string"
+    },
+    "visual": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "parallel_track_offset_m": {
+          "type": "number",
+          "description": "Illustrative second track offset for 3D view; does not create a drivable graph edge."
+        }
+      }
     }
   },
   "$defs": {

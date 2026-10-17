@@ -42,3 +42,22 @@ func test_impact_at_audio_block_boundary_is_not_dropped_or_duplicated() -> void:
 	var second: PackedVector2Array = mixer.render(10, 1.0)
 	assert_true(first[9].x > 0, "joint precisely on block boundary")
 	assert_almost_eq(second[0].length(), 0.0, .000001)
+
+
+func test_overlapping_pcm_voices_are_independent_of_block_size() -> void:
+	var whole := RailJointMixer.new()
+	var split := RailJointMixer.new()
+	for mixer: RailJointMixer in [whole, split]:
+		mixer.sample_rate = 8
+		mixer.spacing_m = 1
+		mixer.axle_offsets = PackedFloat64Array([0.0])
+		mixer.samples.append(PackedFloat32Array([1.0, .75, .5, .25]))
+	var expected: PackedVector2Array = whole.render(24, 8.0)
+	var actual := PackedVector2Array()
+	for block: int in 8:
+		actual.append_array(split.render(3, 8.0))
+	for index: int in expected.size():
+		assert_true(
+			expected[index].distance_to(actual[index]) < .000001,
+			"sample-timed overlap at %d" % index
+		)

@@ -10,7 +10,7 @@
 **Стадія:** M0–M3: ядро, пневматика й електрика ЕР9М, холодний запуск, 3D/2.5D-вид з камерами, пульт, записані звуки, інформатор і 20 станцій кільця.
 
 ## Як запустити
-- **Готові настільні збірки 0.3.2:** [Windows ZIP з EXE](https://raw.githubusercontent.com/editorrc/train-simulator-/b4bd9e6694c420fbcb4f3d6aeb7b338f943cf3a3/TrainSimulator-Windows.zip) · [macOS DMG](https://raw.githubusercontent.com/editorrc/train-simulator-/b4bd9e6694c420fbcb4f3d6aeb7b338f943cf3a3/TrainSimulator-macOS-universal.dmg). Розпакувати / перенести застосунок у «Програми»; рушій встановлювати не потрібно.
+- **Готові настільні збірки 0.3.3:** [Windows ZIP з EXE](https://raw.githubusercontent.com/editorrc/train-simulator-/360800b17bfdc6da0e2208298388d89bda39f253/TrainSimulator-Windows.zip) · [macOS DMG](https://raw.githubusercontent.com/editorrc/train-simulator-/360800b17bfdc6da0e2208298388d89bda39f253/TrainSimulator-macOS-universal.dmg). Розпакувати / перенести застосунок у «Програми»; рушій встановлювати не потрібно.
 - **У браузері (GitHub Pages):** https://editorrc.github.io/train-simulator-/ — після разового ввімкнення Settings → Pages → Source: GitHub Actions.
 - **Веб-прев'ю без встановлення:** https://raw.githack.com/editorrc/train-simulator-/editorial/web_preview/index.html
 - **Локально (гра):** Godot 4.7.2 → Import → `game/project.godot` → F5, або `make demo GODOT=...`.

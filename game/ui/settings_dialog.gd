@@ -34,26 +34,56 @@ func _ready() -> void:
 	_slider(rows, tr("Затримка супроводу камери (с)"), "camera", "follow_s", 0.0, 0.5, 0.18)
 	_slider(rows, tr("Хитання кузова"), "camera", "sway", 0, 1, 1.0)
 	_slider(rows, tr("Роздільність 3D (масштаб)"), "visual", "render_scale", .75, 2.0, 1.0)
+	_check(
+		rows, tr("Автоматична деталізація коліс за масштабом"), "visual", "adaptive_detail", true
+	)
 	_check(rows, tr("Поворот камери за напрямком поїзда"), "camera", "follow_heading", false)
 	_check(rows, tr("Нічне освітлення"), "visual", "night", false)
 	_check(rows, tr("Автоматичний інформатор"), "audio", "auto_announcements", true)
+	var antialiasing := OptionButton.new()
+	var sample_counts: Array[int] = [0, 2, 4]
+	antialiasing.add_item(tr("Згладжування: вимкнено"))
+	antialiasing.add_item(tr("Згладжування: 2× (збалансовано)"))
+	antialiasing.add_item(tr("Згладжування: 4×"))
+	antialiasing.select(maxi(0, sample_counts.find(int(Settings.get_value("visual", "msaa", 2)))))
+	antialiasing.item_selected.connect(
+		func(index: int) -> void: Settings.set_value("visual", "msaa", sample_counts[index])
+	)
+	rows.add_child(antialiasing)
 	var full := CheckBox.new()
 	full.text = tr("Повний екран")
-	full.button_pressed = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
+	full.button_pressed = get_tree().root.mode == DisplayServer.WINDOW_MODE_FULLSCREEN
 	full.toggled.connect(
 		func(on: bool) -> void:
 			Settings.set_value("display", "fullscreen", on)
-			DisplayServer.window_set_mode(
-				DisplayServer.WINDOW_MODE_FULLSCREEN if on else DisplayServer.WINDOW_MODE_WINDOWED
+			get_tree().root.mode = (
+				Window.MODE_FULLSCREEN
+				if on
+				else (
+					Window.MODE_MAXIMIZED
+					if str(Settings.get_value("display", "window_mode", "maximized")) == "maximized"
+					else Window.MODE_WINDOWED
+				)
 			)
 	)
 	rows.add_child(full)
+	var maximized := CheckBox.new()
+	maximized.text = tr("Розгорнуте вікно")
+	maximized.button_pressed = (get_tree().root.mode == DisplayServer.WINDOW_MODE_MAXIMIZED)
+	maximized.toggled.connect(
+		func(on: bool) -> void:
+			Settings.set_value("display", "window_mode", "maximized" if on else "windowed")
+			Settings.set_value("display", "fullscreen", false)
+			full.set_pressed_no_signal(false)
+			get_tree().root.mode = Window.MODE_MAXIMIZED if on else Window.MODE_WINDOWED
+	)
+	rows.add_child(maximized)
 	var resolution := OptionButton.new()
 	for dimensions: Vector2i in [
 		Vector2i(1280, 800), Vector2i(1600, 1000), Vector2i(1920, 1080), Vector2i(2560, 1440)
 	]:
 		resolution.add_item("%d × %d" % [dimensions.x, dimensions.y])
-	var current: Vector2i = DisplayServer.window_get_size()
+	var current: Vector2i = get_tree().root.size
 	var sizes: Array[Vector2i] = [
 		Vector2i(1280, 800), Vector2i(1600, 1000), Vector2i(1920, 1080), Vector2i(2560, 1440)
 	]
@@ -71,12 +101,14 @@ func _ready() -> void:
 				Vector2i(1920, 1080),
 				Vector2i(2560, 1440)
 			]
-			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
-			DisplayServer.window_set_size(dimensions[index])
+			get_tree().root.mode = Window.MODE_WINDOWED
+			get_tree().root.size = dimensions[index]
 			Settings.set_value("display", "width", dimensions[index].x)
 			Settings.set_value("display", "height", dimensions[index].y)
 			Settings.set_value("display", "fullscreen", false)
-			full.button_pressed = false
+			Settings.set_value("display", "window_mode", "windowed")
+			full.set_pressed_no_signal(false)
+			maximized.set_pressed_no_signal(false)
 	)
 	rows.add_child(resolution)
 

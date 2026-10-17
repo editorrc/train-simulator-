@@ -26,7 +26,7 @@ func _ready() -> void:
 	root.add_child(_label("Ukraine Visual Train Sim", 44))
 	root.add_child(
 		_label(
-			"Тренажер машиніста електропоїзда · Київська кільцева · демо 0.3.2", 18, Color("9fb3aa")
+			"Тренажер машиніста електропоїзда · Київська кільцева · демо 0.3.3", 18, Color("9fb3aa")
 		)
 	)
 	_preview = TrainPreview.new()
@@ -59,17 +59,15 @@ func _ready() -> void:
 	start.add_theme_font_size_override("font_size", 22)
 	start.pressed.connect(_start)
 	root.add_child(start)
-	(
-		root
-		. add_child(
-			_label(
-				(
-					"Порада: усі панелі в кабіні можна перетягувати за заголовок, змінювати розмір"
-					+ " кутом і згортати. F2 — вид, колесо — масштаб, F3 — налаштування, F4 — пульт, F5 — карта."
-				),
-				14,
-				Color("9fb3aa")
-			)
+	root.add_child(
+		_label(
+			(
+				"Порада: усі панелі в кабіні можна перетягувати за заголовок, змінювати розмір"
+				+ " кутом і згортати. F2 — вид, колесо — масштаб, F3 — налаштування,"
+				+ " F4 — пульт, F5 — карта, F8 — з платформи."
+			),
+			14,
+			Color("9fb3aa")
 		)
 	)
 	_fill()

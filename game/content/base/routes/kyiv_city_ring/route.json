@@ -8,10 +8,13 @@
       "https://github.com/panichev-oleg/kce/blob/main/src/helpers/__fixtures__/internal_direction_1_date_2026-03-13.txt",
       "https://swrailway.gov.ua/timetable/eltrain/?gid=1&rid=480&reverse=1"
     ],
-    "note": "TODO_SOURCE: назви, порядок і тарифні відстані з опублікованого розкладу; геометрія і платформи ілюстративні, профіль та швидкості умовні. Не геодезична модель."
+    "note": "TODO_SOURCE: назви, порядок і тарифні відстані з опублікованого розкладу; геометрія і платформи ілюстративні, профіль та швидкості умовні. Не геодезична модель. TODO_SOURCE: міжколійя -5.3 м та дві бічні платформи — ілюстративне компонування, не перевірена схема станцій."
   },
   "electrification": "ac_25kv",
   "track_graph": "track_graph.json",
   "geometry": "geometry.json",
-  "stations": "stations.json"
+  "stations": "stations.json",
+  "visual": {
+    "parallel_track_offset_m": -5.3
+  }
 }

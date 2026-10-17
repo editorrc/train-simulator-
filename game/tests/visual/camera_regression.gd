@@ -17,14 +17,47 @@ func _run() -> void:
 	root.get_node("Settings").set_value("camera", "yaw", 0.0)
 	root.get_node("Settings").set_value("visual", "render_scale", 1.0)
 	change_scene_to_file("res://scenes/drive.tscn")
+	await process_frame
+	if current_scene != null:
+		var initial: Node = current_scene.get("side")
+		if initial != null and not bool(initial.get("_camera_ready")):
+			check(
+				not (initial.get("_viewport_container") as Control).visible,
+				"origin camera hidden before first pose"
+			)
 	for frame: int in 8:
 		await process_frame
 	var scene: Node = current_scene
 	var settings: Node = root.get_node("Settings")
 	var view: Node = scene.get("side")
 	var viewport: SubViewport = view.get("_viewport")
+	check(float(view.get("_parallel_offset")) < 0, "Kyiv route enables opposite track")
+	var checked_rails: bool = false
+	for child: Node in (view.get("_stage") as Node).get_children():
+		var batch: MultiMeshInstance3D = child as MultiMeshInstance3D
+		if batch == null or batch.multimesh.instance_count < 4:
+			continue
+		var mesh: BoxMesh = batch.multimesh.mesh as BoxMesh
+		if mesh == null or not mesh.size.is_equal_approx(Vector3(.075, .18, 2.02)):
+			continue
+		var a: Vector3 = batch.multimesh.get_instance_transform(0).origin
+		var b: Vector3 = batch.multimesh.get_instance_transform(2).origin
+		check(
+			absf(a.distance_to(b) - 5.3) < .001,
+			"opposite rails are actually placed beside main track"
+		)
+		checked_rails = true
+		break
+	check(checked_rails, "parallel rail mesh is present")
+	var camera_position: Vector3 = (view.get("_camera") as Camera3D).position
+	var cars: Array = view.get("_cars")
+	var leading: Node3D = cars[0]
 	check(
-		viewport.size == Vector2i(root.get_texture().get_size()),
+		(camera_position - leading.position).dot(leading.basis.x) > 0,
+		"default camera is on platform side"
+	)
+	check(
+		viewport.size == root.get_texture().get_image().get_size(),
 		"3D resolution equals actual framebuffer"
 	)
 	var press := InputEventMouseButton.new()
@@ -59,7 +92,7 @@ func _run() -> void:
 	settings.call("set_value", "visual", "render_scale", 1.5)
 	for frame: int in 2:
 		await process_frame
-	var expected := Vector2i((root.get_texture().get_size() * 1.5).round())
+	var expected := Vector2i((Vector2(root.size) * 1.5).round())
 	check(viewport.size == expected, "render scale increases real 3D resolution")
 	press.button_index = MOUSE_BUTTON_LEFT
 	press.ctrl_pressed = true
@@ -96,7 +129,7 @@ func _run() -> void:
 	world.player().reverser = -1
 	for i: int in 2:
 		await process_frame
-	var cars: Array = view.get("_cars")
+	cars = view.get("_cars")
 	check(not (cars.back() as Node3D).visible, "reverse uses rear active cab")
 	check(
 		camera.position.distance_to((cars.back() as Node3D).position) < 15,
@@ -112,7 +145,7 @@ func _run() -> void:
 		"CAMERA_QA ",
 		"PASS" if failures.is_empty() else "FAIL",
 		" physical=",
-		root.get_texture().get_size(),
+		root.size,
 		" high-res=",
 		expected
 	)

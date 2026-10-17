@@ -177,13 +177,14 @@ func step(graph: TrackGraph, dt: float, events: Array[Dictionary]) -> void:
 	for i: int in consist.vehicles.size():
 		var v: VehicleSpec = consist.vehicles[i]
 		var m: float = _vehicle_masses[i]
-		var center: TrackPosition = head.advance(graph, -(behind + v.length_m * 0.5)).position
+		var front: TrackPosition = head.advance(graph, -behind).position
+		var profile: TrackProfileSpan = TrackProfileSpan.sample(graph, front, v.length_m)
 		behind += v.length_m
-		grade_force += Resistance.grade_n(m, graph.grade_ratio_at(center))
+		grade_force += Resistance.grade_n(m, profile.grade_ratio)
 		resist += Resistance.basic_n(v, m, speed_ms)
-		resist += Resistance.curve_n(m, graph.curve_radius_at(center))
+		resist += Units.specific_resistance_to_n(Resistance.CURVE_K * profile.inverse_radius_m, m)
 		starting += Resistance.starting_n(v, m, speed_ms)
-		limit = minf(limit, graph.speed_limit_at(center))
+		limit = minf(limit, profile.speed_limit_ms)
 	last_speed_limit_ms = limit
 	_check_overspeed(events)
 

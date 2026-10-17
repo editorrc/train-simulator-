@@ -40,9 +40,28 @@ func _run() -> void:
 	check((sound.get("_clack") as AudioStreamPlayer).playing, "continuous wheel rhythm")
 	for control: StringName in [&"horn", &"whistle"]:
 		var player: AudioStreamPlayer = sound.get("_" + str(control))
+		var stream: AudioStreamWAV = player.stream
+		check(
+			stream.format == AudioStreamWAV.FORMAT_16_BITS, "signals use exact PCM loop boundaries"
+		)
+		check(
+			stream.loop_end == roundi(stream.get_length() * stream.mix_rate),
+			"loop spans the complete sustain, independent of import compression"
+		)
+		var signal_bus: int = AudioServer.bus_count
+		AudioServer.add_bus()
+		AudioServer.set_bus_name(signal_bus, "SignalQA")
+		var signal_record := AudioEffectRecord.new()
+		signal_record.format = AudioStreamWAV.FORMAT_16_BITS
+		AudioServer.add_bus_effect(signal_bus, signal_record)
+		player.bus = "SignalQA"
+		signal_record.set_recording_active(true)
 		scene.call("_command", Commands.cab_control(world.player_train_id, control, true))
-		await create_timer(.15).timeout
-		check(player.playing, "held signal plays")
+		for period: int in 16:
+			await create_timer(.2).timeout
+			check(player.playing, "held signal stays active through multiple complete loops")
+		signal_record.set_recording_active(false)
+		signal_record.get_recording().save_to_wav("/tmp/train-held-" + str(control) + ".wav")
 		scene.call("_command", Commands.cab_control(world.player_train_id, control, false))
 		await create_timer(.12).timeout
 		check(player.playing, "released signal continues during fade")
@@ -54,6 +73,8 @@ func _run() -> void:
 		scene.call("_command", Commands.cab_control(world.player_train_id, control, false))
 		await create_timer(.65).timeout
 		check(not player.playing, "signal stops after release tail")
+		player.bus = "TrainMix"
+		AudioServer.remove_bus(signal_bus)
 	recorder.set_recording_active(false)
 	var recording: AudioStreamWAV = recorder.get_recording()
 	check(recording.data.size() > 44100 * 4, "audio captured during frame stalls")
