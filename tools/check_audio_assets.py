@@ -6,7 +6,7 @@ import wave
 ROOT=Path(__file__).resolve().parents[1]
 REC=ROOT/'game/audio/recordings'
 ANN=ROOT/'game/audio/announcements'
-names=['rolling_loop','motor_loop','compressor_loop','hiss_loop','horn_sustain','whistle_sustain','clack','wheel_rhythm_4','wheel_rhythm_6','wheel_rhythm_10','switch_click','controller_notch','lever_latch','button_click','door_latch']
+names=['rolling_loop','motor_loop','compressor_loop','hiss_loop','horn_sustain','whistle_sustain','clack','wheel_clack_0','wheel_clack_1','wheel_clack_2','wheel_clack_3','switch_on','switch_off','switch_click','controller_notch','lever_latch','button_click','door_latch']
 paths=[REC/(name+'.wav') for name in names]
 stations=json.loads((ROOT/'game/content/base/routes/kyiv_city_ring/stations.json').read_text())['stations']
 paths.extend(ANN/(station['id']+'_'+kind+'.wav') for station in stations for kind in ['station','next'])

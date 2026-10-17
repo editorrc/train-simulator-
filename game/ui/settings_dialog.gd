@@ -7,9 +7,9 @@ signal camera_changed
 
 func _ready() -> void:
 	title = tr("Налаштування · F3")
-	size = Vector2i(660, 680)
+	size = Vector2i(700, 780)
 	var rows := VBoxContainer.new()
-	rows.add_theme_constant_override("separation", 14)
+	rows.add_theme_constant_override("separation", 10)
 	add_child(rows)
 	for bus: String in ["Master", "TrainMix", "CabControls", "Announcer"]:
 		_slider(
@@ -29,10 +29,12 @@ func _ready() -> void:
 			0.8 if bus == "Master" else 1.0
 		)
 	_slider(rows, tr("Масштаб"), "camera", "zoom", 0.3, 3.0, 1.0)
-	_slider(rows, tr("Поворот камери"), "camera", "yaw", -60, 60, 0)
+	_slider(rows, tr("Поворот камери"), "camera", "yaw", -180, 180, 0)
 	_slider(rows, tr("Нахил камери"), "camera", "pitch", 10, 70, 25)
 	_slider(rows, tr("Затримка супроводу камери (с)"), "camera", "follow_s", 0.0, 0.5, 0.18)
-	_slider(rows, tr("Хитання кузова"), "camera", "sway", 0, 1, 0.2)
+	_slider(rows, tr("Хитання кузова"), "camera", "sway", 0, 1, 1.0)
+	_slider(rows, tr("Роздільність 3D (масштаб)"), "visual", "render_scale", .75, 2.0, 1.0)
+	_check(rows, tr("Поворот камери за напрямком поїзда"), "camera", "follow_heading", false)
 	_check(rows, tr("Нічне освітлення"), "visual", "night", false)
 	_check(rows, tr("Автоматичний інформатор"), "audio", "auto_announcements", true)
 	var full := CheckBox.new()
@@ -40,11 +42,43 @@ func _ready() -> void:
 	full.button_pressed = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 	full.toggled.connect(
 		func(on: bool) -> void:
+			Settings.set_value("display", "fullscreen", on)
 			DisplayServer.window_set_mode(
 				DisplayServer.WINDOW_MODE_FULLSCREEN if on else DisplayServer.WINDOW_MODE_WINDOWED
 			)
 	)
 	rows.add_child(full)
+	var resolution := OptionButton.new()
+	for dimensions: Vector2i in [
+		Vector2i(1280, 800), Vector2i(1600, 1000), Vector2i(1920, 1080), Vector2i(2560, 1440)
+	]:
+		resolution.add_item("%d × %d" % [dimensions.x, dimensions.y])
+	var current: Vector2i = DisplayServer.window_get_size()
+	var sizes: Array[Vector2i] = [
+		Vector2i(1280, 800), Vector2i(1600, 1000), Vector2i(1920, 1080), Vector2i(2560, 1440)
+	]
+	if current in sizes:
+		resolution.select(sizes.find(current))
+	else:
+		resolution.add_item(tr("Поточне: %d × %d") % [current.x, current.y])
+		resolution.select(4)
+		resolution.set_item_disabled(4, true)
+	resolution.item_selected.connect(
+		func(index: int) -> void:
+			var dimensions: Array[Vector2i] = [
+				Vector2i(1280, 800),
+				Vector2i(1600, 1000),
+				Vector2i(1920, 1080),
+				Vector2i(2560, 1440)
+			]
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			DisplayServer.window_set_size(dimensions[index])
+			Settings.set_value("display", "width", dimensions[index].x)
+			Settings.set_value("display", "height", dimensions[index].y)
+			Settings.set_value("display", "fullscreen", false)
+			full.button_pressed = false
+	)
+	rows.add_child(resolution)
 
 
 func _check(

@@ -3,6 +3,9 @@ extends Node3D
 ## Visual reconstruction, not factory CAD. Wheels stay on the rails; only the body sways.
 
 var body: Node3D
+var trucks: Array[Node3D] = []
+var reversed_body: bool = false
+var suspension := RailSuspension.new()
 var wheels: Array[Node3D] = []
 var doors: Array[Dictionary] = []
 var lamp: SpotLight3D
@@ -37,7 +40,7 @@ static func cylinder(
 	mesh.top_radius = radius
 	mesh.bottom_radius = radius
 	mesh.height = height
-	mesh.radial_segments = 20
+	mesh.radial_segments = 40
 	var item := MeshInstance3D.new()
 	item.mesh = mesh
 	item.material_override = mat
@@ -47,7 +50,7 @@ static func cylinder(
 
 
 func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
-	_length = spec.length_m
+	_length = spec.length_m - 2.0 * float(spec.visual.get("body_end_inset_m", .35))
 	var end: float = _length * 0.5
 	var paint: StandardMaterial3D = material(Color(str(livery.get("body", "#287958"))), 0.25)
 	var roof: StandardMaterial3D = material(Color(str(livery.get("roof", "#88928c"))), 0.2)
@@ -61,8 +64,7 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	box(body, Vector3(0, 1.16, 0), Vector3(3.05, 0.30, _length - 0.25), dark)
 	var rear: float = end - 0.15
 	var front: float = -end + (1.6 if cab else 0.15)
-	box(body, Vector3(0, 2.66, (front + rear) * 0.5), Vector3(3.4, 2.9, rear - front), paint)
-	box(body, Vector3(0, 4.14, (front + rear) * 0.5), Vector3(3.3, 0.22, rear - front), roof)
+	_rounded_shell(front, rear, paint, roof)
 	box(body, Vector3(0, 0.9, -1), Vector3(2.0, 0.5, 6.0), dark)
 	for side: float in [-1.0, 1.0]:
 		box(
@@ -85,22 +87,35 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 				box(panel, Vector3(0, 2.28, 0), Vector3(0.035, 2.06, 0.6), paint)
 				box(panel, Vector3(side * 0.025, 2.95, 0), Vector3(0.02, 0.72, 0.43), glass)
 				doors.append({"node": panel, "base": panel.position.z, "leaf": leaf, "side": side})
-	for z: float in [-7.5, 7.5]:
-		box(self, Vector3(0, .65, z), Vector3(2.45, .40, 3.2), dark)
-		for axle: float in [-1.3, 1.3]:
-			var shaft: MeshInstance3D = cylinder(self, Vector3(0, .525, z + axle), .09, 2.7, steel)
-			shaft.rotation.z = PI / 2.0
-			for x: float in [-.79, .79]:
-				var wheel: MeshInstance3D = cylinder(
-					self, Vector3(x, .525, z + axle), .525, .16, dark
+	var bogie_half: float = float(spec.visual.get("bogie_centers_m", 15.0)) * .5
+	var axle_half: float = float(spec.visual.get("axle_spacing_m", 2.6)) * .5
+	var radius: float = float(spec.visual.get("wheel_diameter_m", 1.05)) * .5
+	for z: float in [-bogie_half, bogie_half]:
+		var truck := Node3D.new()
+		truck.position.z = z
+		add_child(truck)
+		trucks.append(truck)
+		box(truck, Vector3(0, .65, 0), Vector3(2.45, .4, 3.2), dark)
+		for axle: float in [-axle_half, axle_half]:
+			var shaft: MeshInstance3D = cylinder(truck, Vector3(0, radius, axle), .09, 2.7, steel)
+			shaft.rotation.z = PI / 2
+			for x: float in [-.84, .84]:
+				var pivot := Node3D.new()
+				pivot.position = Vector3(x, radius, axle)
+				truck.add_child(pivot)
+				wheels.append(pivot)
+				var tread: MeshInstance3D = cylinder(pivot, Vector3.ZERO, radius, .16, steel)
+				tread.rotation.z = PI / 2
+				var web: MeshInstance3D = cylinder(pivot, Vector3.ZERO, radius * .83, .165, dark)
+				web.rotation.z = PI / 2
+				var flange: MeshInstance3D = cylinder(
+					pivot, Vector3(-signf(x) * .067, 0, 0), radius + .025, .025, steel
 				)
-				wheel.rotation.z = PI / 2.0
-				wheels.append(wheel)
-				var rim: MeshInstance3D = cylinder(wheel, Vector3(0, .09, 0), .48, .035, steel)
-				rim.rotation.z = 0.0
-				cylinder(wheel, Vector3(0, .13, 0), .16, .09, dark)
-	for z: float in [-end - .15, end + .15]:
-		box(self, Vector3(0, 1.0, z), Vector3(.45, .25, .75), steel)
+				flange.rotation.z = PI / 2
+				var hub: MeshInstance3D = cylinder(pivot, Vector3.ZERO, .16, .24, steel)
+				hub.rotation.z = PI / 2
+	for z: float in [-end - .25, end + .25]:
+		box(self, Vector3(0, 1.0, z), Vector3(.35, .22, .50), steel)
 	if spec.has_pantograph:
 		for sign_x: float in [-1.0, 1.0]:
 			var rod: MeshInstance3D = box(
@@ -208,9 +223,17 @@ static func _quad(surface: SurfaceTool, points: Array) -> void:
 			surface.add_vertex(points[index])
 
 
-func animate(t: Train, distance: float, dt: float, leading: bool, clock_s: float) -> void:
-	_door_left = move_toward(_door_left, 1.0 if t.cab.is_on(&"doors_left") else 0.0, dt / 1.1)
-	_door_right = move_toward(_door_right, 1.0 if t.cab.is_on(&"doors_right") else 0.0, dt / 1.1)
+func animate(t: Train, distance: float, dt: float, leading: bool, _clock_s: float) -> void:
+	_door_left = move_toward(
+		_door_left,
+		1.0 if t.cab.is_on(&"doors_right" if reversed_body else &"doors_left") else 0.0,
+		dt / 1.1
+	)
+	_door_right = move_toward(
+		_door_right,
+		1.0 if t.cab.is_on(&"doors_left" if reversed_body else &"doors_right") else 0.0,
+		dt / 1.1
+	)
 	for item: Dictionary in doors:
 		var panel: Node3D = item["node"]
 		panel.position.z = (
@@ -219,10 +242,70 @@ func animate(t: Train, distance: float, dt: float, leading: bool, clock_s: float
 		)
 	for wheel: Node3D in wheels:
 		wheel.rotation.x = -distance / .525
-	var sway: float = (
-		float(Settings.get_value("camera", "sway", .2)) * minf(absf(t.speed_ms) / 30.0, 1.0)
+	var sway: float = float(Settings.get_value("camera", "sway", 1.0))
+	body.rotation = Vector3(
+		suspension.pitch * sway, PI if reversed_body else 0.0, suspension.roll * sway
 	)
-	body.rotation.z = sin(clock_s * 3.1) * .006 * sway
-	body.position.y = sin(clock_s * 4.3) * .008 * sway
 	if lamp != null:
 		lamp.visible = leading and t.cab.is_on(&"headlights") and t.power.control_on(t.cab)
+
+
+func apply_rail_pose(state: Dictionary) -> void:
+	transform = state["body"]
+	var inverse: Transform3D = transform.affine_inverse()
+	var bogies: Array = state["bogies"]
+	for i: int in trucks.size():
+		trucks[i].transform = inverse * (bogies[i] as Transform3D)
+
+
+func _rounded_shell(front: float, rear: float, paint: Material, roof: Material) -> void:
+	var section := PackedVector2Array(
+		[Vector2(-1.5, 1.22), Vector2(1.5, 1.22), Vector2(1.7, 1.42), Vector2(1.7, 3.70)]
+	)
+	for i: int in range(1, 17):
+		var angle: float = PI * i / 16.0
+		section.append(Vector2(cos(angle) * 1.7, 3.70 + sin(angle) * .55))
+	section.append(Vector2(-1.7, 1.42))
+	for is_roof: bool in [false, true]:
+		var tool := SurfaceTool.new()
+		tool.begin(Mesh.PRIMITIVE_TRIANGLES)
+		for i: int in section.size():
+			var j: int = (i + 1) % section.size()
+			if (i >= 3 and i < 19) != is_roof:
+				continue
+			var a := Vector3(section[i].x, section[i].y, front)
+			var b := Vector3(section[j].x, section[j].y, front)
+			var points: Array[Vector3] = [a, b, Vector3(b.x, b.y, rear), Vector3(a.x, a.y, rear)]
+			var edge: Vector2 = section[j] - section[i]
+			var normal := Vector3(edge.y, -edge.x, 0).normalized()
+			for index: int in [0, 2, 1, 0, 3, 2]:
+				var point: Vector3 = points[index]
+				tool.set_normal(
+					(
+						(
+							Vector3(point.x / (1.7 * 1.7), (point.y - 3.70) / (.55 * .55), 0)
+							. normalized()
+						)
+						if is_roof
+						else normal
+					)
+				)
+				tool.add_vertex(point)
+		if not is_roof:
+			for z: float in [front, rear]:
+				tool.set_normal(Vector3(0, 0, -1 if z == front else 1))
+				var cap: Array = []
+				for point: Vector2 in section:
+					cap.append(Vector3(point.x, point.y, z))
+				if z == rear:
+					cap.reverse()
+				_quad(tool, cap)
+		tool.index()
+		var shell := MeshInstance3D.new()
+		shell.mesh = tool.commit()
+		var mat: StandardMaterial3D = (
+			((roof if is_roof else paint) as StandardMaterial3D).duplicate()
+		)
+		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+		shell.material_override = mat
+		body.add_child(shell)

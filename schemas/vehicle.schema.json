@@ -152,6 +152,31 @@
         },
         "wheel_diameter_m": {
           "type": "number"
+        },
+        "body_end_inset_m": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Unverified visual suspension/coupling parameter; see vehicle meta TODO_SOURCE"
+        },
+        "secondary_frequency_hz": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Unverified visual suspension/coupling parameter; see vehicle meta TODO_SOURCE"
+        },
+        "secondary_roll_rad_per_ms2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Unverified visual suspension/coupling parameter; see vehicle meta TODO_SOURCE"
+        },
+        "secondary_pitch_rad_per_ms2": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Unverified visual suspension/coupling parameter; see vehicle meta TODO_SOURCE"
+        },
+        "coupler_stiffness_n_m": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Unverified visual suspension/coupling parameter; see vehicle meta TODO_SOURCE"
         }
       }
     },

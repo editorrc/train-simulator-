@@ -8,8 +8,9 @@ extends RefCounted
 ## segment id -> PackedVector2Array (already flipped)
 var map_features: Array = []
 var polylines: Dictionary[StringName, PackedVector2Array] = {}
-## segment id -> PackedFloat32Array of cumulative lengths
-var _cumulative: Dictionary[StringName, PackedFloat32Array] = {}
+## segment id -> PackedFloat64Array of cumulative lengths
+var _bounds := Rect2()
+var _cumulative: Dictionary[StringName, PackedFloat64Array] = {}
 
 
 static func from_dict(geometry: Dictionary) -> RouteGeometry:
@@ -23,10 +24,11 @@ static func from_dict(geometry: Dictionary) -> RouteGeometry:
 			pts.append(Vector2(float(a[0]), -float(a[1])))
 		var id: StringName = StringName(str(d["segment"]))
 		g.polylines[id] = pts
-		var cum := PackedFloat32Array([0.0])
+		var cum := PackedFloat64Array([0.0])
 		for i: int in range(1, pts.size()):
 			cum.append(cum[i - 1] + pts[i - 1].distance_to(pts[i]))
 		g._cumulative[id] = cum
+	g._bounds = g._compute_bounds()
 	return g
 
 
@@ -35,18 +37,26 @@ func point_at(segment_id: StringName, offset_m: float, segment_length_m: float) 
 	if not polylines.has(segment_id):
 		return Vector2.ZERO
 	var pts: PackedVector2Array = polylines[segment_id]
-	var cum: PackedFloat32Array = _cumulative[segment_id]
+	var cum: PackedFloat64Array = _cumulative[segment_id]
 	var drawn: float = cum[cum.size() - 1]
 	var target: float = clampf(offset_m / segment_length_m, 0.0, 1.0) * drawn
-	for i: int in range(1, pts.size()):
-		if target <= cum[i]:
-			var span: float = cum[i] - cum[i - 1]
-			var t: float = 0.0 if span <= 0.0 else (target - cum[i - 1]) / span
-			return pts[i - 1].lerp(pts[i], t)
-	return pts[pts.size() - 1]
+	var low: int = 1
+	var high: int = pts.size() - 1
+	while low < high:
+		var middle: int = (low + high) / 2
+		if cum[middle] < target:
+			low = middle + 1
+		else:
+			high = middle
+	var span: float = cum[low] - cum[low - 1]
+	return pts[low - 1].lerp(pts[low], 0.0 if span <= 0 else (target - cum[low - 1]) / span)
 
 
 func bounds() -> Rect2:
+	return _bounds
+
+
+func _compute_bounds() -> Rect2:
 	var r := Rect2()
 	var first: bool = true
 	for pts: PackedVector2Array in polylines.values():

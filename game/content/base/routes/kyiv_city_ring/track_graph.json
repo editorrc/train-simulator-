@@ -10,7 +10,7 @@
   "segments": [
     {
       "id": "sviatoshyn_to_borshchahivka",
-      "length_m": 1999.0466748915142,
+      "length_m": 1999.0385521634512,
       "node_a": "sviatoshyn",
       "node_b": "borshchahivka",
       "km_at_a": 0.0,
@@ -24,17 +24,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 1999.0466748915142,
+          "to_m": 1999.0385521634512,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "borshchahivka_to_kyiv_volynskyi",
-      "length_m": 2822.4594895563228,
+      "length_m": 2822.467011963348,
       "node_a": "borshchahivka",
       "node_b": "kyiv_volynskyi",
-      "km_at_a": 1.999046674891514,
+      "km_at_a": 1.9990385521634513,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -45,17 +45,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 2822.4594895563228,
+          "to_m": 2822.467011963348,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "kyiv_volynskyi_to_karavaievi_dachi",
-      "length_m": 2672.4164642056558,
+      "length_m": 2672.4402733309944,
       "node_a": "kyiv_volynskyi",
       "node_b": "karavaievi_dachi",
-      "km_at_a": 4.821506164447837,
+      "km_at_a": 4.821505564126799,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -66,17 +66,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 2672.4164642056558,
+          "to_m": 2672.4402733309944,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "karavaievi_dachi_to_kyiv_pasazhyrskyi",
-      "length_m": 2650.3630812658907,
+      "length_m": 2650.3598768508123,
       "node_a": "karavaievi_dachi",
       "node_b": "kyiv_pasazhyrskyi",
-      "km_at_a": 7.493922628653493,
+      "km_at_a": 7.493945837457794,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -87,17 +87,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 2650.3630812658907,
+          "to_m": 2650.3598768508123,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "kyiv_pasazhyrskyi_to_protasiv_yar",
-      "length_m": 1824.311800556585,
+      "length_m": 1824.4177258618017,
       "node_a": "kyiv_pasazhyrskyi",
       "node_b": "protasiv_yar",
-      "km_at_a": 10.144285709919384,
+      "km_at_a": 10.144305714308606,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -108,17 +108,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 1824.311800556585,
+          "to_m": 1824.4177258618017,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "protasiv_yar_to_kyiv_demiiivskyi",
-      "length_m": 2447.253140982508,
+      "length_m": 2447.2059350682935,
       "node_a": "protasiv_yar",
       "node_b": "kyiv_demiiivskyi",
-      "km_at_a": 11.96859751047597,
+      "km_at_a": 11.968723440170407,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -129,17 +129,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 2447.253140982508,
+          "to_m": 2447.2059350682935,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "kyiv_demiiivskyi_to_vydubychi",
-      "length_m": 2061.070445785113,
+      "length_m": 2061.058880758726,
       "node_a": "kyiv_demiiivskyi",
       "node_b": "vydubychi",
-      "km_at_a": 14.415850651458477,
+      "km_at_a": 14.415929375238703,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -150,17 +150,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 2061.070445785113,
+          "to_m": 2061.058880758726,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "vydubychi_to_berezniaky",
-      "length_m": 3284.423571106182,
+      "length_m": 3284.3670089411357,
       "node_a": "vydubychi",
       "node_b": "berezniaky",
-      "km_at_a": 16.47692109724359,
+      "km_at_a": 16.47698825599743,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -171,17 +171,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 3284.423571106182,
+          "to_m": 3284.3670089411357,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "berezniaky_to_darnytsia",
-      "length_m": 3558.123038202267,
+      "length_m": 3558.156359679845,
       "node_a": "berezniaky",
       "node_b": "darnytsia",
-      "km_at_a": 19.76134466834977,
+      "km_at_a": 19.761355264938565,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -192,17 +192,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 3558.123038202267,
+          "to_m": 3558.156359679845,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "darnytsia_to_rusanivka",
-      "length_m": 2541.366180938117,
+      "length_m": 2541.601835157222,
       "node_a": "darnytsia",
       "node_b": "rusanivka",
-      "km_at_a": 23.319467706552036,
+      "km_at_a": 23.319511624618407,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -213,17 +213,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 2541.366180938117,
+          "to_m": 2541.601835157222,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "rusanivka_to_livoberezhna",
-      "length_m": 1771.1645237920732,
+      "length_m": 1771.1329238888447,
       "node_a": "rusanivka",
       "node_b": "livoberezhna",
-      "km_at_a": 25.860833887490152,
+      "km_at_a": 25.86111345977563,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -234,17 +234,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 1771.1645237920732,
+          "to_m": 1771.1329238888447,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "livoberezhna_to_mykilska_slobidka",
-      "length_m": 1496.00301394136,
+      "length_m": 1495.9807889261735,
       "node_a": "livoberezhna",
       "node_b": "mykilska_slobidka",
-      "km_at_a": 27.63199841128223,
+      "km_at_a": 27.632246383664473,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -255,17 +255,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 1496.00301394136,
+          "to_m": 1495.9807889261735,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "mykilska_slobidka_to_voskresenka",
-      "length_m": 2093.356559160153,
+      "length_m": 2093.398033345553,
       "node_a": "mykilska_slobidka",
       "node_b": "voskresenka",
-      "km_at_a": 29.128001425223587,
+      "km_at_a": 29.12822717259065,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -276,17 +276,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 2093.356559160153,
+          "to_m": 2093.398033345553,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "voskresenka_to_troieshchyna_2",
-      "length_m": 1867.3581590976457,
+      "length_m": 1867.3715620275364,
       "node_a": "voskresenka",
       "node_b": "troieshchyna_2",
-      "km_at_a": 31.221357984383744,
+      "km_at_a": 31.221625205936203,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -297,17 +297,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 1867.3581590976457,
+          "to_m": 1867.3715620275364,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "troieshchyna_2_to_pochaina",
-      "length_m": 4904.352315645271,
+      "length_m": 4904.252172407481,
       "node_a": "troieshchyna_2",
       "node_b": "pochaina",
-      "km_at_a": 33.08871614348139,
+      "km_at_a": 33.08899676796374,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -318,17 +318,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 4904.352315645271,
+          "to_m": 4904.252172407481,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "pochaina_to_kurenivka",
-      "length_m": 2005.1977051700408,
+      "length_m": 2005.183164408447,
       "node_a": "pochaina",
       "node_b": "kurenivka",
-      "km_at_a": 37.99306845912666,
+      "km_at_a": 37.993248940371224,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -339,17 +339,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 2005.1977051700408,
+          "to_m": 2005.183164408447,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "kurenivka_to_priorka",
-      "length_m": 2197.364138346547,
+      "length_m": 2197.3306910959154,
       "node_a": "kurenivka",
       "node_b": "priorka",
-      "km_at_a": 39.9982661642967,
+      "km_at_a": 39.99843210477967,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -360,17 +360,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 2197.364138346547,
+          "to_m": 2197.3306910959154,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "priorka_to_syrets",
-      "length_m": 3010.3888969537725,
+      "length_m": 3010.327452477194,
       "node_a": "priorka",
       "node_b": "syrets",
-      "km_at_a": 42.195630302643245,
+      "km_at_a": 42.19576279587558,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -381,17 +381,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 3010.3888969537725,
+          "to_m": 3010.327452477194,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "syrets_to_beresteiska",
-      "length_m": 2523.5777740007957,
+      "length_m": 2523.5304090662703,
       "node_a": "syrets",
       "node_b": "beresteiska",
-      "km_at_a": 45.206019199597016,
+      "km_at_a": 45.20609024835277,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -402,17 +402,17 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 2523.5777740007957,
+          "to_m": 2523.5304090662703,
           "speed_kmh": 70
         }
       ]
     },
     {
       "id": "beresteiska_to_sviatoshyn",
-      "length_m": 1770.4030260545373,
+      "length_m": 1770.379342684486,
       "node_a": "beresteiska",
       "node_b": "sviatoshyn",
-      "km_at_a": 47.729596973597815,
+      "km_at_a": 47.72962065741904,
       "electrification": "ac_25kv",
       "grades": [
         {
@@ -423,7 +423,7 @@
       "speed_limits": [
         {
           "from_m": 0,
-          "to_m": 1770.4030260545373,
+          "to_m": 1770.379342684486,
           "speed_kmh": 70
         }
       ]

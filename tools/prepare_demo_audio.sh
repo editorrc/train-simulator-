@@ -8,9 +8,13 @@ if [ ! -d "$asset_dir/opensfx/.git" ]; then
   git clone https://github.com/OpenTTD/OpenSFX.git "$asset_dir/opensfx"
 fi
 git -C "$asset_dir/opensfx" checkout --detach d0bf8d4deda22d5a7f8d01953433cb2644663e9f
+if [ ! -d "$asset_dir/kenney-interface/.git" ]; then
+  git clone https://github.com/Calinou/kenney-interface-sounds.git "$asset_dir/kenney-interface"
+fi
+git -C "$asset_dir/kenney-interface" checkout --detach 4596a49eaf5a533948d49a47467f606bcdea70ff
 python3 -m venv "$asset_dir/loops-env"
 "$asset_dir/loops-env/bin/pip" install numpy scipy
-"$asset_dir/loops-env/bin/python" "$repo_dir/tools/prepare_audio_loops.py" "$asset_dir/opensfx"
+"$asset_dir/loops-env/bin/python" "$repo_dir/tools/prepare_audio_loops.py" "$asset_dir/opensfx" "$asset_dir/kenney-interface"
 
 python3 -m venv "$asset_dir/tts-env"
 "$asset_dir/tts-env/bin/pip" install torch==2.5.1+cpu --index-url https://download.pytorch.org/whl/cpu

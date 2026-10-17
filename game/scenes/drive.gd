@@ -20,6 +20,9 @@ var pose := RenderPose.new()
 var _route_label: Label
 var _caption: Label
 var _status: Label
+var _drag_button: int = MOUSE_BUTTON_NONE
+var _orbit_drag: bool = false
+var _pan_drag: bool = false
 var _paused: bool = false
 var _expanded: Dictionary = {}
 var _panels_visible: bool = true
@@ -114,7 +117,12 @@ func _ready() -> void:
 	desk.announcement_requested.connect(announcer.repeat)
 	settings_dialog = SettingsDialog.new()
 	add_child(settings_dialog)
-	get_window().focus_exited.connect(desk.release_holds)
+	get_window().focus_exited.connect(
+		func() -> void:
+			desk.release_holds()
+			_orbit_drag = false
+			_pan_drag = false
+	)
 	SimClock.set_paused(false)
 	SimClock.set_time_scale(1.0)
 	SimClock.step.connect(_on_sim_step)
@@ -264,17 +272,6 @@ func _log_event(e: Dictionary) -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	var mb: InputEventMouseButton = event as InputEventMouseButton
-	if mb != null and mb.pressed:
-		if mb.button_index == MOUSE_BUTTON_WHEEL_UP:
-			side.zoom_by(1.12)
-		elif mb.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			side.zoom_by(1.0 / 1.12)
-		return
-	var mm: InputEventMouseMotion = event as InputEventMouseMotion
-	if mm != null and (mm.button_mask & (MOUSE_BUTTON_MASK_RIGHT | MOUSE_BUTTON_MASK_LEFT)) != 0:
-		side.pan_px(mm.relative.x)
-		return
 	var key: InputEventKey = event as InputEventKey
 	if key == null or world == null:
 		return
@@ -345,3 +342,56 @@ func _expand_panel(id: String) -> void:
 		panel.opacity = 1.0
 		move_child(panel, get_child_count() - 1)
 	panel._layout_content()
+
+
+func _over_panel(at: Vector2) -> bool:
+	if settings_dialog != null and settings_dialog.visible:
+		return true
+	for panel: FloatingPanel in panels:
+		if panel.visible and panel.get_global_rect().has_point(at):
+			return true
+	return false
+
+
+func _input(event: InputEvent) -> void:
+	if side == null:
+		return
+	var mb: InputEventMouseButton = event as InputEventMouseButton
+	if mb != null:
+		var orbit_button: bool = (
+			mb.button_index == MOUSE_BUTTON_RIGHT
+			or (mb.button_index == MOUSE_BUTTON_LEFT and mb.ctrl_pressed)
+		)
+		if not mb.pressed:
+			if mb.button_index == _drag_button:
+				_orbit_drag = false
+				_pan_drag = false
+				_drag_button = MOUSE_BUTTON_NONE
+			if mb.button_index == MOUSE_BUTTON_MIDDLE or orbit_button:
+				_pan_drag = false
+		elif not _over_panel(mb.position):
+			if orbit_button:
+				_drag_button = mb.button_index
+				_orbit_drag = not mb.shift_pressed
+				_pan_drag = mb.shift_pressed
+			elif mb.button_index == MOUSE_BUTTON_MIDDLE:
+				_pan_drag = true
+			elif mb.button_index in [MOUSE_BUTTON_WHEEL_UP, MOUSE_BUTTON_WHEEL_DOWN]:
+				side.zoom_by(1.10 if mb.button_index == MOUSE_BUTTON_WHEEL_UP else 1.0 / 1.10)
+			get_viewport().set_input_as_handled()
+	var motion: InputEventMouseMotion = event as InputEventMouseMotion
+	if motion != null:
+		if _orbit_drag:
+			side.adjust(-motion.relative.x * .22, -motion.relative.y * .18)
+			get_viewport().set_input_as_handled()
+		elif _pan_drag:
+			side.pan_px(motion.relative.x)
+			get_viewport().set_input_as_handled()
+	var pan: InputEventPanGesture = event as InputEventPanGesture
+	if pan != null and not _over_panel(pan.position):
+		side.adjust(-pan.delta.x * 3.0, -pan.delta.y * 2.0)
+		get_viewport().set_input_as_handled()
+	var magnify: InputEventMagnifyGesture = event as InputEventMagnifyGesture
+	if magnify != null and not _over_panel(magnify.position):
+		side.zoom_by(magnify.factor)
+		get_viewport().set_input_as_handled()

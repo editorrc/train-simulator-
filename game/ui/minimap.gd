@@ -52,8 +52,9 @@ func _draw() -> void:
 		draw_polyline(river, Color(.20, .40, .56, .5), maxf(8.0, size.x * .013), true)
 	for pts: PackedVector2Array in geometry.polylines.values():
 		var sp := PackedVector2Array()
-		for p: Vector2 in pts:
-			sp.append(_tp(p))
+		for i: int in range(0, pts.size(), maxi(1, pts.size() / 100)):
+			sp.append(_tp(pts[i]))
+		sp.append(_tp(pts[pts.size() - 1]))
 		draw_polyline(sp, Color("8e9a95"), 2.0, true)
 	for st: Variant in stations.get("stations", []):
 		var sd: Dictionary = st

@@ -36,6 +36,11 @@
     "floor_m": 1.2,
     "bogie_centers_m": 15.0,
     "axle_spacing_m": 2.6,
-    "wheel_diameter_m": 1.05
+    "wheel_diameter_m": 1.05,
+    "body_end_inset_m": 0.35,
+    "secondary_frequency_hz": 1.0,
+    "secondary_roll_rad_per_ms2": 0.008,
+    "secondary_pitch_rad_per_ms2": 0.006,
+    "coupler_stiffness_n_m": 20000000
   }
 }

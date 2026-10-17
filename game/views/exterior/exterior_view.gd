@@ -3,19 +3,23 @@ extends RailView
 ## An orthographic 3D stage in an empty dark space, with a perspective cab view.
 
 var preview_mode: bool = false
-var _viewport_container: SubViewportContainer
+var _viewport_container: TextureRect
 var _viewport: SubViewport
 var _stage: Node3D
 var _cab_lamp: SpotLight3D
 var _camera: Camera3D
 var _environment: WorldEnvironment
 var _sun: DirectionalLight3D
+var _rail_path: RailPath
+var _consist_pose: RailConsistPose
+var _links: Array[MeshInstance3D] = []
 var _geometry: RouteGeometry
 var _cars: Array[TrainCar3D] = []
 var _mode: int = 0
 var _focus := Vector3.ZERO
 var _previous_target := Vector3.ZERO
 var _forward := Vector3.FORWARD
+var _orbit_reference := Vector3.FORWARD
 var _camera_ready: bool = false
 var _pan: float = 0.0
 
@@ -27,16 +31,22 @@ func setup(
 	var sc: Dictionary = ContentDB.get_entry(&"scenario", Session.scenario_id)
 	var route: Dictionary = ContentDB.get_entry(&"route", StringName(str(sc["route"])))
 	_geometry = RouteGeometry.from_dict(route["geometry"])
-	_viewport_container = SubViewportContainer.new()
+	_rail_path = RailPath.new(world.graph, _geometry)
+	_consist_pose = RailConsistPose.new(_rail_path)
+	_viewport_container = TextureRect.new()
 	_viewport_container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_viewport_container.stretch = true
+	_viewport_container.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_viewport_container.stretch_mode = TextureRect.STRETCH_SCALE
 	_viewport_container.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(_viewport_container)
 	_viewport = SubViewport.new()
-	_viewport.size = Vector2i(1280, 720)
+	_viewport.size = Vector2i(1920, 1080)
+	_viewport.msaa_3d = Viewport.MSAA_4X
 	_viewport.own_world_3d = true
 	_viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	_viewport_container.add_child(_viewport)
+	_viewport_container.texture = _viewport.get_texture()
+	_mode = 0 if preview_mode else int(Settings.get_value("camera", "view_mode", 0))
 	_stage = Node3D.new()
 	_viewport.add_child(_stage)
 	_environment = WorldEnvironment.new()
@@ -59,7 +69,7 @@ func setup(
 	_cab_lamp.spot_angle = 25
 	_cab_lamp.light_energy = 7
 	_cab_lamp.light_color = Color("ffe5b5")
-	_camera.add_child(_cab_lamp)
+	_stage.add_child(_cab_lamp)
 
 	var t: Train = world.player()
 	for i: int in t.consist.vehicles.size():
@@ -67,17 +77,25 @@ func setup(
 			break
 		var car := TrainCar3D.new()
 		car.build(t.consist.vehicles[i], livery, i == 0 or i == t.consist.vehicles.size() - 1)
+		car.reversed_body = i == t.consist.vehicles.size() - 1 and i > 0
 		_stage.add_child(car)
 		_cars.append(car)
+		if i > 0:
+			_links.append(
+				TrainCar3D.box(
+					_stage,
+					Vector3.ZERO,
+					Vector3(.16, .16, 1.0),
+					TrainCar3D.material(Color("4b5154"), .7)
+				)
+			)
 	_build_track()
 	if not preview_mode:
 		_build_platforms()
 
 
 func _position(pos: TrackPosition) -> Vector3:
-	var segment: TrackSegment = world.graph.get_segment(pos.segment_id)
-	var p: Vector2 = _geometry.point_at(pos.segment_id, pos.offset_m, segment.length_m)
-	return Vector3(p.x, 0, p.y)
+	return _rail_path.point(pos)
 
 
 func _at(segment: TrackSegment, offset: float) -> Vector3:
@@ -135,9 +153,9 @@ func _build_track() -> void:
 					break
 				var basis: Basis = Basis.looking_at(forward, Vector3.UP)
 				var center: Vector3 = (start + end) * .5
-				beds.append(Transform3D(basis, center + Vector3(0, -.17, 0)))
-				for x: float in [-.76, .76]:
-					rails.append(Transform3D(basis, center + basis.x * x + Vector3(0, .13, 0)))
+				beds.append(Transform3D(basis, center + Vector3(0, -.42, 0)))
+				for x: float in [-.7975, .7975]:
+					rails.append(Transform3D(basis, center + basis.x * x + Vector3(0, -.09, 0)))
 				wires.append(Transform3D(basis, center + Vector3(0, 6, 0)))
 				d += 2
 			var sleeper_at: float = ceil(chunk / .65) * .65
@@ -146,7 +164,10 @@ func _build_track() -> void:
 				var end: Vector3 = _at(segment, minf(sleeper_at + 1, segment.length_m))
 				if start.distance_to(end) > .01:
 					sleepers.append(
-						Transform3D(Basis.looking_at((end - start).normalized()), start)
+						Transform3D(
+							Basis.looking_at((end - start).normalized()),
+							start + Vector3(0, -.25, 0)
+						)
 					)
 				sleeper_at += .65
 			var mast_at: float = ceil(chunk / 65) * 65
@@ -166,37 +187,105 @@ func _build_track() -> void:
 			chunk = finish
 
 
+func _platform_strip(
+	group: Node3D,
+	seg: TrackSegment,
+	begin: float,
+	end: float,
+	side: float,
+	low_x: float,
+	high_x: float,
+	floor_y: float,
+	height: float,
+	mat: Material
+) -> void:
+	var surface := SurfaceTool.new()
+	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
+	var offset: float = begin
+	while offset < end - .001:
+		var next: float = minf(offset + 2.0, end)
+		var frames: Array[Transform3D] = [
+			_rail_path.frame(TrackPosition.new(seg.id, offset, 1)),
+			_rail_path.frame(TrackPosition.new(seg.id, next, 1))
+		]
+		var corners: Array[PackedVector3Array] = []
+		for frame: Transform3D in frames:
+			var points := PackedVector3Array()
+			for section: Vector2 in [
+				Vector2(low_x, floor_y),
+				Vector2(high_x, floor_y),
+				Vector2(high_x, floor_y + height),
+				Vector2(low_x, floor_y + height)
+			]:
+				points.append(frame * Vector3(section.x * side, section.y, 0) - group.position)
+			corners.append(points)
+		for index: int in 4:
+			var other: int = (index + 1) % 4
+			TrainCar3D._quad(
+				surface,
+				[corners[0][index], corners[0][other], corners[1][other], corners[1][index]]
+			)
+		offset = next
+	surface.generate_normals()
+	var mesh := MeshInstance3D.new()
+	mesh.mesh = surface.commit()
+	mesh.material_override = mat
+	mesh.visibility_range_end = 480
+	group.add_child(mesh)
+
+
 func _build_platforms() -> void:
 	var concrete: StandardMaterial3D = TrainCar3D.material(Color("687780"))
 	var roof: StandardMaterial3D = TrainCar3D.material(Color("384c5b"), .4)
 	var edge: StandardMaterial3D = TrainCar3D.material(Color("e0c772"))
+	for mat: StandardMaterial3D in [concrete, roof, edge]:
+		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	for st: Variant in stations.get("stations", []):
 		var station: Dictionary = st
-		var platform: Dictionary = station["platforms"][0]
-		var seg: TrackSegment = world.graph.get_segment(StringName(str(platform["segment"])))
-		var a: Vector3 = _at(seg, float(platform["from_m"]))
-		var b: Vector3 = _at(seg, float(platform["to_m"]))
-		if preview_mode and a.distance_to(_position(world.player().head)) > 350:
-			continue
-		var group := Node3D.new()
-		_stage.add_child(group)
-		group.position = (a + b) * .5
-		group.look_at(group.position + (b - a).normalized())
-		var length: float = a.distance_to(b)
-		TrainCar3D.box(group, Vector3(5, .5, 0), Vector3(6, 1, length), concrete)
-		TrainCar3D.box(group, Vector3(2.2, 1.01, 0), Vector3(.25, .025, length), edge)
-		TrainCar3D.box(group, Vector3(5, 4.3, 0), Vector3(6, .15, 54), roof)
-		for z: float in [-24, -12, 0, 12, 24]:
-			TrainCar3D.box(group, Vector3(6.3, 2.65, z), Vector3(.13, 3.3, .13), roof)
-			TrainCar3D.box(group, Vector3(5, 1.5, z), Vector3(1.5, .15, .5), roof)
-		var label := Label3D.new()
-		label.text = str(station["name_uk"])
-		label.font_size = 48
-		label.pixel_size = .035
-		label.position = Vector3(3, 3.2, 0)
-		label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		label.visibility_range_end = 220
-		group.add_child(label)
+		for raw: Variant in station["platforms"]:
+			var platform: Dictionary = raw
+			var seg: TrackSegment = world.graph.get_segment(StringName(str(platform["segment"])))
+			var begin: float = float(platform["from_m"])
+			var end: float = float(platform["to_m"])
+			var middle: float = (begin + end) * .5
+			var side: float = 1.0 if str(platform["side"]) == "right" else -1.0
+			var group := Node3D.new()
+			_stage.add_child(group)
+			group.position = _at(seg, middle)
+			_platform_strip(group, seg, begin, end, side, 1.95, 7.95, 0, 1.1, concrete)
+			_platform_strip(group, seg, begin, end, side, 1.95, 2.20, 1.101, .015, edge)
+			_platform_strip(
+				group,
+				seg,
+				maxf(begin, middle - 27),
+				minf(end, middle + 27),
+				side,
+				2.0,
+				7.95,
+				4.3,
+				.15,
+				roof
+			)
+			for delta: float in [-24, -12, 0, 12, 24]:
+				var frame: Transform3D = _rail_path.frame(
+					TrackPosition.new(seg.id, middle + delta, 1)
+				)
+				var furniture := Node3D.new()
+				group.add_child(furniture)
+				furniture.transform = Transform3D(frame.basis, frame.origin - group.position)
+				TrainCar3D.box(furniture, Vector3(side * 6.3, 2.7, 0), Vector3(.13, 3.2, .13), roof)
+				TrainCar3D.box(furniture, Vector3(side * 5, 1.5, 0), Vector3(1.5, .15, .5), roof)
+			var label := Label3D.new()
+			label.text = str(station["name_uk"])
+			label.font_size = 64
+			label.pixel_size = .025
+			label.position = (
+				_rail_path.offset_point(TrackPosition.new(seg.id, middle, 1), side * 3, 3.2)
+				- group.position
+			)
+			label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
+			label.visibility_range_end = 220
+			group.add_child(label)
 
 
 func _draw() -> void:
@@ -208,9 +297,13 @@ func _process(delta: float) -> void:
 	if _camera == null:
 		return
 	_viewport_container.visible = _mode != 4
+	_viewport.render_target_update_mode = (
+		SubViewport.UPDATE_DISABLED if _mode == 4 else SubViewport.UPDATE_ALWAYS
+	)
 	if _mode == 4:
 		super._process(delta)
 		return
+	_update_render_size()
 	var t: Train = world.player()
 	var alpha: float = SimClock.clock.interpolation_alpha()
 	var head: TrackPosition = pose.head(world.graph, alpha) if pose != null else t.head
@@ -220,48 +313,78 @@ func _process(delta: float) -> void:
 	if forward.length_squared() < .1:
 		forward = _forward
 	_forward = forward
-	var behind: float = 0.0
-	var clock_s: float = world.clock_s() + alpha * SimConfig.SIM_DT
+	var specs: Array[VehicleSpec] = []
+	var extensions := PackedFloat64Array()
 	for i: int in _cars.size():
-		var spec: VehicleSpec = t.consist.vehicles[i]
-		var center: TrackPosition = head.advance(world.graph, -behind - spec.length_m * .5).position
-		var car_point: Vector3 = _position(center)
-		var car_ahead: Vector3 = _position(center.advance(world.graph, 1).position)
+		specs.append(t.consist.vehicles[i])
+		if i < _cars.size() - 1:
+			extensions.append(_cars[i].suspension.extension)
+	var states: Array[Dictionary] = _consist_pose.solve(head, specs, extensions)
+	forward = -(states[0]["body"] as Transform3D).basis.z
+	_forward = forward
+	var active_cab: int = 0 if t.reverser >= 0 else _cars.size() - 1
+	var trailing_mass: float = t.total_mass_kg()
+	var distance: float = (
+		lerpf(pose.previous_distance, pose.current_distance, alpha)
+		if pose != null
+		else t.odometer_m
+	)
+	for i: int in _cars.size():
+		var spec: VehicleSpec = specs[i]
+		var mass: float = (
+			spec.mass_empty_kg + spec.seats * t.load_factor * t.consist.passenger_mass_kg
+		)
+		trailing_mass -= mass
 		var car: TrainCar3D = _cars[i]
-		car.position = car_point
-		if car_ahead.distance_to(car_point) > .01:
-			car.look_at(car_ahead)
-		if i == _cars.size() - 1 and i > 1:
-			car.rotate_y(PI)
-		car.visible = not (_mode == 3 and i == 0)
-		var distance: float = (
-			lerpf(pose.previous_distance, pose.current_distance, alpha)
-			if pose != null
-			else t.odometer_m
+		car.apply_rail_pose(states[i])
+		car.visible = not (_mode == 3 and i == active_cab)
+		var trucks: Array = states[i]["bogies"]
+		var front: Vector3 = -(trucks[0] as Transform3D).basis.z
+		var rear: Vector3 = -(trucks[1] as Transform3D).basis.z
+		var curvature: float = (
+			atan2(rear.cross(front).y, rear.dot(front))
+			/ float(spec.visual.get("bogie_centers_m", 15.0))
+		)
+		car.suspension.advance(
+			spec, mass, trailing_mass, t.speed_ms * t.speed_ms * curvature, t.accel_ms2, delta
 		)
 		car.animate(
-			t, distance, delta, i == 0 if t.reverser >= 0 else i == _cars.size() - 1, clock_s
+			t,
+			distance,
+			delta,
+			i == 0 if t.reverser >= 0 else i == _cars.size() - 1,
+			world.clock_s()
 		)
-		behind += spec.length_m
+		if i > 0:
+			var from: Vector3 = states[i - 1]["rear"]
+			var to: Vector3 = states[i]["front"]
+			var link: MeshInstance3D = _links[i - 1]
+			link.position = (from + to) * .5 + Vector3.UP
+			link.look_at(to + Vector3.UP)
+			link.scale.z = from.distance_to(to)
 	var zoom: float = float(Settings.get_value("camera", "zoom", 1.0))
 	var target: Vector3 = point - forward * (18.0 if preview_mode else 8.0 / zoom)
 	var lag: float = float(Settings.get_value("camera", "follow_s", .18))
 	if not _camera_ready or point.distance_to(_focus) > 350:
 		_focus = target
 		_previous_target = target
+		_orbit_reference = forward
 		_camera_ready = true
 	for axis: int in 3:
 		_focus[axis] = RenderPose.follow(
 			_focus[axis], _previous_target[axis], target[axis], delta, lag
 		)
 	_previous_target = target
-	var right: Vector3 = forward.cross(Vector3.UP).normalized()
+	var reference: Vector3 = (
+		forward if bool(Settings.get_value("camera", "follow_heading", false)) else _orbit_reference
+	)
+	var right: Vector3 = reference.cross(Vector3.UP).normalized()
 	var yaw: float = deg_to_rad(float(Settings.get_value("camera", "yaw", 0.0)))
 	var pitch: float = deg_to_rad(float(Settings.get_value("camera", "pitch", 25.0)))
 	var angle: float = (-.6 if _mode == 0 else .6) + yaw
 	if _mode == 2:
 		angle = 0.0
-	var outward: Vector3 = -right * cos(angle) + forward * sin(-angle)
+	var outward: Vector3 = -right * cos(angle) + reference * sin(-angle)
 	var focus: Vector3 = _focus + right * _pan + Vector3(0, 2, 0)
 	_camera.projection = Camera3D.PROJECTION_ORTHOGONAL
 	_camera.size = (18.0 if preview_mode else 45.0) / zoom
@@ -269,9 +392,31 @@ func _process(delta: float) -> void:
 	_camera.look_at(focus)
 	if _mode == 3:
 		_camera.projection = Camera3D.PROJECTION_PERSPECTIVE
-		_camera.fov = 65
-		_camera.position = point - forward * 1.6 + Vector3(0, 3.25, 0)
-		_camera.look_at(_camera.position + forward * 100 + Vector3(0, -1.4, 0))
+		_camera.fov = clampf(65.0 / zoom, 35.0, 100.0)
+		var cab_frame: Transform3D = states[active_cab]["body"]
+		var facing: float = 1.0 if active_cab == 0 else -1.0
+		_camera.position = (
+			cab_frame * Vector3(0, 3.25, (-specs[active_cab].length_m * .5 + 1.6) * facing)
+		)
+		var look: Vector3 = -cab_frame.basis.z * facing
+		look = look.rotated(
+			Vector3.UP, deg_to_rad(float(Settings.get_value("camera", "cab_yaw", 0.0)))
+		)
+		var cab_right: Vector3 = look.cross(Vector3.UP).normalized()
+		look = look.rotated(
+			cab_right, deg_to_rad(float(Settings.get_value("camera", "cab_pitch", 0.0)))
+		)
+		_camera.look_at(_camera.position + look * 100.0)
+		var shell: Transform3D = (
+			_cars[active_cab].global_transform * _cars[active_cab].body.transform
+		)
+		var end: float = (
+			specs[active_cab].length_m * .5
+			- float(specs[active_cab].visual.get("body_end_inset_m", .35))
+		)
+		_cab_lamp.position = shell * Vector3(0, 3.88, -end - .2)
+		_cab_lamp.look_at(_cab_lamp.position - shell.basis.z * 100.0 - shell.basis.y * 5.0)
+
 	_cab_lamp.visible = _mode == 3 and t.cab.is_on(&"headlights") and t.power.control_on(t.cab)
 	var night: bool = bool(Settings.get_value("visual", "night", false))
 	_sun.light_energy = .06 if night else 1.1
@@ -283,6 +428,7 @@ func _process(delta: float) -> void:
 func next_preset() -> void:
 	_mode = (_mode + 1) % 5
 	_camera_ready = false
+	Settings.set_value("camera", "view_mode", _mode)
 
 
 func preset_name() -> String:
@@ -297,9 +443,21 @@ func zoom_by(factor: float) -> void:
 
 
 func adjust(d_yaw: float, d_pitch: float) -> void:
+	if _mode == 3:
+		Settings.set_value(
+			"camera",
+			"cab_yaw",
+			clampf(float(Settings.get_value("camera", "cab_yaw", 0.0)) + d_yaw, -110, 110)
+		)
+		Settings.set_value(
+			"camera",
+			"cab_pitch",
+			clampf(float(Settings.get_value("camera", "cab_pitch", 0.0)) + d_pitch, -60, 60)
+		)
+		return
 	super.adjust(d_yaw, d_pitch)
 	Settings.set_value(
-		"camera", "yaw", clampf(float(Settings.get_value("camera", "yaw", 0)) + d_yaw, -60, 60)
+		"camera", "yaw", wrapf(float(Settings.get_value("camera", "yaw", 0)) + d_yaw, -180, 180)
 	)
 	Settings.set_value(
 		"camera",
@@ -316,3 +474,14 @@ func snap_camera() -> void:
 	super.snap_camera()
 	_camera_ready = false
 	_pan = 0.0
+
+
+func _update_render_size() -> void:
+	var physical: Vector2 = get_viewport().get_texture().get_size()
+	var logical: Vector2 = get_viewport_rect().size
+	var ratio: Vector2 = size / logical.max(Vector2.ONE)
+	var scale_factor: float = float(Settings.get_value("visual", "render_scale", 1.0))
+	var desired := Vector2i((physical * ratio * scale_factor).round())
+	desired = desired.clamp(Vector2i(64, 64), Vector2i(8192, 8192))
+	if _viewport.size != desired:
+		_viewport.size = desired

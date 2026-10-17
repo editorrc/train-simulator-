@@ -22,7 +22,7 @@ def run(*args,env=None):
 
 def licenses(out):
     parts=[]
-    for path in [ROOT/'LICENSE',ROOT/'game/audio/recordings/CREDITS.md',ROOT/'game/audio/recordings/LICENSE-OpenSFX.txt',ROOT/'game/audio/announcements/CREDITS.md',ROOT/'game/audio/announcements/LICENSE-Ukrainian-TTS.txt']:
+    for path in [ROOT/'LICENSE',ROOT/'game/audio/recordings/CREDITS.md',ROOT/'game/audio/recordings/LICENSE-OpenSFX.txt',ROOT/'game/audio/recordings/LICENSE-Kenney.txt',ROOT/'game/audio/announcements/CREDITS.md',ROOT/'game/audio/announcements/LICENSE-Ukrainian-TTS.txt']:
         if path.exists():parts.append(path.name+'\n'+path.read_text())
     # Godot's official copyright inventory includes bundled third-party libraries.
     cache=ROOT/'build/licenses'

@@ -33,7 +33,7 @@ META = dict(verified=False, sources=[SOURCE, 'https://swrailway.gov.ua/timetable
 
 def write(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2)+'\n')
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=None if path.name=="geometry.json" else 2)+'\n')
 
 def main():
     out=ROOT/'game/content/base/routes/kyiv_city_ring'
@@ -43,8 +43,8 @@ def main():
     for i in range(len(STOPS)):
         controls=[STOPS[(i+j)%len(STOPS)][3] for j in [-1,0,1,2]]
         pts=[]
-        for sample in range(41):
-            t=sample/40
+        for sample in range(1201):
+            t=sample/1200
             pts.append([.5*((2*b)+(-a+c)*t+(2*a-5*b+4*c-d)*t*t+(-a+3*b-3*c+d)*t*t*t) for a,b,c,d in zip(*controls)])
         curves.append(pts)
     total=sum(sum(math.dist(a,b) for a,b in zip(pts,pts[1:])) for pts in curves)

@@ -25,7 +25,9 @@ func _ready() -> void:
 	add_child(root)
 	root.add_child(_label("Ukraine Visual Train Sim", 44))
 	root.add_child(
-		_label("Тренажер машиніста електропоїзда · Київська кільцева · демо", 18, Color("9fb3aa"))
+		_label(
+			"Тренажер машиніста електропоїзда · Київська кільцева · демо 0.3.2", 18, Color("9fb3aa")
+		)
 	)
 	_preview = TrainPreview.new()
 	_preview.custom_minimum_size = Vector2(0, 300)
