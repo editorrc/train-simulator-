@@ -123,7 +123,7 @@ express Statement of Purpose.
 
 
 CREDITS.md
-Audio sources for demo 0.3.2. These are illustrative licensed effects, not verified
+Audio sources for demo 0.3.3. These are illustrative licensed effects, not verified
 field recordings of the specific ER9M equipment.
 
 OpenSFX: https://github.com/OpenTTD/OpenSFX (LICENSE-OpenSFX.txt):
@@ -154,6 +154,10 @@ Rail impacts preserve four distinct recorded transients and their natural attack
 with short tail fades. A sample-timed mixer uses vehicle axle geometry and track joints;
 impact pitch remains fixed. Switches retain short dry attacks. Source commits are pinned
 in tools/prepare_demo_audio.sh. No TTS or audio-generation dependencies run in the app.
+
+0.3.3: Godot imports these generated recordings as uncompressed PCM16. Loop boundaries
+count decoded sample frames, not compressed payload bytes. Held signals retain a continuous
+sustain with a separate attack/release envelope; source attribution is unchanged.
 
 
 LICENSE-OpenSFX.txt
