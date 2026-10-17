@@ -7,6 +7,7 @@ const BORDER := Color("4b4e52")
 const TEXT := Color("efeff0")
 const MUTED := Color("a3a6aa")
 const ACCENT := Color("8dceb4")
+const SELECTOR_HEIGHT: float = 84.0
 
 
 static func box(color: Color, border: Color = BORDER) -> StyleBoxFlat:
@@ -33,11 +34,11 @@ static func create() -> Theme:
 	result.set_color("font_hover_color", "Button", TEXT)
 	result.set_color("font_pressed_color", "Button", ACCENT)
 	result.set_stylebox("normal", "Button", box(SURFACE))
-	result.set_stylebox("hover", "Button", box(Color("36393c"), ACCENT))
-	result.set_stylebox("pressed", "Button", box(Color("35413b"), ACCENT))
+	result.set_stylebox("hover", "Button", box(Color("333538"), ACCENT))
+	result.set_stylebox("pressed", "Button", box(Color("333538"), ACCENT))
 	result.set_stylebox("focus", "Button", box(Color(0, 0, 0, 0), ACCENT))
 	result.set_stylebox("normal", "OptionButton", box(SURFACE))
-	result.set_stylebox("hover", "OptionButton", box(Color("36393c"), ACCENT))
+	result.set_stylebox("hover", "OptionButton", box(Color("333538"), ACCENT))
 	result.set_stylebox("panel", "PopupMenu", box(SURFACE))
 	result.set_stylebox("panel", "AcceptDialog", box(BACKGROUND))
 	result.set_stylebox("embedded_border", "Window", box(SURFACE))
@@ -67,3 +68,11 @@ static func button(text: String, callback: Callable, primary: bool = false) -> B
 		for state: String in ["font_color", "font_hover_color", "font_pressed_color"]:
 			result.add_theme_color_override(state, Color("10231e"))
 	return result
+
+
+## Selector cell (route, car count, paint): neutral fill, no outline until chosen,
+## the same height for every selector in the row.
+static func selector_style(selected: bool, hover: bool = false) -> StyleBoxFlat:
+	var style: StyleBoxFlat = box(SURFACE if not hover else Color("323437"), ACCENT)
+	style.set_border_width_all(2 if selected else 0)
+	return style

@@ -10,6 +10,8 @@ var pantograph: Node3D
 var body: Node3D
 var trucks: Array[Node3D] = []
 var reversed_body: bool = false
+## Painted on the cab front; set before build().
+var fleet_number: String = ""
 var suspension := RailSuspension.new()
 var wheels: Array[MultiMesh] = []
 var _wheel_offsets: Array[Transform3D] = []
@@ -25,11 +27,11 @@ var _pantograph_bar: MeshInstance3D
 var _pantograph_position: float = INF
 
 
-static func material(color: Color, metal: float = 0.0) -> StandardMaterial3D:
+static func material(color: Color, metal: float = 0.0, rough: float = 0.65) -> StandardMaterial3D:
 	var mat := StandardMaterial3D.new()
 	mat.albedo_color = color
 	mat.metallic = metal
-	mat.roughness = 0.65
+	mat.roughness = rough
 	return mat
 
 
@@ -63,15 +65,16 @@ static func cylinder(
 func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	_length = spec.length_m - 2.0 * float(spec.visual.get("body_end_inset_m", .35))
 	var end: float = _length * 0.5
-	var paint: StandardMaterial3D = material(Color(str(livery.get("body", "#287958"))), 0.25)
+	# Glossy enamel paint, satin aluminium roof, dark reflective glazing.
+	var paint: StandardMaterial3D = material(Color(str(livery.get("body", "#287958"))), .12, .36)
 	var door_paint: StandardMaterial3D = material(
 		Color(str(livery.get("doors", livery.get("body", "#287958")))), .25
 	)
-	var roof: StandardMaterial3D = material(Color(str(livery.get("roof", "#88928c"))), 0.2)
+	var roof: StandardMaterial3D = material(Color(str(livery.get("roof", "#88928c"))), .45, .5)
 	var stripe: StandardMaterial3D = material(Color(str(livery.get("stripe", "#e9d37c"))))
 	var steel: StandardMaterial3D = material(Color("667078"), 0.7)
 	var dark: StandardMaterial3D = material(Color("171e24"), 0.3)
-	var glass: StandardMaterial3D = material(Color("253e4a"), 0.5)
+	var glass: StandardMaterial3D = material(Color("1b2b35"), .85, .06)
 	var black: StandardMaterial3D = material(Color("0d1418"))
 	body = Node3D.new()
 	add_child(body)
@@ -117,6 +120,23 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 				box(panel, Vector3(0, 2.28, 0), Vector3(0.035, 2.06, 0.6), door_paint)
 				box(panel, Vector3(side * 0.025, 2.95, 0), Vector3(0.02, 0.72, 0.43), glass)
 				doors.append({"node": panel, "base": panel.position.z, "leaf": leaf, "side": side})
+	# Roof: walkway strip and ventilator hoods along the centre line.
+	var roof_detail: StandardMaterial3D = material(
+		Color(str(livery.get("roof", "#88928c"))).darkened(.18), .4, .55
+	)
+	box(
+		body,
+		Vector3(0, 4.255, (front + rear) * .5),
+		Vector3(.7, .02, rear - front - .6),
+		roof_detail
+	)
+	var vents: int = int(spec.visual.get("roof_vents", 6))
+	for k: int in vents:
+		var vz: float = lerpf(front + 2.2, rear - 2.2, float(k) / maxf(vents - 1, 1))
+		if spec.has_pantograph and absf(vz) < 2.4:
+			continue
+		box(body, Vector3(0, 4.33, vz), Vector3(1.1, .16, .9), roof_detail)
+		box(body, Vector3(0, 4.42, vz), Vector3(.9, .03, .7), roof)
 	var bogie_half: float = float(spec.visual.get("bogie_centers_m", 15.0)) * .5
 	var axle_half: float = float(spec.visual.get("axle_spacing_m", 2.6)) * .5
 	var radius: float = float(spec.visual.get("wheel_diameter_m", 1.05)) * .5
@@ -160,17 +180,16 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	for z: float in [-end - .25, end + .25]:
 		box(self, Vector3(0, 1.0, z), Vector3(.35, .22, .50), steel)
 	if spec.has_pantograph:
-		_build_pantograph(dark)
+		_build_pantograph(material(Color("9b2a22"), .3, .45))
 	if cab:
 		_cab(
 			end,
-			material(Color(str(livery.get("front", livery.get("body", "#287958")))), .25),
+			material(Color(str(livery.get("front", livery.get("body", "#287958")))), .12, .36),
 			material(Color(str(livery.get("front_stripe", livery.get("stripe", "#e9d37c"))))),
 			glass,
 			black,
 			steel
 		)
-		_cab_roof(end, roof)
 	var moving: Array[Node3D] = []
 	if pantograph != null:
 		moving.append(pantograph)
@@ -265,63 +284,103 @@ func update_detail(projected_diameter_px: float) -> void:
 func _cab(
 	end: float, paint: Material, stripe: Material, glass: Material, black: Material, steel: Material
 ) -> void:
-	# Sloped and tapered front mask, with an octagonal rear cross-section.
-	var back: PackedVector3Array = _section(-end + 1.6, 1.7, 1.22, 4.12)
-	var face: PackedVector3Array = _section(-end, 1.51, 1.32, 3.85)
-	var surface := SurfaceTool.new()
-	surface.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for i: int in back.size():
-		var j: int = (i + 1) % back.size()
-		_quad(surface, [back[i], back[j], face[j], face[i]])
-	_quad(surface, [face[0], face[1], face[2], face[3], face[4], face[5], face[6], face[7]])
-	surface.generate_normals()
-	var shell := MeshInstance3D.new()
-	shell.mesh = surface.commit()
-	var mat: StandardMaterial3D = (paint as StandardMaterial3D).duplicate()
-	mat.cull_mode = BaseMaterial3D.CULL_DISABLED
-	shell.material_override = mat
-	body.add_child(shell)
-	box(body, Vector3(0, 2.12, -end - .035), Vector3(2.95, .22, .045), stripe)
-	for x: float in [-.77, .77]:
-		var frame: MeshInstance3D = box(
-			body, Vector3(x, 3.25, -end - .04), Vector3(1.25, .80, .055), black
+	var nose := CabNose.new(-end)
+	var shell: MeshInstance3D = nose.build_shell(body, paint)
+	var shell_mat: StandardMaterial3D = (paint as StandardMaterial3D).duplicate()
+	shell_mat.cull_mode = BaseMaterial3D.CULL_DISABLED
+	shell.material_override = shell_mat
+	var notch: Callable = func(x: float) -> float: return 0.16 * maxf(0.0, 1.0 - absf(x) / 0.55)
+	# Livery on the nose: chevron band under the windscreens and a band above the buffer beam.
+	nose.patch(
+		body,
+		stripe,
+		-1.72,
+		1.72,
+		func(x: float) -> float: return 2.08 - float(notch.call(x)),
+		func(x: float) -> float: return 2.30 - float(notch.call(x))
+	)
+	nose.patch(body, stripe, -1.72, 1.72, CabNose.const_y(1.30), CabNose.const_y(1.44))
+	# Windscreens: one dark frame and two glazed panes leaning back with the surface.
+	var frame_top: Callable = func(x: float) -> float: return 3.70 - 0.10 * pow(absf(x) / 1.52, 6.0)
+	nose.patch(body, black, -1.52, 1.52, CabNose.const_y(2.48), frame_top, .008)
+	var glass_top: Callable = func(x: float) -> float: return 3.62 - 0.10 * pow(absf(x) / 1.44, 6.0)
+	for pane: Array in [[-1.42, -0.07], [0.07, 1.42]]:
+		nose.patch(
+			body, glass, float(pane[0]), float(pane[1]), CabNose.const_y(2.56), glass_top, .014
 		)
-		frame.rotation.x = -.12
-		box(frame, Vector3(0, 0, -.035), Vector3(1.10, .66, .025), glass)
-		var wiper: MeshInstance3D = box(
-			frame, Vector3(.10, -.14, -.06), Vector3(.42, .025, .02), steel
-		)
-		wiper.rotation.z = .30
-	for side: float in [-1.0, 1.0]:
-		var window: MeshInstance3D = box(
-			body, Vector3(side * 1.61, 3.2, -end + .94), Vector3(.04, .82, .85), black
-		)
-		box(window, Vector3(side * .025, 0, 0), Vector3(.025, .69, .72), glass)
-		box(body, Vector3(side * 1.35, 2.40, -end - .09), Vector3(.035, 1.05, .035), steel)
-	for y: float in [.65, .90]:
-		box(body, Vector3(0, y, -end - .10), Vector3(.72, .06, .24), steel)
-	for x: float in [-1.1, 1.1]:
-		var housing: MeshInstance3D = cylinder(body, Vector3(x, 1.72, -end - .07), .18, .12, black)
-		housing.rotation.x = PI / 2.0
-		cylinder(housing, Vector3(0, -.08, 0), .13, .025, material(Color("e1d3a5")))
-	var top: MeshInstance3D = cylinder(body, Vector3(0, 3.88, -end - .04), .25, .17, steel)
-	top.rotation.x = PI / 2.0
+	for x: float in [-.72, .72]:
+		var wiper := Node3D.new()
+		wiper.transform = nose.mount(x, 2.66)
+		body.add_child(wiper)
+		var arm: MeshInstance3D = box(wiper, Vector3(.12, .16, -.03), Vector3(.025, .5, .02), steel)
+		arm.rotation.z = -.45
+	# Number plate on the front.
+	var plate := Label3D.new()
+	plate.text = fleet_number if fleet_number != "" else "ЕР9М"
+	plate.font_size = 44
+	plate.pixel_size = .0062
+	plate.modulate = Color("f2ead2")
+	plate.outline_size = 0
+	plate.transform = nose.mount(0, 1.86).translated_local(Vector3(0, 0, -.02))
+	plate.rotate_object_local(Vector3.UP, PI)
+	body.add_child(plate)
+	# Headlight on the roof dome, white marker and red tail lamps on the front.
 	var lens_mat: StandardMaterial3D = material(Color("fff2d2"))
 	lens_mat.emission_enabled = true
 	lens_mat.emission = Color("fff0c0")
-	cylinder(top, Vector3(0, -.10, 0), .19, .025, lens_mat)
-	for y: float in [2.33, 2.40, 2.47, 2.54]:
-		box(body, Vector3(0, y, -end - .035), Vector3(1.6, .025, .025), black)
-	var badge := Label3D.new()
-	badge.text = "ЕР9М"
-	badge.font_size = 48
-	badge.pixel_size = .007
-	badge.position = Vector3(0, 2.74, -end - .06)
-	badge.rotation.y = PI
-	body.add_child(badge)
+	lens_mat.emission_energy_multiplier = 2.2
+	var top := Node3D.new()
+	top.transform = nose.mount_level(0, 3.98)
+	body.add_child(top)
+	var housing: MeshInstance3D = cylinder(top, Vector3(0, 0, -.06), .27, .2, steel, 32)
+	housing.rotation.x = PI / 2.0
+	var lens: MeshInstance3D = cylinder(top, Vector3(0, 0, -.17), .2, .025, lens_mat, 32)
+	lens.rotation.x = PI / 2.0
+	var tail_mat: StandardMaterial3D = material(Color("a8211a"))
+	tail_mat.emission_enabled = true
+	tail_mat.emission = Color("ff3020")
+	tail_mat.emission_energy_multiplier = .6
+	for x: float in [-1.12, 1.12]:
+		var lamp_node := Node3D.new()
+		lamp_node.transform = nose.mount(x, 1.74)
+		body.add_child(lamp_node)
+		var ring: MeshInstance3D = cylinder(lamp_node, Vector3(0, 0, -.04), .17, .1, black, 24)
+		ring.rotation.x = PI / 2.0
+		var marker: MeshInstance3D = cylinder(
+			lamp_node, Vector3(0, 0, -.095), .12, .02, lens_mat, 24
+		)
+		marker.rotation.x = PI / 2.0
+		var red := Node3D.new()
+		red.transform = nose.mount(x * 1.22, 1.52)
+		body.add_child(red)
+		var red_lens: MeshInstance3D = cylinder(red, Vector3(0, 0, -.03), .07, .06, tail_mat, 16)
+		red_lens.rotation.x = PI / 2.0
+	# Grab handles beside the corners.
+	for side: float in [-1.0, 1.0]:
+		var at: Vector3 = nose.point(side * 1.36, 1.95) + Vector3(0, 0, -.07)
+		cylinder(body, at, .022, .8, steel, 8)
+	# Buffer beam, automatic coupler, skirt with a grille and brake hoses.
+	box(body, Vector3(0, 1.08, -end + .08), Vector3(3.22, .3, .22), black)
+	box(body, Vector3(0, 1.0, -end - .34), Vector3(.36, .26, .62), steel)
+	box(body, Vector3(0, 1.0, -end - .66), Vector3(.5, .34, .16), black)
+	var skirt: MeshInstance3D = box(body, Vector3(0, .62, -end + .02), Vector3(3.0, .5, .06), black)
+	skirt.rotation.x = -.18
+	for y: float in [-.16, -.06, .04, .14]:
+		box(skirt, Vector3(0, y, -.04), Vector3(2.5, .035, .03), steel)
+	for x: float in [-.55, .55]:
+		var hose: MeshInstance3D = cylinder(body, Vector3(x, .86, -end - .14), .045, .42, black, 8)
+		hose.rotation.x = .5
+	# Cab side windows and the cab door seam on both sides.
+	for side: float in [-1.0, 1.0]:
+		var window: MeshInstance3D = box(
+			body, Vector3(side * 1.71, 3.18, -end + .78), Vector3(.04, .86, .78), black
+		)
+		box(window, Vector3(side * .022, 0, 0), Vector3(.025, .74, .66), glass)
+		box(body, Vector3(side * 1.715, 2.3, -end + 1.32), Vector3(.03, 2.05, .02), black)
 	lamp = SpotLight3D.new()
-	lamp.position = Vector3(0, 3.88, -end - .2)
-	lamp.rotation.x = deg_to_rad(-3)
+	lamp.transform = nose.mount_level(0, 3.98)
+	lamp.translate_object_local(Vector3(0, 0, -.25))
+	lamp.rotate_object_local(Vector3.RIGHT, deg_to_rad(-1.5))
 	lamp.spot_range = 120
 	lamp.spot_angle = 23
 	lamp.light_energy = 7
@@ -343,46 +402,6 @@ func _cab(
 	beam.position.z = -25.0
 	beam.rotation.x = PI / 2.0
 	lamp.add_child(beam)
-
-
-func _cab_roof(end: float, roof: Material) -> void:
-	var tool := SurfaceTool.new()
-	tool.begin(Mesh.PRIMITIVE_TRIANGLES)
-	for i: int in 20:
-		var a: float = PI * i / 20.0
-		var b: float = PI * (i + 1) / 20.0
-		var points: Array[Vector3] = [
-			Vector3(cos(a) * 1.53, 3.79 + sin(a) * .53, -end - .02),
-			Vector3(cos(b) * 1.53, 3.79 + sin(b) * .53, -end - .02),
-			Vector3(cos(b) * 1.7, 3.70 + sin(b) * .55, -end + 1.65),
-			Vector3(cos(a) * 1.7, 3.70 + sin(a) * .55, -end + 1.65)
-		]
-		for index: int in [0, 2, 1, 0, 3, 2]:
-			var point: Vector3 = points[index]
-			tool.set_normal(Vector3(point.x / 1.6, (point.y - 3.7) / .55, 0).normalized())
-			tool.add_vertex(point)
-		tool.set_normal(Vector3(0, 0, -1))
-		for point: Vector3 in [Vector3(0, 3.79, -end - .02), points[1], points[0]]:
-			tool.add_vertex(point)
-	var shell := MeshInstance3D.new()
-	shell.mesh = tool.commit()
-	shell.material_override = roof
-	body.add_child(shell)
-
-
-static func _section(z: float, half: float, floor_y: float, roof_y: float) -> PackedVector3Array:
-	return PackedVector3Array(
-		[
-			Vector3(-half + .2, floor_y, z),
-			Vector3(half - .2, floor_y, z),
-			Vector3(half, floor_y + .2, z),
-			Vector3(half, roof_y - .3, z),
-			Vector3(half - .3, roof_y, z),
-			Vector3(-half + .3, roof_y, z),
-			Vector3(-half, roof_y - .3, z),
-			Vector3(-half, floor_y + .2, z)
-		]
-	)
 
 
 static func _quad(surface: SurfaceTool, points: Array) -> void:

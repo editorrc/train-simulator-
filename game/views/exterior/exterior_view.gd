@@ -10,6 +10,8 @@ var _cab_lamp: SpotLight3D
 var _camera: Camera3D
 var _environment: WorldEnvironment
 var _sun: DirectionalLight3D
+## Studio rim light for the menu preview (edge highlights on roofs and the cab).
+var _rim: DirectionalLight3D
 var _rail_path: RailPath
 var _consist_pose: RailConsistPose
 var _links: Array[MeshInstance3D] = []
@@ -67,19 +69,44 @@ func setup(
 	_environment.environment.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
 	_environment.environment.ambient_light_color = Color("b3c4da")
 	if preview_mode:
+		# Dark studio: a low graphite sky only for reflections and soft ambient, filmic tone
+		# mapping and a little glow so the lamps read as lit.
 		var sky := Sky.new()
 		var sky_material := ProceduralSkyMaterial.new()
-		sky_material.sky_top_color = Color("6b8195")
-		sky_material.sky_horizon_color = Color("c7d3dc")
-		sky_material.ground_bottom_color = Color("1b2530")
-		sky_material.ground_horizon_color = Color("7d929f")
+		sky_material.sky_top_color = Color("3a434b")
+		sky_material.sky_horizon_color = Color("5d666e")
+		sky_material.ground_bottom_color = Color("101214")
+		sky_material.ground_horizon_color = Color("2f3439")
 		sky.sky_material = sky_material
-		_environment.environment.sky = sky
-		_environment.environment.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
+		var env: Environment = _environment.environment
+		env.sky = sky
+		env.reflected_light_source = Environment.REFLECTION_SOURCE_SKY
+		env.ambient_light_source = Environment.AMBIENT_SOURCE_SKY
+		env.ambient_light_sky_contribution = .7
+		env.tonemap_mode = Environment.TONE_MAPPER_ACES
+		env.tonemap_exposure = .92
+		env.glow_enabled = true
+		env.glow_intensity = .55
+		env.glow_bloom = .04
+		env.glow_hdr_threshold = .95
 	_stage.add_child(_environment)
 	_sun = DirectionalLight3D.new()
 	_sun.rotation_degrees = Vector3(-42, -35, 0)
 	_stage.add_child(_sun)
+	if preview_mode:
+		_sun.light_color = Color("fff3e2")
+		_rim = DirectionalLight3D.new()
+		_rim.light_color = Color("b9d2ff")
+		_rim.light_energy = 1.25
+		_rim.light_specular = 1.4
+		_stage.add_child(_rim)
+		# Low fill from the camera side so the shaded flank is not a black hole.
+		var fill := DirectionalLight3D.new()
+		fill.light_color = Color("e8ecf2")
+		fill.light_energy = .35
+		fill.light_specular = .2
+		fill.rotation_degrees = Vector3(-12, -110, 0)
+		_stage.add_child(fill)
 	_camera = Camera3D.new()
 	_camera.near = .1
 	_camera.far = 650
@@ -95,6 +122,7 @@ func setup(
 	var t: Train = world.player()
 	for i: int in t.consist.vehicles.size():
 		var car := TrainCar3D.new()
+		car.fleet_number = fleet_number
 		car.build(t.consist.vehicles[i], livery, i == 0 or i == t.consist.vehicles.size() - 1)
 		car.reversed_body = i == t.consist.vehicles.size() - 1 and i > 0
 		_stage.add_child(car)
@@ -126,10 +154,46 @@ func _build_preview_track() -> void:
 		sleepers.append(frame.translated_local(Vector3(0, -.04, 0)))
 		for side: float in [-1.0, 1.0]:
 			rails.append(frame.translated_local(Vector3(side * .76, .10, 0)))
-	_batch(rails, Vector3(.07, .15, 1.53), TrainCar3D.material(Color("9aa1a5"), .8), center)
-	_batch(sleepers, Vector3(2.5, .13, .24), TrainCar3D.material(Color("434c51")), center)
+	_batch(rails, Vector3(.07, .15, 1.53), TrainCar3D.material(Color("8d959b"), .85, .28), center)
+	_batch(sleepers, Vector3(2.5, .13, .24), TrainCar3D.material(Color("2c3135"), 0, .8), center)
+	_build_studio_floor(train.consist.length_m())
 	_sun.shadow_enabled = true
+	_sun.shadow_blur = 2.0
 	_sun.directional_shadow_max_distance = 250
+
+
+## Polished dark floor that catches light and shadow and fades into the menu background.
+func _build_studio_floor(length: float) -> void:
+	var plane := PlaneMesh.new()
+	plane.size = Vector2(90, length + 160)
+	var shader := Shader.new()
+	shader.code = """
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_disabled;
+uniform vec4 tint : source_color = vec4(0.045, 0.048, 0.052, 1.0);
+void fragment() {
+	// Fade by distance from the track and towards the edges of the frame, so the floor
+	// melts into the menu background instead of ending in a hard rectangle.
+	float lateral = abs(UV.x - 0.5);
+	float along = abs(UV.y - 0.5);
+	float world = smoothstep(0.30, 0.03, lateral) * smoothstep(0.5, 0.40, along);
+	vec2 s = SCREEN_UV;
+	float frame = smoothstep(0.0, 0.18, s.x) * smoothstep(1.0, 0.82, s.x)
+		* smoothstep(1.0, 0.80, s.y) * smoothstep(0.30, 0.55, s.y);
+	ALBEDO = tint.rgb;
+	ROUGHNESS = 0.3;
+	METALLIC = 0.2;
+	SPECULAR = 0.45;
+	ALPHA = world * frame;
+}
+"""
+	var mat := ShaderMaterial.new()
+	mat.shader = shader
+	var floor_item := MeshInstance3D.new()
+	floor_item.mesh = plane
+	floor_item.material_override = mat
+	floor_item.position = Vector3(0, -.11, length * .5)
+	_stage.add_child(floor_item)
 
 
 func _position(pos: TrackPosition) -> Vector3:
@@ -461,7 +525,7 @@ func _process(delta: float) -> void:
 			world.clock_s()
 		)
 		if preview_mode and car.lamp != null:
-			car.lamp.visible = false
+			car.lamp.visible = i == 0
 		if i > 0:
 			var from: Vector3 = states[i - 1]["rear"]
 			var to: Vector3 = states[i]["front"]
@@ -554,8 +618,8 @@ func _process(delta: float) -> void:
 			)
 		car.update_detail(car._wheel_radius * 2.0 * pixel_scale if adaptive else 100.0)
 	var night: bool = not preview_mode and bool(Settings.get_value("visual", "night", false))
-	_sun.light_energy = 1.65 if preview_mode else (.06 if night else 1.1)
-	_environment.environment.ambient_light_energy = .9 if preview_mode else (.15 if night else .7)
+	_sun.light_energy = 1.0 if preview_mode else (.06 if night else 1.1)
+	_environment.environment.ambient_light_energy = .28 if preview_mode else (.15 if night else .7)
 	cam_ch = world.graph.chainage_at(head)
 	queue_redraw()
 
@@ -654,10 +718,13 @@ func _fit_preview(
 	var head: Transform3D = states[0]["body"]
 	var forward: Vector3 = -head.basis.z
 	var right: Vector3 = head.basis.x
+	# Menu lens differs from the game cameras on purpose: a long (telephoto) lens from far
+	# away compresses the formation like a studio photo instead of stretching it into a
+	# string. The off-axis frustum below still fits the whole formation.
 	_camera.position = (
-		head.origin + forward * (specs[0].length_m * .5 + 7.0) - right * 15.0 + Vector3.UP * 5.5
+		head.origin + forward * (specs[0].length_m * .5 + 17.0) - right * 22.0 + Vector3.UP * 4.6
 	)
-	_camera.look_at(head.origin - forward * 20.0 + Vector3.UP * 2.0)
+	_camera.look_at(head.origin - forward * 24.0 + Vector3.UP * 2.0)
 	# Off-axis lens fits the whole formation while keeping a large cab in the foreground.
 	# Changing FOV alone would either crop the nose or shrink all cars into a thin strip.
 	var low := Vector2(INF, INF)
@@ -678,11 +745,13 @@ func _fit_preview(
 	var aspect: float = size.x / maxf(size.y, 1.0)
 	var span: Vector2 = high - low
 	var height: float = maxf(span.y * 1.06, span.x / aspect * 1.06)
-	_camera.set_frustum(height, (high + low) * .5, 1.0, 800.0)
-	_sun.position = (
-		head.origin + (_camera.position - head.origin).normalized() * 50 + Vector3.UP * 45
-	)
+	_camera.set_frustum(height, (high + low) * .5, 1.0, 1200.0)
+	# Key light from high in front on the camera side; rim light from behind the far side.
+	_sun.position = head.origin + forward * 55.0 - right * 14.0 + Vector3.UP * 48.0
 	_sun.look_at(head.origin)
+	if _rim != null:
+		_rim.position = head.origin - forward * 15.0 + right * 38.0 + Vector3.UP * 30.0
+		_rim.look_at(head.origin - forward * 30.0)
 
 
 func pan_px(dx: float) -> void:

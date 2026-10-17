@@ -117,20 +117,25 @@ func _show_page(index: int) -> void:
 
 
 func _overview(train_page: bool) -> void:
-	var heading := HBoxContainer.new()
 	_title = PanoramaTheme.label("Ваш електропоїзд" if train_page else "До рейсу", 96)
-	_title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	heading.add_child(_title)
-	var start: Button = PanoramaTheme.button("Почати поїздку  →", _start, true)
-	start.custom_minimum_size = Vector2(300, 80)
-	heading.add_child(start)
-	_body.add_child(heading)
+	_body.add_child(_title)
 	_subtitle = PanoramaTheme.label("", 26, PanoramaTheme.MUTED)
 	_body.add_child(_subtitle)
 	_preview = TrainPreview.new()
 	_preview.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_preview.custom_minimum_size.y = 180
 	_body.add_child(_preview)
+	# The main action sits bottom-right, right above the selector row.
+	var action_row := HBoxContainer.new()
+	var spacer := Control.new()
+	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	spacer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	action_row.add_child(spacer)
+	var start: Button = PanoramaTheme.button("Почати поїздку  →", _start, true)
+	start.custom_minimum_size = Vector2(320, 76)
+	start.add_theme_font_size_override("font_size", 26)
+	action_row.add_child(start)
+	_body.add_child(action_row)
 	_body.add_child(HSeparator.new())
 	var dock := HBoxContainer.new()
 	dock.add_theme_constant_override("separation", 24)
@@ -139,7 +144,9 @@ func _overview(train_page: bool) -> void:
 	route_column.custom_minimum_size.x = 420
 	route_column.add_child(PanoramaTheme.label("Рейс", 20, PanoramaTheme.MUTED))
 	_scenario_select = OptionButton.new()
-	_scenario_select.custom_minimum_size = Vector2(420, 80)
+	_scenario_select.custom_minimum_size = Vector2(420, PanoramaTheme.SELECTOR_HEIGHT)
+	_scenario_select.add_theme_stylebox_override("normal", PanoramaTheme.selector_style(false))
+	_scenario_select.add_theme_stylebox_override("hover", PanoramaTheme.selector_style(false, true))
 	_scenario_select.size_flags_horizontal = Control.SIZE_FILL
 	_scenario_select.clip_text = true
 	var ids: Array = ContentDB.ids_of(&"scenario")
@@ -158,11 +165,19 @@ func _overview(train_page: bool) -> void:
 	var formation := VBoxContainer.new()
 	formation.add_child(PanoramaTheme.label("Вагонів", 20, PanoramaTheme.MUTED))
 	var count_row := HBoxContainer.new()
-	count_row.add_theme_constant_override("separation", 0)
+	count_row.add_theme_constant_override("separation", 8)
 	for count: int in [4, 6, 8, 10]:
 		var button: Button = PanoramaTheme.button(str(count), _pick_formation.bind(count))
-		button.custom_minimum_size = Vector2(64, 80)
+		button.custom_minimum_size = Vector2(72, PanoramaTheme.SELECTOR_HEIGHT)
 		button.add_theme_font_size_override("font_size", 28)
+		button.focus_mode = Control.FOCUS_NONE
+		button.add_theme_stylebox_override("normal", PanoramaTheme.selector_style(false))
+		button.add_theme_stylebox_override("hover", PanoramaTheme.selector_style(false, true))
+		button.add_theme_stylebox_override("pressed", PanoramaTheme.selector_style(true))
+		button.add_theme_stylebox_override(
+			"hover_pressed", PanoramaTheme.selector_style(true, true)
+		)
+		button.add_theme_color_override("font_pressed_color", PanoramaTheme.TEXT)
 		_formation_buttons[count] = button
 		count_row.add_child(button)
 	formation.add_child(count_row)
