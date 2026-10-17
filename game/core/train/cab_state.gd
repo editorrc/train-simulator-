@@ -11,9 +11,11 @@ const TOGGLES: Array[StringName] = [
 	&"compressors",
 	&"ep_brake",
 	&"headlights",
+	&"doors_left",
+	&"doors_right",
 ]
 ## Held while pressed (sent as value true/false).
-const HOLDS: Array[StringName] = [&"aux_compressor", &"horn"]
+const HOLDS: Array[StringName] = [&"aux_compressor", &"horn", &"whistle"]
 ## Momentary actions, executed by the train when pressed.
 const BUTTONS: Array[StringName] = [&"main_breaker_on", &"main_breaker_off", &"protection_reset"]
 

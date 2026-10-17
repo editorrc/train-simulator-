@@ -24,7 +24,9 @@ func _ready() -> void:
 	root.add_theme_constant_override("separation", 18)
 	add_child(root)
 	root.add_child(_label("Ukraine Visual Train Sim", 44))
-	root.add_child(_label("Тренажер машиніста електропоїзда · полігон · M3", 18, Color("9fb3aa")))
+	root.add_child(
+		_label("Тренажер машиніста електропоїзда · Київська кільцева · демо", 18, Color("9fb3aa"))
+	)
 	_preview = TrainPreview.new()
 	_preview.custom_minimum_size = Vector2(0, 300)
 	root.add_child(_preview)
@@ -38,7 +40,12 @@ func _ready() -> void:
 	row.add_child(col1)
 	var col2 := VBoxContainer.new()
 	col2.add_child(_label("Поїзд", 22))
-	col2.add_child(_option_button("ЕР9М · 10 вагонів", true, func() -> void: pass))
+	for count: int in [4, 6, 10]:
+		col2.add_child(
+			_option_button(
+				"ЕР9М · %d вагонів" % count, Session.car_count == count, _pick_formation.bind(count)
+			)
+		)
 	col2.add_child(_label("Окрас", 22))
 	_livery_box = HBoxContainer.new()
 	_livery_box.add_theme_constant_override("separation", 8)
@@ -50,14 +57,17 @@ func _ready() -> void:
 	start.add_theme_font_size_override("font_size", 22)
 	start.pressed.connect(_start)
 	root.add_child(start)
-	root.add_child(
-		_label(
-			(
-				"Порада: усі панелі в кабіні можна перетягувати за заголовок, змінювати розмір"
-				+ " кутом і згортати. F10 — скинути розкладку."
-			),
-			14,
-			Color("9fb3aa")
+	(
+		root
+		. add_child(
+			_label(
+				(
+					"Порада: усі панелі в кабіні можна перетягувати за заголовок, змінювати розмір"
+					+ " кутом і згортати. F2 — вид, колесо — масштаб, F3 — налаштування, F4 — пульт, F5 — карта."
+				),
+				14,
+				Color("9fb3aa")
+			)
 		)
 	)
 	_fill()
@@ -143,3 +153,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 
 func _start() -> void:
 	get_tree().change_scene_to_file(DRIVE_SCENE)
+
+
+func _pick_formation(count: int) -> void:
+	Session.car_count = count
+	get_tree().reload_current_scene()

@@ -6,6 +6,7 @@ extends RefCounted
 ## Coordinates: geometry is x east / y north in metres; Godot 2D is y down, so y is flipped.
 
 ## segment id -> PackedVector2Array (already flipped)
+var map_features: Array = []
 var polylines: Dictionary[StringName, PackedVector2Array] = {}
 ## segment id -> PackedFloat32Array of cumulative lengths
 var _cumulative: Dictionary[StringName, PackedFloat32Array] = {}
@@ -13,6 +14,7 @@ var _cumulative: Dictionary[StringName, PackedFloat32Array] = {}
 
 static func from_dict(geometry: Dictionary) -> RouteGeometry:
 	var g := RouteGeometry.new()
+	g.map_features = geometry.get("map_features", [])
 	for pl: Variant in geometry.get("polylines", []):
 		var d: Dictionary = pl
 		var pts := PackedVector2Array()

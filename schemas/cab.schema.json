@@ -61,7 +61,10 @@
               "ep_brake",
               "aux_compressor",
               "headlights",
-              "horn"
+              "horn",
+              "whistle",
+              "doors_left",
+              "doors_right"
             ],
             "description": "control id is the contract with the core (core/train/cab_state.gd)"
           },

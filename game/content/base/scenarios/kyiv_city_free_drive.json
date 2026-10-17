@@ -1,0 +1,27 @@
+{
+  "id": "kyiv_city_free_drive",
+  "name_uk": "Київ: повне кільце · готовий поїзд",
+  "description_uk": "20 справжніх станцій, старт з Київ-Пасажирського.",
+  "meta": {
+    "verified": false,
+    "sources": [
+      "https://github.com/panichev-oleg/kce/blob/main/src/helpers/__fixtures__/internal_direction_1_date_2026-03-13.txt",
+      "https://swrailway.gov.ua/timetable/eltrain/?gid=1&rid=480&reverse=1"
+    ],
+    "note": "TODO_SOURCE: назви, порядок і тарифні відстані з опублікованого розкладу; геометрія і платформи ілюстративні, профіль та швидкості умовні. Не геодезична модель."
+  },
+  "route": "kyiv_city_ring",
+  "consist": "er9m_10",
+  "mode": "free",
+  "start": {
+    "segment": "kyiv_pasazhyrskyi_to_protasiv_yar",
+    "offset_m": 245,
+    "direction": 1,
+    "time": "08:00",
+    "cold_start": false
+  },
+  "switches": {},
+  "passenger_load": 0.5,
+  "weather": "clear",
+  "objectives": []
+}

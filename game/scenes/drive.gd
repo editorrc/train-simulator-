@@ -12,17 +12,34 @@ var minimap: Minimap
 var telemetry: TelemetryView
 var procedure: ProcedureView
 var log_view: EventLogView
+var announcer: StationAnnouncer
 var audio: TrainAudio
 var panels: Array[FloatingPanel] = []
+var settings_dialog: SettingsDialog
+var pose := RenderPose.new()
+var _route_label: Label
+var _caption: Label
 var _status: Label
 var _paused: bool = false
-var _time_scale: float = 1.0
+var _expanded: Dictionary = {}
 var _panels_visible: bool = true
 
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	world = ContentDB.build_world(Session.scenario_id)
+	var chosen: Dictionary = ContentDB.get_entry(&"scenario", Session.scenario_id)
+	var bundle: Dictionary = ContentDB.get_entry(&"route", StringName(str(chosen["route"])))
+	var formation: Dictionary = (
+		ContentDB.get_entry(&"consist", StringName(str(chosen["consist"]))).duplicate(true)
+	)
+	var cars: Array = ["er9m_head"]
+	for i: int in Session.car_count - 2:
+		cars.append("er9m_motor" if i % 2 == 0 else "er9m_trailer")
+	cars.append("er9m_head")
+	formation["vehicles"] = cars
+	world = ScenarioBuilder.build(
+		chosen, bundle["track_graph"], formation, ContentDB.library.vehicles()
+	)
 	if world == null:
 		push_error("drive: cannot build scenario %s" % Session.scenario_id)
 		return
@@ -32,7 +49,9 @@ func _ready() -> void:
 	var cab_def: Dictionary = ContentDB.get_entry(&"cab", StringName(str(consist.get("cab", ""))))
 	var livery: Dictionary = _livery(consist)
 
-	side = RailView.new()
+	pose.reset(world.player())
+	side = ExteriorView.new()
+	side.pose = pose
 	side.set_anchors_preset(Control.PRESET_FULL_RECT)
 	side.mouse_filter = Control.MOUSE_FILTER_PASS
 	add_child(side)
@@ -74,6 +93,28 @@ func _ready() -> void:
 	audio.world = world
 	add_child(audio)
 
+	announcer = StationAnnouncer.new()
+	announcer.world = world
+	announcer.stations = route["stations"]
+	announcer.enabled_route = str(scenario["route"]) == "kyiv_city_ring"
+	add_child(announcer)
+	_route_label = Label.new()
+	_route_label.position = Vector2(600, 60)
+	_route_label.add_theme_font_size_override("font_size", 23)
+	add_child(_route_label)
+	_caption = Label.new()
+	_caption.position = Vector2(600, 100)
+	_caption.add_theme_font_size_override("font_size", 21)
+	_caption.add_theme_color_override("font_color", Color("ffe5a2"))
+	_caption.add_theme_color_override("font_shadow_color", Color.BLACK)
+	_caption.add_theme_constant_override("shadow_offset_x", 2)
+	_caption.add_theme_constant_override("shadow_offset_y", 2)
+	add_child(_caption)
+	announcer.caption.connect(func(text: String) -> void: _caption.text = text)
+	desk.announcement_requested.connect(announcer.repeat)
+	settings_dialog = SettingsDialog.new()
+	add_child(settings_dialog)
+	get_window().focus_exited.connect(desk.release_holds)
 	SimClock.set_paused(false)
 	SimClock.set_time_scale(1.0)
 	SimClock.step.connect(_on_sim_step)
@@ -124,8 +165,8 @@ func _default_layout() -> void:
 	t.set_collapsed(true)
 	var m: FloatingPanel = _panel("map")
 	m.collapsed = false
-	m.position = Vector2(v.x - 528, 8)
-	m.size = Vector2(520, 150)
+	m.position = Vector2(v.x - 648, 8)
+	m.size = Vector2(640, 390)
 	var pr: FloatingPanel = _panel("procedure")
 	pr.collapsed = false
 	pr.position = Vector2(8, 44)
@@ -146,17 +187,21 @@ func _on_sim_step(_dt: float, _tick: int) -> void:
 	for e: Dictionary in world.step():
 		EventBus.sim_event.emit(e)
 		_log_event(e)
+	pose.capture(world.player())
 
 
 func _process(_delta: float) -> void:
 	if world == null:
 		return
 	audio.listener_ch = side.cam_ch
+	audio.paused = _paused
+	audio.announcing = announcer.is_announcing()
+	announcer.paused = _paused
+	_route_label.text = announcer.route_text()
 	var flags: PackedStringArray = []
 	if _paused:
 		flags.append("ПАУЗА")
-	if _time_scale != 1.0:
-		flags.append("час ×%d" % int(_time_scale))
+
 	var clock: float = world.clock_s()
 	_status.text = (
 		"%02d:%02d:%02d   %s"
@@ -166,7 +211,16 @@ func _process(_delta: float) -> void:
 
 
 func _command(cmd: Dictionary) -> void:
-	if not world.apply_command(cmd):
+	var before: Dictionary = audio.control_snapshot()
+	if world.apply_command(cmd):
+		audio.play_command(cmd, before)
+		if (
+			str(cmd.get("control", "")) in ["doors_left", "doors_right"]
+			and not bool(cmd.get("value", true))
+		):
+			if bool((before["cab"] as Dictionary).get(str(cmd["control"]), false)):
+				announcer.enqueue("doors_closing")
+	else:
 		var reason: String = (
 			str(world.events.back().get("reason", "")) if not world.events.is_empty() else ""
 		)
@@ -231,18 +285,24 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	match key.keycode:
 		KEY_ESCAPE:
+			desk.release_holds()
 			SimClock.step.disconnect(_on_sim_step)
 			get_tree().change_scene_to_file(MENU_SCENE)
 		KEY_P:
 			_paused = not _paused
 			SimClock.set_paused(_paused)
-		KEY_T:
-			var scales: Array[float] = SimConfig.TIME_SCALES
-			_time_scale = scales[(scales.find(_time_scale) + 1) % scales.size()]
-			SimClock.set_time_scale(_time_scale)
+		KEY_I:
+			announcer.repeat()
+		KEY_F3:
+			desk.release_holds()
+			settings_dialog.popup_centered()
+		KEY_F4:
+			_expand_panel("desk")
+		KEY_F5:
+			_expand_panel("map")
 		KEY_F:
-			side.follow = true
-		KEY_C:
+			side.snap_camera()
+		KEY_F2:
 			side.next_preset()
 		KEY_BRACKETLEFT:
 			side.adjust(-5.0, 0.0)
@@ -267,3 +327,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		KEY_F10:
 			UiLayout.clear()
 			_default_layout()
+
+
+func _expand_panel(id: String) -> void:
+	var panel: FloatingPanel = _panel(id)
+	if _expanded.has(id):
+		var saved: Rect2 = _expanded[id]
+		panel.position = saved.position
+		panel.size = saved.size
+		panel.opacity = 0.96 if id == "desk" else 0.6
+		_expanded.erase(id)
+	else:
+		_expanded[id] = Rect2(panel.position, panel.size)
+		panel.set_collapsed(false)
+		panel.position = size * 0.05
+		panel.size = size * 0.9
+		panel.opacity = 1.0
+		move_child(panel, get_child_count() - 1)
+	panel._layout_content()

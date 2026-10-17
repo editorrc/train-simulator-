@@ -10,6 +10,10 @@ config/description="Realistic Ukrainian railway simulator"
 run/main_scene="res://scenes/main_menu.tscn"
 config/features=PackedStringArray("4.7")
 
+[audio]
+
+driver/output_latency=80
+
 [autoload]
 
 EventBus="*res://autoload/event_bus.gd"
@@ -29,6 +33,8 @@ gdscript/warnings/unsafe_call_argument=1
 
 [display]
 
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
@@ -43,6 +49,8 @@ locale/fallback="uk"
 common/physics_ticks_per_second=60
 
 [rendering]
+
+textures/vram_compression/import_etc2_astc=true
 
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"

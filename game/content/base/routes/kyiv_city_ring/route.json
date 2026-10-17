@@ -1,0 +1,17 @@
+{
+  "id": "kyiv_city_ring",
+  "name_uk": "Київська кільцева · 20 зупинок",
+  "description_uk": "Повне кільце 49,5 км. Ілюстративна геометрія, справжні назви та порядок станцій.",
+  "meta": {
+    "verified": false,
+    "sources": [
+      "https://github.com/panichev-oleg/kce/blob/main/src/helpers/__fixtures__/internal_direction_1_date_2026-03-13.txt",
+      "https://swrailway.gov.ua/timetable/eltrain/?gid=1&rid=480&reverse=1"
+    ],
+    "note": "TODO_SOURCE: назви, порядок і тарифні відстані з опублікованого розкладу; геометрія і платформи ілюстративні, профіль та швидкості умовні. Не геодезична модель."
+  },
+  "electrification": "ac_25kv",
+  "track_graph": "track_graph.json",
+  "geometry": "geometry.json",
+  "stations": "stations.json"
+}

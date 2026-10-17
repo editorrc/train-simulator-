@@ -69,7 +69,7 @@ func _init(p_id: StringName, p_consist: ConsistSpec, p_head: TrackPosition, p_lo
 ## Puts the train in the state after a completed startup procedure (warm scenarios).
 func warm_start() -> void:
 	for id: StringName in CabState.TOGGLES:
-		cab.values[id] = true
+		cab.values[id] = id not in [&"doors_left", &"doors_right"]
 	power.start_ready()
 	air.charge_fully()
 
@@ -80,6 +80,10 @@ func operate(control: StringName, value: bool) -> String:
 		return "невідомий орган керування %s" % control
 	if control in CabState.BUTTONS:
 		return power.press(control, cab, controller_index) if value else ""
+	if control in [&"doors_left", &"doors_right"] and value:
+		if absf(speed_ms) > 0.1 or not power.control_on(cab):
+			return "двері: зупиніть поїзд та увімкніть кола керування"
+		controller_index = 0
 	cab.values[control] = value
 	return ""
 
@@ -282,7 +286,13 @@ func _check_overspeed(events: Array[Dictionary]) -> void:
 
 func _update_traction_fraction(dt: float) -> void:
 	var target: float = float(consist.controller_positions[controller_index]["force"])
-	if reverser == 0 or not power.traction_ready() or air.p_tc > TRACTION_CUTOFF_TC_PA:
+	if (
+		reverser == 0
+		or not power.traction_ready()
+		or air.p_tc > TRACTION_CUTOFF_TC_PA
+		or cab.is_on(&"doors_left")
+		or cab.is_on(&"doors_right")
+	):
 		target = 0.0
 	var ramp: float = consist.controller_force_ramp_per_s
 	if traction_fraction < target:

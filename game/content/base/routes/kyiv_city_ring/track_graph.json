@@ -1,0 +1,714 @@
+{
+  "meta": {
+    "verified": false,
+    "sources": [
+      "https://github.com/panichev-oleg/kce/blob/main/src/helpers/__fixtures__/internal_direction_1_date_2026-03-13.txt",
+      "https://swrailway.gov.ua/timetable/eltrain/?gid=1&rid=480&reverse=1"
+    ],
+    "note": "TODO_SOURCE: назви, порядок і тарифні відстані з опублікованого розкладу; геометрія і платформи ілюстративні, профіль та швидкості умовні. Не геодезична модель."
+  },
+  "segments": [
+    {
+      "id": "sviatoshyn_to_borshchahivka",
+      "length_m": 1999.0466748915142,
+      "node_a": "sviatoshyn",
+      "node_b": "borshchahivka",
+      "km_at_a": 0.0,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 1999.0466748915142,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "borshchahivka_to_kyiv_volynskyi",
+      "length_m": 2822.4594895563228,
+      "node_a": "borshchahivka",
+      "node_b": "kyiv_volynskyi",
+      "km_at_a": 1.999046674891514,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 2822.4594895563228,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "kyiv_volynskyi_to_karavaievi_dachi",
+      "length_m": 2672.4164642056558,
+      "node_a": "kyiv_volynskyi",
+      "node_b": "karavaievi_dachi",
+      "km_at_a": 4.821506164447837,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 2672.4164642056558,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "karavaievi_dachi_to_kyiv_pasazhyrskyi",
+      "length_m": 2650.3630812658907,
+      "node_a": "karavaievi_dachi",
+      "node_b": "kyiv_pasazhyrskyi",
+      "km_at_a": 7.493922628653493,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 2650.3630812658907,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "kyiv_pasazhyrskyi_to_protasiv_yar",
+      "length_m": 1824.311800556585,
+      "node_a": "kyiv_pasazhyrskyi",
+      "node_b": "protasiv_yar",
+      "km_at_a": 10.144285709919384,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 1824.311800556585,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "protasiv_yar_to_kyiv_demiiivskyi",
+      "length_m": 2447.253140982508,
+      "node_a": "protasiv_yar",
+      "node_b": "kyiv_demiiivskyi",
+      "km_at_a": 11.96859751047597,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 2447.253140982508,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "kyiv_demiiivskyi_to_vydubychi",
+      "length_m": 2061.070445785113,
+      "node_a": "kyiv_demiiivskyi",
+      "node_b": "vydubychi",
+      "km_at_a": 14.415850651458477,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 2061.070445785113,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "vydubychi_to_berezniaky",
+      "length_m": 3284.423571106182,
+      "node_a": "vydubychi",
+      "node_b": "berezniaky",
+      "km_at_a": 16.47692109724359,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 3284.423571106182,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "berezniaky_to_darnytsia",
+      "length_m": 3558.123038202267,
+      "node_a": "berezniaky",
+      "node_b": "darnytsia",
+      "km_at_a": 19.76134466834977,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 3558.123038202267,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "darnytsia_to_rusanivka",
+      "length_m": 2541.366180938117,
+      "node_a": "darnytsia",
+      "node_b": "rusanivka",
+      "km_at_a": 23.319467706552036,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 2541.366180938117,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "rusanivka_to_livoberezhna",
+      "length_m": 1771.1645237920732,
+      "node_a": "rusanivka",
+      "node_b": "livoberezhna",
+      "km_at_a": 25.860833887490152,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 1771.1645237920732,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "livoberezhna_to_mykilska_slobidka",
+      "length_m": 1496.00301394136,
+      "node_a": "livoberezhna",
+      "node_b": "mykilska_slobidka",
+      "km_at_a": 27.63199841128223,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 1496.00301394136,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "mykilska_slobidka_to_voskresenka",
+      "length_m": 2093.356559160153,
+      "node_a": "mykilska_slobidka",
+      "node_b": "voskresenka",
+      "km_at_a": 29.128001425223587,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 2093.356559160153,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "voskresenka_to_troieshchyna_2",
+      "length_m": 1867.3581590976457,
+      "node_a": "voskresenka",
+      "node_b": "troieshchyna_2",
+      "km_at_a": 31.221357984383744,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 1867.3581590976457,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "troieshchyna_2_to_pochaina",
+      "length_m": 4904.352315645271,
+      "node_a": "troieshchyna_2",
+      "node_b": "pochaina",
+      "km_at_a": 33.08871614348139,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 4904.352315645271,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "pochaina_to_kurenivka",
+      "length_m": 2005.1977051700408,
+      "node_a": "pochaina",
+      "node_b": "kurenivka",
+      "km_at_a": 37.99306845912666,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 2005.1977051700408,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "kurenivka_to_priorka",
+      "length_m": 2197.364138346547,
+      "node_a": "kurenivka",
+      "node_b": "priorka",
+      "km_at_a": 39.9982661642967,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 2197.364138346547,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "priorka_to_syrets",
+      "length_m": 3010.3888969537725,
+      "node_a": "priorka",
+      "node_b": "syrets",
+      "km_at_a": 42.195630302643245,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 3010.3888969537725,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "syrets_to_beresteiska",
+      "length_m": 2523.5777740007957,
+      "node_a": "syrets",
+      "node_b": "beresteiska",
+      "km_at_a": 45.206019199597016,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 2523.5777740007957,
+          "speed_kmh": 70
+        }
+      ]
+    },
+    {
+      "id": "beresteiska_to_sviatoshyn",
+      "length_m": 1770.4030260545373,
+      "node_a": "beresteiska",
+      "node_b": "sviatoshyn",
+      "km_at_a": 47.729596973597815,
+      "electrification": "ac_25kv",
+      "grades": [
+        {
+          "at_m": 0,
+          "permille": 0
+        }
+      ],
+      "speed_limits": [
+        {
+          "from_m": 0,
+          "to_m": 1770.4030260545373,
+          "speed_kmh": 70
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "id": "sviatoshyn",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "beresteiska_to_sviatoshyn",
+          "end": "b"
+        },
+        {
+          "segment": "sviatoshyn_to_borshchahivka",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "borshchahivka",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "sviatoshyn_to_borshchahivka",
+          "end": "b"
+        },
+        {
+          "segment": "borshchahivka_to_kyiv_volynskyi",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "kyiv_volynskyi",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "borshchahivka_to_kyiv_volynskyi",
+          "end": "b"
+        },
+        {
+          "segment": "kyiv_volynskyi_to_karavaievi_dachi",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "karavaievi_dachi",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "kyiv_volynskyi_to_karavaievi_dachi",
+          "end": "b"
+        },
+        {
+          "segment": "karavaievi_dachi_to_kyiv_pasazhyrskyi",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "kyiv_pasazhyrskyi",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "karavaievi_dachi_to_kyiv_pasazhyrskyi",
+          "end": "b"
+        },
+        {
+          "segment": "kyiv_pasazhyrskyi_to_protasiv_yar",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "protasiv_yar",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "kyiv_pasazhyrskyi_to_protasiv_yar",
+          "end": "b"
+        },
+        {
+          "segment": "protasiv_yar_to_kyiv_demiiivskyi",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "kyiv_demiiivskyi",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "protasiv_yar_to_kyiv_demiiivskyi",
+          "end": "b"
+        },
+        {
+          "segment": "kyiv_demiiivskyi_to_vydubychi",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "vydubychi",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "kyiv_demiiivskyi_to_vydubychi",
+          "end": "b"
+        },
+        {
+          "segment": "vydubychi_to_berezniaky",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "berezniaky",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "vydubychi_to_berezniaky",
+          "end": "b"
+        },
+        {
+          "segment": "berezniaky_to_darnytsia",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "darnytsia",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "berezniaky_to_darnytsia",
+          "end": "b"
+        },
+        {
+          "segment": "darnytsia_to_rusanivka",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "rusanivka",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "darnytsia_to_rusanivka",
+          "end": "b"
+        },
+        {
+          "segment": "rusanivka_to_livoberezhna",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "livoberezhna",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "rusanivka_to_livoberezhna",
+          "end": "b"
+        },
+        {
+          "segment": "livoberezhna_to_mykilska_slobidka",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "mykilska_slobidka",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "livoberezhna_to_mykilska_slobidka",
+          "end": "b"
+        },
+        {
+          "segment": "mykilska_slobidka_to_voskresenka",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "voskresenka",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "mykilska_slobidka_to_voskresenka",
+          "end": "b"
+        },
+        {
+          "segment": "voskresenka_to_troieshchyna_2",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "troieshchyna_2",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "voskresenka_to_troieshchyna_2",
+          "end": "b"
+        },
+        {
+          "segment": "troieshchyna_2_to_pochaina",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "pochaina",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "troieshchyna_2_to_pochaina",
+          "end": "b"
+        },
+        {
+          "segment": "pochaina_to_kurenivka",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "kurenivka",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "pochaina_to_kurenivka",
+          "end": "b"
+        },
+        {
+          "segment": "kurenivka_to_priorka",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "priorka",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "kurenivka_to_priorka",
+          "end": "b"
+        },
+        {
+          "segment": "priorka_to_syrets",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "syrets",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "priorka_to_syrets",
+          "end": "b"
+        },
+        {
+          "segment": "syrets_to_beresteiska",
+          "end": "a"
+        }
+      ]
+    },
+    {
+      "id": "beresteiska",
+      "kind": "joint",
+      "ends": [
+        {
+          "segment": "syrets_to_beresteiska",
+          "end": "b"
+        },
+        {
+          "segment": "beresteiska_to_sviatoshyn",
+          "end": "a"
+        }
+      ]
+    }
+  ]
+}

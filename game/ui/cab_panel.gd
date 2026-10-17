@@ -5,6 +5,7 @@ extends Control
 ## the reverser. Clicks and keys become Commands; the panel never changes the world itself.
 
 signal command(cmd: Dictionary)
+signal announcement_requested
 
 const PAINT := Color("3a4f47")
 const PAINT_DARK := Color("2c3d37")
@@ -31,6 +32,7 @@ var cab_def: Dictionary = {}
 ## Hit regions rebuilt every draw: [{rect: Rect2, kind: String, id: String}]
 var _hits: Array[Dictionary] = []
 var _held: String = ""
+var _draw_scale: float = 1.0
 var _toggle_pitch: float = 70.0
 
 
@@ -64,7 +66,7 @@ func _gui_input(event: InputEvent) -> void:
 			_held = ""
 		return
 	for h: Dictionary in _hits:
-		if (h["rect"] as Rect2).has_point(mb.position):
+		if (h["rect"] as Rect2).has_point(mb.position / _draw_scale):
 			_click(h)
 			accept_event()
 			return
@@ -74,6 +76,8 @@ func _click(h: Dictionary) -> void:
 	var p: StringName = world.player_train_id
 	var id: String = str(h["id"])
 	match str(h["kind"]):
+		"announcer":
+			announcement_requested.emit()
 		"toggle":
 			_send(Commands.cab_control(p, StringName(id), not _train().cab.is_on(StringName(id))))
 		"button":
@@ -139,8 +143,10 @@ func _draw() -> void:
 	if world == null:
 		return
 	_hits.clear()
-	var w: float = size.x
-	var h: float = size.y
+	_draw_scale = minf(size.y / 360.0, 1.5)
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE * _draw_scale)
+	var w: float = size.x / _draw_scale
+	var h: float = size.y / _draw_scale
 	# Painted steel desk with a darker top lip.
 	draw_rect(Rect2(0, 0, w, h), PAINT)
 	draw_rect(Rect2(0, 0, w, 10), PAINT_EDGE)
@@ -422,6 +428,18 @@ func _draw_handles(r: Rect2) -> void:
 		14,
 		LABEL
 	)
+	var announce_rect := Rect2(r.position.x + 12, r.position.y + 6, r.size.x - 125, 32)
+	draw_rect(announce_rect, PAINT_DARK)
+	draw_string(
+		font,
+		announce_rect.position + Vector2(12, 23),
+		tr("Інформатор · I"),
+		HORIZONTAL_ALIGNMENT_LEFT,
+		-1,
+		16,
+		LABEL
+	)
+	_hits.append({"rect": announce_rect, "kind": "announcer", "id": ""})
 	# Reverser: three key positions.
 	var rx: float = r.end.x - 46
 	var labels: Array[String] = ["Вперед", "0", "Назад"]
@@ -494,3 +512,19 @@ func _rotary(
 	draw_circle(c + hd * rad * 0.95, 13, knob)
 	draw_circle(c + hd * rad * 0.95 + Vector2(-3, -4), 4, Color(1, 1, 1, 0.4))
 	draw_circle(c, rad * 0.16, Color("8a9490"))
+
+
+func release_holds() -> void:
+	if world == null:
+		return
+	for id: StringName in CabState.HOLDS:
+		if _train().cab.is_on(id):
+			_send(Commands.cab_control(world.player_train_id, id, false))
+	_held = ""
+
+
+func _input(event: InputEvent) -> void:
+	var mb: InputEventMouseButton = event as InputEventMouseButton
+	if mb != null and mb.button_index == MOUSE_BUTTON_LEFT and not mb.pressed and _held != "":
+		_send(Commands.cab_control(world.player_train_id, StringName(_held), false))
+		_held = ""

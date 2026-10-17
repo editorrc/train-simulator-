@@ -54,6 +54,38 @@
           }
         }
       }
+    },
+    "map_features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "points"
+        ],
+        "properties": {
+          "kind": {
+            "enum": [
+              "river"
+            ]
+          },
+          "label_uk": {
+            "type": "string"
+          },
+          "points": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "$defs": {

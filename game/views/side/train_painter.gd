@@ -87,7 +87,7 @@ static func draw_side(ci: CanvasItem, v: VehicleSpec, livery: Dictionary, opts: 
 	var inset_l: float = 3.3 if cab_l else 1.4
 	var inset_r: float = 3.3 if cab_r else 1.4
 	for dx: float in [inset_l, length - inset_r - door_w]:
-		_door(ci, dx, door_w, floor_h, frame)
+		_door(ci, dx, door_w, floor_h, frame, float(opts.get("doors", 0.0)))
 	var win_from: float = inset_l + door_w + 0.5
 	var win_to: float = length - inset_r - door_w - 0.5
 	var n: int = int(vis.get("windows_per_side", 9))
@@ -247,15 +247,17 @@ static func _bogie(ci: CanvasItem, x: float, axle_s: float, opts: Dictionary) ->
 				)
 
 
-static func _door(ci: CanvasItem, x: float, w: float, floor_h: float, frame: Color) -> void:
+static func _door(
+	ci: CanvasItem, x: float, w: float, floor_h: float, frame: Color, opened: float = 0.0
+) -> void:
 	var top: float = -3.2
 	ci.draw_rect(Rect2(x - 0.05, top - 0.05, w + 0.1, -floor_h - top + 0.1), frame)
-	ci.draw_rect(Rect2(x, top, w, -floor_h - top - 0.02), frame.lightened(0.12))
-	ci.draw_line(Vector2(x + w * 0.5, top), Vector2(x + w * 0.5, -floor_h), frame, 0.04)
+	ci.draw_rect(Rect2(x, top, w, -floor_h - top), Color("101820"))
 	for k: int in 2:
-		var gx: float = x + 0.12 + k * w * 0.5
-		ci.draw_rect(Rect2(gx, top + 0.18, w * 0.5 - 0.24, 0.85), GLASS)
-		ci.draw_rect(Rect2(gx, top + 0.18, w * 0.5 - 0.24, 0.12), GLASS_SHINE)
+		var shift: float = (-1.0 if k == 0 else 1.0) * opened * w * .48
+		var gx: float = x + k * w * .5 + shift
+		ci.draw_rect(Rect2(gx, top, w * .5 - .02, -floor_h - top), frame.lightened(.12))
+		ci.draw_rect(Rect2(gx + .12, top + .18, w * .5 - .24, .85), GLASS)
 	# Step.
 	ci.draw_rect(Rect2(x - 0.05, -floor_h + 0.02, w + 0.1, 0.12), STEEL)
 

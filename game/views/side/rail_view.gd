@@ -33,12 +33,13 @@ const GROUND_FAR := Color("353a35")
 ## Camera presets: yaw is mirrored with the direction of travel so "front" always shows
 ## the leading cab.
 const PRESETS: Array[Dictionary] = [
-	{"name": "3/4 спереду", "yaw": -28.0, "pitch": 16.0},
-	{"name": "Збоку", "yaw": 0.0, "pitch": 12.0},
-	{"name": "3/4 ззаду", "yaw": 28.0, "pitch": 16.0},
+	{"name": "3/4 спереду", "yaw": -28.0, "pitch": 25.0},
+	{"name": "Збоку", "yaw": 0.0, "pitch": 20.0},
+	{"name": "3/4 ззаду", "yaw": 28.0, "pitch": 25.0},
 	{"name": "Зверху", "yaw": -10.0, "pitch": 48.0},
 ]
 
+var pose: RenderPose
 var world: SimWorld
 var profile: RouteProfile
 var stations: Dictionary = {}
@@ -54,6 +55,9 @@ var preset_index: int = 0
 var yaw_offset: float = 0.0
 var pitch_offset: float = 0.0
 
+var _render_head_ch: float = 0.0
+var _previous_camera_target: float = 0.0
+var _doors: float = 0.0
 var _yaw: float = 0.0
 var _pitch: float = 0.0
 var _cy: float = 1.0
@@ -100,7 +104,9 @@ func adjust(d_yaw: float, d_pitch: float) -> void:
 func snap_camera() -> void:
 	follow = true
 	_apply_angles(_target_yaw(), _target_pitch())
+	_render_head_ch = world.graph.chainage_at(world.player().head)
 	cam_ch = _follow_target()
+	_previous_camera_target = cam_ch
 
 
 func zoom_by(factor: float) -> void:
@@ -115,6 +121,13 @@ func pan_px(dx: float) -> void:
 func _process(delta: float) -> void:
 	if world == null:
 		return
+	if pose != null:
+		_render_head_ch = world.graph.chainage_at(
+			pose.head(world.graph, SimClock.clock.interpolation_alpha())
+		)
+		if absf(cam_ch - _render_head_ch) > 1000:
+			cam_ch = _follow_target()
+			_previous_camera_target = cam_ch
 	_time += delta
 	var t: Train = world.player()
 	var moved: float = t.odometer_m - _last_odometer
@@ -123,7 +136,14 @@ func _process(delta: float) -> void:
 	var k: float = clampf(delta * 4.0, 0.0, 1.0)
 	_apply_angles(lerpf(_yaw, _target_yaw(), k), lerpf(_pitch, _target_pitch(), k))
 	if follow:
-		cam_ch = lerpf(cam_ch, _follow_target(), k)
+		cam_ch = RenderPose.follow(
+			cam_ch,
+			_previous_camera_target,
+			_follow_target(),
+			delta,
+			float(Settings.get_value("camera", "follow_s", .18))
+		)
+	_previous_camera_target = _follow_target()
 	queue_redraw()
 
 
@@ -153,7 +173,7 @@ func _dir() -> float:
 
 
 func _head_ch() -> float:
-	return world.graph.chainage_at(world.player().head)
+	return _render_head_ch if pose != null else world.graph.chainage_at(world.player().head)
 
 
 # ---------------------------------------------------------------- projection
@@ -205,10 +225,10 @@ func _draw() -> void:
 	var w: float = size.x
 	draw_polygon(
 		PackedVector2Array([Vector2(0, 0), Vector2(w, 0), Vector2(w, size.y), Vector2(0, size.y)]),
-		PackedColorArray([BACKDROP_TOP, BACKDROP_TOP, BACKDROP_HORIZON, BACKDROP_HORIZON])
+		PackedColorArray([Color("171c22"), Color("171c22"), Color("171c22"), Color("171c22")])
 	)
 	var rng: Vector2 = _visible_range(10.0)
-	_draw_ground(rng)
+
 	var far_tracks: Array[Dictionary] = []
 	var main_tracks: Array[Dictionary] = []
 	for t: Dictionary in profile.tracks:
@@ -500,6 +520,9 @@ func _platforms(far: bool) -> Array[Dictionary]:
 
 
 func _draw_platform(p: Dictionary, near: bool) -> void:
+	var visible_range: Vector2 = _visible_range(30.0)
+	if float(p["to"]) < visible_range.x or float(p["from"]) > visible_range.y:
+		return
 	var a: float = float(p["from"])
 	var b: float = float(p["to"])
 	var ty: float = float(p["track_y"])
@@ -655,7 +678,11 @@ func _draw_train() -> void:
 	var head_ch: float = _head_ch()
 	var y0: float = TRACK_SPACING_M if profile.is_far(t.head.segment_id) else 0.0
 	var lights: bool = t.cab.is_on(&"headlights") and t.power.control_on(t.cab)
+	_doors = move_toward(
+		_doors, 1.0 if t.cab.is_on(&"doors_left") else 0.0, get_process_delta_time() / 1.1
+	)
 	var base: Dictionary = {
+		"doors": _doors,
 		"lead_right": dir > 0.0,
 		"panto_top": CONTACT_WIRE_M,
 		"headlights": lights,

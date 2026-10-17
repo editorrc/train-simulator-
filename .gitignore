@@ -16,3 +16,8 @@ __pycache__/
 Thumbs.db
 .vscode/
 .idea/
+
+# Generated from the licensed, pinned sources by tools/prepare_demo_audio.sh.
+# Distributed inside release binaries; never commit binary assets outside LFS.
+game/audio/recordings/*.wav
+game/audio/announcements/*.wav

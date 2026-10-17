@@ -1,0 +1,113 @@
+name: Desktop demo release
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ['demo-v*']
+
+permissions:
+  contents: read
+
+jobs:
+  audio:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/cache@v4
+        with:
+          path: build/audio-cache
+          key: desktop-audio-v1-linux-python312
+      - name: Prepare licensed recordings and offline announcements
+        run: bash tools/prepare_demo_audio.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: demo-audio
+          path: |
+            game/audio/recordings/*.wav
+            game/audio/announcements/*.wav
+          retention-days: 14
+
+  build:
+    needs: audio
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: demo-audio
+          path: game/audio
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/cache@v4
+        with:
+          path: build/toolchain
+          key: desktop-godot-4.7.2-macos
+      - name: Install verified official editor and templates
+        run: |
+          python tools/install_godot.py --templates > godot-path.txt
+          echo "GODOT=$(tail -1 godot-path.txt)" >> "$GITHUB_ENV"
+      - run: pip install -r tools/requirements.txt
+      - run: python tools/check_audio_assets.py
+      - run: make check
+      - name: Build EXE, ZIP and native DMG
+        run: python tools/build_desktop.py --godot "$GODOT" --target all --out build/release
+      - name: Verify universal macOS application and launch menu
+        run: |
+          app="build/release/macos-stage/TrainSimulator.app"
+          binary="$app/Contents/MacOS/$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' "$app/Contents/Info.plist")"
+          lipo "$binary" -verify_arch arm64 x86_64
+          codesign --verify --deep --strict "$app"
+          "$binary" --headless --quit-after 120 --log-file "$RUNNER_TEMP/mac-smoke.log"
+          if rg 'SCRIPT ERROR:' "$RUNNER_TEMP/mac-smoke.log"; then exit 1; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-demo
+          path: |
+            build/release/*.exe
+            build/release/*.zip
+            build/release/*.dmg
+            build/release/*.txt
+          retention-days: 30
+
+  windows-smoke:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: desktop-demo
+          path: release
+      - name: Launch the standalone Windows executable
+        shell: pwsh
+        run: |
+          $log = Join-Path $env:RUNNER_TEMP 'windows-smoke.log'
+          $process = Start-Process -FilePath '.\release\TrainSimulator-Windows.exe' -ArgumentList @('--headless','--quit-after','120','--log-file',"`"$log`"") -Wait -PassThru
+          if ($process.ExitCode -ne 0) { throw "EXE exited with $($process.ExitCode)" }
+          Get-Content $log
+          if (Select-String -Path $log -Pattern 'SCRIPT ERROR:') { throw 'GDScript startup failure' }
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/demo-v')
+    needs: [build, windows-smoke]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: desktop-demo
+          path: release
+      - name: Publish normal downloadable release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" release/* --verify-tag --prerelease \
+            --title "Train Simulator $GITHUB_REF_NAME" --notes-file docs/RELEASE_NOTES.md

@@ -1,0 +1,292 @@
+{
+  "meta": {
+    "verified": false,
+    "sources": [
+      "https://github.com/panichev-oleg/kce/blob/main/src/helpers/__fixtures__/internal_direction_1_date_2026-03-13.txt",
+      "https://swrailway.gov.ua/timetable/eltrain/?gid=1&rid=480&reverse=1"
+    ],
+    "note": "TODO_SOURCE: назви, порядок і тарифні відстані з опублікованого розкладу; геометрія і платформи ілюстративні, профіль та швидкості умовні. Не геодезична модель."
+  },
+  "stations": [
+    {
+      "id": "sviatoshyn",
+      "name_uk": "Святошин",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "sviatoshyn_p1",
+          "segment": "sviatoshyn_to_borshchahivka",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "borshchahivka",
+      "name_uk": "Борщагівка",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "borshchahivka_p1",
+          "segment": "borshchahivka_to_kyiv_volynskyi",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "kyiv_volynskyi",
+      "name_uk": "Київ-Волинський",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "kyiv_volynskyi_p1",
+          "segment": "kyiv_volynskyi_to_karavaievi_dachi",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "karavaievi_dachi",
+      "name_uk": "Караваєві Дачі",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "karavaievi_dachi_p1",
+          "segment": "karavaievi_dachi_to_kyiv_pasazhyrskyi",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "kyiv_pasazhyrskyi",
+      "name_uk": "Київ-Пасажирський",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "kyiv_pasazhyrskyi_p1",
+          "segment": "kyiv_pasazhyrskyi_to_protasiv_yar",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "protasiv_yar",
+      "name_uk": "Протасів Яр",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "protasiv_yar_p1",
+          "segment": "protasiv_yar_to_kyiv_demiiivskyi",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "kyiv_demiiivskyi",
+      "name_uk": "Київ-Деміївський",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "kyiv_demiiivskyi_p1",
+          "segment": "kyiv_demiiivskyi_to_vydubychi",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "vydubychi",
+      "name_uk": "Видубичі",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "vydubychi_p1",
+          "segment": "vydubychi_to_berezniaky",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "berezniaky",
+      "name_uk": "Березняки",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "berezniaky_p1",
+          "segment": "berezniaky_to_darnytsia",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "darnytsia",
+      "name_uk": "Дарниця",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "darnytsia_p1",
+          "segment": "darnytsia_to_rusanivka",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "rusanivka",
+      "name_uk": "Русанівка",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "rusanivka_p1",
+          "segment": "rusanivka_to_livoberezhna",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "livoberezhna",
+      "name_uk": "Лівобережна",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "livoberezhna_p1",
+          "segment": "livoberezhna_to_mykilska_slobidka",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "mykilska_slobidka",
+      "name_uk": "Микільська Слобідка",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "mykilska_slobidka_p1",
+          "segment": "mykilska_slobidka_to_voskresenka",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "voskresenka",
+      "name_uk": "Воскресенка",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "voskresenka_p1",
+          "segment": "voskresenka_to_troieshchyna_2",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "troieshchyna_2",
+      "name_uk": "Троєщина-2",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "troieshchyna_2_p1",
+          "segment": "troieshchyna_2_to_pochaina",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "pochaina",
+      "name_uk": "Почайна",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "pochaina_p1",
+          "segment": "pochaina_to_kurenivka",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "kurenivka",
+      "name_uk": "Куренівка",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "kurenivka_p1",
+          "segment": "kurenivka_to_priorka",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "priorka",
+      "name_uk": "Пріорка",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "priorka_p1",
+          "segment": "priorka_to_syrets",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "syrets",
+      "name_uk": "Сирець",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "syrets_p1",
+          "segment": "syrets_to_beresteiska",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    },
+    {
+      "id": "beresteiska",
+      "name_uk": "Берестейська",
+      "kind": "station",
+      "platforms": [
+        {
+          "id": "beresteiska_p1",
+          "segment": "beresteiska_to_sviatoshyn",
+          "from_m": 20,
+          "to_m": 260,
+          "side": "right"
+        }
+      ]
+    }
+  ]
+}

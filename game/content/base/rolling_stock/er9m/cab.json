@@ -105,6 +105,31 @@
       "hotkey": "Space",
       "group": "aux",
       "color": "yellow"
+    },
+    {
+      "id": "whistle",
+      "type": "hold",
+      "label_uk": "Свисток",
+      "hotkey": "V",
+      "group": "aux",
+      "hint_uk": "Свисток: тримати V",
+      "color": "yellow"
+    },
+    {
+      "id": "doors_left",
+      "type": "toggle",
+      "label_uk": "Двері ліві",
+      "hotkey": "Z",
+      "group": "aux",
+      "hint_uk": "Відчинити / зачинити ліві двері на зупинці"
+    },
+    {
+      "id": "doors_right",
+      "type": "toggle",
+      "label_uk": "Двері праві",
+      "hotkey": "C",
+      "group": "aux",
+      "hint_uk": "Відчинити / зачинити праві двері на зупинці"
     }
   ],
   "lamps": [

@@ -138,8 +138,8 @@
 
 
   // ---- core/train/cab_state.gd
-  const TOGGLES = ["battery", "control_circuits", "pantograph", "aux_machines", "compressors", "ep_brake", "headlights"];
-  const HOLDS = ["aux_compressor", "horn"];
+  const TOGGLES = ["battery", "control_circuits", "pantograph", "aux_machines", "compressors", "ep_brake", "headlights", "doors_left", "doors_right"];
+  const HOLDS = ["aux_compressor", "horn", "whistle"];
   const BUTTONS = ["main_breaker_on", "main_breaker_off", "protection_reset"];
 
   // ---- core/systems/pneumatic_system.gd
@@ -256,10 +256,14 @@
     t.eff_mass = consist.vehicles.reduce((s, v, i) => s + t.masses[i] * (1.0 + v.rot), 0);
     t.rear = (g) => advance(g, t.head, -consist.length_m()).position;
     t.occupied_nodes = (g) => advance(g, t.head, -consist.length_m()).nodes_passed;
-    t.warm_start = () => { for (const k of TOGGLES) t.cab[k] = true; t.power.start_ready(); t.air.charge_fully(); };
+    t.warm_start = () => { for (const k of TOGGLES) t.cab[k] = !["doors_left", "doors_right"].includes(k); t.power.start_ready(); t.air.charge_fully(); };
     t.operate = (control, value) => {
       if (!TOGGLES.includes(control) && !HOLDS.includes(control) && !BUTTONS.includes(control)) return "невідомий орган керування " + control;
       if (BUTTONS.includes(control)) return value ? t.power.press(control, t.cab, t.controller_index) : "";
+      if (["doors_left", "doors_right"].includes(control) && value) {
+        if (Math.abs(t.speed_ms) > 0.1 || !t.power.control_on(t.cab)) return "двері: зупиніть поїзд та увімкніть кола керування";
+        t.controller_index = 0;
+      }
       t.cab[control] = !!value; return "";
     };
     t.check = (name) => {
@@ -296,7 +300,7 @@
     t.brake_demand = t.air.brake_fraction();
     // traction fraction ramp
     let target = +c.controller[t.controller_index].force;
-    if (t.reverser === 0 || !t.power.traction_ready() || t.air.p_tc > 0.3 * KGF) target = 0;
+    if (t.reverser === 0 || !t.power.traction_ready() || t.air.p_tc > 0.3 * KGF || t.cab.doors_left || t.cab.doors_right) target = 0;
     if (t.traction_fraction < target) t.traction_fraction = Math.min(target, t.traction_fraction + c.ramp * dt);
     else t.traction_fraction = Math.max(target, t.traction_fraction - c.ramp * 3.0 * dt);
     // per-vehicle forces

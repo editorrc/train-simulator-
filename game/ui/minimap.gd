@@ -13,6 +13,7 @@ var _tf_off := Vector2.ZERO
 
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_STOP
+	clip_contents = true
 
 
 func _process(_delta: float) -> void:
@@ -25,7 +26,7 @@ func _tp(p: Vector2) -> Vector2:
 
 func _fit() -> void:
 	var b: Rect2 = geometry.bounds()
-	var pad: float = 14.0
+	var pad: float = 55.0 if stations.get("stations", []).size() > 3 else 14.0
 	var sx: float = (size.x - pad * 2) / maxf(b.size.x, 1.0)
 	# Exaggerate the lateral scale so parallel tracks separate, within the panel height.
 	var sy: float = minf(sx * 12.0, (size.y - pad * 2 - 14) / maxf(b.size.y, 1.0))
@@ -43,6 +44,12 @@ func _draw() -> void:
 		return
 	_fit()
 	var font: Font = ThemeDB.fallback_font
+	for feature: Variant in geometry.map_features:
+		var river := PackedVector2Array()
+		for raw: Variant in feature["points"]:
+			var p := Vector2(float(raw[0]), -float(raw[1]))
+			river.append(_tp(p))
+		draw_polyline(river, Color(.20, .40, .56, .5), maxf(8.0, size.x * .013), true)
 	for pts: PackedVector2Array in geometry.polylines.values():
 		var sp := PackedVector2Array()
 		for p: Vector2 in pts:
@@ -62,11 +69,30 @@ func _draw() -> void:
 		var lp: Vector2 = _tp(geometry.point_at(s0.id, float(first["from_m"]), s0.length_m))
 		draw_string(
 			font,
-			lp + Vector2(0, -8),
+			(
+				lp
+				+ Vector2(
+					(
+						-(
+							font
+							. get_string_size(
+								str(sd["name_uk"]),
+								HORIZONTAL_ALIGNMENT_LEFT,
+								-1,
+								18 if size.y > 600 else 12
+							)
+							. x
+						)
+						if lp.x > size.x * .7
+						else 0
+					),
+					-8
+				)
+			),
 			str(sd["name_uk"]),
 			HORIZONTAL_ALIGNMENT_LEFT,
 			-1,
-			12,
+			18 if size.y > 600 else 12,
 			Color("dfe8e3")
 		)
 	for n: TrackNode in world.graph.nodes.values():

@@ -22,7 +22,9 @@ static func restore(panels: Array[FloatingPanel], view: Vector2) -> bool:
 		var d: Variant = cfg.get_value("panels", p.panel_id, null)
 		if d is Dictionary:
 			p.apply_dict(d as Dictionary)
-			p.position = p.position.clamp(Vector2(-p.size.x + 60, 0), view - Vector2(60, 26))
+			p.size = p.size.min(view * .95)
+			p.position = p.position.clamp(Vector2.ZERO, (view - p.size).max(Vector2.ZERO))
+			p._layout_content()
 			any = true
 	return any
 
