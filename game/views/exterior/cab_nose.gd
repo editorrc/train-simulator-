@@ -22,6 +22,8 @@ const LEAN_BACK: float = 0.38
 ## The roof dome sweeps back this far above the windscreens.
 const DOME_BACK: float = 1.12
 const CORNER_R: float = 0.42
+## The flat-type front is slightly convex in plan: corners sit this far behind the centre.
+const PLAN_BULGE: float = 0.1
 ## Length of the nose section before the regular body shell starts.
 const LENGTH: float = 1.6
 
@@ -67,7 +69,8 @@ static func corner_back(x: float, y: float) -> float:
 
 
 func point(x: float, y: float) -> Vector3:
-	return Vector3(x, y, tip_z + profile_back(y) + corner_back(x, y))
+	var u: float = x / maxf(half_at(y), .01)
+	return Vector3(x, y, tip_z + profile_back(y) + corner_back(x, y) + PLAN_BULGE * u * u)
 
 
 ## Outward surface normal (points forward, away from the body).
@@ -117,7 +120,7 @@ func build_shell(parent: Node3D, paint: Material) -> MeshInstance3D:
 				[normals[r][c], normals[r + 1][c + 1], normals[r][c + 1]]
 			)
 	# Skin from the edge of the front surface back to where the body shell starts.
-	var back_z: float = tip_z + LENGTH
+	var back_z: float = tip_z + LENGTH + PLAN_BULGE
 	for r: int in rows.size() - 1:
 		for side: int in [0, cols]:
 			var a: Vector3 = grid[r][side]

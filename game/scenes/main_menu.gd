@@ -27,13 +27,15 @@ func _ready() -> void:
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+	# Brand mark as a large, faint emblem: it starts left of the wordmark, fills the upper
+	# left corner and runs over the line under the navigation.
 	var watermark := TextureRect.new()
 	watermark.texture = load("res://ui/artem_mark.svg") as Texture2D
-	watermark.position = Vector2(48, 2)
-	watermark.size = Vector2(520, 164)
+	watermark.position = Vector2(28, -46)
+	watermark.size = Vector2(460, 322)
 	watermark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	watermark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	watermark.modulate = Color(1, 1, 1, .035)
+	watermark.modulate = Color(1, 1, 1, .07)
 	watermark.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(watermark)
 	var root := VBoxContainer.new()
@@ -49,8 +51,15 @@ func _ready() -> void:
 	var brand := VBoxContainer.new()
 	brand.add_theme_constant_override("separation", -2)
 	brand.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	brand.add_child(PanoramaTheme.label("ARTEM", 16, PanoramaTheme.MUTED))
-	brand.add_child(PanoramaTheme.label("Train Emulator", 44))
+	var project: Label = PanoramaTheme.label(
+		"PROJECT A.R.T.E.M.", 14, Color(PanoramaTheme.MUTED, .6)
+	)
+	var spaced := FontVariation.new()
+	spaced.base_font = project.get_theme_font("font")
+	spaced.spacing_glyph = 3
+	project.add_theme_font_override("font", spaced)
+	brand.add_child(project)
+	brand.add_child(PanoramaTheme.label("Train Emulator", 46))
 	header.add_child(brand)
 	for i: int in PAGES.size():
 		var button: Button = PanoramaTheme.button(PAGES[i], _show_page.bind(i))

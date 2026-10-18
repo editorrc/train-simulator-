@@ -324,13 +324,33 @@ func _cab(
 		func(x: float) -> float: return 2.30 - float(notch.call(x))
 	)
 	nose.patch(body, stripe, -1.72, 1.72, CabNose.const_y(1.30), CabNose.const_y(1.44))
-	# Windscreens: one dark frame and two glazed panes leaning back with the surface.
-	var frame_top: Callable = func(x: float) -> float: return 3.70 - 0.10 * pow(absf(x) / 1.52, 6.0)
-	nose.patch(body, black, -1.52, 1.52, CabNose.const_y(2.48), frame_top, .008)
-	var glass_top: Callable = func(x: float) -> float: return 3.62 - 0.10 * pow(absf(x) / 1.44, 6.0)
-	for pane: Array in [[-1.42, -0.07], [0.07, 1.42]]:
+	# Windscreens: two separate glazed openings with rounded corners and a body-coloured
+	# pillar between them (flat-type ER9M front).
+	for pane: Array in [[-0.79, 0.66], [0.79, 0.66]]:
+		var cx: float = float(pane[0])
+		var hw: float = float(pane[1])
+		var round_off: Callable = func(x: float, depth: float) -> float:
+			return depth * pow(clampf(absf(x - cx) / hw, 0.0, 1.0), 8.0)
 		nose.patch(
-			body, glass, float(pane[0]), float(pane[1]), CabNose.const_y(2.56), glass_top, .014
+			body,
+			black,
+			cx - hw,
+			cx + hw,
+			func(x: float) -> float: return 2.5 + float(round_off.call(x, .14)),
+			func(x: float) -> float: return 3.68 - float(round_off.call(x, .14)),
+			.008
+		)
+		var gw: float = hw - .07
+		var glass_off: Callable = func(x: float, depth: float) -> float:
+			return depth * pow(clampf(absf(x - cx) / gw, 0.0, 1.0), 8.0)
+		nose.patch(
+			body,
+			glass,
+			cx - gw,
+			cx + gw,
+			func(x: float) -> float: return 2.57 + float(glass_off.call(x, .12)),
+			func(x: float) -> float: return 3.61 - float(glass_off.call(x, .12)),
+			.014
 		)
 	for x: float in [-.72, .72]:
 		var wiper := Node3D.new()
