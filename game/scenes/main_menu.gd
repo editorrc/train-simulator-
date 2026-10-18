@@ -14,6 +14,8 @@ var _scenario_select: OptionButton
 var _formation_buttons: Dictionary = {}
 var _livery_buttons: Dictionary = {}
 var _liveries: Array = []
+var _watermark: TextureRect
+var _nav_line: HSeparator
 
 
 func _ready() -> void:
@@ -45,15 +47,13 @@ func _ready() -> void:
 	add_child(glow)
 	# Brand mark as a large, faint emblem: it starts left of the wordmark, fills the upper
 	# left corner and runs over the line under the navigation.
-	var watermark := TextureRect.new()
-	watermark.texture = load("res://ui/artem_mark.svg") as Texture2D
-	watermark.position = Vector2(40, -30)
-	watermark.size = Vector2(378, 264)
-	watermark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	watermark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	watermark.modulate = Color(1, 1, 1, .07)
-	watermark.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(watermark)
+	_watermark = TextureRect.new()
+	_watermark.texture = load("res://ui/artem_mark.svg") as Texture2D
+	_watermark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_watermark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	_watermark.modulate = Color(1, 1, 1, .07)
+	_watermark.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_watermark)
 	var root := VBoxContainer.new()
 	root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	root.offset_left = 104
@@ -83,7 +83,8 @@ func _ready() -> void:
 		_nav.append(button)
 		header.add_child(button)
 	root.add_child(header)
-	root.add_child(HSeparator.new())
+	_nav_line = HSeparator.new()
+	root.add_child(_nav_line)
 	_body = VBoxContainer.new()
 	_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_body.add_theme_constant_override("separation", 16)
@@ -95,6 +96,23 @@ func _ready() -> void:
 			"liveries", []
 		)
 	_show_page(0)
+
+
+## Two emblem layouts, chosen in Налаштування (ui/logo_variant):
+## "a" — large emblem over the whole upper-left corner;
+## "b" — about 20% smaller, its arrow tip sits exactly on the navigation line.
+func _process(_delta: float) -> void:
+	if _watermark == null or _nav_line == null:
+		return
+	if str(Settings.get_value("ui", "logo_variant", "b")) == "a":
+		_watermark.position = Vector2(40, -30)
+		_watermark.size = Vector2(378, 264)
+		return
+	# The SVG is 80×56 with the arrow tip at (74, 28): the vertical centre of the mark.
+	var mark_size := Vector2(300, 210)
+	var line_y: float = _nav_line.global_position.y + _nav_line.size.y * .5
+	_watermark.size = mark_size
+	_watermark.position = Vector2(40, line_y - mark_size.y * .5)
 
 
 func _show_page(index: int) -> void:

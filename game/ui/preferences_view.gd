@@ -26,6 +26,16 @@ func _ready() -> void:
 			1.0,
 			0.8 if bus == "Master" else 1.0
 		)
+	rows.add_child(PanoramaTheme.label("Інтерфейс", 24, PanoramaTheme.ACCENT))
+	var logo := OptionButton.new()
+	var variants: Array[String] = ["b", "a"]
+	logo.add_item(tr("Логотип: вістря на лінії меню"))
+	logo.add_item(tr("Логотип: великий у кутку"))
+	logo.select(maxi(0, variants.find(str(Settings.get_value("ui", "logo_variant", "b")))))
+	logo.item_selected.connect(
+		func(index: int) -> void: Settings.set_value("ui", "logo_variant", variants[index])
+	)
+	rows.add_child(logo)
 	rows.add_child(PanoramaTheme.label("Камера та зображення", 24, PanoramaTheme.ACCENT))
 	_slider(rows, tr("Масштаб"), "camera", "zoom", 0.3, 3.0, 1.0)
 	_slider(rows, tr("Поворот камери"), "camera", "yaw", -180, 180, 0)
