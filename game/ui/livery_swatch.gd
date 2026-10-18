@@ -6,7 +6,7 @@ var livery: Dictionary = {}
 
 
 func _ready() -> void:
-	custom_minimum_size = Vector2(128, PanoramaTheme.SELECTOR_HEIGHT)
+	custom_minimum_size = Vector2(112, PanoramaTheme.SELECTOR_HEIGHT)
 	toggle_mode = true
 	focus_mode = Control.FOCUS_NONE
 	tooltip_text = tr(str(livery.get("name_uk", "")))
@@ -34,6 +34,16 @@ func _draw() -> void:
 		draw_rect(Rect2(x + 1, 17, 22, 13), Color("162631"))
 	var title: String = str(livery.get("short_name_uk", livery.get("name_uk", "")))
 	var font: Font = get_theme_font("font")
+	# Shrink long names (e.g. «Синьо-жовтий») to fit the cell instead of cutting them.
+	var font_size: int = 15
+	while font_size > 11 and font.get_string_size(tr(title), 0, -1, font_size).x > size.x - 8:
+		font_size -= 1
 	draw_string(
-		font, Vector2(0, 72), tr(title), HORIZONTAL_ALIGNMENT_CENTER, size.x, 15, PanoramaTheme.TEXT
+		font,
+		Vector2(0, 72),
+		tr(title),
+		HORIZONTAL_ALIGNMENT_CENTER,
+		size.x,
+		font_size,
+		PanoramaTheme.TEXT
 	)

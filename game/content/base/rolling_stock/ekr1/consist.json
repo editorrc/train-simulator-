@@ -1,0 +1,181 @@
+{
+  "id": "ekr1_main",
+  "series": "ЕКр1 «Тарпан»",
+  "name_uk": "ЕКр1 «Тарпан»",
+  "meta": {
+    "verified": false,
+    "sources": [],
+    "note": "TODO_SOURCE: оцінка для демонстрації серії; маси, тяга й геометрія не підтверджені"
+  },
+  "electrification": [
+    "ac_25kv"
+  ],
+  "vehicles": [
+    "ekr1_head",
+    "ekr1_motor",
+    "ekr1_trailer",
+    "ekr1_trailer",
+    "ekr1_motor",
+    "ekr1_head"
+  ],
+  "passenger_mass_kg": 75,
+  "adhesion": {
+    "a": 0.25,
+    "b": 8,
+    "c": 100,
+    "d": 20
+  },
+  "controller": {
+    "force_ramp_per_s": 0.8,
+    "positions": [
+      {
+        "id": "0",
+        "force": 0.0,
+        "power": 0.0
+      },
+      {
+        "id": "10%",
+        "force": 0.1,
+        "power": 0.1
+      },
+      {
+        "id": "20%",
+        "force": 0.2,
+        "power": 0.2
+      },
+      {
+        "id": "30%",
+        "force": 0.3,
+        "power": 0.3
+      },
+      {
+        "id": "40%",
+        "force": 0.4,
+        "power": 0.4
+      },
+      {
+        "id": "50%",
+        "force": 0.5,
+        "power": 0.5
+      },
+      {
+        "id": "60%",
+        "force": 0.6,
+        "power": 0.6
+      },
+      {
+        "id": "70%",
+        "force": 0.7,
+        "power": 0.7
+      },
+      {
+        "id": "80%",
+        "force": 0.8,
+        "power": 0.8
+      },
+      {
+        "id": "90%",
+        "force": 0.9,
+        "power": 0.9
+      },
+      {
+        "id": "100%",
+        "force": 1.0,
+        "power": 1.0
+      }
+    ]
+  },
+  "brake_valve": {
+    "model": "395",
+    "default": "II",
+    "positions": [
+      {
+        "id": "I",
+        "name_uk": "Відпуск і зарядка",
+        "kind": "charge"
+      },
+      {
+        "id": "II",
+        "name_uk": "Поїзне",
+        "kind": "train"
+      },
+      {
+        "id": "III",
+        "name_uk": "Перекриша без живлення",
+        "kind": "lap"
+      },
+      {
+        "id": "IV",
+        "name_uk": "Перекриша з живленням",
+        "kind": "lap_feed"
+      },
+      {
+        "id": "V",
+        "name_uk": "Службове гальмування",
+        "kind": "service"
+      },
+      {
+        "id": "Va",
+        "name_uk": "Службове з уповільненою розрядкою",
+        "kind": "service_slow"
+      },
+      {
+        "id": "VI",
+        "name_uk": "Екстрене гальмування",
+        "kind": "emergency"
+      }
+    ]
+  },
+  "cab": "ekr1_cab",
+  "pneumatic": {
+    "main_reservoir_min_kgf_cm2": 6.5,
+    "main_reservoir_max_kgf_cm2": 8.0,
+    "compressor_rate_kgf_cm2_s": 0.06,
+    "brake_pipe_charge_kgf_cm2": 4.8,
+    "brake_cylinder_max_kgf_cm2": 3.8,
+    "charge_rate_kgf_cm2_s": 0.25,
+    "fast_charge_rate_kgf_cm2_s": 1.0,
+    "service_rate_kgf_cm2_s": 0.2,
+    "slow_service_rate_kgf_cm2_s": 0.06,
+    "emergency_rate_kgf_cm2_s": 1.6,
+    "brake_pipe_leak_kgf_cm2_s": 0.004,
+    "main_reservoir_drain_ratio": 0.3,
+    "distributor_ratio": 2.5,
+    "distributor_sensitivity_kgf_cm2": 0.15,
+    "release_sensitivity_kgf_cm2": 0.15,
+    "emergency_threshold_kgf_cm2": 2.8,
+    "cylinder_fill_rate_kgf_cm2_s": 0.6,
+    "cylinder_emergency_fill_rate_kgf_cm2_s": 1.4,
+    "cylinder_release_rate_kgf_cm2_s": 0.7,
+    "ep_fill_rate_kgf_cm2_s": 0.8,
+    "pantograph_min_kgf_cm2": 3.5,
+    "aux_compressor_rate_kgf_cm2_s": 0.12,
+    "aux_compressor_max_kgf_cm2": 5.0
+  },
+  "electrical": {
+    "pantograph_raise_s": 6,
+    "pantograph_lower_s": 3,
+    "aux_start_s": 6,
+    "catenary_kv": 25,
+    "battery_v": 50
+  },
+  "liveries": "ekr1_liveries",
+  "number": "ЕКр1-001",
+  "formations": {
+    "3": [
+      "ekr1_head",
+      "ekr1_motor",
+      "ekr1_head"
+    ],
+    "6": [
+      "ekr1_head",
+      "ekr1_motor",
+      "ekr1_trailer",
+      "ekr1_trailer",
+      "ekr1_motor",
+      "ekr1_head"
+    ]
+  },
+  "summary_uk": "Сучасний крюківський електропоїзд з асинхронними двигунами й обтічною кабіною, до 160 км/год.",
+  "builder_uk": "Крюківський вагонобудівний завод"
+}

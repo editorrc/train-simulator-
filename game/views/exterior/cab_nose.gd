@@ -11,27 +11,54 @@ extends RefCounted
 ## lean and curvature always match.
 
 const FLOOR_Y: float = 1.22
+const DEFAULT_STYLE: Dictionary = {
+	"style": "er9_flat",
+	"length_m": 1.6,
+	"lean_from_m": 2.35,
+	"lean_to_m": 3.8,
+	"lean_back_m": .38,
+	"dome_back_m": 1.12,
+	"corner_radius_m": .42,
+	"plan_bulge_m": .1,
+	"lower_rake_m": 0.0,
+	"windscreen": "pair",
+	"windscreen_from_m": 2.5,
+	"windscreen_to_m": 3.68,
+	"roof_headlight": true,
+	"lower_headlights": false,
+	"mask": false,
+}
 const SIDE_TOP_Y: float = 3.70
 const ROOF_RISE: float = 0.55
 const HALF_WIDTH: float = 1.70
 const CHAMFER: float = 0.20
-## Height where the windscreen lean starts and ends, and how far it leans back (m).
-const LEAN_FROM_Y: float = 2.35
-const LEAN_TO_Y: float = 3.80
-const LEAN_BACK: float = 0.38
-## The roof dome sweeps back this far above the windscreens.
-const DOME_BACK: float = 1.12
-const CORNER_R: float = 0.42
-## The flat-type front is slightly convex in plan: corners sit this far behind the centre.
-const PLAN_BULGE: float = 0.1
-## Length of the nose section before the regular body shell starts.
-const LENGTH: float = 1.6
 
 var tip_z: float = 0.0
+## Shape and fittings of this series (vehicle visual.nose, see vehicle.schema.json).
+var style: Dictionary = DEFAULT_STYLE
+var length: float = 1.6
+var lean_from: float = 2.35
+var lean_to: float = 3.8
+var lean_back: float = .38
+var dome_back: float = 1.12
+var corner_r: float = .42
+var plan_bulge: float = .1
+## The bottom of the nose sits this far behind the windscreen base (raked lower front).
+var lower_rake: float = 0.0
 
 
-func _init(p_tip_z: float) -> void:
+func _init(p_tip_z: float, p_style: Dictionary = {}) -> void:
 	tip_z = p_tip_z
+	style = DEFAULT_STYLE.duplicate()
+	style.merge(p_style, true)
+	length = float(style["length_m"])
+	lean_from = float(style["lean_from_m"])
+	lean_to = float(style["lean_to_m"])
+	lean_back = float(style["lean_back_m"])
+	dome_back = float(style["dome_back_m"])
+	corner_r = float(style["corner_radius_m"])
+	plan_bulge = float(style["plan_bulge_m"])
+	lower_rake = float(style["lower_rake_m"])
 
 
 ## Half width of the body cross-section at height y.
@@ -49,19 +76,20 @@ static func top_y() -> float:
 
 
 ## How far the front surface is set back from the tip at height y, on the centre line.
-static func profile_back(y: float) -> float:
-	if y <= LEAN_FROM_Y:
-		return 0.0
-	if y <= LEAN_TO_Y:
-		return LEAN_BACK * (y - LEAN_FROM_Y) / (LEAN_TO_Y - LEAN_FROM_Y)
-	var s: float = clampf((y - LEAN_TO_Y) / (top_y() - LEAN_TO_Y), 0.0, 1.0)
-	return LEAN_BACK + DOME_BACK * (1.0 - sqrt(maxf(1.0 - s * s, 0.0)))
+func profile_back(y: float) -> float:
+	if y <= lean_from:
+		# Lower front: vertical, or raked back towards the buffer beam.
+		return lower_rake * (lean_from - y) / maxf(lean_from - FLOOR_Y, .01)
+	if y <= lean_to:
+		return lean_back * (y - lean_from) / (lean_to - lean_from)
+	var s: float = clampf((y - lean_to) / (top_y() - lean_to), 0.0, 1.0)
+	return lean_back + dome_back * (1.0 - sqrt(maxf(1.0 - s * s, 0.0)))
 
 
 ## Extra set-back towards the side walls (rounded corner in plan).
-static func corner_back(x: float, y: float) -> float:
+func corner_back(x: float, y: float) -> float:
 	var half: float = half_at(y)
-	var r: float = minf(CORNER_R, half)
+	var r: float = minf(corner_r, half)
 	var into: float = absf(x) - (half - r)
 	if into <= 0.0:
 		return 0.0
@@ -70,7 +98,7 @@ static func corner_back(x: float, y: float) -> float:
 
 func point(x: float, y: float) -> Vector3:
 	var u: float = x / maxf(half_at(y), .01)
-	return Vector3(x, y, tip_z + profile_back(y) + corner_back(x, y) + PLAN_BULGE * u * u)
+	return Vector3(x, y, tip_z + profile_back(y) + corner_back(x, y) + plan_bulge * u * u)
 
 
 ## Outward surface normal (points forward, away from the body).
@@ -120,7 +148,7 @@ func build_shell(parent: Node3D, paint: Material) -> MeshInstance3D:
 				[normals[r][c], normals[r + 1][c + 1], normals[r][c + 1]]
 			)
 	# Skin from the edge of the front surface back to where the body shell starts.
-	var back_z: float = tip_z + LENGTH + PLAN_BULGE
+	var back_z: float = tip_z + length + plan_bulge
 	for r: int in rows.size() - 1:
 		for side: int in [0, cols]:
 			var a: Vector3 = grid[r][side]
@@ -151,14 +179,14 @@ static func _section_normal(p: Vector3) -> Vector3:
 	)
 
 
-static func _rows() -> PackedFloat32Array:
+func _rows() -> PackedFloat32Array:
 	var rows := PackedFloat32Array()
 	var y: float = FLOOR_Y
 	while y < top_y() - 0.001:
 		rows.append(y)
 		# Finer steps where the profile bends: chamfer, lean start and the dome.
-		var step: float = 0.06 if y < FLOOR_Y + CHAMFER or y > LEAN_TO_Y - 0.1 else 0.14
-		if absf(y - LEAN_FROM_Y) < 0.15:
+		var step: float = 0.06 if y < FLOOR_Y + CHAMFER or y > lean_to - 0.1 else 0.14
+		if absf(y - lean_from) < 0.15:
 			step = 0.05
 		y = minf(y + step, top_y())
 	rows.append(top_y() - 0.002)

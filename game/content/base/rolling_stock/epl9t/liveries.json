@@ -1,0 +1,94 @@
+{
+  "id": "epl9t_liveries",
+  "series": "ЕПЛ9Т",
+  "meta": {
+    "verified": false,
+    "sources": [],
+    "note": "Художні окраси за мотивами фото; не фірмовий стиль"
+  },
+  "liveries": [
+    {
+      "id": "epl9t_luhansk",
+      "name_uk": "Сіро-синій луганський",
+      "short_name_uk": "Сіро-синій",
+      "body": "#d6dadb",
+      "stripe": "#1f5aa6",
+      "skirt": "#2b3034",
+      "roof": "#9aa2a8",
+      "front": "#1f5aa6",
+      "front_stripe": "#f2f4f4",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2",
+      "lower_body": "#1f5aa6"
+    },
+    {
+      "id": "epl9t_green",
+      "name_uk": "Зелений приміський",
+      "short_name_uk": "Зелений",
+      "body": "#2e6a47",
+      "stripe": "#eeeeea",
+      "skirt": "#2b3034",
+      "roof": "#8f9592",
+      "front": "#2e6a47",
+      "front_stripe": "#eeeeea",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2"
+    },
+    {
+      "id": "epl9t_white_red",
+      "name_uk": "Біло-червоний",
+      "short_name_uk": "Біло-червоний",
+      "body": "#eceeee",
+      "stripe": "#c32c33",
+      "skirt": "#2b3034",
+      "roof": "#a7adb1",
+      "front": "#c32c33",
+      "front_stripe": "#eceeee",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2",
+      "doors": "#c32c33",
+      "lower_body": "#c32c33"
+    },
+    {
+      "id": "epl9t_yellow_blue",
+      "name_uk": "Жовто-синій",
+      "short_name_uk": "Жовто-синій",
+      "body": "#f0c43a",
+      "stripe": "#1f4f96",
+      "skirt": "#2b3034",
+      "roof": "#9aa2a8",
+      "front": "#1f4f96",
+      "front_stripe": "#f0c43a",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2",
+      "lower_body": "#1f4f96"
+    },
+    {
+      "id": "epl9t_silver",
+      "name_uk": "Сріблястий",
+      "short_name_uk": "Сріблястий",
+      "body": "#b9bec2",
+      "stripe": "#2d3a46",
+      "skirt": "#2b3034",
+      "roof": "#8e959a",
+      "front": "#2d3a46",
+      "front_stripe": "#b9bec2",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2",
+      "lower_body": "#6c757c"
+    },
+    {
+      "id": "epl9t_dark_green",
+      "name_uk": "Темно-зелений з помаранчевим",
+      "short_name_uk": "Темно-зелений",
+      "body": "#1f4d36",
+      "stripe": "#e58a2e",
+      "skirt": "#2b3034",
+      "roof": "#878d8a",
+      "front": "#1f4d36",
+      "front_stripe": "#e58a2e",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2"
+    }
+  ]
+}

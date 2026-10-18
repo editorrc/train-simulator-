@@ -139,5 +139,45 @@
     "battery_v": 50
   },
   "liveries": "er9m_liveries",
-  "number": "ЕР9М-501"
+  "number": "ЕР9М-501",
+  "formations": {
+    "4": [
+      "er9m_head",
+      "er9m_motor",
+      "er9m_motor",
+      "er9m_head"
+    ],
+    "6": [
+      "er9m_head",
+      "er9m_motor",
+      "er9m_trailer",
+      "er9m_motor",
+      "er9m_motor",
+      "er9m_head"
+    ],
+    "8": [
+      "er9m_head",
+      "er9m_motor",
+      "er9m_trailer",
+      "er9m_motor",
+      "er9m_trailer",
+      "er9m_motor",
+      "er9m_motor",
+      "er9m_head"
+    ],
+    "10": [
+      "er9m_head",
+      "er9m_motor",
+      "er9m_trailer",
+      "er9m_motor",
+      "er9m_trailer",
+      "er9m_motor",
+      "er9m_trailer",
+      "er9m_motor",
+      "er9m_motor",
+      "er9m_head"
+    ]
+  },
+  "summary_uk": "Ризький електропоїзд змінного струму 25 кВ, плоска лобова частина.",
+  "builder_uk": "Ризький вагонобудівний завод"
 }

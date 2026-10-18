@@ -28,6 +28,14 @@ func length_m() -> float:
 	return total
 
 
+## Design speed of the train: the slowest vehicle sets it.
+func max_speed_ms() -> float:
+	var result: float = INF
+	for v: VehicleSpec in vehicles:
+		result = minf(result, v.max_speed_ms)
+	return result
+
+
 func empty_mass_kg() -> float:
 	var total: float = 0.0
 	for v: VehicleSpec in vehicles:

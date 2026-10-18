@@ -177,6 +177,76 @@
           "type": "number",
           "minimum": 0,
           "description": "Unverified visual suspension/coupling parameter; see vehicle meta TODO_SOURCE"
+        },
+        "nose": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Cab nose shape (views/exterior/cab_nose.gd). Visual reconstruction, metres.",
+          "properties": {
+            "style": {
+              "enum": [
+                "er9_flat",
+                "ed9m",
+                "epl9t",
+                "ekr1"
+              ]
+            },
+            "length_m": {
+              "type": "number"
+            },
+            "lean_from_m": {
+              "type": "number"
+            },
+            "lean_to_m": {
+              "type": "number"
+            },
+            "lean_back_m": {
+              "type": "number"
+            },
+            "dome_back_m": {
+              "type": "number"
+            },
+            "corner_radius_m": {
+              "type": "number"
+            },
+            "plan_bulge_m": {
+              "type": "number"
+            },
+            "lower_rake_m": {
+              "type": "number"
+            },
+            "windscreen": {
+              "enum": [
+                "pair",
+                "panoramic"
+              ]
+            },
+            "windscreen_from_m": {
+              "type": "number"
+            },
+            "windscreen_to_m": {
+              "type": "number"
+            },
+            "roof_headlight": {
+              "type": "boolean"
+            },
+            "lower_headlights": {
+              "type": "boolean"
+            },
+            "mask": {
+              "type": "boolean"
+            }
+          }
+        },
+        "window_style": {
+          "enum": [
+            "classic",
+            "band"
+          ]
+        },
+        "roof_vents": {
+          "type": "integer",
+          "minimum": 0
         }
       }
     },

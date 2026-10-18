@@ -13,7 +13,6 @@ var _subtitle: Label
 var _scenario_select: OptionButton
 var _formation_buttons: Dictionary = {}
 var _livery_buttons: Dictionary = {}
-var _liveries: Array = []
 var _watermark: TextureRect
 var _nav_line: HSeparator
 
@@ -22,7 +21,7 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	theme = PanoramaTheme.create()
 	bindings = ControlBindings.new(
-		ContentDB.get_entry(&"cab", &"er9m_cab"), Settings.get_value("controls", "bindings", {})
+		Session.cab_definition(), Settings.get_value("controls", "bindings", {})
 	)
 	var bg := ColorRect.new()
 	bg.color = PanoramaTheme.BACKGROUND
@@ -89,22 +88,17 @@ func _ready() -> void:
 	_body.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_body.add_theme_constant_override("separation", 16)
 	root.add_child(_body)
-	_liveries = ContentDB.get_entry(&"liveries", &"er9m_liveries").get("liveries", [])
-	if _liveries.is_empty():
-		var consist: Dictionary = ContentDB.get_entry(&"consist", &"er9m_10")
-		_liveries = ContentDB.get_entry(&"liveries", StringName(str(consist["liveries"]))).get(
-			"liveries", []
-		)
+	Session.ensure_valid()
 	_show_page(0)
 
 
 ## Two emblem layouts, chosen in Налаштування (ui/logo_variant):
-## "a" — large emblem over the whole upper-left corner;
+## "a" (default) — large emblem over the whole upper-left corner;
 ## "b" — about 20% smaller, its arrow tip sits exactly on the navigation line.
 func _process(_delta: float) -> void:
 	if _watermark == null or _nav_line == null:
 		return
-	if str(Settings.get_value("ui", "logo_variant", "b")) == "a":
+	if str(Settings.get_value("ui", "logo_variant", "a")) == "a":
 		_watermark.position = Vector2(40, -30)
 		_watermark.size = Vector2(378, 264)
 		return
@@ -182,14 +176,16 @@ func _overview(train_page: bool) -> void:
 	dock.add_theme_constant_override("separation", 24)
 	_body.add_child(dock)
 	var route_column := VBoxContainer.new()
-	route_column.custom_minimum_size.x = 420
+	route_column.custom_minimum_size.x = 330
+	route_column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	route_column.add_child(PanoramaTheme.label("Рейс", 20, PanoramaTheme.MUTED))
 	_scenario_select = OptionButton.new()
-	_scenario_select.custom_minimum_size = Vector2(420, PanoramaTheme.SELECTOR_HEIGHT)
+	_scenario_select.custom_minimum_size = Vector2(330, PanoramaTheme.SELECTOR_HEIGHT)
 	_scenario_select.add_theme_stylebox_override("normal", PanoramaTheme.selector_style(false))
 	_scenario_select.add_theme_stylebox_override("hover", PanoramaTheme.selector_style(false, true))
 	_scenario_select.size_flags_horizontal = Control.SIZE_FILL
 	_scenario_select.clip_text = true
+	_scenario_select.fit_to_longest_item = false
 	var ids: Array = ContentDB.ids_of(&"scenario")
 	ids.sort()
 	for id: Variant in ids:
@@ -203,11 +199,34 @@ func _overview(train_page: bool) -> void:
 	)
 	route_column.add_child(_scenario_select)
 	dock.add_child(route_column)
+	var series_column := VBoxContainer.new()
+	series_column.add_child(PanoramaTheme.label("Поїзд", 20, PanoramaTheme.MUTED))
+	var series_select := OptionButton.new()
+	series_select.custom_minimum_size = Vector2(240, PanoramaTheme.SELECTOR_HEIGHT)
+	series_select.add_theme_stylebox_override("normal", PanoramaTheme.selector_style(false))
+	series_select.add_theme_stylebox_override("hover", PanoramaTheme.selector_style(false, true))
+	series_select.add_theme_font_size_override("font_size", 22)
+	series_select.clip_text = true
+	series_select.fit_to_longest_item = false
+	for id: StringName in Session.series_ids():
+		var entry: Dictionary = ContentDB.get_entry(&"consist", id)
+		series_select.add_item(str(entry.get("series", id)))
+		series_select.set_item_metadata(series_select.item_count - 1, str(id))
+		series_select.set_item_tooltip(
+			series_select.item_count - 1, str(entry.get("summary_uk", ""))
+		)
+		if id == Session.consist_id:
+			series_select.select(series_select.item_count - 1)
+	series_select.item_selected.connect(
+		func(i: int) -> void: _pick_series(StringName(str(series_select.get_item_metadata(i))))
+	)
+	series_column.add_child(series_select)
+	dock.add_child(series_column)
 	var formation := VBoxContainer.new()
 	formation.add_child(PanoramaTheme.label("Вагонів", 20, PanoramaTheme.MUTED))
 	var count_row := HBoxContainer.new()
 	count_row.add_theme_constant_override("separation", 8)
-	for count: int in [4, 6, 8, 10]:
+	for count: int in Session.available_counts():
 		var button: Button = PanoramaTheme.button(str(count), _pick_formation.bind(count))
 		button.custom_minimum_size = Vector2(72, PanoramaTheme.SELECTOR_HEIGHT)
 		button.add_theme_font_size_override("font_size", 28)
@@ -227,7 +246,7 @@ func _overview(train_page: bool) -> void:
 	livery.add_child(PanoramaTheme.label("Забарвлення", 20, PanoramaTheme.MUTED))
 	var paints := HBoxContainer.new()
 	paints.add_theme_constant_override("separation", 8)
-	for raw: Variant in _liveries:
+	for raw: Variant in Session.liveries():
 		var data: Dictionary = raw
 		var id := StringName(str(data["id"]))
 		var swatch := LiverySwatch.new()
@@ -288,13 +307,14 @@ func _update_selection() -> void:
 		return
 	var scenario: Dictionary = ContentDB.get_entry(&"scenario", Session.scenario_id)
 	_subtitle.text = (
-		tr("%s · ЕР9М · %d вагонів")
+		tr("%s · %s · %d вагонів")
 		% [
 			(
 				tr("Київська кільцева")
 				if scenario["route"] == "kyiv_city_ring"
 				else tr("Навчальний полігон")
 			),
+			str(Session.consist().get("series", "")),
 			Session.car_count
 		]
 	)
@@ -305,12 +325,17 @@ func _update_selection() -> void:
 	for id: StringName in _livery_buttons:
 		var swatch: Button = _livery_buttons[id]
 		swatch.set_pressed_no_signal(id == Session.livery_id)
-	_preview.livery = _livery_by_id(Session.livery_id)
+	_preview.livery = Session.livery()
 
 
 func _pick_scenario(id: StringName) -> void:
 	Session.scenario_id = id
 	_update_selection()
+
+
+func _pick_series(id: StringName) -> void:
+	Session.select_series(id)
+	_show_page.call_deferred(_page)
 
 
 func _pick_formation(count: int) -> void:
@@ -321,14 +346,6 @@ func _pick_formation(count: int) -> void:
 func _pick_livery(id: StringName) -> void:
 	Session.livery_id = id
 	_update_selection()
-
-
-func _livery_by_id(id: StringName) -> Dictionary:
-	for raw: Variant in _liveries:
-		var data: Dictionary = raw
-		if StringName(str(data["id"])) == id:
-			return data
-	return _liveries[0] if not _liveries.is_empty() else {}
 
 
 func _start() -> void:

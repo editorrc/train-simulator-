@@ -1,0 +1,241 @@
+{
+  "id": "epl9t_cab",
+  "meta": {
+    "verified": false,
+    "sources": [],
+    "note": "Пульт ЕПЛ9Т: склад органів як у ЕР9М (узагальнення), звірити з посібником серії"
+  },
+  "controls": [
+    {
+      "id": "battery",
+      "type": "toggle",
+      "label_uk": "АКБ",
+      "hint_uk": "Акумуляторна батарея: живлення кіл керування від батареї",
+      "hotkey": "B",
+      "group": "power"
+    },
+    {
+      "id": "control_circuits",
+      "type": "toggle",
+      "label_uk": "Кола керування",
+      "hint_uk": "Кола керування",
+      "hotkey": "N",
+      "group": "power"
+    },
+    {
+      "id": "aux_compressor",
+      "type": "hold",
+      "label_uk": "Допом. компр.",
+      "hint_uk": "Допоміжний компресор (тримати): накачати повітря для підйому струмоприймача, коли ГР порожні",
+      "hotkey": "Y",
+      "group": "power",
+      "color": "yellow"
+    },
+    {
+      "id": "pantograph",
+      "type": "toggle",
+      "label_uk": "Струмоприймач",
+      "hint_uk": "Підняти / опустити струмоприймач",
+      "hotkey": "U",
+      "group": "hv"
+    },
+    {
+      "id": "main_breaker_on",
+      "type": "button",
+      "label_uk": "Увімкнення ГВ",
+      "hint_uk": "Увімкнути головний вимикач (контролер у 0)",
+      "hotkey": "G",
+      "group": "hv",
+      "color": "green"
+    },
+    {
+      "id": "main_breaker_off",
+      "type": "button",
+      "label_uk": "Вимкнення ГВ",
+      "hint_uk": "Вимкнути головний вимикач",
+      "hotkey": "H",
+      "group": "hv",
+      "color": "red"
+    },
+    {
+      "id": "protection_reset",
+      "type": "button",
+      "label_uk": "Скидання захисту",
+      "hint_uk": "Повернення реле захисту після спрацювання",
+      "hotkey": "X",
+      "group": "hv",
+      "color": "yellow"
+    },
+    {
+      "id": "aux_machines",
+      "type": "toggle",
+      "label_uk": "Доп. машини",
+      "hint_uk": "Допоміжні машини (розщеплювач фаз, вентилятори)",
+      "hotkey": "A",
+      "group": "aux"
+    },
+    {
+      "id": "compressors",
+      "type": "toggle",
+      "label_uk": "Компресори",
+      "hint_uk": "Головні компресори (автоматичний регулятор тиску)",
+      "hotkey": "K",
+      "group": "aux"
+    },
+    {
+      "id": "ep_brake",
+      "type": "toggle",
+      "label_uk": "ЕПГ",
+      "hint_uk": "Електропневматичне гальмо",
+      "hotkey": "J",
+      "group": "aux"
+    },
+    {
+      "id": "headlights",
+      "type": "toggle",
+      "label_uk": "Прожектор",
+      "hotkey": "L",
+      "group": "aux"
+    },
+    {
+      "id": "horn",
+      "type": "hold",
+      "label_uk": "Тифон",
+      "hint_uk": "Звуковий сигнал (тримати)",
+      "hotkey": "Space",
+      "group": "aux",
+      "color": "yellow"
+    },
+    {
+      "id": "whistle",
+      "type": "hold",
+      "label_uk": "Свисток",
+      "hotkey": "V",
+      "group": "aux",
+      "hint_uk": "Свисток: тримати V",
+      "color": "yellow"
+    },
+    {
+      "id": "doors_left",
+      "type": "toggle",
+      "label_uk": "Двері ліві",
+      "hotkey": "Z",
+      "group": "aux",
+      "hint_uk": "Відчинити / зачинити ліві двері на зупинці"
+    },
+    {
+      "id": "doors_right",
+      "type": "toggle",
+      "label_uk": "Двері праві",
+      "hotkey": "C",
+      "group": "aux",
+      "hint_uk": "Відчинити / зачинити праві двері на зупинці"
+    }
+  ],
+  "lamps": [
+    {
+      "id": "gv",
+      "label_uk": "ГВ",
+      "color": "red",
+      "when": "!main_breaker_on"
+    },
+    {
+      "id": "dm",
+      "label_uk": "ДМ",
+      "color": "yellow",
+      "when": "!aux_running"
+    },
+    {
+      "id": "rp",
+      "label_uk": "РП",
+      "color": "red",
+      "when": "protection_tripped"
+    },
+    {
+      "id": "gm",
+      "label_uk": "ГМ",
+      "color": "yellow",
+      "when": "!brake_pipe_charged"
+    },
+    {
+      "id": "gc",
+      "label_uk": "ГЦ",
+      "color": "white",
+      "when": "brakes_applied"
+    },
+    {
+      "id": "ept",
+      "label_uk": "ЕПГ",
+      "color": "green",
+      "when": "ep_brake_on"
+    },
+    {
+      "id": "td",
+      "label_uk": "ТЕД",
+      "color": "green",
+      "when": "traction_on"
+    }
+  ],
+  "startup_checklist": [
+    {
+      "check": "battery_on",
+      "label_uk": "Увімкнути АКБ",
+      "hint_uk": "Тумблер «АКБ» (B)"
+    },
+    {
+      "check": "control_on",
+      "label_uk": "Увімкнути кола керування",
+      "hint_uk": "Тумблер «Кола керув.» (N)"
+    },
+    {
+      "check": "pantograph_air_ok",
+      "label_uk": "Тиск для струмоприймача ≥ 3,5",
+      "hint_uk": "Тримати «Доп. компр.» (Y), доки манометр струмоприймача не покаже 3,5"
+    },
+    {
+      "check": "pantograph_up",
+      "label_uk": "Підняти струмоприймач",
+      "hint_uk": "Тумблер «Струмопр.» (U), дочекатися напруги на кіловольтметрі"
+    },
+    {
+      "check": "main_breaker_on",
+      "label_uk": "Увімкнути ГВ",
+      "hint_uk": "Контролер у 0, кнопка «ГВ увімк.» (G)"
+    },
+    {
+      "check": "aux_running",
+      "label_uk": "Запустити допоміжні машини",
+      "hint_uk": "Тумблер «Доп. машини» (A), лампа ДМ згасне"
+    },
+    {
+      "check": "compressors_on",
+      "label_uk": "Увімкнути компресори",
+      "hint_uk": "Тумблер «Компресори» (K)"
+    },
+    {
+      "check": "main_reservoir_charged",
+      "label_uk": "Зарядити ГР до 6,5+",
+      "hint_uk": "Чекати, компресори качають ГР"
+    },
+    {
+      "check": "brake_pipe_charged",
+      "label_uk": "Зарядити гальмівну магістраль",
+      "hint_uk": "Кран машиніста в II (або коротко в I), ГМ ≈ 4,8"
+    },
+    {
+      "check": "ep_brake_on",
+      "label_uk": "Увімкнути ЕПГ",
+      "hint_uk": "Тумблер «ЕПГ» (J)"
+    },
+    {
+      "check": "reverser_set",
+      "label_uk": "Реверсор — уперед",
+      "hint_uk": "R"
+    },
+    {
+      "check": "brakes_released",
+      "label_uk": "Відпустити гальма",
+      "hint_uk": "Кран у II, ГЦ = 0"
+    }
+  ]
+}

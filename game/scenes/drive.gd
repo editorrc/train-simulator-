@@ -37,7 +37,7 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	theme = PanoramaTheme.create()
 	bindings = ControlBindings.new(
-		ContentDB.get_entry(&"cab", &"er9m_cab"), Settings.get_value("controls", "bindings", {})
+		Session.cab_definition(), Settings.get_value("controls", "bindings", {})
 	)
 	world = Session.build_world()
 	if world == null:
@@ -45,7 +45,7 @@ func _ready() -> void:
 		return
 	var scenario: Dictionary = ContentDB.get_entry(&"scenario", Session.scenario_id)
 	var route: Dictionary = ContentDB.get_entry(&"route", StringName(str(scenario["route"])))
-	var consist: Dictionary = ContentDB.get_entry(&"consist", StringName(str(scenario["consist"])))
+	var consist: Dictionary = Session.consist()
 	var cab_def: Dictionary = ContentDB.get_entry(&"cab", StringName(str(consist.get("cab", ""))))
 	var livery: Dictionary = _livery(consist)
 
@@ -74,7 +74,7 @@ func _ready() -> void:
 	procedure.steps = cab_def.get("startup_checklist", [])
 	log_view = EventLogView.new()
 
-	_add_panel("desk", "Пульт машиніста · ЕР9М", desk, 0.96)
+	_add_panel("desk", "Пульт машиніста · %s" % consist.get("series", ""), desk, 0.96)
 	_add_panel("telemetry", "Телеметрія і графіки", telemetry, 0.55)
 	_add_panel("map", "Схема колії", minimap, 0.6)
 	_add_panel("procedure", "Підготовка до роботи", procedure, 0.78)

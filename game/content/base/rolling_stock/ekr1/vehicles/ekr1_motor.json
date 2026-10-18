@@ -1,0 +1,52 @@
+{
+  "id": "ekr1_motor",
+  "series": "ЕКр1 «Тарпан»",
+  "type": "motor",
+  "name_uk": "Моторний вагон ЕКр1",
+  "meta": {
+    "verified": false,
+    "sources": [],
+    "note": "TODO_SOURCE: оцінка для демонстрації серії; маси, тяга й геометрія не підтверджені"
+  },
+  "gauge_mm": 1520,
+  "mass_empty_t": 62.0,
+  "length_m": 24.6,
+  "axles": 4,
+  "powered_axles": 4,
+  "seats": 84,
+  "has_cab": false,
+  "max_speed_kmh": 160,
+  "rotational_inertia_coef": 0.1,
+  "resistance": {
+    "model": "davis",
+    "a": 1.1,
+    "b": 0.011,
+    "c": 0.00018,
+    "units": "N_per_kN_v_kmh",
+    "starting_n_per_kn": 2.5
+  },
+  "traction": {
+    "max_force_kn": 110,
+    "max_power_kw": 1400
+  },
+  "brakes": {
+    "max_brake_force_kn": 66
+  },
+  "has_pantograph": true,
+  "visual": {
+    "doors_per_side": 2,
+    "windows_per_side": 9,
+    "height_m": 4.25,
+    "floor_m": 1.2,
+    "bogie_centers_m": 15.0,
+    "axle_spacing_m": 2.6,
+    "wheel_diameter_m": 1.05,
+    "body_end_inset_m": 0.35,
+    "secondary_frequency_hz": 1.0,
+    "secondary_roll_rad_per_ms2": 0.008,
+    "secondary_pitch_rad_per_ms2": 0.006,
+    "coupler_stiffness_n_m": 20000000,
+    "roof_vents": 3,
+    "window_style": "band"
+  }
+}

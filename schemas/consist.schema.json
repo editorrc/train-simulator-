@@ -359,6 +359,26 @@
     "number": {
       "type": "string",
       "description": "fleet number painted on the cab"
+    },
+    "formations": {
+      "type": "object",
+      "description": "car count → ordered vehicle ids (cab first). Menu offers exactly these counts.",
+      "patternProperties": {
+        "^[0-9]+$": {
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "summary_uk": {
+      "type": "string"
+    },
+    "builder_uk": {
+      "type": "string"
     }
   },
   "$defs": {

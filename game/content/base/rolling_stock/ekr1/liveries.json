@@ -1,0 +1,99 @@
+{
+  "id": "ekr1_liveries",
+  "series": "ЕКр1 «Тарпан»",
+  "meta": {
+    "verified": false,
+    "sources": [],
+    "note": "Художні окраси за мотивами фото; не фірмовий стиль"
+  },
+  "liveries": [
+    {
+      "id": "ekr1_tarpan",
+      "name_uk": "Тарпан · біло-синій",
+      "short_name_uk": "Біло-синій",
+      "body": "#e8ebec",
+      "stripe": "#1d5ea8",
+      "skirt": "#2b3034",
+      "roof": "#b9bfc3",
+      "front": "#e8ebec",
+      "front_stripe": "#1d5ea8",
+      "window_frame": "#1c262c",
+      "number": "#1d5ea8",
+      "doors": "#1d5ea8",
+      "lower_body": "#1d5ea8"
+    },
+    {
+      "id": "ekr1_yellow_blue",
+      "name_uk": "Синьо-жовтий",
+      "short_name_uk": "Синьо-жовтий",
+      "body": "#1f4f96",
+      "stripe": "#f3c32c",
+      "skirt": "#2b3034",
+      "roof": "#9aa2a8",
+      "front": "#1f4f96",
+      "front_stripe": "#f3c32c",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2",
+      "doors": "#f3c32c"
+    },
+    {
+      "id": "ekr1_intercity",
+      "name_uk": "Сріблястий з темно-синім",
+      "short_name_uk": "Сріблястий",
+      "body": "#c6cbcf",
+      "stripe": "#1c2f55",
+      "skirt": "#2b3034",
+      "roof": "#9ea5aa",
+      "front": "#1c2f55",
+      "front_stripe": "#c6cbcf",
+      "window_frame": "#1c262c",
+      "number": "#ffffff",
+      "doors": "#1c2f55",
+      "lower_body": "#1c2f55"
+    },
+    {
+      "id": "ekr1_red_white",
+      "name_uk": "Червоно-білий",
+      "short_name_uk": "Червоно-білий",
+      "body": "#eef0f0",
+      "stripe": "#c22b31",
+      "skirt": "#2b3034",
+      "roof": "#b3b9bc",
+      "front": "#c22b31",
+      "front_stripe": "#eef0f0",
+      "window_frame": "#1c262c",
+      "number": "#c22b31",
+      "doors": "#c22b31",
+      "lower_body": "#c22b31"
+    },
+    {
+      "id": "ekr1_graphite",
+      "name_uk": "Графітовий з жовтим",
+      "short_name_uk": "Графітовий",
+      "body": "#3a3f45",
+      "stripe": "#f2c230",
+      "skirt": "#2b3034",
+      "roof": "#2f3439",
+      "front": "#3a3f45",
+      "front_stripe": "#f2c230",
+      "window_frame": "#1c262c",
+      "number": "#f2c230",
+      "doors": "#f2c230"
+    },
+    {
+      "id": "ekr1_green",
+      "name_uk": "Зелений приміський",
+      "short_name_uk": "Зелений",
+      "body": "#e9ecea",
+      "stripe": "#2f8a52",
+      "skirt": "#2b3034",
+      "roof": "#b5bab7",
+      "front": "#2f8a52",
+      "front_stripe": "#e9ecea",
+      "window_frame": "#1c262c",
+      "number": "#2f8a52",
+      "doors": "#2f8a52",
+      "lower_body": "#2f8a52"
+    }
+  ]
+}

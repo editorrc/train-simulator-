@@ -80,7 +80,8 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	add_child(body)
 	box(body, Vector3(0, 1.16, 0), Vector3(3.05, 0.30, _length - 0.25), dark)
 	var rear: float = end - 0.15
-	var front: float = -end + (1.6 if cab else 0.15)
+	var nose_length: float = float((spec.visual.get("nose", {}) as Dictionary).get("length_m", 1.6))
+	var front: float = -end + (nose_length if cab else 0.15)
 	_rounded_shell(front, rear, paint, roof)
 	box(body, Vector3(0, 0.9, -1), Vector3(2.0, 0.5, 6.0), dark)
 	for side: float in [-1.0, 1.0]:
@@ -106,6 +107,15 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 				paint
 			)
 		var windows: int = int(spec.visual.get("windows_per_side", 9))
+		if str(spec.visual.get("window_style", "classic")) == "band":
+			# Continuous tinted glazing band of a modern car, divided by slim pillars.
+			var band_len: float = (end - 4.0 + .6) * 2.0
+			box(body, Vector3(side * 1.716, 3.1, 0), Vector3(.04, 1.08, band_len + .1), black)
+			box(body, Vector3(side * 1.728, 3.1, 0), Vector3(.025, .98, band_len), glass)
+			for i: int in windows + 1:
+				var pz: float = lerpf(-band_len * .5, band_len * .5, float(i) / windows)
+				box(body, Vector3(side * 1.742, 3.1, pz), Vector3(.022, .98, .06), black)
+			windows = 0
 		for i: int in windows:
 			var z: float = lerpf(-end + 4.0, end - 4.0, float(i) / maxf(windows - 1, 1))
 			# Rubber gasket, aluminium frame, recessed glass and the upper vent (форточка).
@@ -208,6 +218,7 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	if cab:
 		_cab(
 			end,
+			spec.visual.get("nose", {}),
 			material(Color(str(livery.get("front", livery.get("body", "#287958")))), .12, .36),
 			material(Color(str(livery.get("front_stripe", livery.get("stripe", "#e9d37c"))))),
 			glass,
@@ -306,40 +317,70 @@ func update_detail(projected_diameter_px: float) -> void:
 
 
 func _cab(
-	end: float, paint: Material, stripe: Material, glass: Material, black: Material, steel: Material
+	end: float,
+	nose_style: Dictionary,
+	paint: Material,
+	stripe: Material,
+	glass: Material,
+	black: Material,
+	steel: Material
 ) -> void:
-	var nose := CabNose.new(-end)
+	var nose := CabNose.new(-end, nose_style)
 	var shell: MeshInstance3D = nose.build_shell(body, paint)
 	var shell_mat: StandardMaterial3D = (paint as StandardMaterial3D).duplicate()
 	shell_mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	shell.material_override = shell_mat
-	var notch: Callable = func(x: float) -> float: return 0.16 * maxf(0.0, 1.0 - absf(x) / 0.55)
-	# Livery on the nose: chevron band under the windscreens and a band above the buffer beam.
+	var kind: String = str(nose.style["style"])
+	var ws_from: float = float(nose.style["windscreen_from_m"])
+	var ws_to: float = float(nose.style["windscreen_to_m"])
+	var pair: bool = str(nose.style["windscreen"]) == "pair"
+	# Livery on the nose: a band under the windscreens (a chevron on the ER9M) and a band
+	# above the buffer beam.
+	var notch_depth: float = .16 if kind == "er9_flat" else 0.0
+	var notch: Callable = func(x: float) -> float:
+		return notch_depth * maxf(0.0, 1.0 - absf(x) / 0.55)
+	var band_top: float = ws_from - (.2 if pair else .14)
 	nose.patch(
 		body,
 		stripe,
 		-1.72,
 		1.72,
-		func(x: float) -> float: return 2.08 - float(notch.call(x)),
-		func(x: float) -> float: return 2.30 - float(notch.call(x))
+		func(x: float) -> float: return band_top - .22 - float(notch.call(x)),
+		func(x: float) -> float: return band_top - float(notch.call(x))
 	)
 	nose.patch(body, stripe, -1.72, 1.72, CabNose.const_y(1.30), CabNose.const_y(1.44))
-	# Windscreens: two separate glazed openings with rounded corners and a body-coloured
-	# pillar between them (flat-type ER9M front).
-	for pane: Array in [[-0.79, 0.66], [0.79, 0.66]]:
+	if bool(nose.style["mask"]):
+		# Dark mask around the glazing, as on the Luhansk and Kryukiv cabs.
+		var mask_off: Callable = func(x: float) -> float:
+			return .16 * pow(clampf(absf(x) / 1.66, 0.0, 1.0), 6.0)
+		nose.patch(
+			body,
+			black,
+			-1.66,
+			1.66,
+			func(x: float) -> float: return ws_from - .1 + float(mask_off.call(x)),
+			func(x: float) -> float: return ws_to + .1 - float(mask_off.call(x)),
+			.007
+		)
+	# Windscreens: two openings with a body-coloured pillar, or one panoramic pane.
+	var panes: Array = [[-0.79, 0.66], [0.79, 0.66]] if pair else [[0.0, 1.42]]
+	if pair and kind == "ed9m":
+		panes = [[-0.76, 0.7], [0.76, 0.7]]
+	for pane: Array in panes:
 		var cx: float = float(pane[0])
 		var hw: float = float(pane[1])
 		var round_off: Callable = func(x: float, depth: float) -> float:
 			return depth * pow(clampf(absf(x - cx) / hw, 0.0, 1.0), 8.0)
-		nose.patch(
-			body,
-			black,
-			cx - hw,
-			cx + hw,
-			func(x: float) -> float: return 2.5 + float(round_off.call(x, .14)),
-			func(x: float) -> float: return 3.68 - float(round_off.call(x, .14)),
-			.008
-		)
+		if not bool(nose.style["mask"]):
+			nose.patch(
+				body,
+				black,
+				cx - hw,
+				cx + hw,
+				func(x: float) -> float: return ws_from + float(round_off.call(x, .14)),
+				func(x: float) -> float: return ws_to - float(round_off.call(x, .14)),
+				.008
+			)
 		var gw: float = hw - .07
 		var glass_off: Callable = func(x: float, depth: float) -> float:
 			return depth * pow(clampf(absf(x - cx) / gw, 0.0, 1.0), 8.0)
@@ -348,13 +389,13 @@ func _cab(
 			glass,
 			cx - gw,
 			cx + gw,
-			func(x: float) -> float: return 2.57 + float(glass_off.call(x, .12)),
-			func(x: float) -> float: return 3.61 - float(glass_off.call(x, .12)),
+			func(x: float) -> float: return ws_from + .07 + float(glass_off.call(x, .12)),
+			func(x: float) -> float: return ws_to - .07 - float(glass_off.call(x, .12)),
 			.014
 		)
-	for x: float in [-.72, .72]:
+	for x: float in [-.72, .72] if pair else [-.55, .55]:
 		var wiper := Node3D.new()
-		wiper.transform = nose.mount(x, 2.66)
+		wiper.transform = nose.mount(x, ws_from + .16)
 		body.add_child(wiper)
 		var arm: MeshInstance3D = box(wiper, Vector3(.12, .16, -.03), Vector3(.025, .5, .02), steel)
 		arm.rotation.z = -.45
@@ -363,39 +404,48 @@ func _cab(
 	plate.text = fleet_number if fleet_number != "" else "ЕР9М"
 	plate.font_size = 44
 	plate.pixel_size = .0062
-	plate.modulate = Color("f2ead2")
+	# Cream figures on dark paint, dark figures on white or silver paint.
+	var body_color: Color = (paint as StandardMaterial3D).albedo_color
+	plate.modulate = Color("f2ead2") if body_color.get_luminance() < .55 else Color("1f2a33")
 	plate.outline_size = 0
-	plate.transform = nose.mount(0, 1.86).translated_local(Vector3(0, 0, -.02))
+	plate.transform = nose.mount(0, band_top - .44).translated_local(Vector3(0, 0, -.02))
 	plate.rotate_object_local(Vector3.UP, PI)
 	body.add_child(plate)
-	# Headlight on the roof dome, white marker and red tail lamps on the front.
+	# Lamps: roof headlight (ER9/ED9/EPL9), lower headlight clusters (EPL9T, EKr1),
+	# white marker and red tail lamps.
 	var lens_mat: StandardMaterial3D = material(Color("fff2d2"))
 	lens_mat.emission_enabled = true
 	lens_mat.emission = Color("fff0c0")
 	lens_mat.emission_energy_multiplier = 2.2
-	var top := Node3D.new()
-	top.transform = nose.mount_level(0, 3.98)
-	body.add_child(top)
-	var housing: MeshInstance3D = cylinder(top, Vector3(0, 0, -.06), .27, .2, steel, 32)
-	housing.rotation.x = PI / 2.0
-	var lens: MeshInstance3D = cylinder(top, Vector3(0, 0, -.17), .2, .025, lens_mat, 32)
-	lens.rotation.x = PI / 2.0
+	if bool(nose.style["roof_headlight"]):
+		var top := Node3D.new()
+		top.transform = nose.mount_level(0, 3.98)
+		body.add_child(top)
+		var housing: MeshInstance3D = cylinder(top, Vector3(0, 0, -.06), .27, .2, steel, 32)
+		housing.rotation.x = PI / 2.0
+		var lens: MeshInstance3D = cylinder(top, Vector3(0, 0, -.17), .2, .025, lens_mat, 32)
+		lens.rotation.x = PI / 2.0
 	var tail_mat: StandardMaterial3D = material(Color("a8211a"))
 	tail_mat.emission_enabled = true
 	tail_mat.emission = Color("ff3020")
 	tail_mat.emission_energy_multiplier = .6
-	for x: float in [-1.12, 1.12]:
+	var lower: bool = bool(nose.style["lower_headlights"])
+	for x: float in [-1.18, 1.18] if lower else [-1.12, 1.12]:
 		var lamp_node := Node3D.new()
 		lamp_node.transform = nose.mount(x, 1.74)
 		body.add_child(lamp_node)
-		var ring: MeshInstance3D = cylinder(lamp_node, Vector3(0, 0, -.04), .17, .1, black, 24)
-		ring.rotation.x = PI / 2.0
-		var marker: MeshInstance3D = cylinder(
-			lamp_node, Vector3(0, 0, -.095), .12, .02, lens_mat, 24
-		)
-		marker.rotation.x = PI / 2.0
+		if lower:
+			box(lamp_node, Vector3(0, 0, -.02), Vector3(.5, .2, .04), black)
+			box(lamp_node, Vector3(-.09 * signf(x), 0, -.045), Vector3(.26, .12, .02), lens_mat)
+		else:
+			var ring: MeshInstance3D = cylinder(lamp_node, Vector3(0, 0, -.04), .17, .1, black, 24)
+			ring.rotation.x = PI / 2.0
+			var marker: MeshInstance3D = cylinder(
+				lamp_node, Vector3(0, 0, -.095), .12, .02, lens_mat, 24
+			)
+			marker.rotation.x = PI / 2.0
 		var red := Node3D.new()
-		red.transform = nose.mount(x * 1.22, 1.52)
+		red.transform = nose.mount(x * (1.25 if lower else 1.22), 1.52)
 		body.add_child(red)
 		var red_lens: MeshInstance3D = cylinder(red, Vector3(0, 0, -.03), .07, .06, tail_mat, 16)
 		red_lens.rotation.x = PI / 2.0
@@ -415,14 +465,15 @@ func _cab(
 		var hose: MeshInstance3D = cylinder(body, Vector3(x, .86, -end - .14), .045, .42, black, 8)
 		hose.rotation.x = .5
 	# Cab side windows and the cab door seam on both sides.
+	var cab_len: float = nose.length
 	for side: float in [-1.0, 1.0]:
 		var window: MeshInstance3D = box(
-			body, Vector3(side * 1.71, 3.18, -end + .78), Vector3(.04, .86, .78), black
+			body, Vector3(side * 1.71, 3.18, -end + cab_len * .5), Vector3(.04, .86, .78), black
 		)
 		box(window, Vector3(side * .022, 0, 0), Vector3(.025, .74, .66), glass)
-		box(body, Vector3(side * 1.715, 2.3, -end + 1.32), Vector3(.03, 2.05, .02), black)
+		box(body, Vector3(side * 1.715, 2.3, -end + cab_len - .28), Vector3(.03, 2.05, .02), black)
 	lamp = SpotLight3D.new()
-	lamp.transform = nose.mount_level(0, 3.98)
+	lamp.transform = nose.mount_level(0, 3.98 if bool(nose.style["roof_headlight"]) else 1.74)
 	lamp.translate_object_local(Vector3(0, 0, -.25))
 	lamp.rotate_object_local(Vector3.RIGHT, deg_to_rad(-1.5))
 	lamp.spot_range = 120

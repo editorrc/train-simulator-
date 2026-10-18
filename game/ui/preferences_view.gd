@@ -28,10 +28,10 @@ func _ready() -> void:
 		)
 	rows.add_child(PanoramaTheme.label("Інтерфейс", 24, PanoramaTheme.ACCENT))
 	var logo := OptionButton.new()
-	var variants: Array[String] = ["b", "a"]
-	logo.add_item(tr("Логотип: вістря на лінії меню"))
+	var variants: Array[String] = ["a", "b"]
 	logo.add_item(tr("Логотип: великий у кутку"))
-	logo.select(maxi(0, variants.find(str(Settings.get_value("ui", "logo_variant", "b")))))
+	logo.add_item(tr("Логотип: вістря на лінії меню"))
+	logo.select(maxi(0, variants.find(str(Settings.get_value("ui", "logo_variant", "a")))))
 	logo.item_selected.connect(
 		func(index: int) -> void: Settings.set_value("ui", "logo_variant", variants[index])
 	)

@@ -13,7 +13,10 @@ var _backdrop: TextureRect
 func _process(_dt: float) -> void:
 	if livery.is_empty():
 		return
-	var key: String = "%s:%s:%d" % [livery.get("id", ""), Session.scenario_id, Session.car_count]
+	var key: String = (
+		"%s:%s:%s:%d"
+		% [livery.get("id", ""), Session.consist_id, Session.scenario_id, Session.car_count]
+	)
 	if key == _last_livery and _view != null:
 		return
 	_last_livery = key

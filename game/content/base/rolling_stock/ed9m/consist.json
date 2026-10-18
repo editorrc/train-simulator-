@@ -1,0 +1,183 @@
+{
+  "id": "ed9m_main",
+  "series": "ЕД9М",
+  "name_uk": "ЕД9М",
+  "meta": {
+    "verified": false,
+    "sources": [],
+    "note": "TODO_SOURCE: оцінка для демонстрації серії; маси, тяга й геометрія не підтверджені"
+  },
+  "electrification": [
+    "ac_25kv"
+  ],
+  "vehicles": [
+    "ed9m_head",
+    "ed9m_motor",
+    "ed9m_trailer",
+    "ed9m_motor",
+    "ed9m_trailer",
+    "ed9m_motor",
+    "ed9m_trailer",
+    "ed9m_motor",
+    "ed9m_motor",
+    "ed9m_head"
+  ],
+  "passenger_mass_kg": 75,
+  "adhesion": {
+    "a": 0.25,
+    "b": 8,
+    "c": 100,
+    "d": 20
+  },
+  "controller": {
+    "force_ramp_per_s": 0.6,
+    "positions": [
+      {
+        "id": "0",
+        "force": 0,
+        "power": 0
+      },
+      {
+        "id": "М",
+        "force": 0.25,
+        "power": 0.08
+      },
+      {
+        "id": "1",
+        "force": 0.55,
+        "power": 0.3
+      },
+      {
+        "id": "2",
+        "force": 0.75,
+        "power": 0.55
+      },
+      {
+        "id": "3",
+        "force": 0.9,
+        "power": 0.8
+      },
+      {
+        "id": "4",
+        "force": 1.0,
+        "power": 1.0
+      }
+    ]
+  },
+  "brake_valve": {
+    "model": "395",
+    "default": "II",
+    "positions": [
+      {
+        "id": "I",
+        "name_uk": "Відпуск і зарядка",
+        "kind": "charge"
+      },
+      {
+        "id": "II",
+        "name_uk": "Поїзне",
+        "kind": "train"
+      },
+      {
+        "id": "III",
+        "name_uk": "Перекриша без живлення",
+        "kind": "lap"
+      },
+      {
+        "id": "IV",
+        "name_uk": "Перекриша з живленням",
+        "kind": "lap_feed"
+      },
+      {
+        "id": "V",
+        "name_uk": "Службове гальмування",
+        "kind": "service"
+      },
+      {
+        "id": "Va",
+        "name_uk": "Службове з уповільненою розрядкою",
+        "kind": "service_slow"
+      },
+      {
+        "id": "VI",
+        "name_uk": "Екстрене гальмування",
+        "kind": "emergency"
+      }
+    ]
+  },
+  "cab": "ed9m_cab",
+  "pneumatic": {
+    "main_reservoir_min_kgf_cm2": 6.5,
+    "main_reservoir_max_kgf_cm2": 8.0,
+    "compressor_rate_kgf_cm2_s": 0.06,
+    "brake_pipe_charge_kgf_cm2": 4.8,
+    "brake_cylinder_max_kgf_cm2": 3.8,
+    "charge_rate_kgf_cm2_s": 0.25,
+    "fast_charge_rate_kgf_cm2_s": 1.0,
+    "service_rate_kgf_cm2_s": 0.2,
+    "slow_service_rate_kgf_cm2_s": 0.06,
+    "emergency_rate_kgf_cm2_s": 1.6,
+    "brake_pipe_leak_kgf_cm2_s": 0.004,
+    "main_reservoir_drain_ratio": 0.3,
+    "distributor_ratio": 2.5,
+    "distributor_sensitivity_kgf_cm2": 0.15,
+    "release_sensitivity_kgf_cm2": 0.15,
+    "emergency_threshold_kgf_cm2": 2.8,
+    "cylinder_fill_rate_kgf_cm2_s": 0.6,
+    "cylinder_emergency_fill_rate_kgf_cm2_s": 1.4,
+    "cylinder_release_rate_kgf_cm2_s": 0.7,
+    "ep_fill_rate_kgf_cm2_s": 0.8,
+    "pantograph_min_kgf_cm2": 3.5,
+    "aux_compressor_rate_kgf_cm2_s": 0.12,
+    "aux_compressor_max_kgf_cm2": 5.0
+  },
+  "electrical": {
+    "pantograph_raise_s": 6,
+    "pantograph_lower_s": 3,
+    "aux_start_s": 6,
+    "catenary_kv": 25,
+    "battery_v": 50
+  },
+  "liveries": "ed9m_liveries",
+  "number": "ЕД9М-0185",
+  "formations": {
+    "4": [
+      "ed9m_head",
+      "ed9m_motor",
+      "ed9m_motor",
+      "ed9m_head"
+    ],
+    "6": [
+      "ed9m_head",
+      "ed9m_motor",
+      "ed9m_trailer",
+      "ed9m_motor",
+      "ed9m_motor",
+      "ed9m_head"
+    ],
+    "8": [
+      "ed9m_head",
+      "ed9m_motor",
+      "ed9m_trailer",
+      "ed9m_motor",
+      "ed9m_trailer",
+      "ed9m_motor",
+      "ed9m_motor",
+      "ed9m_head"
+    ],
+    "10": [
+      "ed9m_head",
+      "ed9m_motor",
+      "ed9m_trailer",
+      "ed9m_motor",
+      "ed9m_trailer",
+      "ed9m_motor",
+      "ed9m_trailer",
+      "ed9m_motor",
+      "ed9m_motor",
+      "ed9m_head"
+    ]
+  },
+  "summary_uk": "Деміховський електропоїзд змінного струму, кутаста кабіна з великими вікнами.",
+  "builder_uk": "Деміховський машинобудівний завод"
+}

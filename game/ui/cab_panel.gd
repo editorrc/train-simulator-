@@ -179,12 +179,14 @@ func _draw_instruments(r: Rect2) -> void:
 	if not is_inf(limit):
 		marks.append({"value": Units.ms_to_kmh(limit), "color": Color("d43b2c")})
 	var v_kmh: float = Units.ms_to_kmh(absf(t.speed_ms))
+	# Dial range follows the series: 150 km/h for the ER9 family, 200 for the EKr1.
+	var dial_max: float = 150.0 if Units.ms_to_kmh(t.consist.max_speed_ms()) <= 130.0 else 200.0
 	Gauge.draw(
 		self,
 		Vector2(sx, cy),
 		big,
 		0,
-		150,
+		dial_max,
 		20,
 		5,
 		"ШВИДКІСТЬ",
@@ -506,9 +508,18 @@ func _rotary(
 		var fs: int = 16 if i == current else 14
 		var sz: Vector2 = font.get_string_size(lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, fs)
 		var col: Color = Color("ffe08a") if i == current else LABEL
-		draw_string(
-			font, p + Vector2(-sz.x * 0.5, sz.y * 0.3), lbl, HORIZONTAL_ALIGNMENT_LEFT, -1, fs, col
-		)
+		# Dense scales (EKr1: 0…100% in tens): label every other notch and the current one.
+		var labelled: bool = n <= 7 or i == current or (i % 2 == 0 and absi(i - current) != 1)
+		if labelled:
+			draw_string(
+				font,
+				p + Vector2(-sz.x * 0.5, sz.y * 0.3),
+				lbl,
+				HORIZONTAL_ALIGNMENT_LEFT,
+				-1,
+				fs,
+				col
+			)
 		draw_line(c + d * (rad - 7), c + d * (rad + 7), LABEL_DIM, 2.0)
 		_hits.append({"rect": Rect2(p - Vector2(20, 16), Vector2(40, 32)), "kind": kind, "id": lbl})
 	# Handle.

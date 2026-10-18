@@ -1,0 +1,94 @@
+{
+  "id": "ed9m_liveries",
+  "series": "ЕД9М",
+  "meta": {
+    "verified": false,
+    "sources": [],
+    "note": "Художні окраси за мотивами фото; не фірмовий стиль"
+  },
+  "liveries": [
+    {
+      "id": "ed9m_green",
+      "name_uk": "Класичний зелений",
+      "short_name_uk": "Зелений",
+      "body": "#2c6849",
+      "stripe": "#e2c75a",
+      "skirt": "#2b3034",
+      "roof": "#8f9592",
+      "front": "#2c6849",
+      "front_stripe": "#c94a2e",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2"
+    },
+    {
+      "id": "ed9m_uz_blue",
+      "name_uk": "Синьо-жовтий приміський",
+      "short_name_uk": "Синьо-жовтий",
+      "body": "#24569a",
+      "stripe": "#f2c230",
+      "skirt": "#2b3034",
+      "roof": "#a3abb1",
+      "front": "#f2c230",
+      "front_stripe": "#24569a",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2",
+      "doors": "#f2c230"
+    },
+    {
+      "id": "ed9m_red_grey",
+      "name_uk": "Червоно-сірий",
+      "short_name_uk": "Червоно-сірий",
+      "body": "#c9cdcf",
+      "stripe": "#b5262c",
+      "skirt": "#2b3034",
+      "roof": "#8f9592",
+      "front": "#b5262c",
+      "front_stripe": "#e8e8e4",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2",
+      "lower_body": "#b5262c"
+    },
+    {
+      "id": "ed9m_teal",
+      "name_uk": "Бірюзовий",
+      "short_name_uk": "Бірюзовий",
+      "body": "#1f7c7a",
+      "stripe": "#f0e6c8",
+      "skirt": "#2b3034",
+      "roof": "#9aa2a5",
+      "front": "#1f7c7a",
+      "front_stripe": "#f0e6c8",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2"
+    },
+    {
+      "id": "ed9m_modern",
+      "name_uk": "Сіро-зелений модернізований",
+      "short_name_uk": "Сіро-зелений",
+      "body": "#d5d9d6",
+      "stripe": "#2e7a4c",
+      "skirt": "#2b3034",
+      "roof": "#a3a9a6",
+      "front": "#2e7a4c",
+      "front_stripe": "#d5d9d6",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2",
+      "doors": "#2e7a4c",
+      "lower_body": "#2e7a4c"
+    },
+    {
+      "id": "ed9m_orange",
+      "name_uk": "Помаранчево-сірий",
+      "short_name_uk": "Помаранчевий",
+      "body": "#d9dcdd",
+      "stripe": "#e0782a",
+      "skirt": "#2b3034",
+      "roof": "#9aa0a4",
+      "front": "#e0782a",
+      "front_stripe": "#3b4248",
+      "window_frame": "#1c262c",
+      "number": "#f2ead2",
+      "lower_body": "#e0782a"
+    }
+  ]
+}

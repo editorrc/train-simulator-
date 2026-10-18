@@ -41,6 +41,23 @@
     "secondary_frequency_hz": 1.0,
     "secondary_roll_rad_per_ms2": 0.008,
     "secondary_pitch_rad_per_ms2": 0.006,
-    "coupler_stiffness_n_m": 20000000
+    "coupler_stiffness_n_m": 20000000,
+    "nose": {
+      "style": "er9_flat",
+      "length_m": 1.6,
+      "lean_from_m": 2.35,
+      "lean_to_m": 3.8,
+      "lean_back_m": 0.38,
+      "dome_back_m": 1.12,
+      "corner_radius_m": 0.42,
+      "plan_bulge_m": 0.1,
+      "lower_rake_m": 0,
+      "windscreen": "pair",
+      "windscreen_from_m": 2.5,
+      "windscreen_to_m": 3.68,
+      "roof_headlight": true,
+      "lower_headlights": false,
+      "mask": false
+    }
   }
 }
