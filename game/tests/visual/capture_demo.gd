@@ -27,6 +27,10 @@ func _start() -> void:
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--series="):
 			session.call("select_series", StringName(arg.substr(9)))
+		elif arg.begins_with("--size="):
+			var wh: PackedStringArray = arg.substr(7).split("x")
+			root.mode = Window.MODE_WINDOWED
+			root.size = Vector2i(int(wh[0]), int(wh[1]))
 	var path: String = "res://scenes/drive.tscn"
 	match _script:
 		"menu":

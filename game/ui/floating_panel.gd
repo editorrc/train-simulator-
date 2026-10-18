@@ -7,7 +7,7 @@ extends Control
 
 signal layout_changed(panel: FloatingPanel)
 
-const TITLE_H: float = 26.0
+const TITLE_H: float = 32.0
 const GRIP: float = 16.0
 const SNAP_PX: float = 18.0
 const MIN_SIZE := Vector2(180, 90)
@@ -63,44 +63,58 @@ func set_collapsed(value: bool) -> void:
 
 
 func _draw() -> void:
+	# Panorama card: graphite body, hairline border, the title sitting on the same surface
+	# with a thin rule under it; muted chevron and grips that only hint at interaction.
 	var font: Font = get_theme_default_font()
 	var body := StyleBoxFlat.new()
 	body.bg_color = Color(PanoramaTheme.BACKGROUND, opacity)
-	body.border_color = Color(1, 1, 1, 0.12)
+	body.border_color = Color(PanoramaTheme.BORDER, minf(1.0, opacity + .2))
 	body.set_border_width_all(1)
-	body.set_corner_radius_all(6)
+	body.set_corner_radius_all(10)
+	body.shadow_color = Color(0, 0, 0, .25)
+	body.shadow_size = 10
 	draw_style_box(body, Rect2(Vector2.ZERO, size))
-	var bar := StyleBoxFlat.new()
-	bar.bg_color = Color(PanoramaTheme.SURFACE, minf(1.0, opacity + 0.1))
-	bar.corner_radius_top_left = 6
-	bar.corner_radius_top_right = 6
-	if collapsed:
-		bar.corner_radius_bottom_left = 6
-		bar.corner_radius_bottom_right = 6
-	draw_style_box(bar, Rect2(0, 0, size.x, TITLE_H))
-	draw_string(
-		font, Vector2(28, 18), title, HORIZONTAL_ALIGNMENT_LEFT, size.x - 60, 14, PanoramaTheme.TEXT
-	)
-	# Collapse arrow.
-	var a := Vector2(14, 13)
-	var tri: PackedVector2Array = (
-		PackedVector2Array([a + Vector2(-5, -3), a + Vector2(5, -3), a + Vector2(0, 4)])
-		if not collapsed
-		else PackedVector2Array([a + Vector2(-3, -5), a + Vector2(-3, 5), a + Vector2(4, 0)])
-	)
-	draw_colored_polygon(tri, PanoramaTheme.ACCENT)
-	# Grip dots.
-	draw_string(
-		font, Vector2(size.x - 44, 18), "⠿", HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1, 1, 1, 0.35)
-	)
 	if not collapsed:
-		for k: int in 3:
-			var o: float = 4.0 + k * 4.0
+		draw_line(
+			Vector2(12, TITLE_H),
+			Vector2(size.x - 12, TITLE_H),
+			Color(PanoramaTheme.BORDER, .8),
+			1.0
+		)
+	draw_string(
+		font,
+		Vector2(34, TITLE_H * .5 + 5),
+		title,
+		HORIZONTAL_ALIGNMENT_LEFT,
+		size.x - 70,
+		15,
+		PanoramaTheme.TEXT
+	)
+	# Collapse chevron.
+	var a := Vector2(17, TITLE_H * .5)
+	var pts: PackedVector2Array = (
+		PackedVector2Array([a + Vector2(-5, -2), a + Vector2(0, 3), a + Vector2(5, -2)])
+		if not collapsed
+		else PackedVector2Array([a + Vector2(-2, -5), a + Vector2(3, 0), a + Vector2(-2, 5)])
+	)
+	draw_polyline(pts, PanoramaTheme.MUTED, 2.0, true)
+	# Drag handle: six dots at the right of the title.
+	for i: int in 3:
+		for j: int in 2:
+			draw_circle(
+				Vector2(size.x - 30 + i * 6, TITLE_H * .5 - 3 + j * 6),
+				1.4,
+				Color(PanoramaTheme.MUTED, .6)
+			)
+	if not collapsed:
+		for k: int in 2:
+			var o: float = 6.0 + k * 5.0
 			draw_line(
-				Vector2(size.x - o, size.y - 3),
-				Vector2(size.x - 3, size.y - o),
-				Color(1, 1, 1, 0.35),
-				1.0
+				Vector2(size.x - o, size.y - 4),
+				Vector2(size.x - 4, size.y - o),
+				Color(PanoramaTheme.MUTED, .5),
+				1.0,
+				true
 			)
 
 
@@ -110,7 +124,7 @@ func _gui_input(event: InputEvent) -> void:
 		if mb.pressed:
 			move_to_front()
 			if mb.position.y <= TITLE_H:
-				if mb.double_click or mb.position.x < 26:
+				if mb.double_click or mb.position.x < 32:
 					set_collapsed(not collapsed)
 				else:
 					_start("move", mb.global_position)

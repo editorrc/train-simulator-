@@ -47,6 +47,10 @@ func info() -> Dictionary:
 	return {"at": at, "next": next, "distance": distance}
 
 
+func station_name(id: String) -> String:
+	return _names.get(id, "")
+
+
 func route_text() -> String:
 	var state: Dictionary = info()
 	if str(state["at"]) != "":

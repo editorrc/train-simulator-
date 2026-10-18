@@ -20,11 +20,9 @@ var controls_dialog: AcceptDialog
 var settings_dialog: SettingsDialog
 var pose := RenderPose.new()
 var _pause_overlay: Control
-var _toolbar: HBoxContainer
+var _top_bar: DriveTopBar
 var _dialog_was_paused: bool = false
-var _route_label: Label
-var _caption: Label
-var _status: Label
+var _caption: PanelContainer
 var _drag_button: int = MOUSE_BUTTON_NONE
 var _orbit_drag: bool = false
 var _pan_drag: bool = false
@@ -86,13 +84,6 @@ func _ready() -> void:
 		_default_layout()
 	side.snap_camera.call_deferred()
 
-	_status = Label.new()
-	_status.add_theme_font_size_override("font_size", 15)
-	_status.add_theme_color_override("font_color", Color("dfe8e3"))
-	_status.position = Vector2(0, 6)
-	_status.set_anchors_preset(Control.PRESET_CENTER_TOP)
-	add_child(_status)
-
 	audio = TrainAudio.new()
 	audio.world = world
 	add_child(audio)
@@ -102,19 +93,27 @@ func _ready() -> void:
 	announcer.stations = route["stations"]
 	announcer.enabled_route = str(scenario["route"]) == "kyiv_city_ring"
 	add_child(announcer)
-	_route_label = Label.new()
-	_route_label.position = Vector2(36, 104)
-	_route_label.add_theme_font_size_override("font_size", 23)
-	add_child(_route_label)
-	_caption = Label.new()
-	_caption.position = Vector2(36, 140)
-	_caption.add_theme_font_size_override("font_size", 21)
-	_caption.add_theme_color_override("font_color", Color("ffe5a2"))
-	_caption.add_theme_color_override("font_shadow_color", Color.BLACK)
-	_caption.add_theme_constant_override("shadow_offset_x", 2)
-	_caption.add_theme_constant_override("shadow_offset_y", 2)
+	# Announcer subtitles: a quiet pill under the header, hidden when there is nothing to say.
+	_caption = PanelContainer.new()
+	var pill: StyleBoxFlat = PanoramaTheme.box(Color(PanoramaTheme.BACKGROUND, .88))
+	pill.set_corner_radius_all(20)
+	pill.content_margin_left = 22
+	pill.content_margin_right = 22
+	pill.content_margin_top = 8
+	pill.content_margin_bottom = 8
+	_caption.add_theme_stylebox_override("panel", pill)
+	_caption.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var caption_text := Label.new()
+	caption_text.add_theme_font_size_override("font_size", 19)
+	_caption.add_child(caption_text)
+	_caption.hide()
 	add_child(_caption)
-	announcer.caption.connect(func(text: String) -> void: _caption.text = text)
+	announcer.caption.connect(
+		func(text: String) -> void:
+			(_caption.get_child(0) as Label).text = text
+			_caption.visible = text != ""
+			_caption.reset_size()
+	)
 	desk.announcement_requested.connect(announcer.repeat)
 	settings_dialog = SettingsDialog.new()
 	add_child(settings_dialog)
@@ -173,35 +172,41 @@ func _panel(id: String) -> FloatingPanel:
 	return null
 
 
-## Desk centred at the bottom, charts collapsed in the top-left corner, map top-right.
+## Desk centred at the bottom; checklist and charts in the left column, track map and
+## event log in the right one, all below the header and never overlapping.
 func _default_layout() -> void:
 	var v: Vector2 = get_viewport_rect().size
+	var top: float = DriveTopBar.HEIGHT + 4
 	var desk_w: float = minf(1560.0, v.x - 40.0)
 	var desk_h: float = minf(360.0, v.y * 0.38)
 	var d: FloatingPanel = _panel("desk")
 	d.collapsed = false
 	d.position = Vector2((v.x - desk_w) * 0.5, v.y - desk_h - 8)
 	d.size = Vector2(desk_w, desk_h)
-	var t: FloatingPanel = _panel("telemetry")
-	t.collapsed = false
-	t.position = Vector2(8, 184)
-	t.size = Vector2(560, 300)
-	t.set_collapsed(true)
-	var m: FloatingPanel = _panel("map")
-	m.collapsed = false
-	m.position = Vector2(v.x - 648, 184)
-	m.size = Vector2(640, 390)
+	var side_w: float = clampf(v.x * .3, 380.0, 600.0)
+	var room: float = d.position.y - top - 8
 	var pr: FloatingPanel = _panel("procedure")
 	pr.collapsed = false
-	pr.position = Vector2(8, 220)
-	pr.size = Vector2(440, 340)
+	pr.position = Vector2(16, top)
+	pr.size = Vector2(minf(440.0, side_w), minf(340.0, room - FloatingPanel.TITLE_H - 8))
+	var t: FloatingPanel = _panel("telemetry")
+	t.collapsed = false
+	t.position = Vector2(16, top + FloatingPanel.TITLE_H + 8)
+	t.size = Vector2(side_w, minf(300.0, room - FloatingPanel.TITLE_H - 8))
+	t.set_collapsed(true)
 	var scenario: Dictionary = ContentDB.get_entry(&"scenario", Session.scenario_id)
 	if not bool((scenario["start"] as Dictionary).get("cold_start", false)):
 		pr.set_collapsed(true)
+	else:
+		t.position.y = top + pr.size.y + 8
+	var m: FloatingPanel = _panel("map")
+	m.collapsed = false
+	m.size = Vector2(side_w, minf(side_w * .6, room - FloatingPanel.TITLE_H - 8))
+	m.position = Vector2(v.x - side_w - 16, top)
 	var lg: FloatingPanel = _panel("log")
 	lg.collapsed = false
-	lg.position = Vector2(v.x - 440, 242)
-	lg.size = Vector2(432, 190)
+	lg.size = Vector2(side_w, 190)
+	lg.position = Vector2(v.x - side_w - 16, top + m.size.y + 8)
 	lg.set_collapsed(true)
 	for p: FloatingPanel in panels:
 		p._layout_content()
@@ -221,17 +226,8 @@ func _process(_delta: float) -> void:
 	audio.paused = _paused
 	audio.announcing = announcer.is_announcing()
 	announcer.paused = _paused
-	_route_label.text = announcer.route_text()
-	var flags: PackedStringArray = []
-	if _paused:
-		flags.append("ПАУЗА")
-
-	var clock: float = world.clock_s()
-	_status.text = (
-		"%02d:%02d:%02d   %s"
-		% [int(clock / 3600.0) % 24, int(clock / 60.0) % 60, int(clock) % 60, "  ".join(flags)]
-	)
-	_status.position = Vector2(size.x - _status.size.x - 36, 104)
+	_top_bar.paused = _paused
+	_caption.position = Vector2((size.x - _caption.size.x) * .5, DriveTopBar.HEIGHT - 8)
 
 
 func _command(cmd: Dictionary) -> void:
@@ -330,6 +326,8 @@ func _open_dialog(dialog: AcceptDialog) -> void:
 
 func _ui_action(id: String) -> void:
 	match id:
+		"pause":
+			_set_paused(true)
 		"camera":
 			side.next_preset()
 		"platform":
@@ -359,24 +357,22 @@ func _ui_action(id: String) -> void:
 
 
 func _build_navigation() -> void:
-	_toolbar = HBoxContainer.new()
-	_toolbar.position = Vector2(32, 20)
-	_toolbar.add_theme_constant_override("separation", 8)
-	add_child(_toolbar)
-	var menu: Button = PanoramaTheme.button("Меню", func() -> void: _set_paused(true))
-	menu.focus_mode = Control.FOCUS_NONE
-	_toolbar.add_child(menu)
-	for entry: Array in [
-		["Камера", "camera"],
-		["З платформи", "platform"],
-		["Пульт", "desk"],
-		["Схема колій", "map"],
-		["Налаштування", "settings"],
-		["Керування", "controls"]
-	]:
-		var button: Button = PanoramaTheme.button(str(entry[0]), _ui_action.bind(str(entry[1])))
-		button.focus_mode = Control.FOCUS_NONE
-		_toolbar.add_child(button)
+	_top_bar = DriveTopBar.new()
+	_top_bar.world = world
+	_top_bar.announcer = announcer
+	var consist: Dictionary = Session.consist()
+	var scenario: Dictionary = ContentDB.get_entry(&"scenario", Session.scenario_id)
+	_top_bar.subtitle = (
+		"%s · %s · %d %s"
+		% [
+			str(consist.get("number", consist.get("series", ""))),
+			tr(str(scenario.get("name_uk", ""))),
+			Session.car_count,
+			tr("вагонів"),
+		]
+	)
+	_top_bar.action.connect(_ui_action)
+	add_child(_top_bar)
 	_pause_overlay = Control.new()
 	_pause_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_pause_overlay.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -433,7 +429,7 @@ func _expand_panel(id: String) -> void:
 		panel.position = size * 0.05
 		panel.size = size * 0.9
 		panel.opacity = 1.0
-		move_child(panel, _toolbar.get_index())
+		move_child(panel, _top_bar.get_index())
 	panel._layout_content()
 
 
@@ -444,7 +440,7 @@ func _over_panel(at: Vector2) -> bool:
 		or (controls_dialog != null and controls_dialog.visible)
 	):
 		return true
-	if _toolbar != null and _toolbar.get_global_rect().has_point(at):
+	if _top_bar != null and _top_bar.over_controls(at):
 		return true
 	for panel: FloatingPanel in panels:
 		if panel.visible and panel.get_global_rect().has_point(at):
