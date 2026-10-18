@@ -5,9 +5,16 @@ extends Control
 const WINDOW_S: float = 120.0
 const SAMPLE_S: float = 0.25
 
+## False when a CachedCanvas decides when to redraw.
+var auto_redraw: bool = true
 var world: SimWorld
 var _samples: Array[Dictionary] = []
 var _acc: float = 0.0
+
+
+## Charts move only when a sample is added (CachedCanvas redraws on change).
+func state_key() -> int:
+	return hash([_samples.size(), _samples.back() if not _samples.is_empty() else {}, size])
 
 
 func _process(delta: float) -> void:
@@ -36,7 +43,8 @@ func _process(delta: float) -> void:
 		)
 		while _samples.size() > int(WINDOW_S / SAMPLE_S):
 			_samples.remove_at(0)
-	queue_redraw()
+	if auto_redraw:
+		queue_redraw()
 
 
 func _draw() -> void:

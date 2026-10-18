@@ -2,6 +2,12 @@ class_name ExteriorView
 extends RailView
 ## An orthographic 3D stage in an empty dark space, with a perspective cab view.
 
+## Route scenery is built within BUILD_RADIUS_M of the train and freed beyond FREE_RADIUS_M
+## (track batches are visible to 480 m). At most STREAM_BUDGET pieces are built per frame.
+const BUILD_RADIUS_M: float = 700.0
+const FREE_RADIUS_M: float = 950.0
+const STREAM_BUDGET: int = 2
+
 var preview_mode: bool = false
 var _viewport_container: TextureRect
 var _viewport: SubViewport
@@ -26,6 +32,11 @@ var _camera_ready: bool = false
 var _pan: float = 0.0
 var _parallel_offset: float = 0.0
 var _platform_side: float = 1.0
+## Streaming: route pieces (200 m of track, one platform) exist only near the train.
+var _track_chunks: Array[Dictionary] = []
+var _platform_pieces: Array[Dictionary] = []
+var _track_materials: Dictionary = {}
+var _platform_materials: Dictionary = {}
 
 
 func setup(
@@ -139,9 +150,9 @@ func setup(
 	if preview_mode:
 		_build_preview_track()
 	else:
-		_build_track()
-	if not preview_mode:
-		_build_platforms()
+		_plan_track()
+		_plan_platforms()
+		_stream(_position(world.player().head), 1 << 30)
 
 
 func _build_preview_track() -> void:
@@ -206,9 +217,9 @@ func _at(segment: TrackSegment, offset: float) -> Vector3:
 
 func _batch(
 	transforms: Array[Transform3D], dimensions: Vector3, mat: Material, origin: Vector3
-) -> void:
+) -> MultiMeshInstance3D:
 	if transforms.is_empty():
-		return
+		return null
 	var mesh := BoxMesh.new()
 	mesh.size = dimensions
 	var multi := MultiMesh.new()
@@ -226,76 +237,110 @@ func _batch(
 	item.visibility_range_end = 480
 	item.visibility_range_end_margin = 30
 	_stage.add_child(item)
+	return item
 
 
-func _build_track() -> void:
-	var ballast: StandardMaterial3D = TrainCar3D.material(Color("686964"))
-	var steel: StandardMaterial3D = TrainCar3D.material(Color("a2a9ad"), .75)
-	var concrete: StandardMaterial3D = TrainCar3D.material(Color("898b87"))
-	var poles: StandardMaterial3D = TrainCar3D.material(Color("454e51"), .4)
-	var offsets := PackedFloat64Array([0.0])
-	if _parallel_offset != 0:
-		offsets.append(_parallel_offset)
+func _plan_track() -> void:
+	_track_materials = {
+		"ballast": TrainCar3D.material(Color("686964")),
+		"steel": TrainCar3D.material(Color("a2a9ad"), .75),
+		"concrete": TrainCar3D.material(Color("898b87")),
+		"poles": TrainCar3D.material(Color("454e51"), .4),
+	}
 	for segment: TrackSegment in world.graph.segments.values():
 		var chunk: float = 0.0
 		while chunk < segment.length_m:
 			var finish: float = minf(chunk + 200, segment.length_m)
-			var origin: Vector3 = _at(segment, (chunk + finish) * .5)
-			if preview_mode and origin.distance_to(_position(world.player().head)) > 300:
-				chunk = finish
-				continue
-			var rails: Array[Transform3D] = []
-			var beds: Array[Transform3D] = []
-			var sleepers: Array[Transform3D] = []
-			var masts: Array[Transform3D] = []
-			var wires: Array[Transform3D] = []
-			var d: float = chunk
-			while d < finish:
-				var start: Vector3 = _at(segment, d)
-				var end: Vector3 = _at(segment, minf(d + 2, segment.length_m))
-				var forward: Vector3 = (end - start).normalized()
-				if forward.length_squared() < .1:
-					break
-				var basis: Basis = Basis.looking_at(forward, Vector3.UP)
-				var center: Vector3 = (start + end) * .5
-				for offset: float in offsets:
-					beds.append(Transform3D(basis, center + basis.x * offset + Vector3(0, -.42, 0)))
-					for x: float in [-.7975, .7975]:
-						rails.append(
-							Transform3D(
-								basis, center + basis.x * (x + offset) + Vector3(0, -.09, 0)
-							)
-						)
-					wires.append(Transform3D(basis, center + basis.x * offset + Vector3(0, 6, 0)))
-				d += 2
-			var sleeper_at: float = ceil(chunk / .65) * .65
-			while sleeper_at < finish:
-				var start: Vector3 = _at(segment, sleeper_at)
-				var end: Vector3 = _at(segment, minf(sleeper_at + 1, segment.length_m))
-				if start.distance_to(end) > .01:
-					var basis: Basis = Basis.looking_at((end - start).normalized())
-					for offset: float in offsets:
-						sleepers.append(
-							Transform3D(basis, start + basis.x * offset + Vector3(0, -.25, 0))
-						)
-				sleeper_at += .65
-			var mast_at: float = ceil(chunk / 65) * 65
-			while mast_at < finish:
-				var p: Vector3 = _at(segment, mast_at)
-				var tangent: Vector3 = (
-					(_at(segment, minf(mast_at + 1, segment.length_m)) - p).normalized()
+			(
+				_track_chunks
+				. append(
+					{
+						"segment": segment,
+						"from": chunk,
+						"to": finish,
+						"origin": _at(segment, (chunk + finish) * .5),
+						"nodes": [],
+					}
 				)
-				var basis: Basis = Basis.looking_at(tangent)
-				for offset: float in offsets:
-					var across: float = offset + (3.1 if offset == 0 else -3.1)
-					masts.append(Transform3D(basis, p + basis.x * across + Vector3(0, 3.6, 0)))
-				mast_at += 65
-			_batch(beds, Vector3(3.7, .28, 2.02), ballast, origin)
-			_batch(rails, Vector3(.075, .18, 2.02), steel, origin)
-			_batch(sleepers, Vector3(2.7, .16, .24), concrete, origin)
-			_batch(masts, Vector3(.17, 7.2, .17), poles, origin)
-			_batch(wires, Vector3(.025, .025, 2.02), poles, origin)
+			)
 			chunk = finish
+
+
+## Build what came into range of `center`, free what fell far behind.
+func _stream(center: Vector3, budget: int) -> void:
+	for is_track: bool in [true, false]:
+		for piece: Dictionary in _track_chunks if is_track else _platform_pieces:
+			var distance: float = (piece["origin"] as Vector3).distance_to(center)
+			var nodes: Array = piece["nodes"]
+			if nodes.is_empty() and distance < BUILD_RADIUS_M and budget > 0:
+				piece["nodes"] = _build_track_chunk(piece) if is_track else _build_platform(piece)
+				budget -= 1
+			elif not nodes.is_empty() and distance > FREE_RADIUS_M:
+				for node: Node in nodes:
+					node.queue_free()
+				piece["nodes"] = []
+
+
+func _build_track_chunk(piece: Dictionary) -> Array[Node]:
+	var segment: TrackSegment = piece["segment"]
+	var chunk: float = piece["from"]
+	var finish: float = piece["to"]
+	var origin: Vector3 = piece["origin"]
+	var offsets := PackedFloat64Array([0.0])
+	if _parallel_offset != 0:
+		offsets.append(_parallel_offset)
+	var rails: Array[Transform3D] = []
+	var beds: Array[Transform3D] = []
+	var sleepers: Array[Transform3D] = []
+	var masts: Array[Transform3D] = []
+	var wires: Array[Transform3D] = []
+	var d: float = chunk
+	while d < finish:
+		var start: Vector3 = _at(segment, d)
+		var end: Vector3 = _at(segment, minf(d + 2, segment.length_m))
+		var forward: Vector3 = (end - start).normalized()
+		if forward.length_squared() < .1:
+			break
+		var basis: Basis = Basis.looking_at(forward, Vector3.UP)
+		var center: Vector3 = (start + end) * .5
+		for offset: float in offsets:
+			beds.append(Transform3D(basis, center + basis.x * offset + Vector3(0, -.42, 0)))
+			for x: float in [-.7975, .7975]:
+				rails.append(
+					Transform3D(basis, center + basis.x * (x + offset) + Vector3(0, -.09, 0))
+				)
+			wires.append(Transform3D(basis, center + basis.x * offset + Vector3(0, 6, 0)))
+		d += 2
+	var sleeper_at: float = ceil(chunk / .65) * .65
+	while sleeper_at < finish:
+		var start: Vector3 = _at(segment, sleeper_at)
+		var end: Vector3 = _at(segment, minf(sleeper_at + 1, segment.length_m))
+		if start.distance_to(end) > .01:
+			var basis: Basis = Basis.looking_at((end - start).normalized())
+			for offset: float in offsets:
+				sleepers.append(Transform3D(basis, start + basis.x * offset + Vector3(0, -.25, 0)))
+		sleeper_at += .65
+	var mast_at: float = ceil(chunk / 65) * 65
+	while mast_at < finish:
+		var p: Vector3 = _at(segment, mast_at)
+		var tangent: Vector3 = (_at(segment, minf(mast_at + 1, segment.length_m)) - p).normalized()
+		var basis: Basis = Basis.looking_at(tangent)
+		for offset: float in offsets:
+			var across: float = offset + (3.1 if offset == 0 else -3.1)
+			masts.append(Transform3D(basis, p + basis.x * across + Vector3(0, 3.6, 0)))
+		mast_at += 65
+	var m: Dictionary = _track_materials
+	var built: Array[Node] = []
+	for item: MultiMeshInstance3D in [
+		_batch(beds, Vector3(3.7, .28, 2.02), m["ballast"], origin),
+		_batch(rails, Vector3(.075, .18, 2.02), m["steel"], origin),
+		_batch(sleepers, Vector3(2.7, .16, .24), m["concrete"], origin),
+		_batch(masts, Vector3(.17, 7.2, .17), m["poles"], origin),
+		_batch(wires, Vector3(.025, .025, 2.02), m["poles"], origin),
+	]:
+		if item != null:
+			built.append(item)
+	return built
 
 
 func _platform_strip(
@@ -347,74 +392,93 @@ func _platform_strip(
 	group.add_child(mesh)
 
 
-func _build_platforms() -> void:
-	var concrete: StandardMaterial3D = TrainCar3D.material(Color("687780"))
-	var roof: StandardMaterial3D = TrainCar3D.material(Color("384c5b"), .4)
-	var edge: StandardMaterial3D = TrainCar3D.material(Color("e0c772"))
-	for mat: StandardMaterial3D in [concrete, roof, edge]:
+func _plan_platforms() -> void:
+	_platform_materials = {
+		"concrete": TrainCar3D.material(Color("687780")),
+		"roof": TrainCar3D.material(Color("384c5b"), .4),
+		"edge": TrainCar3D.material(Color("e0c772")),
+	}
+	for mat: StandardMaterial3D in _platform_materials.values():
 		mat.cull_mode = BaseMaterial3D.CULL_DISABLED
 	for st: Variant in stations.get("stations", []):
 		var station: Dictionary = st
-		var layouts: Array[Dictionary] = []
 		for raw: Variant in station["platforms"]:
 			var platform: Dictionary = raw
-			layouts.append(platform)
+			var layouts: Array[Dictionary] = [platform]
 			if _parallel_offset != 0:
 				var opposite: Dictionary = platform.duplicate()
 				opposite["visual_track_offset_m"] = _parallel_offset
 				opposite["side"] = "left" if _parallel_offset < 0 else "right"
 				layouts.append(opposite)
-		for platform: Dictionary in layouts:
-			var seg: TrackSegment = world.graph.get_segment(StringName(str(platform["segment"])))
-			var begin: float = float(platform["from_m"])
-			var end: float = float(platform["to_m"])
-			var middle: float = (begin + end) * .5
-			var side: float = 1.0 if str(platform["side"]) == "right" else -1.0
-			var track_offset: float = float(platform.get("visual_track_offset_m", 0.0))
-			var group := Node3D.new()
-			_stage.add_child(group)
-			group.position = _at(seg, middle)
-			_platform_strip(
-				group, seg, begin, end, side, Vector2(1.95, 7.95), 0, 1.1, concrete, track_offset
-			)
-			_platform_strip(
-				group, seg, begin, end, side, Vector2(1.95, 2.20), 1.101, .015, edge, track_offset
-			)
-			_platform_strip(
-				group,
-				seg,
-				maxf(begin, middle - 27),
-				minf(end, middle + 27),
-				side,
-				Vector2(2.0, 7.95),
-				4.3,
-				.15,
-				roof,
-				track_offset
-			)
-			for delta: float in [-24, -12, 0, 12, 24]:
-				var frame: Transform3D = _rail_path.frame(
-					TrackPosition.new(seg.id, middle + delta, 1)
+			for layout: Dictionary in layouts:
+				var seg: TrackSegment = world.graph.get_segment(StringName(str(layout["segment"])))
+				var middle: float = (float(layout["from_m"]) + float(layout["to_m"])) * .5
+				(
+					_platform_pieces
+					. append(
+						{
+							"platform": layout,
+							"name": str(station["name_uk"]),
+							"origin": _at(seg, middle),
+							"nodes": [],
+						}
+					)
 				)
-				var furniture := Node3D.new()
-				group.add_child(furniture)
-				furniture.transform = Transform3D(
-					frame.basis, frame.origin + frame.basis.x * track_offset - group.position
-				)
-				TrainCar3D.box(furniture, Vector3(side * 6.3, 2.7, 0), Vector3(.13, 3.2, .13), roof)
-				TrainCar3D.box(furniture, Vector3(side * 5, 1.5, 0), Vector3(1.5, .15, .5), roof)
-			for offset: float in [-45.0, 45.0]:
-				var frame: Transform3D = _rail_path.frame(
-					TrackPosition.new(seg.id, clampf(middle + offset, begin, end), 1)
-				)
-				var sign := Node3D.new()
-				group.add_child(sign)
-				sign.name = "StationSign"
-				sign.transform = Transform3D(
-					frame.basis,
-					frame.origin + frame.basis.x * (track_offset + side * 6.8) - group.position
-				)
-				_build_station_sign(sign, str(station["name_uk"]))
+
+
+func _build_platform(piece: Dictionary) -> Array[Node]:
+	var platform: Dictionary = piece["platform"]
+	var concrete: StandardMaterial3D = _platform_materials["concrete"]
+	var roof: StandardMaterial3D = _platform_materials["roof"]
+	var edge: StandardMaterial3D = _platform_materials["edge"]
+	var seg: TrackSegment = world.graph.get_segment(StringName(str(platform["segment"])))
+	var begin: float = float(platform["from_m"])
+	var end: float = float(platform["to_m"])
+	var middle: float = (begin + end) * .5
+	var side: float = 1.0 if str(platform["side"]) == "right" else -1.0
+	var track_offset: float = float(platform.get("visual_track_offset_m", 0.0))
+	var group := Node3D.new()
+	_stage.add_child(group)
+	group.position = piece["origin"]
+	_platform_strip(
+		group, seg, begin, end, side, Vector2(1.95, 7.95), 0, 1.1, concrete, track_offset
+	)
+	_platform_strip(
+		group, seg, begin, end, side, Vector2(1.95, 2.20), 1.101, .015, edge, track_offset
+	)
+	_platform_strip(
+		group,
+		seg,
+		maxf(begin, middle - 27),
+		minf(end, middle + 27),
+		side,
+		Vector2(2.0, 7.95),
+		4.3,
+		.15,
+		roof,
+		track_offset
+	)
+	for delta: float in [-24, -12, 0, 12, 24]:
+		var frame: Transform3D = _rail_path.frame(TrackPosition.new(seg.id, middle + delta, 1))
+		var furniture := Node3D.new()
+		group.add_child(furniture)
+		furniture.transform = Transform3D(
+			frame.basis, frame.origin + frame.basis.x * track_offset - group.position
+		)
+		TrainCar3D.box(furniture, Vector3(side * 6.3, 2.7, 0), Vector3(.13, 3.2, .13), roof)
+		TrainCar3D.box(furniture, Vector3(side * 5, 1.5, 0), Vector3(1.5, .15, .5), roof)
+	for offset: float in [-45.0, 45.0]:
+		var frame: Transform3D = _rail_path.frame(
+			TrackPosition.new(seg.id, clampf(middle + offset, begin, end), 1)
+		)
+		var sign := Node3D.new()
+		group.add_child(sign)
+		sign.name = "StationSign"
+		sign.transform = Transform3D(
+			frame.basis, frame.origin + frame.basis.x * (track_offset + side * 6.8) - group.position
+		)
+		_build_station_sign(sign, str(piece["name"]))
+	return [group]
 
 
 func _build_station_sign(sign: Node3D, station_name: String) -> void:
@@ -475,6 +539,8 @@ func _process(delta: float) -> void:
 	var alpha: float = SimClock.clock.interpolation_alpha()
 	var head: TrackPosition = pose.head(world.graph, alpha) if pose != null else t.head
 	var point: Vector3 = _position(head)
+	if not preview_mode:
+		_stream(point, STREAM_BUDGET)
 	var ahead: Vector3 = _position(head.advance(world.graph, 2).position)
 	var forward: Vector3 = (ahead - point).normalized()
 	if forward.length_squared() < .1:

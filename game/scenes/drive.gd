@@ -74,10 +74,13 @@ func _ready() -> void:
 	procedure.steps = cab_def.get("startup_checklist", [])
 	log_view = EventLogView.new()
 
-	_add_panel("desk", "Пульт машиніста · %s" % consist.get("series", ""), desk, 0.96)
-	_add_panel("telemetry", "Телеметрія і графіки", telemetry, 0.55)
-	_add_panel("map", "Схема колії", minimap, 0.6)
-	_add_panel("procedure", "Підготовка до роботи", procedure, 0.78)
+	# Hand-drawn panels are cached in textures (see CachedCanvas): ~450 → a few draw calls.
+	_add_panel(
+		"desk", "Пульт машиніста · %s" % consist.get("series", ""), CachedCanvas.new(desk), 0.96
+	)
+	_add_panel("telemetry", "Телеметрія і графіки", CachedCanvas.new(telemetry, 8.0), 0.55)
+	_add_panel("map", "Схема колії", CachedCanvas.new(minimap, 15.0), 0.6)
+	_add_panel("procedure", "Підготовка до роботи", CachedCanvas.new(procedure, 8.0), 0.78)
 	_add_panel("log", "Журнал подій", log_view, 0.6)
 	if not UiLayout.restore(panels, get_viewport_rect().size):
 		_default_layout()

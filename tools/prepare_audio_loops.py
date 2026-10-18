@@ -8,6 +8,7 @@ from scipy.io import wavfile
 from scipy.signal import resample_poly, butter, sosfilt, find_peaks
 from scipy.ndimage import uniform_filter1d
 from math import gcd
+import struct
 
 RATE=22050
 OUT=Path(__file__).resolve().parents[1]/'game/audio/recordings'
@@ -24,6 +25,50 @@ def save(name,data):
     data=data-data.mean()
     data=data/max(np.max(np.abs(data)),1e-8)*.72
     wavfile.write(OUT/(name+'.wav'),RATE,(data*32767).astype(np.int16))
+
+def save_held(name,data,loop_begin):
+    # PCM16 WAV with a 'smpl' loop from loop_begin to the end: the attack plays once, then the
+    # sustain repeats (Godot's importer reads the loop when edit/loop_mode is 'detect').
+    data=data-data.mean()
+    data=data/max(np.max(np.abs(data)),1e-8)*.72
+    pcm=(data*32767).astype('<i2').tobytes()
+    frames=len(data)
+    fmt=struct.pack('<HHIIHH',1,1,RATE,RATE*2,2,16)
+    smpl=struct.pack('<9I',0,0,round(1e9/RATE),60,0,0,0,1,0)+struct.pack('<6I',0,0,loop_begin,frames-1,0,0)
+    body=b'WAVE'+b'fmt '+struct.pack('<I',len(fmt))+fmt+b'smpl'+struct.pack('<I',len(smpl))+smpl+b'data'+struct.pack('<I',len(pcm))+pcm
+    (OUT/(name+'.wav')).write_bytes(b'RIFF'+struct.pack('<I',len(body))+body)
+
+def held_signal(data,attack_end,steady_end):
+    # Natural attack, then a level-flattened sustain whose loop seam is cut where the waveform
+    # repeats: a short loop with a level or phase step at the seam is heard as the signal
+    # restarting every second while the key is held.
+    from scipy.signal import correlate
+    a=int(attack_end*RATE);e=int(steady_end*RATE)
+    signal=data[:e].copy()
+    rms=np.sqrt(uniform_filter1d(signal*signal,size=int(.05*RATE))+1e-9)
+    rms=uniform_filter1d(rms,size=int(.12*RATE))
+    signal[a:]*=rms[a]/rms[a:]
+    win=int(.03*RATE)
+    best,loop_start,loop_end=-2.0,a,e
+    # Loop start within 0.25 s after the attack, loop end within the last 0.45 s; at least
+    # 0.8 s of sustain between them.
+    region_from=max(a+int(.8*RATE),e-int(.45*RATE)-win)
+    region=signal[region_from:e]
+    energy=np.sqrt(uniform_filter1d(region*region,size=win,mode='constant')*win+1e-12)
+    for start in range(a,a+int(.25*RATE),8):
+        head=signal[start:start+win]
+        c=correlate(region,head,mode='valid')
+        centres=np.arange(len(c))+win//2
+        score=c/(np.linalg.norm(head)*energy[np.clip(centres,0,len(energy)-1)]+1e-9)
+        i=int(np.argmax(score))
+        if score[i]>best:best,loop_start,loop_end=float(score[i]),start,region_from+i
+    out=signal[:loop_end].copy()
+    # Blend the end of the loop into the samples just before its start, so every repeat
+    # continues the same waveform.
+    n=int(.015*RATE)
+    fade=np.linspace(0,1,n)
+    out[-n:]=out[-n:]*(1-fade)+signal[loop_start-n:loop_start]*fade
+    return out,loop_start,best
 
 def loop(data,seconds,grain=.22):
     # Circular overlap-add: no silent seam, deterministic playback; audio thread sets rhythm.
@@ -52,8 +97,10 @@ def main(root):
     save('motor_loop',loop(motor,12,.8))
     save('compressor_loop',loop(source(root,11),3,.3))
     save('hiss_loop',loop(source(root,13),2,.25))
-    save('horn_sustain',sustain(source(root,10),.25,1.25))
-    save('whistle_sustain',sustain(source(root,3),.2,.9))
+    for name,number,attack_end,steady_end in [('horn_sustain',10,.15,1.45),('whistle_sustain',3,.12,1.45)]:
+        data,begin,score=held_signal(source(root,number),attack_end,steady_end)
+        save_held(name,data,begin)
+        print(f'{name}: attack {begin/RATE:.2f} s, loop {(len(data)-begin)/RATE:.2f} s, seam match {score:.3f}')
     # Keep the natural attack/ring of distinct recorded rail impacts; no short rhythm loop.
     high=sosfilt(butter(2,[140,7500],fs=RATE,btype='bandpass',output='sos'),rolling)
     energy=uniform_filter1d(high*high,size=round(.004*RATE))

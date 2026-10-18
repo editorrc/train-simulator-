@@ -27,6 +27,8 @@ const BUTTON_COLORS: Dictionary[String, Color] = {
 	"yellow": Color("d8a52a"),
 }
 
+## False when a CachedCanvas decides when to redraw.
+var auto_redraw: bool = true
 var bindings: ControlBindings
 var world: SimWorld
 var cab_def: Dictionary = {}
@@ -43,7 +45,38 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	queue_redraw()
+	if auto_redraw:
+		queue_redraw()
+
+
+## What the desk shows, rounded to what can be seen (CachedCanvas redraws on change).
+func state_key() -> int:
+	if world == null:
+		return 0
+	var t: Train = _train()
+	var lamps: Array[bool] = []
+	for raw: Variant in cab_def.get("lamps", []):
+		var cond: String = str((raw as Dictionary)["when"])
+		lamps.append((not t.check(cond.substr(1))) if cond.begins_with("!") else t.check(cond))
+	return hash(
+		[
+			roundi(Units.ms_to_kmh(absf(t.speed_ms)) * 4.0),
+			roundi(_kgf(t.air.p_gr) * 40.0),
+			roundi(_kgf(t.air.p_tm) * 40.0),
+			roundi(_kgf(t.air.p_tc) * 40.0),
+			roundi(_kgf(t.air.p_panto) * 40.0),
+			roundi(t.power.line_voltage / 100.0),
+			roundi(t.last_traction_n / 500.0),
+			t.last_speed_limit_ms,
+			t.controller_index,
+			t.brake_valve_index,
+			t.reverser,
+			t.cab.values,
+			lamps,
+			_held,
+			size,
+		]
+	)
 
 
 func _train() -> Train:

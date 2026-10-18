@@ -48,6 +48,7 @@ func _run() -> void:
 			stream.loop_end == roundi(stream.get_length() * stream.mix_rate),
 			"loop spans the complete sustain, independent of import compression"
 		)
+		check(stream.loop_begin > 0, "attack plays once, only the sustain repeats while held")
 		var signal_bus: int = AudioServer.bus_count
 		AudioServer.add_bus()
 		AudioServer.set_bus_name(signal_bus, "SignalQA")

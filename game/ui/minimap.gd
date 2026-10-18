@@ -4,6 +4,8 @@ extends Control
 
 signal switch_clicked(node_id: StringName)
 
+## False when a CachedCanvas decides when to redraw.
+var auto_redraw: bool = true
 var world: SimWorld
 var geometry: RouteGeometry
 var stations: Dictionary = {}
@@ -17,7 +19,19 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	queue_redraw()
+	if auto_redraw:
+		queue_redraw()
+
+
+## Train position (to ~5 m) and switch states (CachedCanvas redraws on change).
+func state_key() -> int:
+	if world == null:
+		return 0
+	var head: TrackPosition = world.player().head
+	var switches: Array[int] = []
+	for n: TrackNode in world.graph.nodes.values():
+		switches.append(n.state)
+	return hash([head.segment_id, roundi(head.offset_m / 5.0), switches, size])
 
 
 func _tp(p: Vector2) -> Vector2:

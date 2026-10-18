@@ -2,12 +2,15 @@ class_name ProcedureView
 extends Control
 ## Startup checklist from cab.json: done steps ticked, the next step highlighted with a hint.
 
+## False when a CachedCanvas decides when to redraw.
+var auto_redraw: bool = true
 var world: SimWorld
 var steps: Array = []
 
 
 func _process(_delta: float) -> void:
-	queue_redraw()
+	if auto_redraw:
+		queue_redraw()
 
 
 func _draw() -> void:
