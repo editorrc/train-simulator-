@@ -18,6 +18,11 @@ git -C "$asset_dir/kenney-interface" checkout --detach 4596a49eaf5a533948d49a474
 python3 -m venv "$asset_dir/loops-env"
 "$asset_dir/loops-env/bin/pip" install numpy scipy
 "$asset_dir/loops-env/bin/python" "$repo_dir/tools/prepare_audio_loops.py" "$asset_dir/opensfx" "$asset_dir/kenney-interface"
+# ARTEM_SKIP_TTS=1: recordings only (minutes, not the ~1 GB TTS stack); the game and
+# tests run without station voice, only the voice checks in the visual QA fail.
+if [ "${ARTEM_SKIP_TTS:-}" = "1" ]; then
+  exit 0
+fi
 
 "$python_bin" -m venv "$asset_dir/tts-env"
 # CPU wheel from the PyTorch index; if that host is blocked (proxied CI, cloud sessions),
