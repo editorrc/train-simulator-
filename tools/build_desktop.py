@@ -102,7 +102,8 @@ def main():
                 env=os.environ.copy()
                 if args.xorriso_library_dir:env['LD_LIBRARY_PATH']=str(args.xorriso_library_dir)
                 run(args.xorriso,'-as','mkisofs','-V','ARTEM','-R','-J','-hfsplus','-apm-block-size','512','-o',raw,stage,env=env)
-                run(args.dmg_tool,'dmg',raw,dmg)
+                # zlib = UDZO like hdiutil; libdmg-hfsplus may default to bzip2.
+                run(args.dmg_tool,'-c','zlib','dmg',raw,dmg)
             else:
                 raise RuntimeError('DMG needs native macOS hdiutil, or explicitly supplied Linux HFS+ and UDIF tools')
     sums=[]

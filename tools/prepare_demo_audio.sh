@@ -3,6 +3,9 @@
 set -euo pipefail
 repo_dir="$(cd -- "$(dirname -- "$0")/.." && pwd)"
 asset_dir="${TRAIN_ASSET_CACHE:-$repo_dir/build/audio-cache}"
+# The TTS stack pins old scipy/numpy with wheels up to Python 3.12 (as in CI); 3.13 would
+# try to compile scipy from source.
+python_bin="${PYTHON:-$(command -v python3.12 || command -v python3)}"
 mkdir -p "$asset_dir"
 if [ ! -d "$asset_dir/opensfx/.git" ]; then
   git clone https://github.com/OpenTTD/OpenSFX.git "$asset_dir/opensfx"
@@ -16,10 +19,15 @@ python3 -m venv "$asset_dir/loops-env"
 "$asset_dir/loops-env/bin/pip" install numpy scipy
 "$asset_dir/loops-env/bin/python" "$repo_dir/tools/prepare_audio_loops.py" "$asset_dir/opensfx" "$asset_dir/kenney-interface"
 
-python3 -m venv "$asset_dir/tts-env"
-"$asset_dir/tts-env/bin/pip" install torch==2.5.1+cpu --index-url https://download.pytorch.org/whl/cpu
+"$python_bin" -m venv "$asset_dir/tts-env"
+# CPU wheel from the PyTorch index; if that host is blocked (proxied CI, cloud sessions),
+# the PyPI wheel of the same version runs on the CPU just as well, only larger.
+if ! "$asset_dir/tts-env/bin/python" -c "import torch" 2>/dev/null; then
+  "$asset_dir/tts-env/bin/pip" install torch==2.5.1+cpu --index-url https://download.pytorch.org/whl/cpu \
+    || "$asset_dir/tts-env/bin/pip" install torch==2.5.1
+fi
 "$asset_dir/tts-env/bin/pip" install espnet==202301 --no-deps
-"$asset_dir/tts-env/bin/pip" install 'numpy<2' 'scipy<1.12' soundfile PyYAML kaldiio configargparse 'typeguard<3' humanfriendly torch_complex ci_sdr editdistance jamo inflect pypinyin==0.44 unidecode 'librosa==0.10.2.post1' packaging espnet-tts-frontend g2p-en six h5py 'importlib-metadata<5' opt-einsum pytorch-wpe sentencepiece 'protobuf<=3.20.1' Cython wheel setuptools
+"$asset_dir/tts-env/bin/pip" install 'numpy<2' 'scipy<1.12' soundfile PyYAML kaldiio configargparse 'typeguard<3' humanfriendly torch_complex ci_sdr editdistance jamo inflect pypinyin==0.44 unidecode 'librosa==0.10.2.post1' packaging espnet-tts-frontend g2p-en six h5py 'importlib-metadata<5' opt-einsum pytorch-wpe sentencepiece 'protobuf<=3.20.1' Cython wheel 'setuptools<80'
 CXX=g++ CC=gcc "$asset_dir/tts-env/bin/pip" install --no-build-isolation pyworld
 mkdir -p "$asset_dir/model"
 for name in config.yaml model.pth spk_xvector.ark feats_stats.npz; do

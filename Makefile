@@ -3,7 +3,7 @@
 GODOT ?= godot
 
 
-.PHONY: check test import lint format validate web web-check reference demo web-export serve
+.PHONY: check test import lint format validate web web-check reference demo web-export serve visual-qa
 
 check: validate lint test web-check
 
@@ -23,6 +23,10 @@ format:
 validate:
 	python3 tools/validate_data.py
 	python3 -m unittest discover -s tools/tests
+
+# Visual/audio regressions on Xvfb (+ openbox for window checks); see the script header.
+visual-qa:
+	GODOT=$(GODOT) tools/run_visual_qa.sh
 
 # Rebuild the self-contained browser preview (web_preview/index.html).
 web:

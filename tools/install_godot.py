@@ -31,7 +31,7 @@ def main():
     suffix={'Linux':'linux.x86_64','Darwin':'macos.universal','Windows':'win64.exe'}[system]
     name=f'Godot_v{VERSION}-stable_{suffix}.zip'
     target=CACHE/'editor'
-    target.mkdir(exist_ok=True)
+    target.mkdir(parents=True,exist_ok=True)
     with zipfile.ZipFile(verified(name)) as archive:
         archive.extractall(target)
     if system=='Darwin':
