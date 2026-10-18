@@ -758,7 +758,7 @@ func _fit_preview(
 					high = high.max(projected)
 	var aspect: float = size.x / maxf(size.y, 1.0)
 	var span: Vector2 = high - low
-	var height: float = maxf(span.y * 1.06, span.x / aspect * 1.06)
+	var height: float = maxf(span.y * 1.02, span.x / aspect * 1.02)
 	_camera.set_frustum(height, (high + low) * .5, 1.0, 1200.0)
 	# Key light from high in front on the camera side; rim light from behind the far side.
 	_sun.position = head.origin + forward * 55.0 - right * 14.0 + Vector3.UP * 48.0

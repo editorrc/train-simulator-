@@ -27,12 +27,28 @@ func _ready() -> void:
 	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
 	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(bg)
+	# Studio light falling in from the top-right corner across the graphite page.
+	var light := Gradient.new()
+	light.offsets = PackedFloat32Array([0.0, .45, 1.0])
+	light.colors = PackedColorArray([Color(1, 1, 1, .085), Color(1, 1, 1, .03), Color(1, 1, 1, 0)])
+	var spill := GradientTexture2D.new()
+	spill.gradient = light
+	spill.fill = GradientTexture2D.FILL_RADIAL
+	spill.fill_from = Vector2(.92, -.05)
+	spill.fill_to = Vector2(.05, 1.0)
+	var glow := TextureRect.new()
+	glow.texture = spill
+	glow.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	glow.stretch_mode = TextureRect.STRETCH_SCALE
+	glow.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	glow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(glow)
 	# Brand mark as a large, faint emblem: it starts left of the wordmark, fills the upper
 	# left corner and runs over the line under the navigation.
 	var watermark := TextureRect.new()
 	watermark.texture = load("res://ui/artem_mark.svg") as Texture2D
-	watermark.position = Vector2(28, -46)
-	watermark.size = Vector2(460, 322)
+	watermark.position = Vector2(40, -30)
+	watermark.size = Vector2(378, 264)
 	watermark.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	watermark.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	watermark.modulate = Color(1, 1, 1, .07)
@@ -91,9 +107,7 @@ func _show_page(index: int) -> void:
 	_preview = null
 	_scenario_select = null
 	for i: int in _nav.size():
-		var style: StyleBoxFlat = PanoramaTheme.box(
-			PanoramaTheme.BACKGROUND, PanoramaTheme.BACKGROUND
-		)
+		var style: StyleBoxFlat = PanoramaTheme.box(Color(0, 0, 0, 0), Color(0, 0, 0, 0))
 		style.set_corner_radius_all(0)
 		style.set_border_width_all(0)
 		style.border_width_bottom = 3 if i == index else 0

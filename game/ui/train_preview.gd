@@ -40,6 +40,11 @@ func _process(_dt: float) -> void:
 	_view.preview_mode = true
 	_view.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_view.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	# Let the 3D stage run past the page margins to the window edges: a bigger train.
+	_view.offset_left = -104
+	_view.offset_right = 104
+	_view.offset_top = -110
+	_view.offset_bottom = 70
 	add_child(_view)
 	var world: SimWorld = Session.build_world()
 	var scenario: Dictionary = ContentDB.get_entry(&"scenario", Session.scenario_id)
