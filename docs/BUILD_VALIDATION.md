@@ -1,3 +1,22 @@
+# ARTEM 0.3.4 · опубликованные пакеты — 18 октября 2026 года
+
+Исходники: `codex/desktop-demo` @ a9ee1d7 (тег `demo-v0.3.4` создан локально, но прокси
+облачной сессии не пропускает пуш тегов). Пакеты: ветка `demo-downloads`, коммит
+[5ebe30df639f9cbc0c7595a0c45c5997e0876ebd](https://github.com/editorrc/train-simulator-/tree/5ebe30df639f9cbc0c7595a0c45c5997e0876ebd).
+Повторная HTTPS-загрузка всех трёх файлов совпала с SHA256SUMS.txt.
+
+- `make check`: 106 Godot-тестов, 2 Python-теста, 36 файлов данных, gdformat/gdlint,
+  801 parity sample, свежий web preview — PASS.
+- `make visual-qa` (Xvfb + openbox + llvmpipe): AUDIO/CAMERA/VISUAL(desktop)/NAVIGATION/
+  WINDOW — PASS. 59 PCM16-ассетов, в т.ч. 41 офлайн-объявление, пересобраны
+  `tools/prepare_demo_audio.sh`; у тифона/свистка начало петли в `smpl`-чанке.
+- `verify_desktop.py`: Windows GUI PE x86_64 со встроенным PCK; универсальный Mach-O
+  x86_64 + arm64 с ad-hoc подписями; UDIF (zlib) и HFS+ совпали байт-в-байт.
+- Сборка в Linux: шаблоны Godot 4.7.2 (SHA512 проверен), xorriso, mozilla/libdmg-hfsplus.
+- Нативный запуск 0.3.4 на Windows/macOS ещё не подтверждён; FPS на Mac не измерен.
+
+---
+
 # ARTEM 0.3.4 · исходники для продолжения
 
 - make check: **105 Godot-тестов**, 2 Python-теста, 18 файлов данных,

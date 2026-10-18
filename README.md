@@ -12,7 +12,7 @@
 > Artificial Realistic Train Emulator with Modifications
 
 ## Як запустити
-- **Готові настільні збірки 0.3.3:** [Windows ZIP з EXE](https://raw.githubusercontent.com/editorrc/train-simulator-/360800b17bfdc6da0e2208298388d89bda39f253/TrainSimulator-Windows.zip) · [macOS DMG](https://raw.githubusercontent.com/editorrc/train-simulator-/360800b17bfdc6da0e2208298388d89bda39f253/TrainSimulator-macOS-universal.dmg). Розпакувати / перенести застосунок у «Програми»; рушій встановлювати не потрібно.
+- **Готові настільні збірки 0.3.4:** [Windows ZIP з EXE](https://raw.githubusercontent.com/editorrc/train-simulator-/5ebe30df639f9cbc0c7595a0c45c5997e0876ebd/ARTEM-Windows.zip) · [macOS DMG](https://raw.githubusercontent.com/editorrc/train-simulator-/5ebe30df639f9cbc0c7595a0c45c5997e0876ebd/ARTEM-macOS-universal.dmg) · [SHA256](https://raw.githubusercontent.com/editorrc/train-simulator-/5ebe30df639f9cbc0c7595a0c45c5997e0876ebd/SHA256SUMS.txt). Розпакувати / перенести застосунок у «Програми»; рушій встановлювати не потрібно.
 - **У браузері (GitHub Pages):** https://editorrc.github.io/train-simulator-/ — після разового ввімкнення Settings → Pages → Source: GitHub Actions.
 - **Веб-прев'ю без встановлення:** https://raw.githack.com/editorrc/train-simulator-/editorial/web_preview/index.html
 - **Локально (гра):** Godot 4.7.2 → Import → `game/project.godot` → F5, або `make demo GODOT=...`.
@@ -25,8 +25,9 @@ Tab — ракурс, F — з платформи, D — пульт, M — сх�
 Повна [інструкція](docs/DEMO.md); [roadmap](docs/ROADMAP.md);
 [передача роботи Claude](docs/HANDOFF_CLAUDE.md).
 
-**У роботі 0.3.4:** нове меню ARTEM / Train Emulator, 4/6/8/10 вагонів і шість
-забарвлень. Посилання на готові збірки вище поки ведуть на **0.3.3**.
+**0.3.4:** меню ARTEM / Train Emulator, серії ЕР9М, ЕД9М, ЕПЛ9Т і ЕКр1 «Тарпан»
+(параметри нових серій — оцінки), склади й по шість забарвлень, стрімінг сцени
+навколо поїзда, кешовані панелі, безшовне утримання тифона/свистка.
 Для фінальних шрифтів перед імпортом: `python tools/prepare_fonts.py`.
 
 

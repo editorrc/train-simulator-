@@ -86,30 +86,38 @@ tools/build_desktop.py загружает шрифты, tools/verify_desktop.py 
 Для Linux DMG:
 
 ```bash
-python tools/build_desktop.py --godot "$GODOT" --target all --out build/release-v034 \
-  --xorriso /workspace/.local/tools/dmg-packages/root/usr/bin/xorriso \
-  --xorriso-library-dir /workspace/.local/tools/dmg-packages/root/usr/lib/x86_64-linux-gnu \
-  --dmg-tool /workspace/.cache/train-assets/libdmg-hfsplus/build/dmg/dmg
-python tools/verify_desktop.py build/release-v034 --hfs-out /tmp/artem-v034.hfs
+python3 tools/install_godot.py --templates          # редактор + шаблоны, SHA512
+apt-get install -y xorriso openbox cmake libbz2-dev libssl-dev zlib1g-dev
+git clone https://github.com/mozilla/libdmg-hfsplus build/tools/libdmg-hfsplus
+cmake -S build/tools/libdmg-hfsplus -B build/tools/libdmg-hfsplus/build
+cmake --build build/tools/libdmg-hfsplus/build --target dmg-bin
+bash tools/prepare_demo_audio.sh                     # 59 WAV, включая TTS (Python 3.12)
+python3 tools/build_desktop.py --godot "$GODOT" --target all --out build/release-v034 \
+  --xorriso /usr/bin/xorriso --dmg-tool build/tools/libdmg-hfsplus/build/dmg/dmg
+python3 tools/verify_desktop.py build/release-v034 --hfs-out /tmp/artem-v034.hfs
+make visual-qa GODOT="$GODOT"                        # Xvfb + openbox
 ```
+
+Публикация из облачной сессии: коммит в `demo-downloads` собирается через
+`git hash-object`/`commit-tree` (без worktree) и пушится в ветку; пуш тегов прокси
+запрещает (403).
 
 Не путать пакетирование с нативной приёмкой. Пользователь подтвердил запуск
 **0.3.2** на обеих ОС. Mac — ad-hoc, без Developer ID/нотариализации.
-Последняя ранее опубликованная версия **0.3.3**, downloads-коммит
-360800b17bfdc6da0e2208298388d89bda39f253. Проверять актуальность DEMO.md перед
+Последняя опубликованная версия **0.3.4**, downloads-коммит
+5ebe30df639f9cbc0c7595a0c45c5997e0876ebd (до неё 0.3.3 — 360800b). Проверять актуальность DEMO.md перед
 выдачей ссылок. Внутренние пути workspace не являются загрузками для пользователя.
 Не выдавать 0.3.3 за новую 0.3.4. Публиковать пакеты отдельно на demo-downloads,
 проверять повторной HTTPS-загрузкой и SHA256.
 
-## Последний измеренный профиль (нужна оптимизация)
+## Последний измеренный профиль
 
-10 вагонов, 1280×800 физического рендера, MSAA2, Xorg/llvmpipe: 620,15 draw calls,
-165177 примитивов, 3102 узла, средний кадр 184,91 мс. Это программный рендер
-текущего хоста, не FPS на Mac. С предыдущим отчётом 0.3.3 напрямую не сравнивать
-без повторного запуска базы на том же хосте. Проверить стоимость двухстороннего
-RigidMeshBatch (cull_disabled), новой геометрии и вывесок; уменьшить затраты,
-сохранив корректные видимые грани. Принудительный выход сохранил 10 ObjectDB и
-4 resource warnings. Не объявлять оптимизацию/освобождение завершёнными.
+10 вагонов, кольцо Киева, 1280×800, MSAA2, Xvfb/llvmpipe (не FPS Mac): после D-016
+старт 2,45 с (было 4,9), 719 узлов (было 3124), draw calls на стоянке 168 (было 513),
+в движении на llvmpipe ~320 (кэш панелей там обновляется каждый кадр, т.к. кадр
+>33 мс). Шаг физики 0,2 мс, от длины линии не зависит. Вклад групп сцены —
+`tests/visual/render_breakdown.gd`. Открыто: замер на реальном Mac/Windows, LOD
+вагонов вдали, MultiMesh мебели платформ, пресеты качества.
 
 Последняя правка предпросмотра: весь состав стоит на прямом выставочном пути,
 независимом от кривой игрового маршрута. Камера обязана показывать последний
