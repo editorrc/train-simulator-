@@ -84,17 +84,22 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 	var front: float = -end + (nose_length if cab else 0.15)
 	_rounded_shell(front, rear, paint, roof)
 	box(body, Vector3(0, 0.9, -1), Vector3(2.0, 0.5, 6.0), dark)
+	# Two-tone liveries paint the lower body; ribs take that colour and the waist stripe
+	# lies on top of it.
+	var lower: StandardMaterial3D = (
+		material(Color(str(livery["lower_body"])), .25) if livery.has("lower_body") else paint
+	)
 	for side: float in [-1.0, 1.0]:
 		if livery.has("lower_body"):
 			box(
 				body,
 				Vector3(side * 1.721, 1.85, (front + rear) * .5),
 				Vector3(.025, 1.15, rear - front),
-				material(Color(str(livery["lower_body"])), .25)
+				lower
 			)
 		box(
 			body,
-			Vector3(side * 1.71, 2.0, (front + rear) * 0.5),
+			Vector3(side * 1.734, 2.0, (front + rear) * 0.5),
 			Vector3(0.025, 0.20, rear - front),
 			stripe
 		)
@@ -104,9 +109,13 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 				body,
 				Vector3(side * 1.726, y, (front + rear) * .5),
 				Vector3(.028, .018, rear - front),
-				paint
+				lower if y < 2.43 else paint
 			)
 		var windows: int = int(spec.visual.get("windows_per_side", 9))
+		# Vestibules: one near each end; a third in the middle (ЕПЛ9Т: three per side).
+		var door_z: Array[float] = [-end + 2.6, end - 2.6]
+		if int(spec.visual.get("doors_per_side", 2)) >= 3:
+			door_z.insert(1, 0.0)
 		if str(spec.visual.get("window_style", "classic")) == "band":
 			# Continuous tinted glazing band of a modern car, divided by slim pillars.
 			var band_len: float = (end - 4.0 + .6) * 2.0
@@ -116,8 +125,7 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 				var pz: float = lerpf(-band_len * .5, band_len * .5, float(i) / windows)
 				box(body, Vector3(side * 1.742, 3.1, pz), Vector3(.022, .98, .06), black)
 			windows = 0
-		for i: int in windows:
-			var z: float = lerpf(-end + 4.0, end - 4.0, float(i) / maxf(windows - 1, 1))
+		for z: float in _window_positions(door_z, windows):
 			# Rubber gasket, aluminium frame, recessed glass and the upper vent (форточка).
 			box(body, Vector3(side * 1.716, 3.12, z), Vector3(0.04, 1.1, 1.3), black)
 			box(body, Vector3(side * 1.728, 3.12, z), Vector3(0.025, 0.94, 1.14), glass)
@@ -132,7 +140,7 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 				)
 			box(body, Vector3(side * 1.742, 3.36, z), Vector3(0.022, 0.03, 1.14), steel)
 			box(body, Vector3(side * 1.742, 3.47, z), Vector3(0.022, 0.22, 0.03), steel)
-		for z: float in [-end + 2.6, end - 2.6]:
+		for z: float in door_z:
 			# Door opening with a dark seal, a step below and grab rails on both sides.
 			box(body, Vector3(side * 1.73, 2.28, z), Vector3(0.025, 2.17, 1.34), black)
 			box(body, Vector3(side * 1.74, 1.13, z), Vector3(0.18, 0.06, 1.3), steel)
@@ -314,6 +322,29 @@ func update_detail(projected_diameter_px: float) -> void:
 	for multi: MultiMesh in wheels:
 		multi.mesh = _wheel_meshes[level]
 	_wheel_lod = level
+
+
+## Window centres spread over the wall pieces between the vestibules, in proportion to
+## their length; the outermost centres sit 1.4 m from the door centres, as before.
+static func _window_positions(door_z: Array[float], windows: int) -> Array[float]:
+	var gaps: Array[Vector2] = []
+	var total: float = 0.0
+	for i: int in door_z.size() - 1:
+		var gap := Vector2(door_z[i] + 1.4, door_z[i + 1] - 1.4)
+		if gap.y > gap.x:
+			gaps.append(gap)
+			total += gap.y - gap.x
+	var result: Array[float] = []
+	var left: int = windows
+	for i: int in gaps.size():
+		var gap: Vector2 = gaps[i]
+		var n: int = (
+			left if i == gaps.size() - 1 else roundi(windows * (gap.y - gap.x) / maxf(total, .01))
+		)
+		left -= n
+		for k: int in n:
+			result.append(lerpf(gap.x, gap.y, float(k) / (n - 1) if n > 1 else .5))
+	return result
 
 
 func _cab(

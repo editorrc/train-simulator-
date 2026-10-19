@@ -4,9 +4,39 @@
   "meta": {
     "verified": false,
     "sources": [],
-    "note": "Художні окраси за мотивами фото; не фірмовий стиль"
+    "note": "Художні окраси за мотивами фото; не фірмовий стиль Перші дві схеми — за фото ЕПЛ2Т (споріднена луганська серія), надісланими користувачем 19.10.2026; кольори підібрано на око."
   },
   "liveries": [
+    {
+      "id": "uz_cream_blue",
+      "name_uk": "УЗ кремово-синій (як ЕПЛ2Т)",
+      "short_name_uk": "Кремово-синій",
+      "body": "#22305a",
+      "lower_body": "#e4d2a2",
+      "stripe": "#a8262a",
+      "skirt": "#20283a",
+      "roof": "#a7aaa8",
+      "front": "#a8262a",
+      "front_stripe": "#e4d2a2",
+      "window_frame": "#1c262c",
+      "number": "#22305a",
+      "doors": "#22305a"
+    },
+    {
+      "id": "uz_cherry_cream",
+      "name_uk": "УЗ вишнево-кремовий (як ЕПЛ2Т)",
+      "short_name_uk": "Вишнево-крем.",
+      "body": "#6a141b",
+      "lower_body": "#d9c48c",
+      "stripe": "#9c1f24",
+      "skirt": "#3a2a2a",
+      "roof": "#a9a9a4",
+      "front": "#7e1820",
+      "front_stripe": "#d9c48c",
+      "window_frame": "#1c262c",
+      "number": "#d9c48c",
+      "doors": "#6a141b"
+    },
     {
       "id": "epl9t_luhansk",
       "name_uk": "Сіро-синій луганський",
@@ -62,33 +92,6 @@
       "window_frame": "#1c262c",
       "number": "#f2ead2",
       "lower_body": "#1f4f96"
-    },
-    {
-      "id": "epl9t_silver",
-      "name_uk": "Сріблястий",
-      "short_name_uk": "Сріблястий",
-      "body": "#b9bec2",
-      "stripe": "#2d3a46",
-      "skirt": "#2b3034",
-      "roof": "#8e959a",
-      "front": "#2d3a46",
-      "front_stripe": "#b9bec2",
-      "window_frame": "#1c262c",
-      "number": "#f2ead2",
-      "lower_body": "#6c757c"
-    },
-    {
-      "id": "epl9t_dark_green",
-      "name_uk": "Темно-зелений з помаранчевим",
-      "short_name_uk": "Темно-зелений",
-      "body": "#1f4d36",
-      "stripe": "#e58a2e",
-      "skirt": "#2b3034",
-      "roof": "#878d8a",
-      "front": "#1f4d36",
-      "front_stripe": "#e58a2e",
-      "window_frame": "#1c262c",
-      "number": "#f2ead2"
     }
   ]
 }

@@ -6,7 +6,7 @@
   "meta": {
     "verified": false,
     "sources": [],
-    "note": "TODO_SOURCE: оцінка для демонстрації серії; маси, тяга й геометрія не підтверджені"
+    "note": "TODO_SOURCE: оцінка для демонстрації серії; маси, тяга й геометрія не підтверджені Три тамбури/двері на борт (уточнення експерта Артема, креслення ЕПЛ2Т/ЕПЛ9Т)."
   },
   "gauge_mm": 1520,
   "mass_empty_t": 52.0,
@@ -30,8 +30,8 @@
   },
   "has_pantograph": false,
   "visual": {
-    "doors_per_side": 2,
-    "windows_per_side": 9,
+    "doors_per_side": 3,
+    "windows_per_side": 8,
     "height_m": 4.25,
     "floor_m": 1.2,
     "bogie_centers_m": 15.0,
