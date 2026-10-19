@@ -11,7 +11,7 @@ STOPS = [
  ('borshchahivka','Борщагівка',2.1,[-8,-2]),
  ('kyiv_volynskyi','Київ-Волинський',5.9,[-6,-4]),
  ('karavaievi_dachi','Караваєві Дачі',9.1,[-3.5,-3]),
- ('kyiv_pasazhyrskyi','Київ-Пасажирський',12,[-1,-2]),
+ ('kyiv_pasazhyrskyi','Вокзальна',12,[-1,-2]),
  ('protasiv_yar','Протасів Яр',14,[0,-3.5]),
  ('kyiv_demiiivskyi','Київ-Деміївський',17.2,[2,-5]),
  ('vydubychi','Видубичі',18.9,[4,-5.5]),
@@ -21,14 +21,16 @@ STOPS = [
  ('livoberezhna','Лівобережна',30,[7,1]),
  ('mykilska_slobidka','Микільська Слобідка',31.1,[6.8,2.5]),
  ('voskresenka','Воскресенка',33.4,[7.5,4.5]),
- ('troieshchyna_2','Троєщина-2',34,[6,5.5]),
+ ('troieshchyna_2','Райдужний',34,[6,5.5]),
  ('pochaina','Почайна',39.1,[1,6]),
  ('kurenivka','Куренівка',40.5,[-1,6.4]),
  ('priorka','Пріорка',42.4,[-3,5.4]),
  ('syrets','Сирець',45.7,[-5.5,3.6]),
  ('beresteiska','Берестейська',47.4,[-7,1.5]),
 ]
-META = dict(verified=False, sources=[SOURCE, 'https://swrailway.gov.ua/timetable/eltrain/?gid=1&rid=480&reverse=1'],
+META = dict(verified=False, sources=[SOURCE, 'https://swrailway.gov.ua/timetable/eltrain/?gid=1&rid=480&reverse=1',
+ # Renamings of 18.01.2024: Північна → Вокзальна, Троєщина-2 → Райдужний.
+ 'https://kyivcity.gov.ua/news/u_stolitsi_pereymenuvali_10_miskikh_obyektiv_zaliznichnogo_transportu/'],
  note='TODO_SOURCE: назви, порядок і тарифні відстані з опублікованого розкладу; геометрія і платформи ілюстративні, профіль та швидкості умовні. Не геодезична модель. TODO_SOURCE: міжколійя -5.3 м та дві бічні платформи — ілюстративне компонування, не перевірена схема станцій.')
 
 def write(path, data):
