@@ -225,6 +225,12 @@ func _exit_tree() -> void:
 	_mix_mutex.unlock()
 	if _mix_thread != null and _mix_thread.is_started():
 		_mix_thread.wait_to_finish()
+	# Join the producer before stopping/releasing the playback it writes into.
+	# The audio server retires stopped playbacks asynchronously on its next mix.
+	for child: Node in get_children():
+		if child is AudioStreamPlayer:
+			(child as AudioStreamPlayer).stop()
+	_joint_playback = null
 
 
 func _fill_joint_buffer(velocity: float, muted: bool) -> void:

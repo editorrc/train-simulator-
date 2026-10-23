@@ -88,4 +88,4 @@ func _run() -> void:
 		"offline station voice loads"
 	)
 	print("AUDIO_QA ", "PASS" if errors.is_empty() else "FAIL", " bytes=", recording.data.size())
-	quit(0 if errors.is_empty() else 1)
+	VisualQa.finish.call_deferred(self, 0 if errors.is_empty() else 1)

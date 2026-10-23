@@ -161,4 +161,4 @@ func _run() -> void:
 	for error: String in _errors.take():
 		failures.append(error)
 	print("NAVIGATION_QA ", "PASS" if failures.is_empty() else "FAIL", " ", failures)
-	quit(0 if failures.is_empty() else 1)
+	VisualQa.finish.call_deferred(self, 0 if failures.is_empty() else 1)

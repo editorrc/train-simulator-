@@ -52,4 +52,4 @@ func _run() -> void:
 	config.parse(previous)
 	settings.call("_restore_display")
 	print("WINDOW_QA ", "PASS" if failures.is_empty() else "FAIL")
-	quit(0 if failures.is_empty() else 1)
+	VisualQa.finish.call_deferred(self, 0 if failures.is_empty() else 1)

@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 # Visual/audio regression scripts (tests/visual/*_regression.gd) on a virtual display.
-# Needs Godot 4.7.2 (GODOT=...), xvfb-run and, for window maximize/restore checks, openbox.
+# Needs Godot 4.7.2 (GODOT=...), an existing DISPLAY + window manager, or xvfb-run
+# and openbox (for window maximize/restore checks). AUDIO_DRIVER=Dummy works in clouds.
 # Audio assets come from tools/prepare_demo_audio.sh (recordings and station voice).
 #   GODOT=~/bin/Godot_v4.7.2-stable_linux.x86_64 tools/run_visual_qa.sh [audio desktop ...]
 set -uo pipefail
 repo_dir="$(cd -- "$(dirname -- "$0")/.." && pwd)"
 godot="${GODOT:-godot}"
 tests=("$@")
-[ ${#tests[@]} -eq 0 ] && tests=(audio camera desktop navigation window)
+[ ${#tests[@]} -eq 0 ] && tests=(audio camera desktop navigation window lifecycle)
 # Inner mode, already on the virtual display: window manager + one regression script.
 if [ "${1:-}" = "--inner" ]; then
   if command -v openbox >/dev/null; then
@@ -15,21 +16,41 @@ if [ "${1:-}" = "--inner" ]; then
     wm=$!
     sleep 1
   fi
+  audio_args=()
+  [ -n "${AUDIO_DRIVER:-}" ] && audio_args=(--audio-driver "$AUDIO_DRIVER")
   "$godot" --rendering-driver opengl3 --path "$repo_dir/game" \
-    -s "res://tests/visual/$2_regression.gd" 2>&1
+    "${audio_args[@]}" -s "res://tests/visual/$2_regression.gd" 2>&1
   code=$?
   [ -n "${wm:-}" ] && kill "$wm" 2>/dev/null
   exit $code
 fi
-"$godot" --headless --path "$repo_dir/game" --import >/dev/null 2>&1
+if ! "$godot" --headless --path "$repo_dir/game" --import >/dev/null 2>&1; then
+  echo "Godot import failed" >&2
+  exit 1
+fi
 failed=0
+qa_data_dir="$(mktemp -d "${TMPDIR:-/tmp}/artem-visual-qa.XXXXXX")"
+trap 'rm -rf -- "$qa_data_dir"' EXIT
 for name in "${tests[@]}"; do
-  log="$(GODOT="$godot" xvfb-run -a -s "-screen 0 1920x1080x24" "$0" --inner "$name")"
+  # Preferences/layouts from another test or a real trip must not change the fixture.
+  mkdir -p "$qa_data_dir/$name"
+  if [ -n "${DISPLAY:-}" ]; then
+    audio_args=()
+    [ -n "${AUDIO_DRIVER:-}" ] && audio_args=(--audio-driver "$AUDIO_DRIVER")
+    log="$(XDG_DATA_HOME="$qa_data_dir/$name" "$godot" --rendering-driver opengl3 --path "$repo_dir/game" \
+      "${audio_args[@]}" -s "res://tests/visual/${name}_regression.gd" 2>&1)"
+  else
+    log="$(XDG_DATA_HOME="$qa_data_dir/$name" GODOT="$godot" xvfb-run -a -s "-screen 0 1920x1080x24" "$0" --inner "$name")"
+  fi
+  code=$?
   verdict="$(grep -E '^[A-Z_]+_QA ' <<<"$log" | tail -1)"
   echo "${name}: ${verdict:-no verdict}"
-  if ! grep -q " PASS" <<<"$verdict"; then
+  diagnostics='^SCRIPT ERROR:|^ERROR:|ObjectDB.*leaked|resources still in use|RID allocations.*leaked'
+  if [ "$code" -ne 0 ] || ! grep -q '^[A-Z_]*_QA PASS\([[:space:]]\|$\)' <<<"$verdict" \
+      || grep -Eq "$diagnostics" <<<"$log"; then
     failed=1
-    grep -E '^ERROR: ' <<<"$log" | sort | uniq -c | head -10
+    echo "${name}: failed (exit=$code)"
+    grep -E "$diagnostics" <<<"$log" | sort | uniq -c | head -10
   fi
 done
 exit $failed
