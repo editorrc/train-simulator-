@@ -90,10 +90,10 @@ Models по источнику.
 
 | Слой (блок) | Сессия | Модель | Ветка | Статус | Последний коммит |
 |---|---|---|---|---|---|
-| Engine (Engine-1) | ARTEM: Div. Engine | Sonnet 5.5 | `div/engine` | открыт 23.10 | — |
-| Routes (Routes-1) | ARTEM: Div. Routes | Sonnet 5.5 | `div/routes` | открыт 23.10; R4 ждёт сети | — |
-| Models (Models-1) | ARTEM: Div. Models | Sonnet 5.5 | `div/models` | открыт 23.10 | — |
-| Visual (Visual-1) | ARTEM: Div. Visual | Opus 5.5 | `div/visual` | открыт 23.10; V1 — после первых кадров Models | — |
+| Engine (Engine-1) | ARTEM: Div. Engine (`session_01M8wNF6YgeaxrVytZ86ve4E`) | Sonnet 5.5 | `div/engine` | запущена 23.10, рабочий поток | — |
+| Routes (Routes-1) | ARTEM: Div. Routes (`session_01MXza5KKPeV6Vj54S6TxTix`) | Sonnet 5.5 | `div/routes` | запущена 23.10, рабочий поток; R4 ждёт сети | — |
+| Models (Models-1) | ARTEM: Div. Models (`session_01LQ6nfqsPY3vHjxn3EJJNH5`) | Sonnet 5.5 | `div/models` | запущена 23.10, рабочий поток | — |
+| Visual (Visual-1) | ARTEM: Div. Visual (`session_014iunUM4ADYEjYqqv45fJ7B`) | Opus 5.5 | `div/visual` | запущена 23.10, рабочий поток; V1 — после первых кадров Models | — |
 | Ревизор (поддивизия) | ARTEM: Div. Ревизор | Opus 5.5 | — | не запущена; по запросу | — |
 | Ревизор | ARTEM: Div. Opus (Лилит) | Opus 5.5 | `codex/desktop-demo` (интеграция) | приёмка | см. git |
 
