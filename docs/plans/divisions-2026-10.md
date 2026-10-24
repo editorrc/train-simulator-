@@ -73,6 +73,7 @@ Train Emulator: каждое утверждение о поезде и лини�
 | **Routes** — пути и станции | ARTEM: Div. Routes | Sonnet 5.5 | `tools/build_kyiv_route.py`, `tools/prepare_announcements.py`, `game/content/base/routes/**`, `game/content/base/scenarios/**`, `schemas/{route,stations,track_graph,geometry,scenario}.schema.json`, `game/audio/station_announcer.gd`, `game/audio/station_cues.gd`, `game/ui/minimap.gd`, платформы и вывески в `exterior_view.gd` (`_build_platform`, `_build_station_sign`) | физику, вагоны, меню |
 | **Models** — подвижной состав | ARTEM: Div. Models | Sonnet 5.5 | `game/content/base/rolling_stock/**`, `schemas/{vehicle,consist,liveries,cab}.schema.json`, `game/views/exterior/train_car_3d.gd`, `cab_nose.gd`, `game/views/side/train_painter.gd` | физику, маршруты, меню; финальный свет и материалы сцены — Visual |
 | **Visual** — финальный вид | ARTEM: Div. Visual | Opus 5.5 | `game/scenes/main_menu.gd`, `game/ui/**` (кроме `cached_canvas.gd`, `minimap.gd` и функции пресета качества в `preferences_view.gd`), окружение/свет/камера предпросмотра в `exterior_view.gd` (`setup` env, `_fit_preview`, `_build_studio_floor`), материалы и цвет в `train_car_3d.gd` по согласованию с Models, `docs/UI_DESIGN.md` | данные серий и маршрутов, физику |
+| **Local** — машина (Мак владельца) | ARTEM: Div. Local (локальная сессия, SSD T5) | Sonnet 5.5 | инструменты под macOS: `tools/mac/**` (новое), ветки Darwin в `tools/run_visual_qa.sh` и `tools/build_desktop.py`; нативные замеры и кадры; хранилище вне git `/Volumes/T5/CODE/artem-reference/`; выписки из источников `docs/research/sources-artem-2026-10.md` (новый) | код игры и данные слоёв (через дивизии); слияние; публикация сборок |
 | Поддивизия ревизора | ARTEM: Div. Ревизор | Opus 5.5 | только журнал `docs/plans/revision-log-artem-2026-10.md` | весь код; запускается ревизором по запросу «Ревизия / Вторые глаза / Сверху» |
 | Ревизор | ARTEM: Div. Opus (Лилит) | Opus 5.5 | `docs/plans/*`, `docs/{ROADMAP,HANDOFF_CLAUDE,BUILD_VALIDATION,DECISIONS}.md`, слияние, сборки, `demo-downloads` | код дивизий (кроме мелких правок при слиянии) |
 
@@ -94,6 +95,7 @@ Models по источнику.
 | Routes (Routes-1) | ARTEM: Div. Routes (`session_01MXza5KKPeV6Vj54S6TxTix`) | Sonnet 5.5 | `div/routes` | поток сдан (`2de3c5c`), ответы ревизора — ниже; пауза владельца 23.10; R4 ждёт сети | `2de3c5c` |
 | Models (Models-1) | ARTEM: Div. Models (`session_01LQ6nfqsPY3vHjxn3EJJNH5`) | Sonnet 5.5 | `div/models` | поток сдан и принят с поправками (`00743b3`); пауза владельца 23.10 | `00743b3` |
 | Visual (Visual-1) | ARTEM: Div. Visual (`session_014iunUM4ADYEjYqqv45fJ7B`) | Opus 5.5 | `div/visual` | поток сдан (`be00a77`), ответы ревизора — ниже; пауза владельца 23.10 | `be00a77` |
+| Local (Local-1) | ARTEM: Div. Local (локально на Маке) | Sonnet 5.5 | `div/local` | ждёт запуска владельцем 24.10 | — |
 | Ревизор (поддивизия) | ARTEM: Div. Ревизор | Opus 5.5 | — | не запущена; по запросу | — |
 | Ревизор | ARTEM: Div. Opus (Лилит) | Opus 5.5 | `codex/desktop-demo` (интеграция) | приёмка | см. git |
 
@@ -159,6 +161,14 @@ M1 → M4 → M3 → M5: узнаваемость ЕПЛ9Т проверяетс
 бюджета): кадры снимаю сама с ветки `div/models` — меню 1920×1080 и 1280×800
 в обеих фото-окрасках, рейс сбоку, с платформы; сравниваю с фото владельца.
 
+**Div. Local (24.10, предложение владельца).** Облако не видит Мак: ни диск,
+ни GPU, ни открытую сеть. Поэтому на Маке владельца, на SSD T5, работает
+локальная сессия «ARTEM: Div. Local» — дирижирует в паре с ревизором и делает
+то, что можно только на машине: замеры на настоящем GPU, нативные кадры,
+хранилище фото и источников, исследования с открытой сетью. Блок — Local-1
+ниже. Срез M2 (облачная Models) продолжается; когда Local встанет, её
+первая польза — L4: кадры ЕПЛ9Т на GPU рядом с фото владельца.
+
 ## Ритм заходов
 
 Дивизия: рабочий поток → ответ ревизора → срез → `make check` у себя → push
@@ -173,6 +183,9 @@ M1 → M4 → M3 → M5: узнаваемость ЕПЛ9Т проверяетс
 - **Дивизия** — `div/<слой>` от свежей интеграции. Коммитит и пушит только в
   неё (в облаке общего дерева нет: без пуша ревизор среза не увидит).
 - **Выкладка** — `demo-downloads` (EXE/DMG), только ревизор, после приёмки.
+- **Local** — `div/local` (только текст: отчёты, выписки, инструменты под Mac).
+  Один слой — в одном месте: если слой ведёт локальная дивизия, облачная по
+  нему стоит (и наоборот); где кто — по доске.
 
 ## Факт на 23.10 (проверено ревизором)
 
@@ -778,6 +791,83 @@ _пусто_
 
 ---
 
+## Блок Local-1. Машина: замеры, кадры, хранилище, сеть (Sonnet 5.5; локально на Маке; 24.10)
+
+Ты — «ARTEM: Div. Local», локальная сессия на Маке владельца. Общая часть
+действует, кроме пунктов СТАРТ 1–2 (ты не в облаке): клон — на SSD,
+окружение ставишь сама. Ты дирижируешь в паре с ревизором («ARTEM: Div.
+Opus», облако, `session_01Ai1R8oHrgf2FkspN15jcM6`): ревизор решает и
+принимает, ты даёшь ей то, чего у облака нет, — машину.
+
+**Старт.** SSD T5, папка CODE (обычно `/Volumes/T5/CODE`; проверь `ls /Volumes`):
+
+    cd /Volumes/T5/CODE
+    git clone https://github.com/editorrc/train-simulator- train-simulator-
+    cd train-simulator- && git checkout -B div/local origin/codex/desktop-demo
+    mkdir -p /Volumes/T5/CODE/artem-reference/{photos,frames,sources}
+
+Диск в exFAT — добавь `._*` в `.git/info/exclude`. Тяжёлое (Godot-тесты,
+профили, сборки) — по одному и под общим с NUMERA замком, чтобы не душить Мак
+вместе с её проверками: `lockf -k /private/tmp/numera-heavy.lock <команда>`.
+
+**Хранилище.** Фото, чертежи, PDF, заметки по видео — только в
+`/Volumes/T5/CODE/artem-reference/` (вне git: репозиторий публичный, чужие
+снимки и сканы туда нельзя). В git — только текст с источниками.
+
+- [ ] **L1. Машина готова.** `python3 tools/install_godot.py --templates`
+  (печатает путь к Godot в `build/toolchain/editor/Godot.app`), зависимости
+  проверок (`tools/requirements.txt` в venv, Node для паритета), шрифты
+  (`python3 tools/prepare_fonts.py`), звук (`ARTEM_SKIP_TTS=1 bash
+  tools/prepare_demo_audio.sh`; голос — позже, `PYTHON=python3.12`).
+  `make check GODOT=…` зелёный. В отчёт: macOS, чип, GPU, версии.
+- [ ] **L2. Визуальные регрессии на Маке без порчи настроек владельца.**
+  Раннер сейчас знает только Linux (xvfb-run, изоляция через XDG_DATA_HOME,
+  которую macOS не читает) — значит, тесты на Маке писали бы в настройки его
+  ARTEM. Ветка Darwin в `tools/run_visual_qa.sh`: прямой запуск с настоящим
+  окном и свой user:// на время прогона (например временный
+  `game/override.cfg` с `application/config/use_custom_user_dir`; проверить,
+  что работает). Доказательство — хэш папки данных ARTEM до и после прогона
+  совпал. Все шесть регрессий — вердикты.
+- [ ] **L3. Замер на настоящем GPU.** `performance_regression.gd` (10
+  вагонов, 1280×800, MSAA 2 и 4) и `render_breakdown.gd`, медиана трёх
+  прогонов; рядом — цифры llvmpipe из D-016. Это первые честные числа про
+  лаги. Готовую 0.3.4 так не измерить — для неё ждём `--benchmark` (E1 Engine).
+- [ ] **L4. Нативные кадры для приёмки.** Для текущего среза (Models M2,
+  `div/models`, когда сдан): ЕПЛ9Т в обеих фото-окрасках, меню 1920×1080 и
+  1280×800, сбоку, с платформы — рядом с фото владельца из хранилища;
+  расхождения словами ревизору. Кадры — в `artem-reference/frames/`.
+- [ ] **L5. Источники с открытой сетью.** Схема кольцевой в Википедии (с
+  зачёркнутыми пунктами), координаты платформ из OSM, ссылки Артёма
+  (руководство ЕР9М на raillook, studfile, сайт КЕВРЗ, share.google; YouTube —
+  только названия и описания). Файлы — в хранилище; выписки с URL — в
+  `docs/research/sources-artem-2026-10.md`. Это вход для Routes R4 и Models M3.
+  Не выдумывать: нет источника — «не найдено».
+
+**Связь.** Отчёты и вопросы — сообщением ревизору (SendMessage /
+send_message в `session_01Ai1R8oHrgf2FkspN15jcM6`): что сделано, цифры, пути
+в хранилище; текст — в `div/local`. Ревизор пишет тебе так же; в первый раз
+приложение может попросить владельца подтвердить доступ одной кнопкой. Нет
+связи — коммит отчёта в `div/local`, владелец скажет ревизору.
+
+**Дирижирование.** Локальные дивизии (они встанут деревом под тобой) —
+только для работы, которой нужна машина: GPU, файлы с SSD, открытая сеть — и
+только по слову ревизора. Общая часть та же, ветки `div/<слой>`; один слой —
+в одном месте. Приёмка и слияние — у ревизора.
+
+**Границы.** Код игры и данные слоёв не правишь (кроме своих инструментов
+под Mac). В `codex/desktop-demo`, `editorial`, `demo-downloads` не пушишь;
+сборки не публикуешь.
+
+### Рабочий поток Local
+
+_пусто_
+
+### Отчёт Local-1
+
+_пусто_
+
+---
+
 ## Журнал ревизора
 
 - **23.10** — доска заведена по образцу NUMERA (слои, паспорта, поток до
@@ -786,3 +876,7 @@ _пусто_
 - **23.10** — все четыре рабочих потока сданы и влиты в интеграцию; ответы — в
   «Решения ревизора к продолжению». По слову владельца (бюджет) — пауза: код
   не начат, Engine и Models остановлены сообщением «СТОП».
+- **24.10** — Engine E3–E4 (сделала Codex) приняты и влиты. Текущий заход —
+  Models M2 (облако). По предложению владельца заведён слой Local: локальная
+  «ARTEM: Div. Local» на Маке (SSD T5) — замеры на GPU, кадры, хранилище,
+  открытая сеть; ждёт запуска владельцем.
