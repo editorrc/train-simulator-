@@ -101,6 +101,16 @@
             "type": "string",
             "pattern": "^#[0-9a-fA-F]{6}$"
           },
+          "front_mask": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$",
+            "description": "Optional coloured mask round the windscreen on a forehead painted in `front` (ЕПЛ2Т cream-blue: red mask)"
+          },
+          "plow_stripe": {
+            "type": "string",
+            "pattern": "^#[0-9a-fA-F]{6}$",
+            "description": "Optional stripe colour on the pilot plough (yellow-black plough)"
+          },
           "front_lower": {
             "type": "string",
             "pattern": "^#[0-9a-fA-F]{6}$",

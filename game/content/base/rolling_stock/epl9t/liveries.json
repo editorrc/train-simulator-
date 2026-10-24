@@ -16,13 +16,14 @@
       "stripe": "#a8262a",
       "skirt": "#20283a",
       "roof": "#a7aaa8",
-      "front": "#a8262a",
+      "front": "#e4d2a2",
       "front_stripe": "#e4d2a2",
       "window_frame": "#1c262c",
       "number": "#22305a",
       "doors": "#22305a",
       "front_lower": "#22305a",
-      "plow": "#a8262a"
+      "plow": "#a8262a",
+      "front_mask": "#a8262a"
     },
     {
       "id": "uz_cherry_cream",
@@ -39,7 +40,8 @@
       "number": "#d9c48c",
       "doors": "#6a141b",
       "front_chevron": true,
-      "plow": "#c9a227"
+      "plow": "#c9a227",
+      "plow_stripe": "#0d1418"
     },
     {
       "id": "epl9t_luhansk",
