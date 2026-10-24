@@ -20,7 +20,9 @@
       "front_stripe": "#e4d2a2",
       "window_frame": "#1c262c",
       "number": "#22305a",
-      "doors": "#22305a"
+      "doors": "#22305a",
+      "front_lower": "#22305a",
+      "plow": "#a8262a"
     },
     {
       "id": "uz_cherry_cream",
@@ -35,7 +37,9 @@
       "front_stripe": "#d9c48c",
       "window_frame": "#1c262c",
       "number": "#d9c48c",
-      "doors": "#6a141b"
+      "doors": "#6a141b",
+      "front_chevron": true,
+      "plow": "#c9a227"
     },
     {
       "id": "epl9t_luhansk",

@@ -45,19 +45,21 @@
     "nose": {
       "style": "epl9t",
       "length_m": 1.9,
-      "lean_from_m": 1.95,
-      "lean_to_m": 3.9,
-      "lean_back_m": 0.72,
-      "dome_back_m": 0.8,
-      "corner_radius_m": 0.52,
-      "plan_bulge_m": 0.14,
-      "lower_rake_m": 0.1,
+      "lean_from_m": 1.4,
+      "lean_to_m": 3.7,
+      "lean_back_m": 0.16,
+      "dome_back_m": 0.5,
+      "corner_radius_m": 0.5,
+      "plan_bulge_m": 0.03,
+      "lower_rake_m": 0.0,
       "windscreen": "panoramic",
-      "windscreen_from_m": 2.42,
-      "windscreen_to_m": 3.78,
+      "windscreen_from_m": 2.55,
+      "windscreen_to_m": 3.55,
       "roof_headlight": true,
       "lower_headlights": true,
-      "mask": true
+      "mask": true,
+      "windscreen_split": false,
+      "route_board": true
     },
     "window_style": "classic"
   }
