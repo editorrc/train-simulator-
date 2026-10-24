@@ -976,7 +976,50 @@ Makefile/скрипты (прогон L1 покажет); работает ли 
 
 ### Отчёт Local-1
 
-_пусто_
+**Промежуточный, 24.10: L1 сделан, L2 — код есть, вердикт не чистый.**
+Тяжёлые прогоны остановлены по слову владельца: под общим замком ARTEM
+надолго держала проверки NUMERA (последний прогон L2 — 44 мин с ожиданием).
+Дальше — только по слову владельца, в паузах NUMERA.
+
+- [x] **L1. Машина готова.** Godot 4.7.2 (`4.7.2.stable.official.ed1daf0bf`)
+  в `~/.artem-toolchain` (вне пробела «SSD T5»). Python 3.12.13 через uv,
+  venv проверок `~/.artem-toolchain/venv` (gdtoolkit 4.5.0). Шрифты, записи,
+  голос — 59 PCM16-файлов, `check_audio_assets.py` зелёный. Проверки:
+  validate 36 файлов / 0 ошибок, 7 Python-тестов, линт, **109 Godot-тестов
+  passed / 0 failed**, паритет 801. Цели `make check` гнала напрямую:
+  Command Line Tools на Маке нет, `/usr/bin/make` и `g++` — заглушки.
+  Компиляторы и make дало `DEVELOPER_DIR="/Volumes/SSD T5/Xcode.app/Contents/Developer"`
+  (без sudo и без `xcode-select --switch`).
+- **Голос на Intel-Маке (предложение Engine, скрипт не правила):** у torch
+  2.5.1 нет колёс macOS x86_64 — заранее ставила в `tts-env` torch 2.2.2 +
+  `numpy<2`; свежие numba/llvmlite не собираются — `numba==0.60.0`,
+  `llvmlite==0.43.0`; `pyworld` собирается из исходников — нужен
+  `DEVELOPER_DIR`. Предложение: ветка Darwin x86_64 в
+  `prepare_demo_audio.sh` с этими пинами.
+- **Находка: headless-тесты и `--import` пишут в данные игры владельца.**
+  `make check` создал `~/Library/Application Support/Godot/app_userdata/ARTEM`
+  (у владельца его до этого не было — его данные не пострадали); это тот же
+  путь, что у собранной игры. `--import` идёт в режиме редактора и
+  `override.cfg` с `custom_user_dir` не читает — трогает ту папку всё равно.
+- [ ] **L2.** Ветка Darwin в `tools/run_visual_qa.sh`: настоящее окно,
+  драйвер проекта; изоляция — временный `HOME` на каждый прогон и на импорт
+  (Godot на macOS берёт `~/Library/Application Support` из `HOME`), вместо
+  `override.cfg`. `tools/mac/user_data_hash.sh` — отпечаток папки данных.
+  **Изоляция доказана:** два прогона, хэш `app_userdata/ARTEM` и всей
+  `Godot/` до и после совпал; временные папки удалены. **Вердикты не чистые:**
+  1. Во всех шести — `ERROR: Can't create shader cache folder … user://`
+     (раннер честно считает провалом). Ручная проба с заранее созданными
+     `Library/{Application Support,Caches}` — `window` PASS без ошибки; в
+     раннере с тем же — ошибка осталась. Не разобрано.
+  2. Гонка смены сцены — **вопрос к Engine**: «Parent node is busy setting up
+     children, `add_child()` failed» → `get_tree()` null в
+     `main_menu.gd:352 _start`. Прогоны 1 и 2 — `lifecycle` FAIL, прогон 3
+     (под нагрузкой NUMERA) — `lifecycle` PASS, а `navigation` упал тем же
+     (+ 4 ObjectDB leaked). Плавает по таймингу медленного Мака, в облаке
+     не виден. Проверки не ослабляла.
+  Остальные: audio, camera (`physical=(3360, 1994)`), desktop, window — PASS
+  по вердикту во всех трёх прогонах.
+- L3–L5 не начаты.
 
 ---
 
