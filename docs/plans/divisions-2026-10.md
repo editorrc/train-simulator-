@@ -73,7 +73,7 @@ Train Emulator: каждое утверждение о поезде и лини�
 | **Routes** — пути и станции | ARTEM: Div. Routes | Sonnet 5.5 | `tools/build_kyiv_route.py`, `tools/prepare_announcements.py`, `game/content/base/routes/**`, `game/content/base/scenarios/**`, `schemas/{route,stations,track_graph,geometry,scenario}.schema.json`, `game/audio/station_announcer.gd`, `game/audio/station_cues.gd`, `game/ui/minimap.gd`, платформы и вывески в `exterior_view.gd` (`_build_platform`, `_build_station_sign`) | физику, вагоны, меню |
 | **Models** — подвижной состав | ARTEM: Div. Models | Sonnet 5.5 | `game/content/base/rolling_stock/**`, `schemas/{vehicle,consist,liveries,cab}.schema.json`, `game/views/exterior/train_car_3d.gd`, `cab_nose.gd`, `game/views/side/train_painter.gd` | физику, маршруты, меню; финальный свет и материалы сцены — Visual |
 | **Visual** — финальный вид | ARTEM: Div. Visual | Opus 5.5 | `game/scenes/main_menu.gd`, `game/ui/**` (кроме `cached_canvas.gd`, `minimap.gd` и функции пресета качества в `preferences_view.gd`), окружение/свет/камера предпросмотра в `exterior_view.gd` (`setup` env, `_fit_preview`, `_build_studio_floor`), материалы и цвет в `train_car_3d.gd` по согласованию с Models, `docs/UI_DESIGN.md` | данные серий и маршрутов, физику |
-| **Local** — машина (Мак владельца) | ARTEM: Div. Local (локальная сессия, SSD T5) | Sonnet 5.5 | инструменты под macOS: `tools/mac/**` (новое), ветки Darwin в `tools/run_visual_qa.sh` и `tools/build_desktop.py`; нативные замеры и кадры; хранилище вне git `/Volumes/T5/CODE/artem-reference/`; выписки из источников `docs/research/sources-artem-2026-10.md` (новый) | код игры и данные слоёв (через дивизии); слияние; публикация сборок |
+| **Local** — машина (Мак владельца) | ARTEM: Div. Local (локальная сессия, SSD T5) | Opus 5.5 (запуск владельца) | инструменты под macOS: `tools/mac/**` (новое), ветки Darwin в `tools/run_visual_qa.sh` и `tools/build_desktop.py`; нативные замеры и кадры; хранилище вне git `/Volumes/SSD T5/_____CODE/artem-reference/`; выписки из источников `docs/research/sources-artem-2026-10.md` (новый) | код игры и данные слоёв (через дивизии); слияние; публикация сборок |
 | Поддивизия ревизора | ARTEM: Div. Ревизор | Opus 5.5 | только журнал `docs/plans/revision-log-artem-2026-10.md` | весь код; запускается ревизором по запросу «Ревизия / Вторые глаза / Сверху» |
 | Ревизор | ARTEM: Div. Opus (Лилит) | Opus 5.5 | `docs/plans/*`, `docs/{ROADMAP,HANDOFF_CLAUDE,BUILD_VALIDATION,DECISIONS}.md`, слияние, сборки, `demo-downloads` | код дивизий (кроме мелких правок при слиянии) |
 
@@ -822,19 +822,18 @@ _пусто_
 Opus», облако, `session_01Ai1R8oHrgf2FkspN15jcM6`): ревизор решает и
 принимает, ты даёшь ей то, чего у облака нет, — машину.
 
-**Старт.** SSD T5, папка CODE (обычно `/Volumes/T5/CODE`; проверь `ls /Volumes`):
-
-    cd /Volumes/T5/CODE
-    git clone https://github.com/editorrc/train-simulator- train-simulator-
-    cd train-simulator- && git checkout -B div/local origin/codex/desktop-demo
-    mkdir -p /Volumes/T5/CODE/artem-reference/{photos,frames,sources}
-
-Диск в exFAT — добавь `._*` в `.git/info/exclude`. Тяжёлое (Godot-тесты,
+**Старт (по факту 24.10).** Клон владельца:
+`/Volumes/SSD T5/_____CODE/ARTEM_trains_emulator`, ветка `div/local`;
+хранилище `/Volumes/SSD T5/_____CODE/artem-reference/{photos,frames,sources}`;
+диск APFS. Машина: MacBook Pro 13" 2019, i5-8257U, 8 ГБ, встроенная Intel Iris
+Plus 645 — нижняя граница «слабый Мак». В пути пробел: инструменты Godot
+ставить вне него (`TRAIN_BUILD_CACHE="$HOME/.artem-toolchain" python3
+tools/install_godot.py --templates`), иначе `$(GODOT)` в Makefile рвётся. Тяжёлое (Godot-тесты,
 профили, сборки) — по одному и под общим с NUMERA замком, чтобы не душить Мак
 вместе с её проверками: `lockf -k /private/tmp/numera-heavy.lock <команда>`.
 
 **Хранилище.** Фото, чертежи, PDF, заметки по видео — только в
-`/Volumes/T5/CODE/artem-reference/` (вне git: репозиторий публичный, чужие
+`/Volumes/SSD T5/_____CODE/artem-reference/` (вне git: репозиторий публичный, чужие
 снимки и сканы туда нельзя). В git — только текст с источниками.
 
 - [ ] **L1. Машина готова.** `python3 tools/install_godot.py --templates`
@@ -876,6 +875,17 @@ send_message в `session_01Ai1R8oHrgf2FkspN15jcM6`): что сделано, ци
 только для работы, которой нужна машина: GPU, файлы с SSD, открытая сеть — и
 только по слову ревизора. Общая часть та же, ветки `div/<слой>`; один слой —
 в одном месте. Приёмка и слияние — у ревизора.
+
+**Кто кем дирижирует (решение ревизора 24.10; владелец может переиграть).**
+Одна дивизия — один дирижёр. Облачные Engine, Routes, Models, Visual — у
+ревизора: задания, «код можно», приёмка, слияние. Local им задач не ставит;
+писать им напрямую можно только данными с машины (цифры, сравнение кадров с
+фото, выписки из источников) — копией ревизору. Свои локальные дивизии (деревом
+под Local) Local запускает по слову ревизора под блок с доски, ведёт их ход и
+приносит сдачу на приёмку. Переезд: слои, которым нужна машина (Visual — GPU,
+Engine E1/E2 — замеры, Routes R4 — сеть), при следующем заходе поднимаются
+локально под Local, облачные двойники уходят в архив; Models M2.1 доводит
+облачная, Local сверяет её кадры с фото (L4).
 
 **Границы.** Код игры и данные слоёв не правишь (кроме своих инструментов
 под Mac). В `codex/desktop-demo`, `editorial`, `demo-downloads` не пушишь;
@@ -979,3 +989,6 @@ _пусто_
 - **24.10** — Models M2 (`8288924`): дозаход M2.1 — цветовая раскладка лба по
   фото (маска, кант, полоса под стеклом), тёмный обод стекла, высота стекла,
   фара и площадка. Сверка — в «Текущий заход».
+- **24.10** — Div. Local поднята владельцем на Маке (Opus 5.5, MacBook Pro 2019,
+  Iris Plus 645). Поток Local-1 (`ac0b564`) принят, влит; пути и машина на
+  доске — по факту. Правило «одна дивизия — один дирижёр» записано в блоке Local-1.
