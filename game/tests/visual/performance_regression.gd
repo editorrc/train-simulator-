@@ -60,4 +60,4 @@ func _run() -> void:
 	capture.save_png("/tmp/train-performance.png")
 	for key: String in previous:
 		settings.call("set_value", "camera", key, previous[key])
-	quit()
+	VisualQa.finish.call_deferred(self)

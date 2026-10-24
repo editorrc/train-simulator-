@@ -94,6 +94,6 @@ func _process(delta: float) -> bool:
 			root.get_texture().get_image().save_png("/tmp/train-final-settings.png")
 			root.get_node("Settings").set_value("visual", "night", false)
 			print("VISUAL_QA ", "PASS" if failures.is_empty() else "FAIL")
-			quit(0 if failures.is_empty() else 1)
+			VisualQa.finish.call_deferred(self, 0 if failures.is_empty() else 1)
 	phase += 1
 	return false

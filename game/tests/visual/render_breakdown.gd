@@ -71,4 +71,4 @@ func _run() -> void:
 	for panel: CanvasItem in panels:
 		panel.visible = false
 	print("BREAKDOWN without 2D panels ", await _sample(20))
-	quit()
+	VisualQa.finish.call_deferred(self)

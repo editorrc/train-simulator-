@@ -13,6 +13,7 @@ func check(ok: bool, message: String) -> void:
 
 
 func _run() -> void:
+	UiLayout.clear()
 	root.get_node("Settings").set_value("camera", "view_mode", 0)
 	root.get_node("Settings").set_value("camera", "yaw", 0.0)
 	root.get_node("Settings").set_value("visual", "render_scale", 1.0)
@@ -61,29 +62,42 @@ func _run() -> void:
 		"3D resolution equals actual framebuffer"
 	)
 	var press := InputEventMouseButton.new()
-	press.position = root.get_texture().get_size() * Vector2(.45, .28)
+	# Input uses logical viewport coordinates; framebuffer texture sizes can differ
+	# under HiDPI. Choose actual empty scenery, away from floating panels.
+	var viewport_size: Vector2 = root.get_visible_rect().size
+	var clear_point := Vector2(-1, -1)
+	for y: float in [.25, .35, .45, .55]:
+		for x: float in [.5, .55, .45, .6, .4]:
+			var candidate: Vector2 = viewport_size * Vector2(x, y)
+			if not bool(scene.call("_over_panel", candidate)):
+				clear_point = candidate
+				break
+		if clear_point.x >= 0:
+			break
+	check(clear_point.x >= 0, "camera test has empty scenery for gestures")
+	press.position = clear_point
 	press.global_position = press.position
 	press.button_index = MOUSE_BUTTON_RIGHT
 	press.pressed = true
-	Input.parse_input_event(press)
+	root.push_input(press, true)
 	await process_frame
 	var motion := InputEventMouseMotion.new()
 	motion.position = press.position + Vector2(80, 20)
 	motion.global_position = motion.position
 	motion.relative = Vector2(80, 20)
 	motion.button_mask = MOUSE_BUTTON_MASK_RIGHT
-	Input.parse_input_event(motion)
+	root.push_input(motion, true)
 	await process_frame
 	check(absf(float(settings.call("get_value", "camera", "yaw", 0.0))) > 1.0, "RMB drag rotates")
 	press.pressed = false
-	Input.parse_input_event(press)
+	root.push_input(press, true)
 	await process_frame
 	check(not bool(scene.get("_orbit_drag")), "RMB release stops orbit")
 	var before: float = float(settings.call("get_value", "camera", "yaw", 0.0))
 	var pan := InputEventPanGesture.new()
-	pan.position = root.get_texture().get_size() * Vector2(.45, .28)
+	pan.position = clear_point
 	pan.delta = Vector2(1, 0)
-	Input.parse_input_event(pan)
+	root.push_input(pan, true)
 	await process_frame
 	check(
 		absf(float(settings.call("get_value", "camera", "yaw", 0.0)) - before) > 1,
@@ -97,12 +111,12 @@ func _run() -> void:
 	press.button_index = MOUSE_BUTTON_LEFT
 	press.ctrl_pressed = true
 	press.pressed = true
-	Input.parse_input_event(press)
+	root.push_input(press, true)
 	await process_frame
 	check(bool(scene.get("_orbit_drag")), "Control-click starts Mac alternative orbit")
 	press.ctrl_pressed = false
 	press.pressed = false
-	Input.parse_input_event(press)
+	root.push_input(press, true)
 	await process_frame
 	check(not bool(scene.get("_orbit_drag")), "release stops orbit even after Control was released")
 	settings.call("set_value", "camera", "cab_yaw", 0.0)
@@ -149,4 +163,4 @@ func _run() -> void:
 		" high-res=",
 		expected
 	)
-	quit(0 if failures.is_empty() else 1)
+	VisualQa.finish.call_deferred(self, 0 if failures.is_empty() else 1)
