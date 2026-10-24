@@ -215,6 +215,14 @@
             "lower_rake_m": {
               "type": "number"
             },
+            "windscreen_split": {
+              "type": "boolean",
+              "description": "Panoramic windscreen divided by a centre pillar (ЕПЛ2Т/ЕПЛ9Т, second photo)"
+            },
+            "route_board": {
+              "type": "boolean",
+              "description": "Route display panels over the windscreen, either side of the roof headlight"
+            },
             "windscreen": {
               "enum": [
                 "pair",
