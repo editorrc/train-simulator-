@@ -25,7 +25,9 @@ if [ "${1:-}" = "--inner" ]; then
   [ -n "${wm:-}" ] && kill "$wm" 2>/dev/null
   exit $code
 fi
-qa_data_dir="$(mktemp -d "${TMPDIR:-/tmp}/artem-visual-qa.XXXXXX")"
+# macOS TMPDIR ends with "/": no "//" inside the temporary HOME paths.
+tmp_root="${TMPDIR:-/tmp}"
+qa_data_dir="$(mktemp -d "${tmp_root%/}/artem-visual-qa.XXXXXX")"
 trap 'rm -rf -- "$qa_data_dir"' EXIT
 # macOS ignores XDG_DATA_HOME, and the editor-mode import ignores a custom user dir;
 # Godot takes ~/Library/Application Support from HOME, so a temporary HOME keeps the
@@ -36,7 +38,8 @@ darwin=0
 mac_home() { mkdir -p "$qa_data_dir/$1/Library/Application Support" "$qa_data_dir/$1/Library/Caches"; }
 import_env=()
 [ "$darwin" = 1 ] && mac_home import && import_env=(HOME="$qa_data_dir/import")
-if ! env "${import_env[@]}" "$godot" --headless --path "$repo_dir/game" --import >/dev/null 2>&1; then
+# ${a[@]+"${a[@]}"}: an empty array under set -u breaks /bin/bash 3.2 on macOS.
+if ! env ${import_env[@]+"${import_env[@]}"} "$godot" --headless --path "$repo_dir/game" --import >/dev/null 2>&1; then
   echo "Godot import failed" >&2
   exit 1
 fi
@@ -50,7 +53,7 @@ for name in "${tests[@]}"; do
     audio_args=()
     [ -n "${AUDIO_DRIVER:-}" ] && audio_args=(--audio-driver "$AUDIO_DRIVER")
     log="$(HOME="$qa_data_dir/$name" "$godot" --path "$repo_dir/game" \
-      "${audio_args[@]}" -s "res://tests/visual/${name}_regression.gd" 2>&1)"
+      ${audio_args[@]+"${audio_args[@]}"} -s "res://tests/visual/${name}_regression.gd" 2>&1)"
   elif [ -n "${DISPLAY:-}" ]; then
     audio_args=()
     [ -n "${AUDIO_DRIVER:-}" ] && audio_args=(--audio-driver "$AUDIO_DRIVER")
