@@ -73,9 +73,9 @@ Train Emulator: каждое утверждение о поезде и лини�
 | **Routes** — пути и станции | ARTEM: Div. Routes | Sonnet 5.5 | `tools/build_kyiv_route.py`, `tools/prepare_announcements.py`, `game/content/base/routes/**`, `game/content/base/scenarios/**`, `schemas/{route,stations,track_graph,geometry,scenario}.schema.json`, `game/audio/station_announcer.gd`, `game/audio/station_cues.gd`, `game/ui/minimap.gd`, платформы и вывески в `exterior_view.gd` (`_build_platform`, `_build_station_sign`) | физику, вагоны, меню |
 | **Models** — подвижной состав | ARTEM: Div. Models | Sonnet 5.5 | `game/content/base/rolling_stock/**`, `schemas/{vehicle,consist,liveries,cab}.schema.json`, `game/views/exterior/train_car_3d.gd`, `cab_nose.gd`, `game/views/side/train_painter.gd` | физику, маршруты, меню; финальный свет и материалы сцены — Visual |
 | **Visual** — финальный вид | ARTEM: Div. Visual | Opus 5.5 | `game/scenes/main_menu.gd`, `game/ui/**` (кроме `cached_canvas.gd`, `minimap.gd` и функции пресета качества в `preferences_view.gd`), окружение/свет/камера предпросмотра в `exterior_view.gd` (`setup` env, `_fit_preview`, `_build_studio_floor`), материалы и цвет в `train_car_3d.gd` по согласованию с Models, `docs/UI_DESIGN.md` | данные серий и маршрутов, физику |
-| **Local** — машина (Мак владельца) | ARTEM: Div. Local (локальная сессия, SSD T5) | Sonnet 5.5 | инструменты под macOS: `tools/mac/**` (новое), ветки Darwin в `tools/run_visual_qa.sh` и `tools/build_desktop.py`; нативные замеры и кадры; хранилище вне git `/Volumes/T5/CODE/artem-reference/`; выписки из источников `docs/research/sources-artem-2026-10.md` (новый) | код игры и данные слоёв (через дивизии); слияние; публикация сборок |
+| **Local** — машина (Мак владельца) | ARTEM: Div. Local (локальная сессия, SSD T5) | Sonnet 5.5 | инструменты под macOS: `tools/mac/**` (новое), ветки Darwin в `tools/run_visual_qa.sh` и `tools/build_desktop.py`; нативные замеры и кадры; хранилище вне git `/Volumes/T5/CODE/artem-reference/`; выписки из источников `docs/research/sources-artem-2026-10.md` (новый); с 24.10 — постановка задач облачным дивизиям по решениям ревизора | код игры и данные слоёв (через дивизии); приёмка; слияние; публикация сборок |
 | Поддивизия ревизора | ARTEM: Div. Ревизор | Opus 5.5 | только журнал `docs/plans/revision-log-artem-2026-10.md` | весь код; запускается ревизором по запросу «Ревизия / Вторые глаза / Сверху» |
-| Ревизор | ARTEM: Div. Opus (Лилит) | Opus 5.5 | `docs/plans/*`, `docs/{ROADMAP,HANDOFF_CLAUDE,BUILD_VALIDATION,DECISIONS}.md`, слияние, сборки, `demo-downloads` | код дивизий (кроме мелких правок при слиянии) |
+| Ревизор | ARTEM: Div. Opus (Лилит) | Opus 5.5 | `docs/plans/*`, `docs/{ROADMAP,HANDOFF_CLAUDE,BUILD_VALIDATION,DECISIONS}.md`, приёмка, слияние, сборки, `demo-downloads` | код дивизий (кроме мелких правок при слиянии); с 24.10 — прямые задачи дивизиям (их ставит Local) |
 
 `exterior_view.gd` общий для трёх слоёв — по функциям, как в таблице. Тронула
 чужую функцию — назвать в отчёте, ревизор решает.
@@ -168,6 +168,22 @@ M1 → M4 → M3 → M5: узнаваемость ЕПЛ9Т проверяетс
 хранилище фото и источников, исследования с открытой сетью. Блок — Local-1
 ниже. Срез M2 (облачная Models) продолжается; когда Local встанет, её
 первая польза — L4: кадры ЕПЛ9Т на GPU рядом с фото владельца.
+
+**Дирижёр облачных дивизий — Local (24.10, слово владельца).** Владелец Local:
+«Бери облачные ARTEM-дивизии под себя, как Лилит в NUMERA. Приёмка остаётся
+у Div. Opus». С этого момента:
+- Задачи облачным Engine, Routes, Models, Visual ставит **Local**
+  (send_message), по решениям ревизора на этой доске; ревизор сам дивизиям
+  больше не пишет, чтобы не было двух команд на одну ветку.
+- **Приёмка, сверка, решения «принят / дозаход / откат», слияние и сборки — у
+  ревизора**, как раньше. Решение ревизора — строкой на доске в интеграции;
+  Local подхватывает его `git fetch` и передаёт дивизии.
+- Связь односторонняя: облачная сессия не пишет локальной. Дивизии сдают, как
+  раньше, пушем `div/<слой>` + отчётом под блоком + сообщением ревизору; Local
+  видит сдачу по веткам. Транскрипты облачных сессий Local не читает — только
+  git и доску.
+- Отличие от Лилит в NUMERA: там дивизии — локальные сессии, запущенные ею, и
+  отчитываются ей сами; здесь облачные, поэтому глаза Local — только git.
 
 **Сверка ревизора M2 (24.10, срез `8288924`) — дозаход M2.1.** Дифф прочитан
 целиком: всё заявленное в коде, другие серии идут прежней веткой, новые поля
