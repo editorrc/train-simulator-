@@ -231,7 +231,8 @@ func build(spec: VehicleSpec, livery: Dictionary, cab: bool) -> void:
 			material(Color(str(livery.get("front_stripe", livery.get("stripe", "#e9d37c"))))),
 			glass,
 			black,
-			steel
+			steel,
+			livery
 		)
 	var moving: Array[Node3D] = []
 	if pantograph != null:
@@ -354,7 +355,8 @@ func _cab(
 	stripe: Material,
 	glass: Material,
 	black: Material,
-	steel: Material
+	steel: Material,
+	livery: Dictionary = {}
 ) -> void:
 	var nose := CabNose.new(-end, nose_style)
 	var shell: MeshInstance3D = nose.build_shell(body, paint)
@@ -371,16 +373,20 @@ func _cab(
 	var notch: Callable = func(x: float) -> float:
 		return notch_depth * maxf(0.0, 1.0 - absf(x) / 0.55)
 	var band_top: float = ws_from - (.2 if pair else .14)
-	nose.patch(
-		body,
-		stripe,
-		-1.72,
-		1.72,
-		func(x: float) -> float: return band_top - .22 - float(notch.call(x)),
-		func(x: float) -> float: return band_top - float(notch.call(x))
-	)
-	nose.patch(body, stripe, -1.72, 1.72, CabNose.const_y(1.30), CabNose.const_y(1.44))
-	if bool(nose.style["mask"]):
+	var epl: bool = kind == "epl9t"
+	if epl:
+		_epl9t_front(nose, livery, stripe, glass, black, ws_from, ws_to)
+	else:
+		nose.patch(
+			body,
+			stripe,
+			-1.72,
+			1.72,
+			func(x: float) -> float: return band_top - .22 - float(notch.call(x)),
+			func(x: float) -> float: return band_top - float(notch.call(x))
+		)
+		nose.patch(body, stripe, -1.72, 1.72, CabNose.const_y(1.30), CabNose.const_y(1.44))
+	if bool(nose.style["mask"]) and not epl:
 		# Dark mask around the glazing, as on the Luhansk and Kryukiv cabs.
 		var mask_off: Callable = func(x: float) -> float:
 			return .16 * pow(clampf(absf(x) / 1.66, 0.0, 1.0), 6.0)
@@ -397,7 +403,7 @@ func _cab(
 	var panes: Array = [[-0.79, 0.66], [0.79, 0.66]] if pair else [[0.0, 1.42]]
 	if pair and kind == "ed9m":
 		panes = [[-0.76, 0.7], [0.76, 0.7]]
-	for pane: Array in panes:
+	for pane: Array in [] if epl else panes:
 		var cx: float = float(pane[0])
 		var hw: float = float(pane[1])
 		var round_off: Callable = func(x: float, depth: float) -> float:
@@ -438,8 +444,12 @@ func _cab(
 	# Cream figures on dark paint, dark figures on white or silver paint.
 	var body_color: Color = (paint as StandardMaterial3D).albedo_color
 	plate.modulate = Color("f2ead2") if body_color.get_luminance() < .55 else Color("1f2a33")
+	if epl and livery.has("number"):
+		plate.modulate = Color(str(livery["number"]))
 	plate.outline_size = 0
-	plate.transform = nose.mount(0, band_top - .44).translated_local(Vector3(0, 0, -.02))
+	plate.transform = nose.mount(0, 2.03 if epl else band_top - .44).translated_local(
+		Vector3(0, 0, -.02)
+	)
 	plate.rotate_object_local(Vector3.UP, PI)
 	body.add_child(plate)
 	# Lamps: roof headlight (ER9/ED9/EPL9), lower headlight clusters (EPL9T, EKr1),
@@ -450,20 +460,26 @@ func _cab(
 	lens_mat.emission_energy_multiplier = 2.2
 	if bool(nose.style["roof_headlight"]):
 		var top := Node3D.new()
-		top.transform = nose.mount_level(0, 3.98)
+		top.transform = nose.mount_level(0, 3.92 if epl else 3.98)
 		body.add_child(top)
-		var housing: MeshInstance3D = cylinder(top, Vector3(0, 0, -.06), .27, .2, steel, 32)
+		# ЕПЛ2Т: a small lamp in a hood inside the forehead, below the roof edge.
+		var hood: float = .55 if epl else 1.0
+		var housing: MeshInstance3D = cylinder(
+			top, Vector3(0, 0, -.06 * hood), .27 * hood, .2 * hood, steel, 32
+		)
 		housing.rotation.x = PI / 2.0
-		var lens: MeshInstance3D = cylinder(top, Vector3(0, 0, -.17), .2, .025, lens_mat, 32)
+		var lens: MeshInstance3D = cylinder(
+			top, Vector3(0, 0, -.17 * hood), .2 * hood, .025, lens_mat, 32
+		)
 		lens.rotation.x = PI / 2.0
 	var tail_mat: StandardMaterial3D = material(Color("a8211a"))
 	tail_mat.emission_enabled = true
 	tail_mat.emission = Color("ff3020")
 	tail_mat.emission_energy_multiplier = .6
 	var lower: bool = bool(nose.style["lower_headlights"])
-	for x: float in [-1.18, 1.18] if lower else [-1.12, 1.12]:
+	for x: float in [-1.35, 1.35] if epl else [-1.18, 1.18] if lower else [-1.12, 1.12]:
 		var lamp_node := Node3D.new()
-		lamp_node.transform = nose.mount(x, 1.74)
+		lamp_node.transform = nose.mount(x, 2.2 if epl else 1.74)
 		body.add_child(lamp_node)
 		if lower:
 			box(lamp_node, Vector3(0, 0, -.02), Vector3(.5, .2, .04), black)
@@ -476,7 +492,9 @@ func _cab(
 			)
 			marker.rotation.x = PI / 2.0
 		var red := Node3D.new()
-		red.transform = nose.mount(x * (1.25 if lower else 1.22), 1.52)
+		red.transform = nose.mount(
+			x * 1.17 if epl else x * (1.25 if lower else 1.22), 2.0 if epl else 1.52
+		)
 		body.add_child(red)
 		var red_lens: MeshInstance3D = cylinder(red, Vector3(0, 0, -.03), .07, .06, tail_mat, 16)
 		red_lens.rotation.x = PI / 2.0
@@ -488,8 +506,18 @@ func _cab(
 	box(body, Vector3(0, 1.08, -end + .08), Vector3(3.22, .3, .22), black)
 	box(body, Vector3(0, 1.0, -end - .34), Vector3(.36, .26, .62), steel)
 	box(body, Vector3(0, 1.0, -end - .66), Vector3(.5, .34, .16), black)
-	var skirt: MeshInstance3D = box(body, Vector3(0, .62, -end + .02), Vector3(3.0, .5, .06), black)
+	# The pilot plough takes its own colour when the livery names one (ЕПЛ2Т: red, or yellow-black).
+	var plow: Material = (
+		material(Color(str(livery["plow"])), .1, .5) if livery.has("plow") else black
+	)
+	var skirt: MeshInstance3D = box(body, Vector3(0, .62, -end + .02), Vector3(3.0, .5, .06), plow)
 	skirt.rotation.x = -.18
+	if livery.has("plow_stripe"):
+		for k: int in 8:
+			var stripe_bar: MeshInstance3D = box(
+				skirt, Vector3(-1.33 + k * .38, 0, -.036), Vector3(.12, .46, .012), black
+			)
+			stripe_bar.rotation.z = .5
 	for y: float in [-.16, -.06, .04, .14]:
 		box(skirt, Vector3(0, y, -.04), Vector3(2.5, .035, .03), steel)
 	for x: float in [-.55, .55]:
@@ -528,6 +556,145 @@ func _cab(
 	beam.position.z = -25.0
 	beam.rotation.x = PI / 2.0
 	lamp.add_child(beam)
+
+
+## ЕПЛ9Т front after the ЕПЛ2Т photos (heights are estimates, +-10 %, photos taken from below).
+## The shell carries the `front` colour. A livery with `front_mask` (cream-blue) paints a rounded
+## red mask round the glass over a cream forehead; without it the whole forehead keeps `front`
+## (cherry-cream) and gets a cream strip under the glass, wings and a thin cream edge.
+## The glass has a dark rubber rim, route boards sit over it, a neutral oval pad stands in for
+## the ЕПЛ2Т emblem until the owner decides, and `front_lower` darkens the forehead below the lamps.
+func _epl9t_front(
+	nose: CabNose,
+	livery: Dictionary,
+	edging: Material,
+	glass: Material,
+	black: Material,
+	ws_from: float,
+	ws_to: float
+) -> void:
+	var gw: float = 1.34
+	var bottom: float = ws_from + .07
+	var top: float = ws_to - .07
+	var has_mask: bool = livery.has("front_mask")
+	# Roof-arc height of the cross-section at x, for contours that must stay on the front surface.
+	var edge_y: Callable = func(x: float, inset: float) -> float:
+		var u: float = (absf(x) + inset) / CabNose.HALF_WIDTH
+		return CabNose.SIDE_TOP_Y + CabNose.ROOF_RISE * sqrt(maxf(1.0 - u * u, 0.0))
+	if has_mask:
+		var mask_mat: StandardMaterial3D = material(Color(str(livery["front_mask"])), .12, .36)
+		var mask_half: float = CabNose.HALF_WIDTH - .17
+		nose.patch(
+			body,
+			mask_mat,
+			-mask_half,
+			mask_half,
+			func(x: float) -> float:
+				return 2.15 + .35 * pow(clampf(absf(x) / mask_half, 0.0, 1.0), 2.0),
+			func(x: float) -> float: return minf(4.05, float(edge_y.call(x, .17))),
+			.004
+		)
+		var pad_mat: StandardMaterial3D = material(
+			Color(str(livery["front_mask"])).lightened(.2), .12, .4
+		)
+		_epl9t_pad(nose, pad_mat, 2.5)
+	else:
+		_epl9t_pad(nose, material((edging as StandardMaterial3D).albedo_color.darkened(.12)), 2.4)
+	var sag: Callable = func(x: float) -> float:
+		return .07 * (1.0 - pow(clampf(absf(x) / gw, 0.0, 1.0), 2.0))
+	var corner: Callable = func(x: float) -> float:
+		return .12 * pow(clampf(absf(x) / gw, 0.0, 1.0), 8.0)
+	nose.patch(
+		body,
+		black,
+		-gw - .035,
+		gw + .035,
+		func(x: float) -> float: return bottom - float(sag.call(x)) - .035 + float(corner.call(x)),
+		func(x: float) -> float: return top + .035 - float(corner.call(x)),
+		.009
+	)
+	nose.patch(
+		body,
+		glass,
+		-gw,
+		gw,
+		func(x: float) -> float: return bottom - float(sag.call(x)) + float(corner.call(x)),
+		func(x: float) -> float: return top - float(corner.call(x)),
+		.014
+	)
+	if bool(nose.style.get("windscreen_split", false)):
+		nose.patch(
+			body, black, -.03, .03, CabNose.const_y(bottom - .1), CabNose.const_y(top + .05), .02
+		)
+	if bool(nose.style.get("route_board", false)):
+		for side: float in [-1.0, 1.0]:
+			nose.patch(
+				body,
+				black,
+				minf(side * .3, side * 1.05),
+				maxf(side * .3, side * 1.05),
+				CabNose.const_y(ws_to + .08),
+				CabNose.const_y(ws_to + .24),
+				.007
+			)
+	if bool(livery.get("front_chevron", false)):
+		# Cream strip across the whole forehead under the glass, and wings under the pad
+		# that reach both edges.
+		nose.patch(
+			body,
+			edging,
+			-1.72,
+			1.72,
+			CabNose.const_y(ws_from - .27),
+			CabNose.const_y(ws_from - .13),
+			.007
+		)
+		for side: float in [-1.0, 1.0]:
+			nose.patch(
+				body,
+				edging,
+				minf(side * .3, side * 1.72),
+				maxf(side * .3, side * 1.72),
+				func(x: float) -> float: return 2.20 + .22 * (1.0 - absf(x) / 1.72),
+				func(x: float) -> float: return 2.36 + .22 * (1.0 - absf(x) / 1.72),
+				.007
+			)
+		# Thin cream edge along the top and sides of the forehead.
+		nose.patch(
+			body,
+			edging,
+			-1.70,
+			1.70,
+			func(x: float) -> float: return float(edge_y.call(x, 0.0)) - .06,
+			func(x: float) -> float: return float(edge_y.call(x, 0.0)),
+			.004
+		)
+		for side: float in [-1.0, 1.0]:
+			nose.patch(
+				body,
+				edging,
+				minf(side * 1.64, side * 1.70),
+				maxf(side * 1.64, side * 1.70),
+				CabNose.const_y(1.30),
+				CabNose.const_y(CabNose.SIDE_TOP_Y),
+				.004
+			)
+	if livery.has("front_lower"):
+		var lower_mat: StandardMaterial3D = material(Color(str(livery["front_lower"])), .12, .4)
+		nose.patch(body, lower_mat, -1.72, 1.72, CabNose.const_y(1.30), CabNose.const_y(1.90), .005)
+
+
+## Wide, low emblem pad (about 1.0 x 0.3 m) centred at height `y`.
+func _epl9t_pad(nose: CabNose, mat: Material, y: float) -> void:
+	nose.patch(
+		body,
+		mat,
+		-.5,
+		.5,
+		func(x: float) -> float: return y - .15 * pow(maxf(1.0 - pow(absf(x) / .5, 4.0), 0.0), .25),
+		func(x: float) -> float: return y + .15 * pow(maxf(1.0 - pow(absf(x) / .5, 4.0), 0.0), .25),
+		.008
+	)
 
 
 static func _quad(surface: SurfaceTool, points: Array) -> void:
