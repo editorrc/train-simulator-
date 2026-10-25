@@ -1,3 +1,21 @@
+# ARTEM 0.3.5 · опубликованные пакеты — 25 октября 2026 года
+
+Исходники: `codex/desktop-demo` @ 31a4150. Пакеты: ветка `demo-downloads`, коммит
+[9aedba6e40154f44c766b3ed29411336a37f9796](https://github.com/editorrc/train-simulator-/tree/9aedba6e40154f44c766b3ed29411336a37f9796).
+Повторная HTTPS-загрузка всех трёх файлов совпала с SHA256SUMS.txt.
+
+- `make check`: 109 Godot-тестов, 7 Python-тестов, 36 файлов данных, линт, паритет 801 —
+  PASS. `make visual-qa` (Xvfb + openbox + llvmpipe, голос собран): audio, camera,
+  desktop, navigation, window, lifecycle — PASS (на интеграции с M2.1, 24.10).
+- `verify_desktop.py`: Windows GUI PE x86_64 со встроенным PCK; универсальный Mach-O
+  x86_64 + arm64 с ad-hoc подписями; UDIF (zlib) и HFS+ совпали байт-в-байт.
+- Известная проблема: на Intel-Маке (нативный OpenGL 4.1, Iris Plus 645) поезд в
+  предпросмотре меню тёмный и матовый — кадры Div. Local 25.10; на llvmpipe тот же код
+  освещён. Исправление — следующий срез (Visual, свет без опоры на небо).
+- Нативный запуск 0.3.5 на Windows/macOS ещё не подтверждён.
+
+---
+
 # ARTEM 0.3.4 · опубликованные пакеты — 18 октября 2026 года
 
 Исходники: `codex/desktop-demo` @ a9ee1d7 (тег `demo-v0.3.4` создан локально, но прокси
